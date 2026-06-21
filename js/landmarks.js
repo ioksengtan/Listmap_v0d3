@@ -1,24 +1,13 @@
 
-var appUrl = 'https://script.google.com/macros/s/AKfycbxGHZlc66cCVD0I5vemPkuD8xaN9HO--4shiGMpcnGB9vHEp9s/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/16CGCzPc9QMw_werSUgrvps4khWn3ccuuFquKFLP5g8Y/edit#gid=960765453'; //$('#sheetsUrl'),
+var appUrl = '/api';
 
-var sheetName = 'landmarks';
-parameter = {
-            url: sheetsUrl,
-            name: sheetName,
-            //command:"get_landmarks_by_story_id",
-            command:"getRecentStories",
-            //story_id:"1"
-        };
         $(document).ready(
           function() {
-            $.get(appUrl, parameter, function(data) {
+            $.get(appUrl, { command: 'getRecentStories' }, function(data) {
                      console.log(data);
-                     data_json = JSON.parse(data);
-                     for(i in data_json.table){
-                       addGPStoryList(DivStoriesList,data_json.table[i],'prepend')
+                     for(i in data.table){
+                       addGPStoryList(DivStoriesList, data.table[i], 'prepend')
                     }
-                     //addMarker({lat:25.0489782,lng:121.5208181});
           })
         });
 
@@ -37,15 +26,9 @@ function addMarker() {
 function get_landmarks_by_story_id(story_id){
   console.log('get_landmarks_by_story_id');
   console.log(story_id);
-  parameter = {
-              url: sheetsUrl,
-              //command:"get_landmarks_by_story_id",
-              command:"get_landmarks_by_story_id",
-              story_id: story_id
-          };
-  $.get(appUrl, parameter, function(data) {
+  $.get(appUrl, { command: 'get_landmarks_by_story_id', story_id: story_id }, function(data) {
            console.log(data);
-           var data_json = JSON.parse(data);
+           var data_json = data;
            var gps_locations = [];
            for(i in data_json.table){
               gps_locations.push(

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Listmap — 故事集</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #layout { display: flex; height: calc(100vh - 56px); }
+    #sidebar { width: 360px; min-width: 360px; overflow-y: auto; padding: 16px; border-right: 1px solid #dee2e6; }
+    #map { flex: 1; }
+    .story-item { cursor: pointer; border-left: 3px solid transparent; padding: 10px 12px; margin-bottom: 8px; border-radius: 4px; background: #f8f9fa; transition: all 0.2s; }
+    .story-item:hover { border-left-color: #0d6efd; background: #e9f0ff; }
+    .story-item.active { border-left-color: #0d6efd; background: #dde8ff; }
+    .story-type-badge { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #dee2e6; color: #495057; }
+    .step-num { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: #0d6efd; color: white; font-size: 12px; text-align: center; line-height: 22px; margin-right: 6px; flex-shrink: 0; }
+    #collection-header { margin-bottom: 16px; }
+    #collection-header h4 { margin-bottom: 4px; }
+    .landmark-popup h6 { margin: 0 0 4px; }
+    .landmark-popup p { margin: 0; font-size: 13px; color: #555; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:56px">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Listmap</a>
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="collections.html">← 所有故事集</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="layout">
+    <div id="sidebar">
+      <div id="collection-header">
+        <h4 id="col-title">載入中...</h4>
+        <p id="col-desc" class="text-muted small mb-1"></p>
+        <span id="col-badge"></span>
+      </div>
+      <hr>
+      <div id="story-list"></div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <script>
+    var mymap = L.map('map').setView([25.05, 121.55], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(mymap);
+
+    var allMarkers = L.markerClusterGroup().addTo(mymap);
+    var storyLayers = {};
+    var activeStoryId = null;
+
+    var params = new URLSearchParams(window.location.search);
+    var collectionId = params.get('id');
+
+    if (!collectionId) {
+      window.location = 'collections.html';
+    }
+
+    $.get('/api', { command: 'getCollectionWithStories', collection_id: collectionId }, function(data) {
+      $('#col-title').text(data.title);
+      $('#col-desc').text(data.description);
+      $('#col-badge').html(data.visibility === 'public'
+        ? '<span class="badge bg-primary">公開</span>'
+        : '<span class="badge bg-secondary">私人</span>');
+
+      document.title = 'Listmap — ' + data.title;
+
+      data.stories.forEach(function(story, idx) {
+        var markers = L.markerClusterGroup();
+        story.landmarks.forEach(function(lm) {
+          var marker = L.marker([parseFloat(lm.lat), parseFloat(lm.lng)]);
+          marker.bindPopup(`
+            <div class="landmark-popup">
+              <h6>${lm.name}</h6>
+              <p>${lm.content}</p>
+              ${lm.link ? '<a href="' + lm.link + '" target="_blank">更多資訊</a>' : ''}
+            </div>
+          `);
+          markers.addLayer(marker);
+          allMarkers.addLayer(L.marker([parseFloat(lm.lat), parseFloat(lm.lng)]));
+        });
+        storyLayers[story.story_id] = markers;
+
+        var typeIcon = { youtube: '▶', blog: '📄', book: '📖', podcast: '🎙', image: '🖼' };
+        var item = $(`
+          <div class="story-item d-flex align-items-start" data-id="${story.story_id}">
+            <span class="step-num">${idx + 1}</span>
+            <div>
+              <div class="fw-semibold">${story.title}</div>
+              <div class="mt-1">
+                <span class="story-type-badge">${typeIcon[story.type] || ''} ${story.type}</span>
+                <span class="text-muted small ms-2">${story.where}</span>
+              </div>
+            </div>
+          </div>
+        `);
+        item.on('click', function() {
+          selectStory(story.story_id);
+        });
+        $('#story-list').append(item);
+      });
+
+      if (data.stories.length > 0) {
+        selectStory(data.stories[0].story_id);
+      }
+    });
+
+    function selectStory(storyId) {
+      // 重置上一個選取
+      if (activeStoryId && storyLayers[activeStoryId]) {
+        mymap.removeLayer(storyLayers[activeStoryId]);
+      }
+      $('.story-item').removeClass('active');
+      $('[data-id="' + storyId + '"]').addClass('active');
+      activeStoryId = storyId;
+
+      // 顯示此故事的 landmarks
+      var layer = storyLayers[storyId];
+      if (layer) {
+        mymap.addLayer(layer);
+        if (layer.getLayers().length > 0) {
+          try { mymap.fitBounds(layer.getBounds(), { padding: [40, 40] }); } catch(e) {}
+        }
+      }
+    }
+  </script>
+</body>
+</html>

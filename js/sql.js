@@ -1,26 +1,16 @@
-var appUrl = 'https://script.google.com/macros/s/AKfycbzhDvz7kG2ghPV6xGdaFJLR2KboY4YUgaMouqauq3e13FGrkPx2/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/1Hy041ZoEGjRsVox03E55oGL8CMcHOXeuL0kqRcN1QV4/edit#gid=0';
+﻿var appUrl = '/api';
 //https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit?usp=sharing
-var sheetName = 'data';
-
-
 StoriesDict = {}
 $(document).ready(
 
     function() {
     /*
-		var parameter = {
-			url: sheetsUrl,
-			name: sheetName,
-			command: "sql_get_landmarks_by_story_id",
+		var parameter = {			command: "sql_get_landmarks_by_story_id",
       //command: "get_landmarks_by_story_id",
       story_id: 610
 		};
     */
-    var parameter = {
-      url: sheetsUrl,
-      name: sheetName,
-      command: "get_data_by_distance_km_target",
+    var parameter = {      command: "get_data_by_distance_km_target",
       //command: "get_landmarks_by_story_id",
       lat_target:"0.1229113398",
       lng_target:"-65.34121007",

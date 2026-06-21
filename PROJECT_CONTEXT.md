@@ -1,0 +1,144 @@
+# PROJECT_CONTEXT.md
+
+## 1. 專案名稱與用途
+
+**Listmap** — 以地圖為核心的個人知識整理與分享平台，讓使用者將 YouTube 影片、部落格文章、書籍、Podcast 等內容與真實 GPS 地標綁定，透過互動地圖瀏覽與探索。
+
+---
+
+## 2. 技術棧
+
+| 層級 | 技術 |
+|------|------|
+| 後端 | Node.js + Express (`app.js`) |
+| 前端框架 | jQuery 3.6、Bootstrap 5、Vue 2 + vue-i18n |
+| 地圖 | Leaflet.js 1.7.1 + Mapbox tiles + leaflet.markercluster |
+| 資料儲存 | CSV 檔案（`csv-parse` 解析），無資料庫 |
+| 樣板引擎 | EJS（已安裝但目前少用） |
+| 其他 JS | leaflet-arrowheads、leaflet.geometryutil、Leaflet.LinearMeasurement、markdown 解析器（mdpp）|
+
+---
+
+## 3. 主要功能模組
+
+### blog.html ⭐ 目前重點開發頁面
+- 左側 Leaflet 互動地圖 + 右側文章內容的雙欄佈局
+- **索引標記層**：頁面載入時從 `getStoriesIndex` API 取得各故事的第一個地標 GPS，打上索引圓點，點擊跳轉到該故事
+- **地標層**：點擊索引標記後載入該故事的真實地標，顯示 popup
+- **文字超連結連動**：文章內地名可用 `javascript:zoomto({lat,lng}, zoom)` 連動地圖
+- **圖片熱區**：`<div class="img-hotspot">` 覆蓋在圖片上，hover 反白 + 標籤，點擊連動地圖
+- **回索引**：地圖左下角「← 回索引」按鈕（Leaflet Control），清除地標並縮回索引視角
+- 文章內容以 `<section data-story-id="XXX">` 分段，`loadStory()` 依 story_id 顯示對應 section
+
+### stories.html
+- 顯示所有故事列表
+- 支援 YouTube 嵌入播放（YT.Player API，`StoriesDict` 管理 media_key）
+- 故事列表由 `js/storieslist.js` 的 `append_stories_list()` 渲染
+
+### find_stories.html
+- 地圖 + 故事列表搜尋探索頁
+- 支援 keyword / tag / author 篩選
+- `get_landmarks_by_story_id`、`getGPSbyStoryID` 等函式控制地圖標記
+- 已從 Google Apps Script 遷移完畢
+
+### collections.html / collection.html
+- 故事集（Collection）瀏覽頁
+- collection.html：側欄有序故事列表 + 地圖，點擊故事顯示其地標
+
+### story*.html（編輯頁）
+- `story_edit.html`、`story_youtube_new.html`、`story_youtube_edit.html`、`story_webpage_edit.html`、`story_image_edit.html`
+- 這些頁面保留舊架構（部分仍有 Google Apps Script 遺留程式碼），目前主要功能是唯讀瀏覽
+
+---
+
+## 4. 資料庫結構摘要
+
+### 資料來源（雙層合併）
+- **主資料**：`listmap - stories.csv`、`listmap - landmarks.csv`（Google Sheets 匯出，258 筆故事、1050+ 地標）
+- **Blog 自訂資料**：`data/stories.csv`、`data/landmarks.csv`（手動新增的 blog 文章與地標）
+- `app.js` 的 `readStories()` / `readLandmarks()` 在主檔存在時兩者合併，否則只讀 `data/`
+
+### Stories（故事）
+| 欄位 | 說明 |
+|------|------|
+| story_id | 唯一識別碼（主檔用數字，blog 自訂用 1001+ ） |
+| storyBook_id / collection_id | 所屬故事集 |
+| title | 標題 |
+| type | youtube / blog / book / podcast / image |
+| link | 內容 URL |
+| author | 作者 / 頻道名稱 |
+| tags | 逗號分隔標籤 |
+| language | 語言 |
+| is_delete | `1` 表示已刪除（soft delete） |
+
+### Landmarks（地標）
+| 欄位 | 說明 |
+|------|------|
+| landmark_id | 唯一識別碼 |
+| story_id | 所屬故事 |
+| name | 地標名稱 |
+| lat / lng | GPS 座標 |
+| notes / content | 地標描述 |
+| link | 補充連結 |
+| is_delete | soft delete |
+
+### Collections（故事集）
+| 欄位 | 說明 |
+|------|------|
+| collection_id | 唯一識別碼 |
+| title | 故事集名稱 |
+| description | 簡介 |
+| cover_image | 封面圖路徑 |
+| visibility | public / private |
+| created_at | 建立日期 |
+
+### API 指令一覽（`GET /api?command=...`）
+| 指令 | 說明 |
+|------|------|
+| `getRecentStories` | 取得所有故事 |
+| `get_landmarks_by_story_id` | 取得某故事的地標 |
+| `getStoriesIndex` | 取得故事 + 第一個地標 GPS（blog 索引標記用）|
+| `sql_get_stories_by_keyword` | 關鍵字搜尋 |
+| `sql_get_stories_by_author` | 依作者篩選 |
+| `sql_get_stories_by_tag` | 依標籤篩選 |
+| `getCollections` | 取得所有故事集 |
+| `getStoriesByCollection` | 取得某故事集的故事 |
+| `getCollectionWithStories` | 取得故事集含故事及地標 |
+| `get_landmarks_by_zone` | 依地圖邊界取地標 |
+
+---
+
+## 5. 目前開發階段
+
+**主動開發中，核心功能已完成遷移，blog 模組正在建立。**
+
+- ✅ 後端從 Google Sheets + Apps Script 遷移到本地 CSV + Express API
+- ✅ 移除 polyfill.io（曾導致登入彈窗）
+- ✅ stories.html、find_stories.html 正常運作
+- ✅ Collection 功能基本完成
+- ✅ blog.html 雙欄佈局 + 索引標記 + 地標連動 + 文字/圖片熱區
+- ✅ blog 自訂文章系統（`data/` CSV + `<section data-story-id>`）
+- 🔄 海德堡示範文章已建立，GPS 座標需人工校正（老橋偏移已知）
+
+---
+
+## 6. 待解決問題與待決定事項
+
+### 已知 Bug
+- **海德堡地標 GPS 偏移**：老橋（Alte Brücke）等座標來自訓練資料記憶，需用 OpenStreetMap / Google Maps 人工校正後更新 `data/landmarks.csv`
+
+### 待決定
+- **Blog 文章圖片熱區定位**：目前用估算百分比，需在瀏覽器中目測調整 `left`/`top`/`width`/`height`
+- **Blog 文章的 story_id 對應方式**：自訂 blog 文章（`data/stories.csv`）的 story_id 目前手動指定從 1001 開始，日後需約定命名規則
+- **GPS 座標來源**：建議統一用 OpenStreetMap 右鍵取得精確座標，避免依賴記憶估算
+
+### 技術負債
+- `js/map.js` 仍含 Google Maps（`initGMap`、`refreshGMap`）相關程式碼，只有 blog.html 在用 Leaflet 版的 `initMap`，其他頁面的地圖初始化方式不一致
+- `story_edit.html` 等編輯頁面仍有舊 Google Apps Script 遺留程式碼，尚未清理
+- `find_stories.html` 的 `get_landmarks_by_zone` 雖已在 API 實作，但前端的回傳格式整合尚未完整測試
+- `package.json` 列有 `mongoose`（未使用）
+
+### 功能缺口
+- 新增 / 編輯故事的 UI 仍依賴舊系統，本地 CSV 無寫入機制
+- 無行動裝置優化版面
+- 故事集頁面（`collections.html`）尚未與 blog 索引標記整合

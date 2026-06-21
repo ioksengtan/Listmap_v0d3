@@ -1,8 +1,6 @@
-//$.getScript('http://www.youtube.com/iframe_api');
-var appUrl = 'https://script.google.com/macros/s/AKfycby-gL9w_PIzt4TDnqfpErNP1YTck93p4j7z1FTpt52bCkryg5Iu/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit#gid=1023127248';
+﻿//$.getScript('http://www.youtube.com/iframe_api');
+var appUrl = '/api';
 //https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit?usp=sharing
-var sheetName = 'landmarks';
 var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/87b9576a\/www-widgetapi.vflset\/www-widgetapi.js';
 try {
     var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", {
@@ -115,7 +113,6 @@ function update_db() {
     //console.log(landmarks_json);
     var videoId = window.location.search.split('?')[1].split('=')[1];
     var parameter = {
-        url: sheetsUrl,
         command: "new_story",
         name: youtube_title,
         types: "youtube",
@@ -126,10 +123,7 @@ function update_db() {
     }
     //console.log(parameter);
     /*
-          var parameter = {
-            url: sheetsUrl,
-            name: sheetName,
-            command: "getRecentStories",
+          var parameter = {            command: "getRecentStories",
 
           };
     */
@@ -240,7 +234,6 @@ $(document).ready(
               break;
             case 'story_id':
             var parameter = {
-                url: sheetsUrl,
                 command: "get_story_and_landmarks_by_story_id",
                 story_id: query.split('=')[1]
             }
@@ -583,7 +576,6 @@ function get_landmarks_by_story_id(story_id) {
     console.log('get_landmarks_by_story_id');
     //console.log(story_id);
     parameter = {
-        url: sheetsUrl,
         command: "get_landmarks_by_story_id",
         story_id: story_id
     };

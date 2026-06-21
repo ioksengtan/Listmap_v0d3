@@ -1,0 +1,5 @@
+collection_id,title,description,cover_image,visibility,created_at
+1,九州溫泉之旅,五天四夜走遍北九州六個溫泉的旅遊記錄,img/image0.png,public,2023-01-01
+2,台北散步地圖,收錄台北各區值得一逛的地方與相關文章,img/image1.png,public,2023-02-01
+3,台灣好書地圖,以台灣為背景的書籍，標記書中場景的實際位置,img/image0.png,private,2023-03-01
+101,醉旅宿介紹東京篇,醉旅宿 Merry Journey 頻道的東京旅遊系列：住宿推薦・市場美食・近郊景點・交通票券完整攻略,,public,2024-01-01

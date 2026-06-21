@@ -201,32 +201,13 @@ function append_stories_list(div_id_to_add, data_to_append, where_to_add) {
 
 function get_landmarks_by_story_id(story_id) {
     console.log('get_landmarks_by_story_id');
-    parameter = {
-        url: sheetsUrl,
-        command: "get_landmarks_by_story_id",
-        story_id: story_id
-    };
     $('#status').html('processing...')
-    $.get(appUrl, parameter, function(data) {
+    $.get(appUrl, { command: 'get_landmarks_by_story_id', story_id: story_id }, function(data) {
         $('#status').html('')
         console.log(data);
         console.log(story_id);
 
-		newformat_data = JSON.parse(data);
-		data_json_landmarks_by_story = {"table":[]};
-		for(var i in newformat_data){
-			if(i==0)continue;
-			data_json_landmarks_by_story.table.push(
-				{
-					lat:newformat_data[i][6],
-					lng:newformat_data[i][7],
-					name:newformat_data[i][0],
-					notes:newformat_data[i][4],
-					link:newformat_data[i][9],
-					landmark_id:newformat_data[i][1],
-				}
-			)
-		}
+        data_json_landmarks_by_story = { table: data.table };
 
 
         //data_json_landmarks_by_story = JSON.parse(data);

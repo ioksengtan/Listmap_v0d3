@@ -129,35 +129,24 @@ $(document).ready(
 
             }
         });
-		var parameter = {
-			url: sheetsUrl,
-			name: sheetName,
-			command: "getRecentStories",
-		};
         $('#status').html('processing...')
-        $.get(appUrl, parameter, function(data) {
+        $.get(appUrl, { command: 'getRecentStories' }, function(data) {
             $('#status').html('')
             console.log(data);
 
-			var newformat_data = JSON.parse(data);
-			var data_json = {"table":[]};
-			for(var i in newformat_data){
-				if(i==0)continue
-				data_json.table.push(
-					{
-						"title":newformat_data[i][0],
-						"story_id":newformat_data[i][1],
-						"type_":newformat_data[i][2],
-						"link":newformat_data[i][3],
-						"author":newformat_data[i][4],
-						"tags":newformat_data[i][5],
-						"gpstory":newformat_data[i][6],
-						"update_time_stamp":newformat_data[i][7],
-						"is_delete":newformat_data[i][8],
-					}
-				);
-
-			}
+            var data_json = { table: data.table.map(function(r) {
+                return {
+                    title: r.title,
+                    story_id: r.story_id,
+                    type_: r.type,
+                    link: r.link,
+                    author: r.author,
+                    tags: r.tags,
+                    gpstory: r.gpstory || '',
+                    update_time_stamp: r.update_time_stamp || '',
+                    is_delete: r.is_delete || '',
+                };
+            }) };
 
             //data_json = JSON.parse(data);
             $('#TagList ul').append("<b>authors</b>");
@@ -183,10 +172,17 @@ $(document).ready(
                     };
                     break;
                   case 'youtube':
+                    var _yt_link = data_json.table[i].link || '';
+                    var _yt_key = '';
+                    if (_yt_link.includes('v=')) {
+                        _yt_key = _yt_link.split('v=')[1].split('&')[0];
+                    } else if (_yt_link.includes('youtu.be/')) {
+                        _yt_key = _yt_link.split('youtu.be/')[1].split('?')[0];
+                    }
                     StoriesDict[data_json.table[i].story_id] = {
                         'type_': data_json.table[i].type_,
-                        'media_key': data_json.table[i].link.split('v=')[1],
-                        'link': data_json.table[i].link,
+                        'media_key': _yt_key,
+                        'link': _yt_link,
                     };
                     break;
                     default:

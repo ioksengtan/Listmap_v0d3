@@ -1,9 +1,7 @@
-//$.getScript('http://www.youtube.com/iframe_api');
+﻿//$.getScript('http://www.youtube.com/iframe_api');
 
-var appUrl = 'https://script.google.com/macros/s/AKfycby-gL9w_PIzt4TDnqfpErNP1YTck93p4j7z1FTpt52bCkryg5Iu/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit#gid=1023127248';
+var appUrl = '/api';
 //https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit?usp=sharing
-var sheetName = 'landmarks';
 var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/87b9576a\/www-widgetapi.vflset\/www-widgetapi.js';
 
 
@@ -48,7 +46,6 @@ function update_db(){
   //console.log(landmarks_json);
 
     var parameter = {
-         url: sheetsUrl,
         command:"new_story",
         name: curr_story_name,
         types :"webpage",
@@ -60,10 +57,7 @@ function update_db(){
 
       //console.log(parameter);
 /*
-      var parameter = {
-        url: sheetsUrl,
-        name: sheetName,
-        command: "getRecentStories",
+      var parameter = {        command: "getRecentStories",
 
       };
 */
@@ -452,7 +446,6 @@ function get_landmarks_by_story_id(story_id) {
     console.log('get_landmarks_by_story_id');
     //console.log(story_id);
     parameter = {
-        url: sheetsUrl,
         command: "get_landmarks_by_story_id",
         story_id: story_id
     };

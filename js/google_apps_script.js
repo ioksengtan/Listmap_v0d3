@@ -1,2 +1,1 @@
-var appUrl = 'https://script.google.com/macros/s/AKfycbwtlH8lC4jGm-3oKTvSgu3_wxrz6Vpt38Us0qhdbWEMomPLVnBrspaxriifNPAIQMsAuA/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/1sl438-1yaoOtsTmp7nxGKmCkIUkfP8mauYMjhPKeQs8/edit#gid=1492246777';
+﻿var appUrl = '/api';

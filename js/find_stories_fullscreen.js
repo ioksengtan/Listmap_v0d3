@@ -1,11 +1,5 @@
-var appUrl = 'https://script.google.com/macros/s/AKfycby-gL9w_PIzt4TDnqfpErNP1YTck93p4j7z1FTpt52bCkryg5Iu/exec';
-var sheetsUrl = 'https://docs.google.com/spreadsheets/d/1GNvkC8t3xua_ibN2GnnXJi-MXasuX5SXb4y1G6idFSc/edit#gid=1023127248';
-
-var sheetName = 'landmarks';
-parameter = {
-    url: sheetsUrl,
-    name: sheetName,
-    //command:"get_landmarks_by_story_id",
+﻿var appUrl = '/api';
+parameter = {    //command:"get_landmarks_by_story_id",
     command: "getRecentStories",
     //story_id:"1"
 };
@@ -65,7 +59,6 @@ function getGPSbyStoryID(story_id) {
     // })
     // console.log(point)
     parameter = {
-        url: sheetsUrl,
         //command:"get_landmarks_by_story_id",
         command: "get_landmarks_by_story_id",
         story_id: story_id
@@ -133,7 +126,6 @@ function getGPSbyStoryID2(story_id) {
     // })
     // console.log(point)
     parameter = {
-        url: sheetsUrl,
         //command:"get_landmarks_by_story_id",
         command: "get_landmarks_by_story_id",
         story_id: story_id
@@ -193,7 +185,6 @@ function ZoomByStoryID(story_id) {
     // })
     // console.log(point)
     parameter = {
-        url: sheetsUrl,
         //command:"get_landmarks_by_story_id",
         command: "get_landmarks_by_story_id",
         story_id: story_id
@@ -244,7 +235,7 @@ function ZoomByStoryID(story_id) {
 
 
 // parameter = {
-//     url: sheetsUrl,
+//
 //     //command:"get_landmarks_by_story_id",
 //     command: "get_landmarks_by_story_id",
 //     story_id: 2
@@ -394,7 +385,6 @@ function onclickTitleShowMarker(location) {
 var gps_locations;
 function GetCluster(story_id) {
     parameter = {
-        url: sheetsUrl,
         //command:"get_landmarks_by_story_id",
         command: "get_landmarks_by_story_id",
         story_id: story_id
@@ -702,10 +692,7 @@ function initMap() {
             north = this.getBounds().getNorth();
             east = this.getBounds().getEast();
             south = this.getBounds().getSouth();
-            $.get(appUrl, {
-                url: sheetsUrl,
-                name: sheetName,
-                command: "get_landmarks_by_zone",
+            $.get(appUrl, {                command: "get_landmarks_by_zone",
                 lat_south: south,
                 lat_north: north,
                 lng_west: west,

@@ -1,0 +1,12 @@
+story_id,collection_id,title,type,link,author,what,where,avatar,tags,thumbnail,visibility
+1001,,海德堡城市漫遊,blog,,Listmap,blog,Heidelberg,,,,internal
+1002,101,東京住宿推薦｜品川・大崎・五反田,blog,https://www.youtube.com/watch?v=krIOeaT0j3o,醉旅宿 Merry Journey,blog,Tokyo,,,,
+1003,101,箱根・鎌倉三天兩夜完全攻略,blog,https://www.youtube.com/watch?v=PHmDh3-GtQY,醉旅宿 Merry Journey,blog,Hakone/Kamakura,,,,
+1004,101,東京美食｜豐洲市場・築地場外市場,blog,https://www.youtube.com/watch?v=4uygesNJY1I,醉旅宿 Merry Journey,blog,Tokyo,,,,
+1005,101,東京迴轉壽司大評比｜根室花丸 vs TORITON,blog,https://www.youtube.com/watch?v=4gPQW5t1Stc,醉旅宿 Merry Journey,blog,Tokyo,,,,
+1006,101,東京近郊｜日光・鬼怒川溫泉行程攻略,blog,https://www.youtube.com/watch?v=M7wgPffCkYk,醉旅宿 Merry Journey,blog,Nikko,,,,
+1007,101,東京近郊｜伊豆半島・SAPHIR踴子號,blog,https://www.youtube.com/watch?v=fK_4GG1Ij68,醉旅宿 Merry Journey,blog,Izu,,,,
+1008,101,鎌倉・江之島兩天一夜慢遊,blog,https://www.youtube.com/watch?v=-c9oSYdsTsI,醉旅宿 Merry Journey,blog,Kamakura,,,,
+1009,101,澀谷SHIBUYA SKY・淺草橫町,blog,https://www.youtube.com/watch?v=J9Idpey4QsI,醉旅宿 Merry Journey,blog,Tokyo,,,,
+1010,101,東京交通全攻略｜地鐵・票券・JR廣域周遊券,blog,https://www.youtube.com/watch?v=S7JE1m9F-1k,醉旅宿 Merry Journey,blog,Tokyo,,,,
+1011,,美國 50 州地圖測試,blog,,Listmap,blog,USA,,,,internal

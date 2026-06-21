@@ -2,16 +2,10 @@
 
 function get_stories_by_keyword(keyword){
   $('#DivStoriesList').empty();
-  var parameter = {
-    url: sheetsUrl,
-    name: sheetName,
-    command: "sql_get_stories_by_keyword",
-    keyword: keyword
-  };
-      $.get(appUrl, parameter, function(data) {
+      $.get(appUrl, { command: 'sql_get_stories_by_keyword', keyword: keyword }, function(data) {
 
           console.log(data);
-          data_array = JSON.parse(data);
+          data_array = data;
           for (i in data_array) {
               //console.log(i + ',' +data_json.table[i]);
               if(i==0){
@@ -57,16 +51,10 @@ function get_stories_by_keyword(keyword){
 
 function get_stories_by_author(author){
   $('#DivStoriesList').empty();
-  var parameter = {
-    url: sheetsUrl,
-    name: sheetName,
-    command: "sql_get_stories_by_author",
-    author:author
-  };
-      $.get(appUrl, parameter, function(data) {
+      $.get(appUrl, { command: 'sql_get_stories_by_author', author: author }, function(data) {
 
           console.log(data);
-          data_array = JSON.parse(data);
+          data_array = data;
           for (i in data_array) {
               //console.log(i + ',' +data_json.table[i]);
               if(i==0){
@@ -111,16 +99,10 @@ function get_stories_by_author(author){
 
 function get_stories_by_tag(tag){
   $('#DivStoriesList').empty();
-  var parameter = {
-    url: sheetsUrl,
-    name: sheetName,
-    command: "sql_get_stories_by_tag",
-    tag:tag
-  };
-      $.get(appUrl, parameter, function(data) {
+      $.get(appUrl, { command: 'sql_get_stories_by_tag', tag: tag }, function(data) {
 
           console.log(data);
-          data_array = JSON.parse(data);
+          data_array = data;
           for (i in data_array) {
               //console.log(i + ',' +data_json.table[i]);
               if(i==0){
