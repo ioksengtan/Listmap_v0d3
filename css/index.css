@@ -39,7 +39,7 @@
   background-color:white;
   position:absolute;
   width:45%;
-  z-index: 99;
+  z-index: 1000;
   height:80%;
   opacity: 0.9;
   top:15%;
