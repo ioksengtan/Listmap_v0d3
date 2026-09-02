@@ -8,7 +8,7 @@ const ROOT = path.join(__dirname, '..');
 
 function readCsvFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
-  return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true });
+  return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true, relax_column_count: true });
 }
 
 function readCsv(filename) {
@@ -30,6 +30,9 @@ function toStory(r) {
     thumbnail: r.thumbnail || '',
     language: r.language || '',
     visibility: r.visibility || '',
+    created_at: r.created_at || '',
+    start_date: r.start_date || '',
+    end_date: r.end_date || '',
   };
 }
 

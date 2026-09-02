@@ -40,11 +40,37 @@ const indexJs = fs.readFileSync(path.join(ROOT, 'js', 'index.js'), 'utf8');
 assert(!/appUrl\s*=\s*'\/api'/.test(indexJs), 'index.js still hardcodes /api');
 assert(indexJs.includes('ListmapData'), 'index.js should use ListmapData');
 
+const s1024 = payload.stories.find(s => s.story_id === '1024');
+assert(s1024, 'story 1024 missing');
+assert(s1024.title === '新竹牛肉麵五選', 'story 1024 title');
+assert(s1024.author === 'Yu-Sheng', 'story 1024 author');
+assert(!payload.stories.some(s => s.story_id === '1022' || s.story_id === '1023'), 'S1022/S1023 should not be added');
+
+const lm1024 = payload.landmarks.filter(l => l.story_id === '1024');
+assert(lm1024.length === 5, 'story 1024 should have 5 landmarks');
+['475', '476', '477', '478', '479'].forEach(id => {
+  const lm = lm1024.find(l => l.landmark_id === id);
+  assert(lm, 'landmark ' + id + ' missing for 1024');
+  assert(lm.lat && lm.lng, 'landmark ' + id + ' coords');
+});
+assert(lm1024.find(l => l.landmark_id === '476').name === '璽子牛肉麵', '璽子 spelling');
+assert(lm1024.find(l => l.landmark_id === '475').content.includes('城隍廟'), '城隍廟 in 475 content');
+assert(lm1024.find(l => l.landmark_id === '475').content.includes('清燉'), '清燉 in 475 content');
+
+const blogHtml = fs.readFileSync(path.join(ROOT, 'blog.html'), 'utf8');
+const m1024 = blogHtml.match(/data-story-id="1024"[\s\S]*?<\/section>/);
+assert(m1024, 'blog.html missing story 1024 section');
+assert(!/javascript:zoomto/.test(m1024[0]), 'story 1024 must not use javascript:zoomto');
+assert((m1024[0].match(/class="map-place-link"/g) || []).length >= 5, 'story 1024 place links');
+assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
+
 const staticJsonPath = path.join(ROOT, 'data', 'static.json');
 assert(fs.existsSync(staticJsonPath), 'data/static.json missing — run npm run compile-data');
 const onDisk = JSON.parse(fs.readFileSync(staticJsonPath, 'utf8'));
 assert(onDisk.stories.some(s => s.story_id === '1010'), 'checked-in JSON missing 1010');
 assert(onDisk.landmarks.some(l => l.story_id === '1010'), 'checked-in JSON missing 1010 landmarks');
+assert(onDisk.stories.some(s => s.story_id === '1024'), 'checked-in JSON missing 1024');
+assert(onDisk.landmarks.filter(l => l.story_id === '1024').length === 5, 'checked-in JSON missing 1024 landmarks');
 
 console.log('OK: static data compile + Pages wiring checks passed');
 console.log('  stories=' + payload.stories.length + ' landmarks=' + payload.landmarks.length);

@@ -61,6 +61,14 @@
     });
   }
 
+  function landmarkByIdForStory(landmarkId, storyId) {
+    var lid = String(landmarkId);
+    var pool = storyId ? landmarksByStoryId(storyId) : allLandmarks();
+    return pool.find(function (l) {
+      return String(l.landmark_id) === lid;
+    }) || null;
+  }
+
   function getRecentStories() {
     return { table: stories() };
   }
@@ -131,6 +139,7 @@
     load: load,
     stories: stories,
     landmarksByStoryId: landmarksByStoryId,
+    landmarkByIdForStory: landmarkByIdForStory,
     latLngsForStory: latLngsForStory,
     getRecentStories: getRecentStories,
     getLandmarksByStoryId: getLandmarksByStoryId,

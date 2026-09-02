@@ -21,6 +21,7 @@ var previousView = null;
 var INDEX_MARKERS = [
     { label: '海德堡城市漫遊', type: 'story', story_id: '1001' },
     { label: '紐約球場之旅', type: 'story', story_id: '258' },
+    { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
     // 東京系列用一個 collection 標記代表，定位在東京市中心
     { label: '醉旅宿東京篇', type: 'collection', collection_id: '101', lat: 35.6812, lng: 139.7671 },
 ];
@@ -239,6 +240,52 @@ $(document).on('click', '.map-vector-link', function(e) {
     mymap.fitBounds([fromLL, toLL], { padding: [60, 60] });
 });
 
+function visibleStoryId() {
+    var el = $('[data-story-id]:visible').get(0);
+    return el ? String(el.getAttribute('data-story-id')) : '';
+}
+
+function findStoryLandmark(landmarkId) {
+    var lid = String(landmarkId);
+    var lm = (currentStoryLandmarks || []).find(function(l) {
+        return String(l.landmark_id) === lid;
+    });
+    if (lm) return lm;
+    if (window.ListmapData && ListmapData.landmarkByIdForStory) {
+        return ListmapData.landmarkByIdForStory(lid, visibleStoryId());
+    }
+    return null;
+}
+
+function zoomToLandmarkId(landmarkId, zoom) {
+    var lm = findStoryLandmark(landmarkId);
+    if (!lm) return false;
+    var lat = parseFloat(lm.lat);
+    var lng = parseFloat(lm.lng);
+    if (isNaN(lat) || isNaN(lng) || typeof mymap === 'undefined' || !mymap) return false;
+    var z = parseInt(zoom, 10);
+    if (isNaN(z) || z <= 0) z = 17;
+    mymap.flyTo([lat, lng], z, { animate: true, duration: 0.3 });
+    var item = storyMarkerItems.find(function(it) {
+        return String(it.landmark_id) === String(landmarkId);
+    });
+    if (item && item.marker && item.cluster && typeof item.cluster.zoomToShowLayer === 'function') {
+        item.cluster.zoomToShowLayer(item.marker, function() {
+            item.marker.openPopup();
+        });
+    } else if (item && item.marker) {
+        item.marker.openPopup();
+    }
+    return true;
+}
+
+$(document).on('click', '.map-place-link', function(e) {
+    e.preventDefault();
+    var id = $(this).data('landmark');
+    if (id === undefined || id === null || id === '') return;
+    zoomToLandmarkId(id, $(this).data('zoom'));
+});
+
 function loadStory(story, fromCollection) {
     clearMapLayers();
 
@@ -256,7 +303,7 @@ function loadStory(story, fromCollection) {
             var marker = L.marker([lat, lng])
                 .bindPopup('<b>' + lm.name + '</b>' + (lm.content ? '<br>' + lm.content : ''));
             marker.addTo(clusterLayer);
-            storyMarkerItems.push({ name: lm.name, marker: marker, cluster: clusterLayer });
+            storyMarkerItems.push({ name: lm.name, marker: marker, cluster: clusterLayer, landmark_id: lm.landmark_id });
         });
         clusterLayer.addTo(currentLandmarkLayer);
         if (allLatlngs.length > 0) mymap.fitBounds(allLatlngs, { padding: [40, 40] });
