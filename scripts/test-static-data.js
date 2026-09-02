@@ -64,6 +64,27 @@ assert(!/javascript:zoomto/.test(m1024[0]), 'story 1024 must not use javascript:
 assert((m1024[0].match(/class="map-place-link"/g) || []).length >= 5, 'story 1024 place links');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
 
+const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
+assert(mapJs.includes('invalidateSize'), 'map.js should call invalidateSize on resize');
+assert(mapJs.includes('orientationchange'), 'map.js should invalidateSize on orientation change');
+assert((mapJs.match(/L\.map\(/g) || []).length >= 1, 'map.js should create a Leaflet map');
+
+const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+assert(/name="viewport"/.test(blogHtml), 'blog.html needs viewport for mobile media queries');
+assert(/name="viewport"/.test(indexHtml), 'index.html needs viewport for mobile media queries');
+assert(/class="row map-split"/.test(blogHtml), 'blog.html should use one map-split row');
+assert(/class="row map-split"/.test(indexHtml), 'index.html should use one map-split row');
+assert(!fs.existsSync(path.join(ROOT, 'blog_m.html')), 'do not add a separate mobile blog HTML');
+assert(!fs.existsSync(path.join(ROOT, 'index_m.html')), 'do not add a separate mobile homepage HTML');
+
+const blogCss = fs.readFileSync(path.join(ROOT, 'css', 'blog.css'), 'utf8');
+const indexCss = fs.readFileSync(path.join(ROOT, 'css', 'index.css'), 'utf8');
+assert(/@media \(max-width:\s*767/.test(blogCss), 'blog.css needs a narrow-screen breakpoint');
+assert(/@media \(max-width:\s*767/.test(indexCss), 'index.css needs a narrow-screen breakpoint');
+assert(/flex-direction:\s*column/.test(blogCss), 'blog.css should stack map above copy on narrow screens');
+assert(/flex-direction:\s*column/.test(indexCss), 'index.css should stack map above copy on narrow screens');
+assert(!/javascript:zoomto/.test(indexJs), 'index.js must not use javascript:zoomto');
+
 const staticJsonPath = path.join(ROOT, 'data', 'static.json');
 assert(fs.existsSync(staticJsonPath), 'data/static.json missing — run npm run compile-data');
 const onDisk = JSON.parse(fs.readFileSync(staticJsonPath, 'utf8'));
