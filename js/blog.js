@@ -1,4 +1,3 @@
-var appUrl = '/api';
 var currentLandmarkLayer = null;
 var currentArrowheadLayers = [];
 var currentVectorLayer = null;   // hover/click 時 highlight 用的臨時向量
@@ -31,19 +30,21 @@ $(document).ready(function() {
     new Vue({ i18n }).$mount('#dropdown');
 
     initMap();
-    loadIndexMarkers();
 
-    // 頁面載入時解析 hash → 直接載入對應 story 或 collection
-    var hash = location.hash.replace('#', '');
-    if (hash) {
-        var parts = hash.split('/');
-        var sid = parts[0];
-        var cid = parts[1] || null;
-        if (/^\d+$/.test(sid)) {
-            // 等 index markers 載入完再 load story（延遲讓地圖初始化）
-            setTimeout(function() { loadStoryById(sid, cid); }, 300);
+    ListmapData.load().done(function() {
+        loadIndexMarkers();
+        var hash = location.hash.replace('#', '');
+        if (hash) {
+            var parts = hash.split('/');
+            var sid = parts[0];
+            var cid = parts[1] || null;
+            if (/^\d+$/.test(sid)) {
+                loadStoryById(sid, cid);
+            }
         }
-    }
+    }).fail(function() {
+        console.error('Failed to load data/static.json');
+    });
 
     // 回索引按鈕放在地圖左下角
     var BackControl = L.Control.extend({
@@ -66,7 +67,7 @@ $(document).ready(function() {
 function loadIndexMarkers() {
     indexLayer = L.layerGroup();
 
-    $.get(appUrl, { command: 'getStoriesIndex' }, function(data) {
+    (function(data) {
         var storiesWithGps = data.table;
 
         INDEX_MARKERS.forEach(function(def) {
@@ -131,7 +132,7 @@ function loadIndexMarkers() {
         } else if (bounds.length > 1) {
             mymap.fitBounds(bounds, { padding: [60, 60] });
         }
-    });
+    })(ListmapData.getStoriesIndex());
 }
 
 function showPanelBackBtn(label, onclick) {
@@ -218,7 +219,7 @@ $(document).on('click', '.map-region-link', function(e) {
     if (regionGeoJsonCache[regionId]) {
         zoomTo(regionGeoJsonCache[regionId]);
     } else {
-        $.getJSON('/data/regions/' + regionId + '.geojson').done(function(geojson) {
+        $.getJSON(ListmapData.assetUrl('data/regions/' + regionId + '.geojson')).done(function(geojson) {
             regionGeoJsonCache[regionId] = geojson;
             zoomTo(geojson);
         });
@@ -239,13 +240,12 @@ $(document).on('click', '.map-vector-link', function(e) {
 });
 
 function loadStory(story, fromCollection) {
-    $.get(appUrl, { command: 'logView', story_id: story.story_id });
     clearMapLayers();
 
     currentLandmarkLayer = L.layerGroup().addTo(mymap);
     var allLatlngs = [];
 
-    $.get(appUrl, { command: 'get_landmarks_by_story_id', story_id: story.story_id }, function(data) {
+    (function(data) {
         currentStoryLandmarks = data.table;
         storyMarkerItems = [];
         var clusterLayer = L.markerClusterGroup();
@@ -312,7 +312,7 @@ function loadStory(story, fromCollection) {
                 var d = $.Deferred(); renderRegion(regionGeoJsonCache[regionId]); d.resolve();
                 regionPromises.push(d.promise());
             } else {
-                var p = $.getJSON('/data/regions/' + regionId + '.geojson').done(renderRegion);
+                var p = $.getJSON(ListmapData.assetUrl('data/regions/' + regionId + '.geojson')).done(renderRegion);
                 regionPromises.push(p);
             }
         });
@@ -320,7 +320,7 @@ function loadStory(story, fromCollection) {
         var done = function() { buildLayersPanel(story.story_id); };
         if (regionPromises.length > 0) $.when.apply($, regionPromises).always(done);
         else done();
-    });
+    })(ListmapData.getLandmarksByStoryId(story.story_id));
 
     if (fromCollection) {
         previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };
@@ -427,32 +427,30 @@ function blogGoBack() {
 function loadCollectionById(collection_id) {
     clearMapLayers();
 
-    $.get(appUrl, { command: 'getStoriesByCollection', collection_id: collection_id }, function(data) {
-        currentLandmarkLayer = L.layerGroup();
-        var latlngs = [];
-        data.table.forEach(function(s) {
-            $.get(appUrl, { command: 'get_landmarks_by_story_id', story_id: s.story_id }, function(lmData) {
-                if (!lmData.table || lmData.table.length === 0) return;
-                var lm = lmData.table[0];
-                var lat = parseFloat(lm.lat);
-                var lng = parseFloat(lm.lng);
-                if (isNaN(lat) || isNaN(lng)) return;
-                latlngs.push([lat, lng]);
-                var sid = s.story_id;
-                var icon = L.divIcon({
-                    className: '',
-                    html: '<div class="index-marker-pin index-marker-sub"><span class="index-marker-label">' + s.title.split('｜')[0] + '</span></div>',
-                    iconSize: [12, 12], iconAnchor: [6, 6],
-                });
-                L.marker([lat, lng], { icon: icon })
-                    .on('click', function() { loadStoryById(sid, collection_id); })
-                    .addTo(currentLandmarkLayer);
-                if (latlngs.length > 1) mymap.fitBounds(latlngs, { padding: [40, 40] });
-                else mymap.setView([lat, lng], 10);
-            });
+    var data = ListmapData.getStoriesByCollection(collection_id);
+    currentLandmarkLayer = L.layerGroup();
+    var latlngs = [];
+    data.table.forEach(function(s) {
+        var lmData = ListmapData.getLandmarksByStoryId(s.story_id);
+        if (!lmData.table || lmData.table.length === 0) return;
+        var lm = lmData.table[0];
+        var lat = parseFloat(lm.lat);
+        var lng = parseFloat(lm.lng);
+        if (isNaN(lat) || isNaN(lng)) return;
+        latlngs.push([lat, lng]);
+        var sid = s.story_id;
+        var icon = L.divIcon({
+            className: '',
+            html: '<div class="index-marker-pin index-marker-sub"><span class="index-marker-label">' + s.title.split('｜')[0] + '</span></div>',
+            iconSize: [12, 12], iconAnchor: [6, 6],
         });
-        currentLandmarkLayer.addTo(mymap);
+        L.marker([lat, lng], { icon: icon })
+            .on('click', function() { loadStoryById(sid, collection_id); })
+            .addTo(currentLandmarkLayer);
     });
+    currentLandmarkLayer.addTo(mymap);
+    if (latlngs.length > 1) mymap.fitBounds(latlngs, { padding: [40, 40] });
+    else if (latlngs.length === 1) mymap.setView(latlngs[0], 10);
 
     previousView = 'home';
     showPanelBackBtn('回首頁', "blogGoBack()");
@@ -471,32 +469,30 @@ function loadStoryById(story_id, from_collection_id) {
     }
 
     function proceed(fromCollection) {
-        $.get(appUrl, { command: 'getStoriesIndex' }, function(data) {
-            var story = data.table.find(function(s) { return s.story_id === story_id; });
-            if (story) {
-                loadStory(story, fromCollection);
+        var data = ListmapData.getStoriesIndex();
+        var story = data.table.find(function(s) { return String(s.story_id) === String(story_id); });
+        if (story) {
+            loadStory(story, fromCollection);
+        } else {
+            clearMapLayers();
+            if (fromCollection) {
+                showPanelBackBtn(fromCollection.title, "blogGoBack()");
+                previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };
             } else {
-                clearMapLayers();
-                if (fromCollection) {
-                    showPanelBackBtn(fromCollection.title, "blogGoBack()");
-                    previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };
-                } else {
-                    showPanelBackBtn('回首頁', "blogGoBack()");
-                    previousView = 'home';
-                }
-                if (mapBackControl) $(mapBackControl.getContainer()).hide();
-                $('#blog-welcome').hide();
-                $('[data-story-id], [data-collection-id]').hide();
-                $('[data-story-id="' + story_id + '"]').show();
+                showPanelBackBtn('回首頁', "blogGoBack()");
+                previousView = 'home';
             }
-        });
+            if (mapBackControl) $(mapBackControl.getContainer()).hide();
+            $('#blog-welcome').hide();
+            $('[data-story-id], [data-collection-id]').hide();
+            $('[data-story-id="' + story_id + '"]').show();
+        }
     }
 
     if (from_collection_id) {
-        $.get(appUrl, { command: 'getCollections' }, function(colData) {
-            var col = colData.table.find(function(c) { return c.collection_id === from_collection_id; });
-            proceed(col ? { id: from_collection_id, title: col.title } : null);
-        });
+        var colData = ListmapData.getCollections();
+        var col = colData.table.find(function(c) { return String(c.collection_id) === String(from_collection_id); });
+        proceed(col ? { id: from_collection_id, title: col.title } : null);
     } else {
         proceed(null);
     }
