@@ -50,6 +50,22 @@
   display:none;
 }
 
+#maplist.maplist-visible {
+  display: block;
+  width: 300px;
+  max-width: 42%;
+  height: 72%;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+#maplist.maplist-visible a {
+  color: #0d6efd;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
 #maplist li{
   list-style-type: none;
 }

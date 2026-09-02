@@ -433,6 +433,16 @@ margin-top:10px;
   color: #c0392b;
   text-decoration: underline solid;
 }
+
+.map-place-link {
+  color: #0d6efd;
+  text-decoration: underline dotted;
+  cursor: pointer;
+}
+.map-place-link:hover {
+  color: #0a58ca;
+  text-decoration: underline solid;
+}
 .map-vector-pinned {
   font-weight: 700;
 }

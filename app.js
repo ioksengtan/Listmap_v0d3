@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const { parse } = require('csv-parse/sync');
+const { readStories, readLandmarks, readCsv } = require('./scripts/csv-data');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,77 +11,6 @@ app.use(express.static('./'));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
-
-function readCsv(filename) {
-  const filePath = path.join(__dirname, 'data', filename);
-  const content = fs.readFileSync(filePath, 'utf8');
-  return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true });
-}
-
-function readStories() {
-  const realFile = path.join(__dirname, 'listmap - stories.csv');
-  const extraFile = path.join(__dirname, 'data', 'stories.csv');
-  const mainFile = fs.existsSync(realFile) ? realFile : extraFile;
-
-  const toStory = r => ({
-    story_id: r.story_id,
-    collection_id: r.storyBook_id || r.collection_id || '',
-    title: r.title,
-    type: r.type,
-    link: r.link || '',
-    author: r.author || '',
-    what: r.type || '',
-    where: '',
-    avatar: '',
-    tags: r.tags || '',
-    thumbnail: '',
-    language: r.language || '',
-    visibility: r.visibility || '',
-  });
-
-  const mainRows = parse(fs.readFileSync(mainFile, 'utf8'), { columns: true, skip_empty_lines: true, relax_quotes: true })
-    .filter(r => r.is_delete !== '1')
-    .map(toStory);
-
-  // 如果主檔案是 Google Sheets 匯出，額外合併 data/stories.csv（blog 自訂文章）
-  if (mainFile !== extraFile && fs.existsSync(extraFile)) {
-    const extraRows = parse(fs.readFileSync(extraFile, 'utf8'), { columns: true, skip_empty_lines: true, relax_quotes: true })
-      .filter(r => r.is_delete !== '1')
-      .map(toStory);
-    return [...mainRows, ...extraRows];
-  }
-  return mainRows;
-}
-
-function readLandmarks() {
-  const realFile = path.join(__dirname, 'listmap - landmarks.csv');
-  const extraFile = path.join(__dirname, 'data', 'landmarks.csv');
-  const mainFile = fs.existsSync(realFile) ? realFile : extraFile;
-
-  const toLandmark = r => ({
-    landmark_id: r.landmark_id,
-    story_id: r.story_id,
-    name: r.name,
-    lat: r.lat,
-    lng: r.lng,
-    content: r.notes || r.content || '',
-    link: r.link || '',
-    address: r.address || '',
-    tags: r.tags || '',
-  });
-
-  const mainRows = parse(fs.readFileSync(mainFile, 'utf8'), { columns: true, skip_empty_lines: true, relax_quotes: true })
-    .filter(r => r.is_delete !== '1')
-    .map(toLandmark);
-
-  if (mainFile !== extraFile && fs.existsSync(extraFile)) {
-    const extraRows = parse(fs.readFileSync(extraFile, 'utf8'), { columns: true, skip_empty_lines: true, relax_quotes: true })
-      .filter(r => r.is_delete !== '1')
-      .map(toLandmark);
-    return [...mainRows, ...extraRows];
-  }
-  return mainRows;
-}
 
 function isLocalhost(req) {
   const ip = req.ip || (req.connection && req.connection.remoteAddress) || '';

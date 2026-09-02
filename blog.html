@@ -26,6 +26,7 @@
 		<script src="js/variable_engine.js"></script>
 		<script src="js/mdppParser.js"></script>
 		<script src="js/mdpp.js"></script>
+		<script src="js/static-data.js"></script>
 		<script src="js/blog.js"></script>
 
       <script></script>
@@ -106,7 +107,6 @@
               <br/>
               <br/>
                 <ul>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
                 </ul>
             </div>
             <div class="col right" id="gpstory_main">
@@ -166,6 +166,13 @@
                        <span class="blog-id-tag">S258</span>
                        <h4 class="blog-article-card-title">紐約大聯盟球場之旅</h4>
                        <p class="blog-article-card-desc">在花旗球場感受大聯盟現場的氛圍，賽後探索紐約街頭。</p>
+                     </div>
+
+                     <div class="blog-article-card" onclick="loadStoryById('1024')">
+                       <div class="blog-article-card-tag">美食</div>
+                       <span class="blog-id-tag">S1024</span>
+                       <h4 class="blog-article-card-title">新竹牛肉麵五選</h4>
+                       <p class="blog-article-card-desc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
                      </div>
                    </div>
                  </div>
@@ -530,6 +537,23 @@
                     <a class="map-region-link" data-region="us_states" data-feature="Hawaii" href="#">夏威夷州（Hawaii）</a> 是美國唯一完全位於太平洋中的州，以火山、衝浪與烏克麗麗聞名。
                   </p>
                 </section>
+
+                 <!-- story_id=1024：新竹牛肉麵五選 -->
+                 <section data-story-id="1024" style="display:none;">
+                   <h2 style="padding: 0 16px;">新竹牛肉麵五選</h2>
+                   <p>新竹的牛肉麵不是一條街的競賽，是五個點。城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。這五家 2026 年都還在開；營業與公休以店家為準，不寫死價錢。</p>
+                   <h4 style="padding: 0 16px;">九添福牛肉麵館</h4>
+                   <p><a class="map-place-link" data-landmark="475" data-zoom="17" href="#">九添福牛肉麵館</a>在北區西大路 436 號，<a class="map-place-link" data-landmark="475" data-zoom="16" href="#">城隍廟</a>步行幾分鐘。2026 必比登還在榜上。紅燒、清燉都有，肉給得大方。城隍廟商圈停車難，麵店當錨點即可。</p>
+                   <h4 style="padding: 0 16px;">璽子牛肉麵</h4>
+                   <p><a class="map-place-link" data-landmark="476" data-zoom="17" href="#">璽子牛肉麵</a>總店在東區博愛街 31 號，靠近市立動物園、清大這一側。清燉湯頭清、腱子肉帶筋。斤餅常被點光。週二公休，中午晚上兩段營業。竹北、香山另有分店，這篇釘總店。</p>
+                   <h4 style="padding: 0 16px;">成都老鍋牛肉麵</h4>
+                   <p><a class="map-place-link" data-landmark="477" data-zoom="17" href="#">成都老鍋牛肉麵</a>在東區光復路二段 126 號，竹科、清大下班那條軸。川味但不走死辣，牛骨湯熬得比較長。週三公休。跟博愛街璽子同一區段，走路會遠，建議當兩個點，不要塞同一餐。</p>
+                   <h4 style="padding: 0 16px;">臻穎牛肉麵食館</h4>
+                   <p><a class="map-place-link" data-landmark="478" data-zoom="17" href="#">臻穎牛肉麵食館</a>在中正路 366 號，近空軍醫院、巨城這一帶。2025 年從民生路搬來。三十多年眷村口味，五福臨門那碗把腱、腱心、五花、牛肚、牛筋放同一碗。週一公休，附近不好停汽車。</p>
+                   <h4 style="padding: 0 16px;">文化城牛肉麵</h4>
+                   <p><a class="map-place-link" data-landmark="479" data-zoom="16" href="#">文化城牛肉麵</a>跨到竹北光明一路 486 號，跟市區四家不在同一張比例尺。大塊肉、小菜多，內用紅茶可續。週四公休。豬腳常賣完，想配著吃要早。</p>
+                   <p>五家不是一天排完。選一碗當這次的錨，下一碗再從地圖另一側開始。</p>
+                 </section>
 
             </div>
          </div>
