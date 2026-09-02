@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
    <head>
       <title>Listmap</title>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -36,16 +36,16 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Listmap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-i18n-aria="nav.toggle">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html">Blog</a>
+                     <a class="nav-link" href="blog.html" data-i18n="nav.blog">文章</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="#">API</a>
@@ -54,7 +54,7 @@
                      <a class="nav-link" href="stories.html">All Stories</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html">Find Stories</a>
+                     <a class="nav-link" href="find_stories.html" data-i18n="nav.findStories">找故事</a>
                   </li>
                   <!--
                   <li class="nav-item dropdown">
@@ -73,17 +73,13 @@
                 -->
                </ul>
 
-<div class="dropdown" id='dropdown'>
-  <button class="dropbtn" v-html="$t('message.lab')"></button>
-  <div class="dropdown-content">
-    <a href="#" v-html="$t('message.tour')"></a>
-    <a href="#" v-html="$t('message.task')"></a>
-    <a href="#" v-html="$t('message.QandA')"></a>
-  </div>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
+  <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
 </div>
                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <input class="form-control me-2" type="search" placeholder="搜尋" aria-label="Search" data-i18n-placeholder="nav.searchPlaceholder" data-i18n-aria="nav.search">
+                  <button class="btn btn-outline-success" type="submit" data-i18n="nav.search">搜尋</button>
                </form>
                <ul class="navbar-nav ml-auto ">
                   <li class="nav-item avatar">
@@ -102,7 +98,7 @@
             <div id="map" class="col left"></div>
             <div id="maplist">
 
-              <button type="button" class="btn btn-primary">apply</button>
+              <button type="button" class="btn btn-primary" data-i18n="home.apply">套用</button>
               <br/>
               <br/>
                 <ul>
