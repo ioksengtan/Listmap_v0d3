@@ -54,6 +54,12 @@ body > .containe-fluid {
   flex-wrap: nowrap;
   align-items: stretch;
   min-height: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+.map-split > #map {
+  padding-left: 0;
+  padding-right: 0;
 }
 @media (max-width: 767.98px) {
   .map-split {
