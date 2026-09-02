@@ -63,6 +63,18 @@ assert(m1024, 'blog.html missing story 1024 section');
 assert(!/javascript:zoomto/.test(m1024[0]), 'story 1024 must not use javascript:zoomto');
 assert((m1024[0].match(/class="map-place-link"/g) || []).length >= 5, 'story 1024 place links');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
+assert(/function initBlogMap/.test(blogJs), 'blog.js should define initBlogMap');
+assert(blogJs.includes('initBlogMap()'), 'blog.js should call initBlogMap');
+assert(!/\binitMap\s*\(/.test(blogJs), 'blog.js must not call map.js initMap');
+assert(blogJs.includes('tile.openstreetmap.org'), 'blog map must use OSM tiles');
+assert(/scrollWheelZoom:\s*true/.test(blogJs), 'blog map must allow wheel zoom');
+assert(!/L\.CRS\.Simple/.test(blogJs), 'blog.js must not use Simple CRS');
+assert(!/mapbox/i.test(blogJs), 'blog.js must not use Mapbox tiles');
+
+const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
+assert(/function pngMap/.test(mapJs), 'map.js pngMap should remain for non-blog pages');
+assert(/crs:\s*L\.CRS\.Simple/.test(mapJs), 'map.js pngMap should keep Simple CRS');
+assert(/function initMap/.test(mapJs), 'map.js initMap should remain for non-blog pages');
 
 const staticJsonPath = path.join(ROOT, 'data', 'static.json');
 assert(fs.existsSync(staticJsonPath), 'data/static.json missing — run npm run compile-data');
