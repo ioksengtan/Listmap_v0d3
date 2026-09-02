@@ -122,6 +122,9 @@ function loadIndexMarkers() {
             } else if (storyMap[sid].visibility === 'internal') {
                 $(this).find('.blog-id-tag').before('<span class="story-internal-badge" style="font-size:10px;padding:1px 5px;margin-right:4px;">Internal</span>');
             }
+            if (storyMap[sid]) {
+                injectStoryHashtags($(this), storyMap[sid].tags);
+            }
         });
 
         // 縮放到索引標記範圍
@@ -381,9 +384,39 @@ function loadStory(story, fromCollection) {
     $('#blog-welcome').hide();
     $('[data-story-id], [data-collection-id]').hide();
     var section = $('[data-story-id="' + story.story_id + '"]').show();
+    injectStoryHashtags(section, story.tags);
     if (story.visibility === 'internal') {
         section.find('h2').first().append('<span class="story-internal-badge">Internal</span>');
     }
+}
+
+function injectStoryHashtags($root, rawTags) {
+    if (!$root || !$root.length) return;
+    $root.find('.story-hashtags').remove();
+    var html = (window.ListmapData && ListmapData.hashtagsHtml)
+        ? ListmapData.hashtagsHtml(rawTags)
+        : '';
+    if (!html) return;
+    var $h2 = $root.children('h2').first();
+    if ($h2.length) {
+        $h2.after(html);
+        return;
+    }
+    var $title = $root.find('.blog-article-card-title').first();
+    if ($title.length) {
+        $title.after(html);
+        return;
+    }
+    $root.prepend(html);
+}
+
+function tagsForStoryId(storyId) {
+    var sid = String(storyId);
+    if (!window.ListmapData || !ListmapData.stories) return '';
+    var story = ListmapData.stories().find(function (s) {
+        return String(s.story_id) === sid;
+    });
+    return story ? story.tags : '';
 }
 
 function buildLayersPanel(storyId) {
@@ -532,7 +565,8 @@ function loadStoryById(story_id, from_collection_id) {
             if (mapBackControl) $(mapBackControl.getContainer()).hide();
             $('#blog-welcome').hide();
             $('[data-story-id], [data-collection-id]').hide();
-            $('[data-story-id="' + story_id + '"]').show();
+            var section = $('[data-story-id="' + story_id + '"]').show();
+            injectStoryHashtags(section, tagsForStoryId(story_id));
         }
     }
 
