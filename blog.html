@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
    <head>
       <title>Listmap</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,26 +37,26 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Listmap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-i18n-aria="nav.toggle">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html">Blog</a>
+                     <a class="nav-link" href="blog.html" data-i18n="nav.blog">文章</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html">Explore</a>
+                     <a class="nav-link" href="find_stories.html" data-i18n="nav.explore">探索</a>
                   </li>				  
                   <li class="nav-item">
-                     <a class="nav-link" href="about.html">about</a>
+                     <a class="nav-link" href="about.html" data-i18n="nav.about">關於</a>
                   </li>
 
                   <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html">Find Stories</a>
+                     <a class="nav-link" href="find_stories.html" data-i18n="nav.findStories">找故事</a>
                   </li>
                   <!--
                   <li class="nav-item dropdown">
@@ -75,17 +75,13 @@
                 -->
                </ul>
 
-<div class="dropdown" id='dropdown'>
-  <button class="dropbtn" v-html="$t('message.lab')"></button>
-  <div class="dropdown-content">
-    <a href="#" v-html="$t('message.tour')"></a>
-    <a href="#" v-html="$t('message.task')"></a>
-    <a href="#" v-html="$t('message.QandA')"></a>
-  </div>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
+  <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
 </div>
                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <input class="form-control me-2" type="search" placeholder="搜尋" aria-label="Search" data-i18n-placeholder="nav.searchPlaceholder" data-i18n-aria="nav.search">
+                  <button class="btn btn-outline-success" type="submit" data-i18n="nav.search">搜尋</button>
                </form>
                <ul class="navbar-nav ml-auto ">
                   <li class="nav-item avatar">
@@ -104,7 +100,7 @@
             <div id="map" class="col left"></div>
             <div id="maplist">
 
-              <button type="button" class="btn btn-primary">apply</button>
+              <button type="button" class="btn btn-primary" data-i18n="home.apply">套用</button>
               <br/>
               <br/>
                 <ul>
@@ -123,7 +119,7 @@
              -->
 
                <div id="blog-back-btn" style="display:none; padding:12px 16px;">
-                 <button class="btn btn-sm btn-outline-secondary" onclick="blogGoBack()">← 回索引</button>
+                 <button class="btn btn-sm btn-outline-secondary" onclick="blogGoBack()">← <span data-i18n="home.backIndex">回索引</span></button>
                </div>
                <div id="blog-story-header" class="px-4 pb-2" style="border-bottom:1px solid #eee; margin-bottom:16px;">
                  <h4 id="blog-story-title" style="margin:0;"></h4>
@@ -138,42 +134,42 @@
                  <!-- 首頁：精選文章與故事集 -->
                  <div id="blog-welcome">
                    <div class="blog-home-section">
-                     <h3 class="blog-home-heading">故事集</h3>
+                     <h3 class="blog-home-heading" data-i18n="home.collections">故事集</h3>
 
                      <!-- 醉旅宿東京篇 collection card -->
                      <div class="blog-collection-card" onclick="loadCollectionById('101')">
                        <div class="blog-collection-card-body">
-                         <div class="blog-collection-badge">9 篇</div>
+                         <div class="blog-collection-badge" data-i18n="home.tokyoBadge">9 篇</div>
                          <span class="blog-id-tag">C101</span>
-                         <h4 class="blog-collection-title">醉旅宿介紹東京篇</h4>
-                         <p class="blog-collection-desc">醉旅宿 Merry Journey 頻道的東京旅遊系列：住宿推薦・市場美食・近郊景點・交通票券完整攻略</p>
-                         <div class="blog-collection-author">醉旅宿 Merry Journey</div>
+                         <h4 class="blog-collection-title" data-i18n="home.tokyoTitle">醉旅宿介紹東京篇</h4>
+                         <p class="blog-collection-desc" data-i18n="home.tokyoDesc">醉旅宿 Merry Journey 頻道的東京旅遊系列：住宿推薦・市場美食・近郊景點・交通票券完整攻略</p>
+                         <div class="blog-collection-author" data-i18n="home.tokyoAuthor">醉旅宿 Merry Journey</div>
                        </div>
                      </div>
                    </div>
 
                    <div class="blog-home-section">
-                     <h3 class="blog-home-heading">精選文章</h3>
+                     <h3 class="blog-home-heading" data-i18n="home.featured">精選文章</h3>
 
                      <div class="blog-article-card" onclick="loadStoryById('1001')">
-                       <div class="blog-article-card-tag">城市漫遊</div>
+                       <div class="blog-article-card-tag" data-i18n="home.tagCity">城市漫遊</div>
                        <span class="blog-id-tag">S1001</span>
-                       <h4 class="blog-article-card-title">海德堡城市漫遊</h4>
-                       <p class="blog-article-card-desc">沿著內卡河漫步，探索哲學家小徑、老橋與千年大學城的歷史氣息。</p>
+                       <h4 class="blog-article-card-title" data-i18n="home.heidelbergTitle">海德堡城市漫遊</h4>
+                       <p class="blog-article-card-desc" data-i18n="home.heidelbergDesc">沿著內卡河漫步，探索哲學家小徑、老橋與千年大學城的歷史氣息。</p>
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('258')">
-                       <div class="blog-article-card-tag">球場之旅</div>
+                       <div class="blog-article-card-tag" data-i18n="home.tagBallpark">球場之旅</div>
                        <span class="blog-id-tag">S258</span>
-                       <h4 class="blog-article-card-title">紐約大聯盟球場之旅</h4>
-                       <p class="blog-article-card-desc">在花旗球場感受大聯盟現場的氛圍，賽後探索紐約街頭。</p>
+                       <h4 class="blog-article-card-title" data-i18n="home.nyTitle">紐約大聯盟球場之旅</h4>
+                       <p class="blog-article-card-desc" data-i18n="home.nyDesc">在花旗球場感受大聯盟現場的氛圍，賽後探索紐約街頭。</p>
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('1024')">
-                       <div class="blog-article-card-tag">美食</div>
+                       <div class="blog-article-card-tag" data-i18n-story="1024" data-i18n-story-field="tag">美食</div>
                        <span class="blog-id-tag">S1024</span>
-                       <h4 class="blog-article-card-title">新竹牛肉麵五選</h4>
-                       <p class="blog-article-card-desc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
+                       <h4 class="blog-article-card-title" data-i18n-story="1024" data-i18n-story-field="title">新竹牛肉麵五選</h4>
+                       <p class="blog-article-card-desc" data-i18n-story="1024" data-i18n-story-field="cardDesc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
                      </div>
                    </div>
                  </div>
@@ -220,7 +216,7 @@
                  <!-- collection_id=101：醉旅宿介紹東京篇 -->
                  <section data-collection-id="101" style="display:none;">
                    <div style="padding: 0 16px 16px;">
-                     <h2>醉旅宿介紹東京篇</h2>
+                     <h2 data-i18n="home.tokyoTitle">醉旅宿介紹東京篇</h2>
                      <p style="color:#888; font-size:13px; margin-bottom:16px;">醉旅宿 Merry Journey・9 篇文章</p>
                      <p>醉旅宿 Merry Journey 頻道的東京完整旅遊系列，涵蓋住宿選擇、市場美食、近郊行程與交通票券攻略。點擊下方文章進入詳細內容，地圖將同步顯示對應地標。</p>
 
@@ -231,9 +227,9 @@
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('1002','101')">
-                       <div class="blog-article-card-tag">住宿</div><span class="blog-id-tag">S1002</span>
-                       <h4 class="blog-article-card-title">東京住宿推薦｜品川・大崎・五反田</h4>
-                       <p class="blog-article-card-desc">山手線沿線三個優質住宿區域，各有不同特色與周邊設施。</p>
+                       <div class="blog-article-card-tag" data-i18n-story="1002" data-i18n-story-field="tag">住宿</div><span class="blog-id-tag">S1002</span>
+                       <h4 class="blog-article-card-title" data-i18n-story="1002" data-i18n-story-field="title">東京住宿推薦｜品川・大崎・五反田</h4>
+                       <p class="blog-article-card-desc" data-i18n-story="1002" data-i18n-story-field="cardDesc">山手線沿線三個優質住宿區域，各有不同特色與周邊設施。</p>
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('1004','101')">

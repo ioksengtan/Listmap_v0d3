@@ -68,11 +68,15 @@ function renderHomepageList() {
 }
 
 $(document).ready(function () {
-    const i18n = new VueI18n({
-        locale: 'en',
-        messages,
-    });
-    new Vue({ i18n }).$mount('#dropdown');
+    if (window.ListmapI18n) {
+        ListmapI18n.init({
+            onChange: function () {
+                if (typeof mymap !== 'undefined' && mymap && typeof mymap.invalidateSize === 'function') {
+                    mymap.invalidateSize();
+                }
+            }
+        });
+    }
 
     if (typeof mymap === 'undefined' || !mymap) {
         initMap();

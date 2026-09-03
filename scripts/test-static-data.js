@@ -93,5 +93,69 @@ assert(onDisk.landmarks.some(l => l.story_id === '1010'), 'checked-in JSON missi
 assert(onDisk.stories.some(s => s.story_id === '1024'), 'checked-in JSON missing 1024');
 assert(onDisk.landmarks.filter(l => l.story_id === '1024').length === 5, 'checked-in JSON missing 1024 landmarks');
 
+// i18n: chrome dictionary + story overlays (no duplicate CSV rows, no /api)
+const langJs = fs.readFileSync(path.join(ROOT, 'js', 'language.js'), 'utf8');
+assert(langJs.includes('ListmapI18n'), 'language.js should export ListmapI18n');
+assert(langJs.includes("'zh-TW'"), 'language.js Traditional Chinese locale');
+assert(langJs.includes("'nav.home'"), 'language.js chrome keys');
+assert(langJs.includes('data/story-i18n.json'), 'language.js loads static story-i18n JSON');
+assert(!/\/api/.test(langJs), 'language.js must not call /api');
+
+const vm = require('vm');
+const sandbox = {
+  window: {
+    localStorage: { getItem: function () { return null; }, setItem: function () {} }
+  },
+  console: console
+};
+sandbox.window.window = sandbox.window;
+vm.createContext(sandbox);
+vm.runInContext(langJs, sandbox);
+const I18n = sandbox.window.ListmapI18n;
+assert(I18n, 'ListmapI18n attached to window');
+assert(I18n.detectLocaleFrom(['en-US']) === 'en', 'en-US → en');
+assert(I18n.detectLocaleFrom(['en']) === 'en', 'en → en');
+assert(I18n.detectLocaleFrom(['zh-TW']) === 'zh-TW', 'zh-TW stays');
+assert(I18n.detectLocaleFrom(['zh-Hant-TW']) === 'zh-TW', 'zh-Hant → zh-TW');
+assert(I18n.detectLocaleFrom(['ja-JP']) === 'zh-TW', 'unknown browser language falls back to zh-TW');
+assert(I18n.detectLocaleFrom(['zh-CN']) === 'zh-TW', 'zh-CN falls back to Traditional Chinese');
+assert(I18n.detectLocaleFrom([]) === 'zh-TW', 'empty languages → zh-TW');
+I18n.setLocale('en', { persist: false, force: true });
+assert(I18n.t('nav.home') === 'Home', 'English chrome');
+I18n.setLocale('zh-TW', { persist: false, force: true });
+assert(I18n.t('nav.home') === '首頁', 'Traditional Chinese chrome');
+
+const storyI18nPath = path.join(ROOT, 'data', 'story-i18n.json');
+assert(fs.existsSync(storyI18nPath), 'data/story-i18n.json missing');
+const storyI18n = JSON.parse(fs.readFileSync(storyI18nPath, 'utf8'));
+assert(storyI18n['1024'] && storyI18n['1024'].en, 'S1024 English overlay');
+assert(/Hsinchu/i.test(storyI18n['1024'].en.title), 'S1024 English title');
+assert((storyI18n['1024'].en.html.match(/class="map-place-link"/g) || []).length >= 5, 'S1024 EN place links');
+['475', '476', '477', '478', '479'].forEach(id => {
+  assert(storyI18n['1024'].en.html.indexOf('data-landmark="' + id + '"') !== -1, 'S1024 EN landmark ' + id);
+});
+assert(storyI18n['1024'].en.html.indexOf('璽子牛肉麵') !== -1, 'S1024 EN keeps original shop name');
+assert(!storyI18n['1024']['zh-TW'], 'do not duplicate Traditional Chinese body in story-i18n.json');
+assert(storyI18n['1002'] && storyI18n['1002'].en && storyI18n['1002'].en.html, 'Tokyo S1002 English overlay');
+assert(!onDisk.stories.filter(s => s.story_id === '1024').length || onDisk.stories.filter(s => s.story_id === '1024').length === 1, 'S1024 must not duplicate CSV rows');
+assert(onDisk.landmarks.find(l => l.story_id === '1024' && l.landmark_id === '476').name === '璽子牛肉麵', 'pin name stays original in static JSON');
+
+assert(blogHtml.includes('data-lang="zh-TW"') && blogHtml.includes('data-lang="en"'), 'blog language switcher');
+assert(blogHtml.includes('data-i18n="nav.home"'), 'blog chrome through data-i18n');
+assert(blogHtml.includes('data-i18n-story="1024"'), 'blog S1024 overlay hooks');
+assert(blogJs.includes('ListmapI18n'), 'blog.js uses ListmapI18n');
+assert(blogJs.includes('invalidateSize'), 'language switch should invalidateSize');
+assert(/function afterLanguageChange\(\) \{\s*refreshDynamicI18n\(\);[\s\S]*?invalidateSize/.test(blogJs), 'afterLanguageChange invalidateSize');
+const afterLang = blogJs.match(/function afterLanguageChange\(\) \{[\s\S]*?\n    \}/);
+assert(afterLang && !/initMap/.test(afterLang[0]), 'language switch must not re-init the map');
+assert(!/location\.reload/.test(blogJs), 'language switch must not reload the page');
+assert(/bindPopup\('<b>' \+ lm\.name/.test(blogJs), 'pin popup uses original landmark name');
+
+const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+assert(indexHtml.includes('data-i18n="nav.home"'), 'homepage chrome through data-i18n');
+assert(indexHtml.includes('data-lang="en"'), 'homepage language switcher');
+assert(indexJs.includes('ListmapI18n'), 'index.js uses ListmapI18n');
+assert(indexJs.includes('invalidateSize'), 'homepage language switch invalidateSize');
+
 console.log('OK: static data compile + Pages wiring checks passed');
 console.log('  stories=' + payload.stories.length + ' landmarks=' + payload.landmarks.length);
