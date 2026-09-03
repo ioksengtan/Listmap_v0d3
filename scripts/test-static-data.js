@@ -163,6 +163,8 @@ assert(/1025,,陽明山：住一晚，走兩天,blog,,Yu-Sheng,blog,Yangmingshan
 assert(!/Yangmingshan,,,去過,渡假,,public/.test(storiesCsv), 'S1025 must not split unquoted tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
+assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
+  'language overlay must re-inject hashtags after replacing story HTML');
 assert(indexJs.includes('hashtagsHtml'), 'index.js should render story hashtags on homepage list');
 assert(fs.readFileSync(path.join(ROOT, 'js', 'static-data.js'), 'utf8').includes('parseAllowedTags'),
   'static-data.js should filter tags to the public vocabulary');

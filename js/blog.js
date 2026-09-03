@@ -99,7 +99,9 @@ function refreshDynamicI18n() {
     }
     var vis = $('[data-story-id]:visible');
     if (vis.length) {
-        buildLayersPanel(vis.attr('data-story-id'));
+        var sid = vis.attr('data-story-id');
+        injectStoryHashtags(vis, tagsForStoryId(sid));
+        buildLayersPanel(sid);
     }
 }
 
