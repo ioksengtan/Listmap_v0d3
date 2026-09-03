@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { ROOT, buildStaticPayload } = require('./csv-data');
+const { ROOT, buildStaticPayload, normalizeStoryTags } = require('./csv-data');
 
 function assert(cond, msg) {
   if (!cond) {
@@ -44,6 +44,10 @@ const s1024 = payload.stories.find(s => s.story_id === '1024');
 assert(s1024, 'story 1024 missing');
 assert(s1024.title === '新竹牛肉麵五選', 'story 1024 title');
 assert(s1024.author === 'Yu-Sheng', 'story 1024 author');
+assert(s1024.tags === '吃,去過', 'story 1024 tags must be 吃,去過 (quoted CSV field)');
+assert(s1024.visibility === 'public', 'story 1024 visibility must stay public (not shifted by unquoted tags)');
+assert(s1024.thumbnail === '', 'story 1024 thumbnail must stay empty');
+assert(s1024.avatar === '', 'story 1024 avatar must stay empty');
 assert(!payload.stories.some(s => s.story_id === '1022' || s.story_id === '1023'), 'S1022/S1023 should not be added');
 
 const lm1024 = payload.landmarks.filter(l => l.story_id === '1024');
@@ -92,6 +96,25 @@ assert(onDisk.stories.some(s => s.story_id === '1010'), 'checked-in JSON missing
 assert(onDisk.landmarks.some(l => l.story_id === '1010'), 'checked-in JSON missing 1010 landmarks');
 assert(onDisk.stories.some(s => s.story_id === '1024'), 'checked-in JSON missing 1024');
 assert(onDisk.landmarks.filter(l => l.story_id === '1024').length === 5, 'checked-in JSON missing 1024 landmarks');
+const onDisk1024 = onDisk.stories.find(s => s.story_id === '1024');
+assert(onDisk1024.tags === '吃,去過', 'checked-in JSON S1024 tags');
+assert(onDisk1024.visibility === 'public', 'checked-in JSON S1024 visibility');
+assert(onDisk1024.thumbnail === '', 'checked-in JSON S1024 thumbnail');
+
+assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
+assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
+assert(normalizeStoryTags('bucket list') === '', 'normalize drops non-vocab tags');
+assert(normalizeStoryTags('吃,吃,去過') === '吃,去過', 'normalize de-dupes');
+
+const storiesCsv = fs.readFileSync(path.join(ROOT, 'data', 'stories.csv'), 'utf8');
+assert(/1024,,新竹牛肉麵五選,blog,,Yu-Sheng,blog,Hsinchu,,"吃,去過",,public,2026-09-02,,/.test(storiesCsv),
+  'S1024 CSV row must quote the tags field so 吃,去過 stay in tags');
+assert(!/Hsinchu,,,吃,去過,,public/.test(storiesCsv), 'S1024 must not split unquoted tags into thumbnail/visibility');
+
+assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
+assert(indexJs.includes('hashtagsHtml'), 'index.js should render story hashtags on homepage list');
+assert(fs.readFileSync(path.join(ROOT, 'js', 'static-data.js'), 'utf8').includes('parseAllowedTags'),
+  'static-data.js should filter tags to the public vocabulary');
 
 // i18n: chrome dictionary + story overlays (no duplicate CSV rows, no /api)
 const langJs = fs.readFileSync(path.join(ROOT, 'js', 'language.js'), 'utf8');

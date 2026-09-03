@@ -95,7 +95,7 @@ body > .containe-fluid {
   background-color:white;
   position:absolute;
   width:45%;
-  z-index: 99;
+  z-index: 1000;
   height:80%;
   opacity: 0.9;
   top:15%;
@@ -115,7 +115,7 @@ body > .containe-fluid {
   line-height: 1.45;
 }
 
-#maplist.maplist-visible a {
+#maplist.maplist-visible a.story-list-link {
   color: #0d6efd;
   text-decoration: none;
   cursor: pointer;
@@ -320,4 +320,28 @@ margin-top:10px;
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+.story-hashtags {
+  padding: 4px 16px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.story-hashtag {
+  color: #0b6e99;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 0.55em;
+  cursor: pointer;
+}
+.story-hashtag:hover,
+.story-hashtag:focus {
+  text-decoration: underline;
+  color: #084c69;
+}
+#maplist .story-hashtags {
+  display: inline;
+  padding: 0;
+  margin-left: 6px;
+  font-size: 12px;
 }

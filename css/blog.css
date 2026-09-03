@@ -606,3 +606,26 @@ margin-top:10px;
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
+
+.story-hashtags {
+  padding: 4px 16px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.story-hashtag {
+  color: #0b6e99;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 0.55em;
+  cursor: pointer;
+}
+.story-hashtag:hover,
+.story-hashtag:focus {
+  text-decoration: underline;
+  color: #084c69;
+}
+.blog-article-card .story-hashtags {
+  padding: 0;
+  margin: 2px 0 6px;
+  font-size: 13px;
+}

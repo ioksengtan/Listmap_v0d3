@@ -55,12 +55,15 @@ function renderHomepageList() {
         $link.append(document.createTextNode('@'));
         $link.append($('<span>').text(who));
         $link.append(document.createTextNode(', ' + name));
+        $link.addClass('story-list-link');
         $link.on('click', function (e) {
             e.preventDefault();
             $cb.prop('checked', true);
             zoomHomepageStory(s.story_id);
         });
         $li.append($cb).append($link);
+        var tagsHtml = ListmapData.hashtagsHtml(s.tags);
+        if (tagsHtml) $li.append(tagsHtml);
         $ul.append($li);
         StoriesDict[s.story_id] = s;
     });
