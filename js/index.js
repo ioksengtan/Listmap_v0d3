@@ -1,12 +1,26 @@
 ﻿StoriesDict = {};
 var homepageStoryLayer = null;
 
+/** Visitor homepage only heroes clearly public stories. */
+var HOMEPAGE_STORY_IDS = ['1024'];
+
 function escapeHtml(str) {
     return String(str || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
+}
+
+function publicHomepageStories() {
+    var all = ListmapData.getRecentStories().table || [];
+    return HOMEPAGE_STORY_IDS.map(function (id) {
+        return all.find(function (s) {
+            return String(s.story_id) === String(id);
+        });
+    }).filter(function (s) {
+        return s && (!s.visibility || s.visibility === 'public' || ListmapData.isLocalhost());
+    });
 }
 
 function zoomHomepageStory(storyId) {
@@ -40,23 +54,23 @@ function renderHomepageList() {
     var $ul = $('#maplist ul');
     if (!$ul.length) return;
     $ul.empty();
-    var stories = ListmapData.getRecentStories().table;
+    var stories = publicHomepageStories();
     stories.forEach(function (s) {
         var what = s.what || s.type || '';
         var who = s.author || '';
         var name = s.title || s.story_id;
         var $li = $('<li>');
-        var $cb = $('<input type="checkbox" aria-label="Toggle story on map">');
+        var $cb = $('<input type="checkbox" aria-label="Toggle story on map" checked>');
         $cb.on('change', function () {
             if (this.checked) zoomHomepageStory(s.story_id);
         });
-        var $link = $('<a href="#">');
+        var $link = $('<a class="story-list-link">');
+        $link.attr('href', 'blog.html#' + s.story_id);
         $link.append($('<span>').text(what));
         $link.append(document.createTextNode('@'));
         $link.append($('<span>').text(who));
         $link.append(document.createTextNode(', ' + name));
-        $link.on('click', function (e) {
-            e.preventDefault();
+        $link.on('click', function () {
             $cb.prop('checked', true);
             zoomHomepageStory(s.story_id);
         });
@@ -68,18 +82,13 @@ function renderHomepageList() {
 }
 
 $(document).ready(function () {
-    const i18n = new VueI18n({
-        locale: 'en',
-        messages,
-    });
-    new Vue({ i18n }).$mount('#dropdown');
-
     if (typeof mymap === 'undefined' || !mymap) {
         initMap();
     }
 
     ListmapData.load().done(function () {
         renderHomepageList();
+        if (HOMEPAGE_STORY_IDS[0]) zoomHomepageStory(HOMEPAGE_STORY_IDS[0]);
     }).fail(function () {
         console.error('Failed to load data/static.json');
     });

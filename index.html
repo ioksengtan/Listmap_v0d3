@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
    <head>
-      <title>Listmap</title>
+      <title>Listmap · 個人地圖故事</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -11,26 +11,13 @@
   crossorigin=""></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-   <script src="https://unpkg.com/vue-i18n@8.27.0/dist/vue-i18n.js"></script>
-      <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-	<script src="js/leaflet.geometryutil.js"></script>
-	<script src="js/leaflet-arrowheads.js"></script>
 	  <link rel="stylesheet" href="css/index.css">
 
-	<script src="js/language.js"></script>
   <script src="js/map.js"></script>
-        <script src="js/markdown.js"></script>
-		<script src="js/ui_engine.js"></script>
-		<script src="js/variable_engine.js"></script>
-		<script src="js/mdppParser.js"></script>
-		<script src="js/mdpp.js"></script>
 		<script src="js/static-data.js"></script>
 		<script src="js/index.js"></script>
-
-      <script></script>
    </head>
    <body>
 
@@ -43,55 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                     <a class="nav-link active" aria-current="page" href="index.html">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html">Blog</a>
+                     <a class="nav-link" href="blog.html">故事</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">API</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="stories.html">All Stories</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html">Find Stories</a>
-                  </li>
-                  <!--
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                     Dropdown
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                           <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                     </ul>
-                  </li>
-                -->
-               </ul>
-
-<div class="dropdown" id='dropdown'>
-  <button class="dropbtn" v-html="$t('message.lab')"></button>
-  <div class="dropdown-content">
-    <a href="#" v-html="$t('message.tour')"></a>
-    <a href="#" v-html="$t('message.task')"></a>
-    <a href="#" v-html="$t('message.QandA')"></a>
-  </div>
-</div>
-               <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-               </form>
-               <ul class="navbar-nav ml-auto ">
-                  <li class="nav-item avatar">
-                     <a class="nav-link p-0" href="#">
-                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                        alt="avatar image" height="35">
-                     </a>
+                     <a class="nav-link" href="about.html">關於</a>
                   </li>
                </ul>
             </div>
@@ -102,93 +47,29 @@
          <div class="row map-split" style="height:100%; width:100%;">
             <div id="map" class="col left"></div>
             <div id="maplist">
-
-              <button type="button" class="btn btn-primary">apply</button>
-              <br/>
-              <br/>
+                <p class="maplist-heading">公開故事</p>
                 <ul>
                 </ul>
             </div>
             <div class="col right" id="gpstory_main">
-              <!--
-               <div class="gpstory_catagory">
-                 category:
-                  <ul>
-                     <button type="button">book</button>
-                       <button type="button">webpage</button>
-                       <button type="button">youtube</button>
-                  </ul>
-               </div>
-             -->
-
 			   <div id="geostory_blog">
+                 <div class="visitor-intro">
+                   <p class="visitor-kicker">Listmap</p>
+                   <h1>個人地圖故事</h1>
+                   <p>把親身走過的地方寫成地圖故事。不是行程規劃工具，也不是實驗室示範頁。</p>
+                   <p>首頁只放目前對外公開的故事。點地圖圖釘或左側列表，就能對上店家位置。</p>
 
-				<img src="https://miro.medium.com/max/875/0*2IFNVtOtqklrmSCA" />
-			    <p>溫泉對我來說不分春夏秋冬、白天晝夜，“如果我不在家，就是在泡溫泉；如果不是在泡溫泉，就是在往溫泉的路上”用這句話形容我工作以外的生活一點都不為過。</p>
-				<p>因此像我這樣對溫泉上癮的人來到九州旅行，簡直就是景點為輔、溫泉為主，從最高檔的溫泉旅館，到最便宜的市營溫泉都沒放過，如何在合理預算內達到北九州5天4夜，攻下6個溫泉（黑川、由布院、別府、武雄、日田、二日市）；完成12泡之不可能的任務，且聽我心得分享。</p>
-				<!-- Image Map Generated by http://www.image-map.net/ -->
-				<img src="img/map_kyushu.jpg" usemap="#image-map">
-
-				<map name="image-map">
-					<area target="_self" alt="福岡" title="福岡" href="javascript:zoomto({'lat': -34.003646,'lng': 18.469909}, 16)" coords="341,82,373,99" shape="rect">
-					<area alt="熊本" title="熊本" href="javascript:zoomto({'lat':32.8061859, 'lng':130.7058335}, 15)" coords="376,196,411,215" shape="rect">
-				</map>
-
-
-				<p>使用交通工具：黑川溫泉巴士(福岡-黑川)¥3,090+(黑川-由布院)¥1,700；JR PASS〈北部九州版3日券〉¥8500；別府巴士¥340+¥190+¥310；&...萬能的雙腿！</p>
-				<p>使用交通工具：黑川溫泉巴士(福岡-黑川)¥3,090+(黑川-由布院)¥1,700；JR PASS〈北部九州版3日券〉¥8500；別府巴士¥340+¥190+¥310；&...萬能的雙腿！</p>
-				<p>使用交通工具：黑川溫泉巴士(福岡-黑川)¥3,090+(黑川-由布院)¥1,700；JR PASS〈北部九州版3日券〉¥8500；別府巴士¥340+¥190+¥310；&...萬能的雙腿！</p>
-				<p>使用交通工具：黑川溫泉巴士(福岡-黑川)¥3,090+(黑川-由布院)¥1,700；JR PASS〈北部九州版3日券〉¥8500；別府巴士¥340+¥190+¥310；&...萬能的雙腿！</p>
-				<p>使用交通工具：黑川溫泉巴士(福岡-黑川)¥3,090+(黑川-由布院)¥1,700；JR PASS〈北部九州版3日券〉¥8500；別府巴士¥340+¥190+¥310；&...萬能的雙腿！</p>
-				<p>test</p>
+                   <article class="visitor-featured">
+                     <p class="visitor-kicker">公開故事 · S1024</p>
+                     <h2>新竹牛肉麵五選</h2>
+                     <p>城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
+                     <a class="visitor-cta" href="blog.html#1024">閱讀這則故事</a>
+                   </article>
+                 </div>
 			   </div>
-               <!--
-               <div class="accordion" id="accordionExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_2">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </button>
-                    </h2>
-                    <div id="collapse_2" class="accordion-collapse collapse" aria-labelledby="heading_2" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              -->
             </div>
          </div>
       </div>
-      <!-- Leaflet map is initialized by js/index.js via initMap(). -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
    </body>
 </html>

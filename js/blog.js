@@ -14,21 +14,17 @@ var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
 
-// 手動定義索引標記：位置 + 對應的動作
-// type: 'story' → 載入某篇故事; type: 'latest' → 載入最新文章
-// 座標要放在初始視野內（中心 25.1, 121.5  zoom:5 大致涵蓋東亞）
-// 首頁地圖只顯示這些索引標記（對應首頁有提到的內容）
+// Visitor index heroes: only clearly public stories (S1024).
+// Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MARKERS = [
-    { label: '海德堡城市漫遊', type: 'story', story_id: '1001' },
-    { label: '紐約球場之旅', type: 'story', story_id: '258' },
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
-    // 東京系列用一個 collection 標記代表，定位在東京市中心
-    { label: '醉旅宿東京篇', type: 'collection', collection_id: '101', lat: 35.6812, lng: 139.7671 },
 ];
 
 $(document).ready(function() {
-    const i18n = new VueI18n({ locale: 'en', messages });
-    new Vue({ i18n }).$mount('#dropdown');
+    if (document.getElementById('dropdown') && window.VueI18n && typeof messages !== 'undefined') {
+        const i18n = new VueI18n({ locale: 'en', messages });
+        new Vue({ i18n }).$mount('#dropdown');
+    }
 
     initMap();
 
