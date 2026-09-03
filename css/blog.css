@@ -367,6 +367,19 @@ margin-top:10px;
 #blog-welcome {
   padding: 24px 16px 40px;
 }
+#blog-welcome .visitor-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin: 0 0 8px;
+}
+#geostory_blog #blog-welcome p {
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 12px;
+}
 .blog-home-heading {
   font-size: 14px;
   font-weight: 700;

@@ -1,248 +1,52 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
    <head>
-      <title>Listmap</title>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-   <script src="https://unpkg.com/vue-i18n@8.27.0/dist/vue-i18n.js"></script>
-      <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+      <title>關於 Listmap · 個人地圖故事</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-	<script src="js/leaflet.geometryutil.js"></script>
-	<script src="js/leaflet-arrowheads.js"></script>
 	  <link rel="stylesheet" href="css/about.css">
-
 	<script src="js/language.js"></script>
-  <script src="js/map.js"></script>
-        <script src="js/markdown.js"></script>
-		<script src="js/ui_engine.js"></script>
-		<script src="js/variable_engine.js"></script>
-		<script src="js/mdppParser.js"></script>
-		<script src="js/mdpp.js"></script>
-		<script src="js/about.js"></script>
-
-      <script></script>
+	<script src="js/about.js"></script>
    </head>
-   <body>
+   <body class="about-page">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Listmap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-i18n-aria="nav.toggle">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                     <a class="nav-link" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html">Blog</a>
+                     <a class="nav-link" href="blog.html" data-i18n="nav.stories">故事</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">API</a>
+                     <a class="nav-link active" aria-current="page" href="about.html" data-i18n="nav.about">關於</a>
                   </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="stories.html">All Stories</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html">Find Stories</a>
-                  </li>
-                  <!--
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                     Dropdown
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                           <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                     </ul>
-                  </li>
-                -->
                </ul>
-
-<div class="dropdown" id='dropdown'>
-  <button class="dropbtn" v-html="$t('message.lab')"></button>
-  <div class="dropdown-content">
-    <a href="#" v-html="$t('message.tour')"></a>
-    <a href="#" v-html="$t('message.task')"></a>
-    <a href="#" v-html="$t('message.QandA')"></a>
-  </div>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
+  <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
 </div>
-               <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-               </form>
-               <ul class="navbar-nav ml-auto ">
-                  <li class="nav-item avatar">
-                     <a class="nav-link p-0" href="#">
-                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                        alt="avatar image" height="35">
-                     </a>
-                  </li>
-               </ul>
             </div>
          </div>
       </nav>
-      <div class="containe-fluid" style="height:100%; width:100%;">
 
-         <div class="row" style="height:100%; width:100%;">
-            <div id="map" class="col left"></div>
-            <div id="maplist">
+      <main class="about-main">
+         <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
+         <h1 data-i18n="visitor.title">個人地圖故事</h1>
+         <p data-i18n="visitor.aboutLead">Listmap 把親身走過的地方寫成地圖故事：店家、路、還記得的距離，都落在真實座標上。訪客可以讀故事、點地名、看地圖，不需要帳號。</p>
+         <p data-i18n="visitor.aboutHint">這不是行程規劃平台，也不是實驗室示範頁。公開頁只走靜態資料。</p>
+         <p data-i18n="visitor.aboutPublic">現在對外公開兩篇：〈新竹牛肉麵五選〉、〈陽明山：住一晚，走兩天〉。</p>
+         <p><a class="visitor-cta" href="blog.html#1024" data-i18n="visitor.read1024">閱讀新竹牛肉麵五選</a></p>
+         <p><a class="visitor-cta" href="blog.html#1025" data-i18n="visitor.read1025">閱讀陽明山：住一晚，走兩天</a></p>
+      </main>
 
-              <button type="button" class="btn btn-primary">apply</button>
-              <br/>
-              <br/>
-                <ul>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                    <li><input type="checkbox" aria-label="Checkbox for following text input"><span>what</span>@<span>who</span>, name</li>
-                </ul>
-            </div>
-            <div class="col right" id="gpstory_main">
-              <!--
-               <div class="gpstory_catagory">
-                 category:
-                  <ul>
-                     <button type="button">book</button>
-                       <button type="button">webpage</button>
-                       <button type="button">youtube</button>
-                  </ul>
-               </div>
-             -->
-
-			   <div id="geostory_blog">
-			<p> Best world-explore planning site </p>
-			<p> 歡迎來到全球探索規劃的終極目的地！在Listmap，我們致力於為您提供最全面、最令人興奮的工具，幫助您踏上難忘的全球之旅。無論您是尋求新視野的資深旅行者，還是怀著探索世界之美的初次冒險者，我們的平臺都旨在成為您在打造完美旅行體驗時值得信賴的夥伴。
-
-步入一個無限可能的領域，我們賦予您輕鬆創建、定制和組織夢想中行程的力量。我們的旅行愛好者團隊精心策劃了一系列資源、貼士和見解，迎合各類旅行者的需求，確保您的探索計劃不僅流暢無縫，更注入了冒險精神。
-
-瀏覽目的地指南、內幕推薦和等待您去發現的隱藏寶藏。我們用戶友好的界面讓您輕鬆瀏覽各種選項，可以根據興趣、偏好和志向量身定制您的旅行計劃。
-
-加入我們，一起慶祝探索之美。世界就是您的畫布，而我們在這裡，幫助您繪製屬於自己獨特的冒險。從Listmap開始規劃您的下一個探險，成為您打造最佳世界探索體驗的值得信賴的夥伴。您的冒險從這裡開始！</p>
-            <p> Welcome to the ultimate destination for world exploration planning! At Listmap, we are dedicated to providing you with the most comprehensive and exciting tools to help you embark on unforgettable journeys across the globe. Whether you're a seasoned traveler seeking new horizons or a first-time adventurer eager to discover the wonders of the world, our platform is designed to be your trusted companion in crafting the perfect travel experiences.
-
-Step into a realm of boundless possibilities as we empower you to create, customize, and organize your dream itineraries with ease. Our team of travel enthusiasts has meticulously curated a collection of resources, tips, and insights that cater to every type of traveler, ensuring that your exploration plans are not only seamless but also infused with the spirit of adventure.
-
-Navigate through a treasure trove of destination guides, insider recommendations, and hidden gems waiting to be uncovered. Our user-friendly interface lets you seamlessly browse through a plethora of options, allowing you to tailor your travel plans to your interests, preferences, and aspirations.
-
-Join us on a journey that celebrates the art of exploration. The world is your canvas, and we are here to help you paint your own unique adventure. Start planning your next escapade with [Website Name], your trusted partner in crafting the best world-exploration experiences. Your adventure begins here!</p>
-			<p>Listmap是一個非常實用的地圖應用工具，它可以讓使用者更方便地探索和瀏覽介紹旅遊景點的資訊。使用者可以透過這個應用將 YouTube 影片、網頁、Podcast 中提到的地點和時間標記下來，並且將它們以地圖的形式呈現。除此之外，Listmap還提供了一個方便的景點筆記功能，讓使用者可以自己添加和管理喜愛的景點和筆記。</p>
-			
-            <p>Listmap is a highly practical map application tool that allows users to explore and browse information about travel destinations more conveniently. Through this application, users can mark down locations and time stamps mentioned in YouTube videos, web pages, and podcasts, and present them in the form of a map. Additionally, Listmap provides a convenient note-taking feature for destinations, enabling users to add and manage their favorite locations and notes.</p>
-               
-               
-               
-
-
-			   </div>
-               <!--
-               <div class="accordion" id="accordionExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_2">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </button>
-                    </h2>
-                    <div id="collapse_2" class="accordion-collapse collapse" aria-labelledby="heading_2" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        <ul>
-                            <li>test1</li>
-                            <li>test1</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              -->
-            </div>
-         </div>
-      </div>
-      <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-      <script
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsiStpIlMr_0RhLo9gvJ_gUjjpCRvPXmk&callback=initMap&libraries=&v=weekly"
-         async
-         ></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
    </body>
 </html>

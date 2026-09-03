@@ -129,6 +129,43 @@ assert(/flex-direction:\s*column/.test(blogCss), 'blog.css should stack map abov
 assert(/flex-direction:\s*column/.test(indexCss), 'index.css should stack map above copy on narrow screens');
 assert(!/javascript:zoomto/.test(indexJs), 'index.js must not use javascript:zoomto');
 
+const aboutHtml = fs.readFileSync(path.join(ROOT, 'about.html'), 'utf8');
+const aboutJs = fs.readFileSync(path.join(ROOT, 'js', 'about.js'), 'utf8');
+
+assert(/個人地圖故事/.test(indexHtml), 'homepage copy should say 個人地圖故事');
+assert(/個人地圖故事/.test(aboutHtml), 'about copy should say 個人地圖故事');
+assert(/blog\.html#1024/.test(indexHtml), 'homepage should CTA to blog.html#1024');
+assert(/blog\.html#1025/.test(indexHtml), 'homepage should CTA to blog.html#1025');
+assert(/blog\.html#1024/.test(aboutHtml), 'about should CTA to blog.html#1024');
+assert(/blog\.html#1025/.test(aboutHtml), 'about should CTA to blog.html#1025');
+assert(!/href=["']\/api/.test(indexHtml), 'index.html must not link to /api');
+assert(!/href=["']\/api/.test(aboutHtml), 'about.html must not link to /api');
+assert(!/>API<\/a>/.test(indexHtml), 'index must not hero a dead API nav item');
+assert(!/>API<\/a>/.test(aboutHtml), 'about must not hero a dead API nav item');
+assert(!/appUrl\s*=\s*'\/api'/.test(aboutJs), 'about.js must not hardcode /api');
+assert(!/-34\.003646/.test(indexHtml), 'wrong Kyushu/Cape Town coords must not be on homepage');
+assert(!/map_kyushu/.test(indexHtml), 'Kyushu image map must not be the homepage hero');
+assert(!/javascript:zoomto/.test(indexHtml), 'homepage must not use javascript:zoomto');
+
+const markerBlock = blogJs.match(/var INDEX_MARKERS = \[([\s\S]*?)\];/);
+assert(markerBlock, 'INDEX_MARKERS must be defined');
+assert(/story_id:\s*'1024'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1024');
+assert(/story_id:\s*'1025'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1025');
+assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
+assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
+assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
+assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
+assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"]\]/.test(indexJs), 'homepage list should hero public S1024 and S1025');
+
+const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
+assert(welcomeMatch, 'blog welcome should precede story 1001 section');
+assert(/個人地圖故事/.test(welcomeMatch[0]), 'blog index should say 個人地圖故事');
+assert(/loadStoryById\('1024'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1024');
+assert(/loadStoryById\('1025'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1025');
+assert(!/loadStoryById\('1001'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Heidelberg');
+assert(!/loadStoryById\('258'\)/.test(welcomeMatch[0]), 'blog welcome must not hero NY test');
+assert(!/loadCollectionById\('101'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Tokyo collection');
+
 const staticJsonPath = path.join(ROOT, 'data', 'static.json');
 assert(fs.existsSync(staticJsonPath), 'data/static.json missing — run npm run compile-data');
 const onDisk = JSON.parse(fs.readFileSync(staticJsonPath, 'utf8'));

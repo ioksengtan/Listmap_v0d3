@@ -43,54 +43,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">首頁</a>
+                     <a class="nav-link" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html" data-i18n="nav.blog">文章</a>
+                     <a class="nav-link active" aria-current="page" href="blog.html" data-i18n="nav.stories">故事</a>
                   </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html" data-i18n="nav.explore">探索</a>
-                  </li>				  
                   <li class="nav-item">
                      <a class="nav-link" href="about.html" data-i18n="nav.about">關於</a>
                   </li>
-
-                  <li class="nav-item">
-                     <a class="nav-link" href="find_stories.html" data-i18n="nav.findStories">找故事</a>
-                  </li>
-                  <!--
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                     Dropdown
-                     </a>
-                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                           <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                     </ul>
-                  </li>
-                -->
                </ul>
-
 <div class="lang-switch" role="group" aria-label="Language">
   <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
   <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
 </div>
-               <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="搜尋" aria-label="Search" data-i18n-placeholder="nav.searchPlaceholder" data-i18n-aria="nav.search">
-                  <button class="btn btn-outline-success" type="submit" data-i18n="nav.search">搜尋</button>
-               </form>
-               <ul class="navbar-nav ml-auto ">
-                  <li class="nav-item avatar">
-                     <a class="nav-link p-0" href="#">
-                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                        alt="avatar image" height="35">
-                     </a>
-                  </li>
-               </ul>
             </div>
          </div>
       </nav>
@@ -99,10 +64,6 @@
          <div class="row map-split" style="height:100%; width:100%;">
             <div id="map" class="col left"></div>
             <div id="maplist">
-
-              <button type="button" class="btn btn-primary" data-i18n="home.apply">套用</button>
-              <br/>
-              <br/>
                 <ul>
                 </ul>
             </div>
@@ -131,39 +92,12 @@
 
 			   <div id="geostory_blog">
 
-                 <!-- 首頁：精選文章與故事集 -->
+                 <!-- Visitor index: only clearly public stories -->
                  <div id="blog-welcome">
                    <div class="blog-home-section">
-                     <h3 class="blog-home-heading" data-i18n="home.collections">故事集</h3>
-
-                     <!-- 醉旅宿東京篇 collection card -->
-                     <div class="blog-collection-card" onclick="loadCollectionById('101')">
-                       <div class="blog-collection-card-body">
-                         <div class="blog-collection-badge" data-i18n="home.tokyoBadge">9 篇</div>
-                         <span class="blog-id-tag">C101</span>
-                         <h4 class="blog-collection-title" data-i18n="home.tokyoTitle">醉旅宿介紹東京篇</h4>
-                         <p class="blog-collection-desc" data-i18n="home.tokyoDesc">醉旅宿 Merry Journey 頻道的東京旅遊系列：住宿推薦・市場美食・近郊景點・交通票券完整攻略</p>
-                         <div class="blog-collection-author" data-i18n="home.tokyoAuthor">醉旅宿 Merry Journey</div>
-                       </div>
-                     </div>
-                   </div>
-
-                   <div class="blog-home-section">
-                     <h3 class="blog-home-heading" data-i18n="home.featured">精選文章</h3>
-
-                     <div class="blog-article-card" onclick="loadStoryById('1001')">
-                       <div class="blog-article-card-tag" data-i18n="home.tagCity">城市漫遊</div>
-                       <span class="blog-id-tag">S1001</span>
-                       <h4 class="blog-article-card-title" data-i18n="home.heidelbergTitle">海德堡城市漫遊</h4>
-                       <p class="blog-article-card-desc" data-i18n="home.heidelbergDesc">沿著內卡河漫步，探索哲學家小徑、老橋與千年大學城的歷史氣息。</p>
-                     </div>
-
-                     <div class="blog-article-card" onclick="loadStoryById('258')">
-                       <div class="blog-article-card-tag" data-i18n="home.tagBallpark">球場之旅</div>
-                       <span class="blog-id-tag">S258</span>
-                       <h4 class="blog-article-card-title" data-i18n="home.nyTitle">紐約大聯盟球場之旅</h4>
-                       <p class="blog-article-card-desc" data-i18n="home.nyDesc">在花旗球場感受大聯盟現場的氛圍，賽後探索紐約街頭。</p>
-                     </div>
+                     <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
+                     <h3 class="blog-home-heading" data-i18n="visitor.title">個人地圖故事</h3>
+                     <p data-i18n="visitor.blogLead">目前對外公開兩篇。內部測試與未校正座標的故事不放在這裡。</p>
 
                      <div class="blog-article-card" onclick="loadStoryById('1024')">
                        <div class="blog-article-card-tag" data-i18n-story="1024" data-i18n-story-field="tag">美食</div>

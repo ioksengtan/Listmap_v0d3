@@ -1,6 +1,9 @@
 ﻿StoriesDict = {};
 var homepageStoryLayer = null;
 
+/** Visitor homepage only heroes clearly public stories. */
+var HOMEPAGE_STORY_IDS = ['1024', '1025'];
+
 function escapeHtml(str) {
     return String(str || '')
         .replace(/&/g, '&amp;')
@@ -9,9 +12,19 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
-function zoomHomepageStory(storyId) {
+function publicHomepageStories() {
+    var all = ListmapData.getRecentStories().table || [];
+    return HOMEPAGE_STORY_IDS.map(function (id) {
+        return all.find(function (s) {
+            return String(s.story_id) === String(id);
+        });
+    }).filter(function (s) {
+        return s && (!s.visibility || s.visibility === 'public' || ListmapData.isLocalhost());
+    });
+}
+
+function zoomHomepageStories(ids) {
     if (typeof mymap === 'undefined' || !mymap) return;
-    var landmarks = ListmapData.landmarksByStoryId(storyId);
     var latlngs = [];
     if (homepageStoryLayer) {
         mymap.removeLayer(homepageStoryLayer);
@@ -19,14 +32,16 @@ function zoomHomepageStory(storyId) {
     }
     homepageStoryLayer = L.layerGroup().addTo(mymap);
     var cluster = L.markerClusterGroup();
-    landmarks.forEach(function (lm) {
-        var lat = parseFloat(lm.lat);
-        var lng = parseFloat(lm.lng);
-        if (isNaN(lat) || isNaN(lng)) return;
-        latlngs.push([lat, lng]);
-        L.marker([lat, lng])
-            .bindPopup('<b>' + escapeHtml(lm.name) + '</b>' + (lm.content ? '<br>' + escapeHtml(lm.content) : ''))
-            .addTo(cluster);
+    (ids || []).forEach(function (storyId) {
+        ListmapData.landmarksByStoryId(storyId).forEach(function (lm) {
+            var lat = parseFloat(lm.lat);
+            var lng = parseFloat(lm.lng);
+            if (isNaN(lat) || isNaN(lng)) return;
+            latlngs.push([lat, lng]);
+            L.marker([lat, lng])
+                .bindPopup('<b>' + escapeHtml(lm.name) + '</b>' + (lm.content ? '<br>' + escapeHtml(lm.content) : ''))
+                .addTo(cluster);
+        });
     });
     cluster.addTo(homepageStoryLayer);
     if (latlngs.length === 1) {
@@ -36,28 +51,26 @@ function zoomHomepageStory(storyId) {
     }
 }
 
+function zoomHomepageStory(storyId) {
+    zoomHomepageStories([storyId]);
+}
+
 function renderHomepageList() {
     var $ul = $('#maplist ul');
     if (!$ul.length) return;
     $ul.empty();
-    var stories = ListmapData.getRecentStories().table;
+    var stories = publicHomepageStories();
     stories.forEach(function (s) {
-        var what = s.what || s.type || '';
-        var who = s.author || '';
         var name = s.title || s.story_id;
         var $li = $('<li>');
-        var $cb = $('<input type="checkbox" aria-label="Toggle story on map">');
+        var $cb = $('<input type="checkbox" aria-label="Toggle story on map" checked>');
         $cb.on('change', function () {
             if (this.checked) zoomHomepageStory(s.story_id);
         });
-        var $link = $('<a href="#">');
-        $link.append($('<span>').text(what));
-        $link.append(document.createTextNode('@'));
-        $link.append($('<span>').text(who));
-        $link.append(document.createTextNode(', ' + name));
-        $link.addClass('story-list-link');
-        $link.on('click', function (e) {
-            e.preventDefault();
+        var $link = $('<a class="story-list-link">');
+        $link.attr('href', 'blog.html#' + s.story_id);
+        $link.text(name);
+        $link.on('click', function () {
             $cb.prop('checked', true);
             zoomHomepageStory(s.story_id);
         });
@@ -87,6 +100,7 @@ $(document).ready(function () {
 
     ListmapData.load().done(function () {
         renderHomepageList();
+        zoomHomepageStories(HOMEPAGE_STORY_IDS);
     }).fail(function () {
         console.error('Failed to load data/static.json');
     });
