@@ -22,6 +22,7 @@ var INDEX_MARKERS = [
     { label: '海德堡城市漫遊', type: 'story', story_id: '1001' },
     { label: '紐約球場之旅', type: 'story', story_id: '258' },
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
+    { label: '陽明山：住一晚，走兩天', type: 'story', story_id: '1025' },
     // 東京系列用一個 collection 標記代表，定位在東京市中心
     { label: '醉旅宿東京篇', type: 'collection', collection_id: '101', lat: 35.6812, lng: 139.7671 },
 ];

@@ -61,11 +61,51 @@ assert(lm1024.find(l => l.landmark_id === '476').name === '璽子牛肉麵', '�
 assert(lm1024.find(l => l.landmark_id === '475').content.includes('城隍廟'), '城隍廟 in 475 content');
 assert(lm1024.find(l => l.landmark_id === '475').content.includes('清燉'), '清燉 in 475 content');
 
+const s1025 = payload.stories.find(s => s.story_id === '1025');
+assert(s1025, 'story 1025 missing');
+assert(s1025.title === '陽明山：住一晚，走兩天', 'story 1025 title');
+assert(s1025.author === 'Yu-Sheng', 'story 1025 author');
+assert(s1025.where === 'Yangmingshan', 'story 1025 where');
+assert(s1025.tags === '去過,渡假', 'story 1025 tags must be 去過,渡假 (quoted CSV field)');
+assert(s1025.visibility === 'public', 'story 1025 visibility must stay public (not shifted by unquoted tags)');
+assert(s1025.thumbnail === '', 'story 1025 thumbnail must stay empty');
+assert(s1025.avatar === '', 'story 1025 avatar must stay empty');
+
+const lm1025 = payload.landmarks.filter(l => l.story_id === '1025');
+assert(lm1025.length === 6, 'story 1025 should have 6 landmarks');
+const lm1025Expected = {
+  '480': { name: '陽明山天籟渡假酒店', content: '新北市金山區名流路1-7號。渡假健身基地。弱酸泉。' },
+  '481': { name: '七星山主峰', content: '週六。從小油坑上。' },
+  '482': { name: '小油坑', content: '週六停車與登山口。短陡、噴氣孔。' },
+  '483': { name: '金包里城門', content: '週日魚路北段。' },
+  '484': { name: '憨丙厝地', content: '魚路北段。補草鞋遺跡。' },
+  '485': { name: '上磺溪停車場', content: '魚路北段近金山側。' }
+};
+Object.keys(lm1025Expected).forEach(id => {
+  const lm = lm1025.find(l => l.landmark_id === id);
+  assert(lm, 'landmark ' + id + ' missing for 1025');
+  assert(lm.lat && lm.lng, 'landmark ' + id + ' coords');
+  assert(lm.name === lm1025Expected[id].name, 'landmark ' + id + ' name');
+  assert(lm.content === lm1025Expected[id].content, 'landmark ' + id + ' PM content');
+});
+
 const blogHtml = fs.readFileSync(path.join(ROOT, 'blog.html'), 'utf8');
 const m1024 = blogHtml.match(/data-story-id="1024"[\s\S]*?<\/section>/);
 assert(m1024, 'blog.html missing story 1024 section');
 assert(!/javascript:zoomto/.test(m1024[0]), 'story 1024 must not use javascript:zoomto');
 assert((m1024[0].match(/class="map-place-link"/g) || []).length >= 5, 'story 1024 place links');
+const m1025 = blogHtml.match(/data-story-id="1025"[\s\S]*?<\/section>/);
+assert(m1025, 'blog.html missing story 1025 section');
+assert(!/javascript:zoomto/.test(m1025[0]), 'story 1025 must not use javascript:zoomto');
+assert(!/\/api/.test(m1025[0]), 'story 1025 must not call /api');
+assert((m1025[0].match(/class="map-place-link"/g) || []).length >= 9, 'story 1025 place links');
+['480', '481', '482', '483', '484', '485'].forEach(id => {
+  assert(m1025[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1025 section landmark ' + id);
+});
+assert(m1025[0].includes('補口氣——以前過路人在這補草鞋'), 'story 1025 keeps 憨丙厝地 補草鞋 line');
+assert(blogHtml.includes("loadStoryById('1025')"), 'blog index card for S1025');
+assert(blogHtml.includes('data-i18n-story="1025"'), 'blog S1025 overlay hooks');
+assert(blogJs.includes("story_id: '1025'"), 'blog.js index markers include S1025');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
 
 const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
@@ -100,6 +140,14 @@ const onDisk1024 = onDisk.stories.find(s => s.story_id === '1024');
 assert(onDisk1024.tags === '吃,去過', 'checked-in JSON S1024 tags');
 assert(onDisk1024.visibility === 'public', 'checked-in JSON S1024 visibility');
 assert(onDisk1024.thumbnail === '', 'checked-in JSON S1024 thumbnail');
+assert(onDisk.stories.some(s => s.story_id === '1025'), 'checked-in JSON missing 1025');
+assert(onDisk.landmarks.filter(l => l.story_id === '1025').length === 6, 'checked-in JSON missing 1025 landmarks');
+const onDisk1025 = onDisk.stories.find(s => s.story_id === '1025');
+assert(onDisk1025.tags === '去過,渡假', 'checked-in JSON S1025 tags');
+assert(onDisk1025.visibility === 'public', 'checked-in JSON S1025 visibility');
+assert(onDisk1025.thumbnail === '', 'checked-in JSON S1025 thumbnail');
+assert(onDisk.landmarks.find(l => l.story_id === '1025' && l.landmark_id === '480').content.includes('弱酸泉'), 'checked-in JSON 480 PM blurb');
+assert(onDisk.landmarks.find(l => l.story_id === '1025' && l.landmark_id === '484').content === '魚路北段。補草鞋遺跡。', 'checked-in JSON 484 PM blurb');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -110,6 +158,9 @@ const storiesCsv = fs.readFileSync(path.join(ROOT, 'data', 'stories.csv'), 'utf8
 assert(/1024,,新竹牛肉麵五選,blog,,Yu-Sheng,blog,Hsinchu,,"吃,去過",,public,2026-09-02,,/.test(storiesCsv),
   'S1024 CSV row must quote the tags field so 吃,去過 stay in tags');
 assert(!/Hsinchu,,,吃,去過,,public/.test(storiesCsv), 'S1024 must not split unquoted tags into thumbnail/visibility');
+assert(/1025,,陽明山：住一晚，走兩天,blog,,Yu-Sheng,blog,Yangmingshan,,"去過,渡假",,public,2026-09-04,,/.test(storiesCsv),
+  'S1025 CSV row must quote the tags field so 去過,渡假 stay in tags');
+assert(!/Yangmingshan,,,去過,渡假,,public/.test(storiesCsv), 'S1025 must not split unquoted tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(indexJs.includes('hashtagsHtml'), 'index.js should render story hashtags on homepage list');
@@ -159,6 +210,17 @@ assert((storyI18n['1024'].en.html.match(/class="map-place-link"/g) || []).length
 });
 assert(storyI18n['1024'].en.html.indexOf('璽子牛肉麵') !== -1, 'S1024 EN keeps original shop name');
 assert(!storyI18n['1024']['zh-TW'], 'do not duplicate Traditional Chinese body in story-i18n.json');
+assert(storyI18n['1025'] && storyI18n['1025'].en, 'S1025 English overlay');
+assert(/Yangmingshan/i.test(storyI18n['1025'].en.title), 'S1025 English title');
+assert((storyI18n['1025'].en.html.match(/class="map-place-link"/g) || []).length >= 9, 'S1025 EN place links');
+['480', '481', '482', '483', '484', '485'].forEach(id => {
+  assert(storyI18n['1025'].en.html.indexOf('data-landmark="' + id + '"') !== -1, 'S1025 EN landmark ' + id);
+});
+assert(storyI18n['1025'].en.html.indexOf('javascript:zoomto') === -1, 'S1025 EN must not use javascript:zoomto');
+assert(storyI18n['1025'].en.html.indexOf('憨丙厝地') !== -1, 'S1025 EN keeps 憨丙厝地 name');
+assert(storyI18n['1025'].en.html.indexOf('catch your breath') !== -1 || storyI18n['1025'].en.html.indexOf('補草鞋') !== -1,
+  'S1025 EN keeps the straw-sandal rest line');
+assert(!storyI18n['1025']['zh-TW'], 'do not duplicate Traditional Chinese body for S1025 in story-i18n.json');
 assert(storyI18n['1002'] && storyI18n['1002'].en && storyI18n['1002'].en.html, 'Tokyo S1002 English overlay');
 assert(!onDisk.stories.filter(s => s.story_id === '1024').length || onDisk.stories.filter(s => s.story_id === '1024').length === 1, 'S1024 must not duplicate CSV rows');
 assert(onDisk.landmarks.find(l => l.story_id === '1024' && l.landmark_id === '476').name === '璽子牛肉麵', 'pin name stays original in static JSON');
@@ -174,7 +236,6 @@ assert(afterLang && !/initMap/.test(afterLang[0]), 'language switch must not re-
 assert(!/location\.reload/.test(blogJs), 'language switch must not reload the page');
 assert(/bindPopup\('<b>' \+ lm\.name/.test(blogJs), 'pin popup uses original landmark name');
 
-const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 assert(indexHtml.includes('data-i18n="nav.home"'), 'homepage chrome through data-i18n');
 assert(indexHtml.includes('data-lang="en"'), 'homepage language switcher');
 assert(indexJs.includes('ListmapI18n'), 'index.js uses ListmapI18n');
