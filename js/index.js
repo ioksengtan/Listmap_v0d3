@@ -56,8 +56,6 @@ function renderHomepageList() {
     $ul.empty();
     var stories = publicHomepageStories();
     stories.forEach(function (s) {
-        var what = s.what || s.type || '';
-        var who = s.author || '';
         var name = s.title || s.story_id;
         var $li = $('<li>');
         var $cb = $('<input type="checkbox" aria-label="Toggle story on map" checked>');
@@ -66,10 +64,7 @@ function renderHomepageList() {
         });
         var $link = $('<a class="story-list-link">');
         $link.attr('href', 'blog.html#' + s.story_id);
-        $link.append($('<span>').text(what));
-        $link.append(document.createTextNode('@'));
-        $link.append($('<span>').text(who));
-        $link.append(document.createTextNode(', ' + name));
+        $link.text(name);
         $link.on('click', function () {
             $cb.prop('checked', true);
             zoomHomepageStory(s.story_id);
