@@ -1,5 +1,28 @@
 const locations = []
 
+function invalidateMapSize() {
+    if (typeof mymap === 'undefined' || !mymap || typeof mymap.invalidateSize !== 'function') {
+        return;
+    }
+    mymap.invalidateSize({ animate: false });
+}
+
+function bindMapSizeInvalidation() {
+    if (bindMapSizeInvalidation._bound) {
+        invalidateMapSize();
+        return;
+    }
+    bindMapSizeInvalidation._bound = true;
+    var later = null;
+    function scheduleInvalidate() {
+        invalidateMapSize();
+        if (later) clearTimeout(later);
+        later = setTimeout(invalidateMapSize, 250);
+    }
+    window.addEventListener('resize', scheduleInvalidate);
+    window.addEventListener('orientationchange', scheduleInvalidate);
+}
+
 function flyto(lat, lng){
   mymap.flyTo(L.latLng(lat, lng), 18, {
       animate: true,
@@ -137,6 +160,8 @@ function initMap() {
         zoom: 7,
         layers: [streets]
     });
+
+    bindMapSizeInvalidation();
 
     mymap.on('zoomend', function() {
         console.log('zoom to:' + 'level(' + this.getZoom() + ') ' + this.getCenter());
