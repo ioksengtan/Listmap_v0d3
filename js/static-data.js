@@ -132,6 +132,44 @@
       });
   }
 
+  var ALLOWED_STORY_TAGS = ['去過', '想去', '渡假', '吃'];
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function parseAllowedTags(raw) {
+    var allowed = {};
+    ALLOWED_STORY_TAGS.forEach(function (t) { allowed[t] = true; });
+    var seen = {};
+    var out = [];
+    String(raw || '').split(',').forEach(function (token) {
+      var t = String(token || '').trim();
+      if (!t || !allowed[t] || seen[t]) return;
+      seen[t] = true;
+      out.push(t);
+    });
+    return out;
+  }
+
+  function hashtagsHtml(rawTags) {
+    var tags = parseAllowedTags(rawTags);
+    if (!tags.length) return '';
+    var inner = tags.map(function (t) {
+      return '<a class="story-hashtag" href="#" data-tag="' + escapeHtml(t) + '">#' + escapeHtml(t) + '</a>';
+    }).join(' ');
+    return '<div class="story-hashtags">' + inner + '</div>';
+  }
+
+  $(document).on('click', 'a.story-hashtag', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
   root.ListmapData = {
     assetUrl: assetUrl,
     pageBase: pageBase,
@@ -146,5 +184,8 @@
     getStoriesIndex: getStoriesIndex,
     getCollections: getCollections,
     getStoriesByCollection: getStoriesByCollection,
+    ALLOWED_STORY_TAGS: ALLOWED_STORY_TAGS,
+    parseAllowedTags: parseAllowedTags,
+    hashtagsHtml: hashtagsHtml,
   };
 })(window);

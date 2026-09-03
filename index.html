@@ -15,6 +15,7 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 	  <link rel="stylesheet" href="css/index.css">
 
+	<script src="js/language.js"></script>
   <script src="js/map.js"></script>
 		<script src="js/static-data.js"></script>
 		<script src="js/index.js"></script>
@@ -24,21 +25,25 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Listmap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-i18n-aria="nav.toggle">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html">首頁</a>
+                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="blog.html">故事</a>
+                     <a class="nav-link" href="blog.html" data-i18n="nav.stories">故事</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="about.html">關於</a>
+                     <a class="nav-link" href="about.html" data-i18n="nav.about">關於</a>
                   </li>
                </ul>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
+  <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+</div>
             </div>
          </div>
       </nav>
@@ -47,23 +52,29 @@
          <div class="row map-split" style="height:100%; width:100%;">
             <div id="map" class="col left"></div>
             <div id="maplist">
-                <p class="maplist-heading">公開故事</p>
+                <p class="maplist-heading" data-i18n="visitor.publicStories">公開故事</p>
                 <ul>
                 </ul>
             </div>
             <div class="col right" id="gpstory_main">
 			   <div id="geostory_blog">
                  <div class="visitor-intro">
-                   <p class="visitor-kicker">Listmap</p>
-                   <h1>個人地圖故事</h1>
-                   <p>把親身走過的地方寫成地圖故事。不是行程規劃工具，也不是實驗室示範頁。</p>
-                   <p>首頁只放目前對外公開的故事。點地圖圖釘或左側列表，就能對上店家位置。</p>
+                   <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
+                   <h1 data-i18n="visitor.title">個人地圖故事</h1>
+                   <p data-i18n="visitor.homeLead">把親身走過的地方寫成地圖故事。不是行程規劃工具，也不是實驗室示範頁。</p>
+                   <p data-i18n="visitor.homeHint">首頁只放目前對外公開的故事。點地圖圖釘或左側列表，就能對上店家位置。</p>
 
                    <article class="visitor-featured">
                      <p class="visitor-kicker">公開故事 · S1024</p>
-                     <h2>新竹牛肉麵五選</h2>
-                     <p>城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
-                     <a class="visitor-cta" href="blog.html#1024">閱讀這則故事</a>
+                     <h2 data-i18n-story="1024" data-i18n-story-field="title">新竹牛肉麵五選</h2>
+                     <p data-i18n-story="1024" data-i18n-story-field="cardDesc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
+                     <a class="visitor-cta" href="blog.html#1024" data-i18n="visitor.readStory">閱讀這則故事</a>
+                   </article>
+                   <article class="visitor-featured">
+                     <p class="visitor-kicker">公開故事 · S1025</p>
+                     <h2 data-i18n-story="1025" data-i18n-story-field="title">陽明山：住一晚，走兩天</h2>
+                     <p data-i18n-story="1025" data-i18n-story-field="cardDesc">天籟當基地。小油坑上七星，日走魚路。</p>
+                     <a class="visitor-cta" href="blog.html#1025" data-i18n="visitor.readStory">閱讀這則故事</a>
                    </article>
                  </div>
 			   </div>

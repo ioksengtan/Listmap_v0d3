@@ -37,21 +37,25 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Listmap</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-i18n-aria="nav.toggle">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link" href="index.html">首頁</a>
+                     <a class="nav-link" href="index.html" data-i18n="nav.home">首頁</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="blog.html">故事</a>
+                     <a class="nav-link active" aria-current="page" href="blog.html" data-i18n="nav.stories">故事</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="about.html">關於</a>
+                     <a class="nav-link" href="about.html" data-i18n="nav.about">關於</a>
                   </li>
                </ul>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" class="lang-btn is-active" data-lang="zh-TW" data-i18n="lang.zhTW">繁中</button>
+  <button type="button" class="lang-btn" data-lang="en" data-i18n="lang.en">EN</button>
+</div>
             </div>
          </div>
       </nav>
@@ -76,9 +80,9 @@
              -->
 
                <div id="blog-back-btn" style="display:none; padding:12px 16px;">
-                 <button class="btn btn-sm btn-outline-secondary" onclick="blogGoBack()">← 回索引</button>
+                 <button class="btn btn-sm btn-outline-secondary" onclick="blogGoBack()">← <span data-i18n="home.backIndex">回索引</span></button>
                </div>
-               <div id="blog-story-header" class="px-4 pb-2" style="border-bottom:1px solid #eee; margin-bottom:16px;">
+               <div id="blog-story-header" class="px-4 pb-2" style="display:none; border-bottom:1px solid #eee; margin-bottom:16px;">
                  <h4 id="blog-story-title" style="margin:0;"></h4>
                  <div style="color:#888; font-size:13px; margin-top:4px;">
                    <span id="blog-story-author"></span>
@@ -91,15 +95,22 @@
                  <!-- Visitor index: only clearly public stories -->
                  <div id="blog-welcome">
                    <div class="blog-home-section">
-                     <p class="visitor-kicker">Listmap</p>
-                     <h3 class="blog-home-heading">個人地圖故事</h3>
-                     <p>目前對外公開的一篇。內部測試與未校正座標的故事不放在這裡。</p>
+                     <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
+                     <h3 class="blog-home-heading" data-i18n="visitor.title">個人地圖故事</h3>
+                     <p data-i18n="visitor.blogLead">目前對外公開兩篇。內部測試與未校正座標的故事不放在這裡。</p>
 
                      <div class="blog-article-card" onclick="loadStoryById('1024')">
-                       <div class="blog-article-card-tag">美食</div>
+                       <div class="blog-article-card-tag" data-i18n-story="1024" data-i18n-story-field="tag">美食</div>
                        <span class="blog-id-tag">S1024</span>
-                       <h4 class="blog-article-card-title">新竹牛肉麵五選</h4>
-                       <p class="blog-article-card-desc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
+                       <h4 class="blog-article-card-title" data-i18n-story="1024" data-i18n-story-field="title">新竹牛肉麵五選</h4>
+                       <p class="blog-article-card-desc" data-i18n-story="1024" data-i18n-story-field="cardDesc">城隍廟、清大、光復路、中正路、竹北各一碗，地圖攤開才看得出距離。</p>
+                     </div>
+
+                     <div class="blog-article-card" onclick="loadStoryById('1025')">
+                       <div class="blog-article-card-tag" data-i18n-story="1025" data-i18n-story-field="tag">度假健身</div>
+                       <span class="blog-id-tag">S1025</span>
+                       <h4 class="blog-article-card-title" data-i18n-story="1025" data-i18n-story-field="title">陽明山：住一晚，走兩天</h4>
+                       <p class="blog-article-card-desc" data-i18n-story="1025" data-i18n-story-field="cardDesc">天籟當基地。小油坑上七星，日走魚路。</p>
                      </div>
                    </div>
                  </div>
@@ -146,7 +157,7 @@
                  <!-- collection_id=101：醉旅宿介紹東京篇 -->
                  <section data-collection-id="101" style="display:none;">
                    <div style="padding: 0 16px 16px;">
-                     <h2>醉旅宿介紹東京篇</h2>
+                     <h2 data-i18n="home.tokyoTitle">醉旅宿介紹東京篇</h2>
                      <p style="color:#888; font-size:13px; margin-bottom:16px;">醉旅宿 Merry Journey・9 篇文章</p>
                      <p>醉旅宿 Merry Journey 頻道的東京完整旅遊系列，涵蓋住宿選擇、市場美食、近郊行程與交通票券攻略。點擊下方文章進入詳細內容，地圖將同步顯示對應地標。</p>
 
@@ -157,9 +168,9 @@
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('1002','101')">
-                       <div class="blog-article-card-tag">住宿</div><span class="blog-id-tag">S1002</span>
-                       <h4 class="blog-article-card-title">東京住宿推薦｜品川・大崎・五反田</h4>
-                       <p class="blog-article-card-desc">山手線沿線三個優質住宿區域，各有不同特色與周邊設施。</p>
+                       <div class="blog-article-card-tag" data-i18n-story="1002" data-i18n-story-field="tag">住宿</div><span class="blog-id-tag">S1002</span>
+                       <h4 class="blog-article-card-title" data-i18n-story="1002" data-i18n-story-field="title">東京住宿推薦｜品川・大崎・五反田</h4>
+                       <p class="blog-article-card-desc" data-i18n-story="1002" data-i18n-story-field="cardDesc">山手線沿線三個優質住宿區域，各有不同特色與周邊設施。</p>
                      </div>
 
                      <div class="blog-article-card" onclick="loadStoryById('1004','101')">
@@ -480,6 +491,21 @@
                    <h4 style="padding: 0 16px;">文化城牛肉麵</h4>
                    <p><a class="map-place-link" data-landmark="479" data-zoom="16" href="#">文化城牛肉麵</a>跨到竹北光明一路 486 號，跟市區四家不在同一張比例尺。大塊肉、小菜多，內用紅茶可續。週四公休。豬腳常賣完，想配著吃要早。</p>
                    <p>五家不是一天排完。選一碗當這次的錨，下一碗再從地圖另一側開始。</p>
+                 </section>
+
+                 <!-- story_id=1025：度假健身｜天籟＋七星山＋魚路古道 v3 -->
+                 <section data-story-id="1025" style="display:none;">
+                   <h2 style="padding: 0 16px;">陽明山：住一晚，走兩天</h2>
+                   <p>渡假跟健身拆開，週末會變兩件事：一天車上睡、一天勉強爬山。這次反過來——先訂<a class="map-place-link" data-landmark="480" data-zoom="14" href="#">陽明山天籟渡假酒店</a>當基地，週六爬<a class="map-place-link" data-landmark="481" data-zoom="14" href="#">七星山</a>，週日走<a class="map-place-link" data-landmark="483" data-zoom="14" href="#">魚路古道</a>北段，兩天都從同一張床出發。</p>
+                   <h4 style="padding: 0 16px;">為什麼是天籟</h4>
+                   <p>陽明山往海邊那一側，不是北投商圈。<a class="map-place-link" data-landmark="480" data-zoom="15" href="#">天籟</a>在金山。七星的硫磺在山上吸夠了，進大廳時鼻子已經鈍掉；魚路北段往金山收，走完是往床的方向，不是再塞回市區。回館把腿泡開就好。</p>
+                   <h4 style="padding: 0 16px;">週六｜七星山</h4>
+                   <p>車停<a class="map-place-link" data-landmark="482" data-zoom="15" href="#">小油坑</a>，就從這裡上<a class="map-place-link" data-landmark="481" data-zoom="15" href="#">七星山主峰</a>。石階短、陡，噴氣孔在旁邊響，硫磺往喉嚨裡鑽。腿比肺先抗議。山頂風把汗吹乾，耳朵裡只剩風聲；往下看是白煙和稜線，不是要給誰看的風景。坐一下子，再原路下。回天籟時腿還在抖，泡下去，水溫才對得上這一天。</p>
+                   <h4 style="padding: 0 16px;">週日｜魚路古道北段</h4>
+                   <p>第二天不攻頂。走魚路——金包里大路，舊時魚貨過山的那條。從<a class="map-place-link" data-landmark="483" data-zoom="15" href="#">金包里城門</a>往北、往金山。腳下是不平的石階，樹蔭一段一段接；鞋底沾到濕土的地方，步距會自動變短。<a class="map-place-link" data-landmark="484" data-zoom="15" href="#">憨丙厝地</a>石厝邊能停，補口氣——以前過路人在這補草鞋。再往<a class="map-place-link" data-landmark="485" data-zoom="15" href="#">上磺溪</a>，離天籟更近。把昨天的陡坡，收到一條會回家的路上。</p>
+                   <p>之後若重走，登山口開閉以陽明山國家公園／現場公告為準（上磺溪曾有封閉公告）。這次有走到。</p>
+                   <p>地圖順序：天籟 → 小油坑／七星 → 城門／憨丙厝地 → 回天籟。兩天共用一個睡覺的座標。</p>
+                   <p>還想寫：北台灣其他「住一晚＋走兩天」、騎車、海邊、活水湖休假——下一篇再釘。系列「度假健身」第一篇。</p>
                  </section>
 
             </div>

@@ -14,16 +14,23 @@ var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
 
-// Visitor index heroes: only clearly public stories (S1024).
+// Visitor index heroes: only clearly public stories (S1024, S1025).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MARKERS = [
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
+    { label: '陽明山：住一晚，走兩天', type: 'story', story_id: '1025' },
 ];
 
 $(document).ready(function() {
-    if (document.getElementById('dropdown') && window.VueI18n && typeof messages !== 'undefined') {
-        const i18n = new VueI18n({ locale: 'en', messages });
-        new Vue({ i18n }).$mount('#dropdown');
+    function afterLanguageChange() {
+        refreshDynamicI18n();
+        if (typeof mymap !== 'undefined' && mymap && typeof mymap.invalidateSize === 'function') {
+            mymap.invalidateSize();
+        }
+    }
+
+    if (window.ListmapI18n) {
+        ListmapI18n.init({ onChange: afterLanguageChange });
     }
 
     initMap();
@@ -48,7 +55,7 @@ $(document).ready(function() {
         options: { position: 'bottomleft' },
         onAdd: function() {
             var btn = L.DomUtil.create('button', 'map-back-btn');
-            btn.innerHTML = '← 回索引';
+            btn.innerHTML = '← ' + (window.ListmapI18n ? ListmapI18n.t('home.backIndex') : '回索引');
             btn.style.display = 'none';
             L.DomEvent.on(btn, 'click', function(e) {
                 L.DomEvent.stopPropagation(e);
@@ -60,6 +67,37 @@ $(document).ready(function() {
     mapBackControl = new BackControl();
     mymap.addControl(mapBackControl);
 });
+
+function i18nText(key, fallback) {
+    if (window.ListmapI18n) return ListmapI18n.t(key);
+    return fallback;
+}
+
+function refreshDynamicI18n() {
+    if (mapBackControl && mapBackControl.getContainer()) {
+        var el = mapBackControl.getContainer();
+        if (el && el.classList && el.classList.contains('map-back-btn')) {
+            el.innerHTML = '← ' + i18nText('home.backIndex', '回索引');
+        } else if (el) {
+            var btn = el.querySelector ? el.querySelector('.map-back-btn') : null;
+            if (btn) btn.innerHTML = '← ' + i18nText('home.backIndex', '回索引');
+        }
+    }
+    var back = $('#blog-back-btn');
+    if (back.is(':visible')) {
+        if (previousView && previousView.type === 'collection') {
+            showPanelBackBtn(previousView.title, 'blogGoBack()');
+        } else if (previousView) {
+            showPanelBackBtn(i18nText('home.backHome', '回首頁'), 'blogGoBack()');
+        }
+    }
+    var vis = $('[data-story-id]:visible');
+    if (vis.length) {
+        var sid = vis.attr('data-story-id');
+        injectStoryHashtags(vis, tagsForStoryId(sid));
+        buildLayersPanel(sid);
+    }
+}
 
 function loadIndexMarkers() {
     indexLayer = L.layerGroup();
@@ -115,8 +153,11 @@ function loadIndexMarkers() {
             var sid = m[1];
             if (!storyMap[sid]) {
                 $(this).hide(); // 不在 API 回傳中（internal 且非 localhost）
-            } else if (storyMap[sid].visibility === 'internal') {
-                $(this).find('.blog-id-tag').before('<span class="story-internal-badge" style="font-size:10px;padding:1px 5px;margin-right:4px;">Internal</span>');
+            } else             if (storyMap[sid].visibility === 'internal') {
+                $(this).find('.blog-id-tag').before('<span class="story-internal-badge" style="font-size:10px;padding:1px 5px;margin-right:4px;">' + i18nText('badge.internal', 'Internal') + '</span>');
+            }
+            if (storyMap[sid]) {
+                injectStoryHashtags($(this), storyMap[sid].tags);
             }
         });
 
@@ -370,16 +411,46 @@ function loadStory(story, fromCollection) {
         showPanelBackBtn(fromCollection.title, "blogGoBack()");
     } else {
         previousView = 'home';
-        showPanelBackBtn('回首頁', "blogGoBack()");
+        showPanelBackBtn(i18nText('home.backHome', '回首頁'), "blogGoBack()");
     }
     if (mapBackControl) $(mapBackControl.getContainer()).hide();
 
     $('#blog-welcome').hide();
     $('[data-story-id], [data-collection-id]').hide();
     var section = $('[data-story-id="' + story.story_id + '"]').show();
+    injectStoryHashtags(section, story.tags);
     if (story.visibility === 'internal') {
-        section.find('h2').first().append('<span class="story-internal-badge">Internal</span>');
+        section.find('h2').first().append('<span class="story-internal-badge">' + i18nText('badge.internal', 'Internal') + '</span>');
     }
+}
+
+function injectStoryHashtags($root, rawTags) {
+    if (!$root || !$root.length) return;
+    $root.find('.story-hashtags').remove();
+    var html = (window.ListmapData && ListmapData.hashtagsHtml)
+        ? ListmapData.hashtagsHtml(rawTags)
+        : '';
+    if (!html) return;
+    var $h2 = $root.children('h2').first();
+    if ($h2.length) {
+        $h2.after(html);
+        return;
+    }
+    var $title = $root.find('.blog-article-card-title').first();
+    if ($title.length) {
+        $title.after(html);
+        return;
+    }
+    $root.prepend(html);
+}
+
+function tagsForStoryId(storyId) {
+    var sid = String(storyId);
+    if (!window.ListmapData || !ListmapData.stories) return '';
+    var story = ListmapData.stories().find(function (s) {
+        return String(s.story_id) === sid;
+    });
+    return story ? story.tags : '';
 }
 
 function buildLayersPanel(storyId) {
@@ -388,23 +459,23 @@ function buildLayersPanel(storyId) {
     if (!storyMarkerItems.length && !storyEdgeItems.length && !storyRegionItems.length) return;
 
     var html = '<div class="map-layers-panel">';
-    html += '<div class="map-layers-header">地圖圖層 <span class="map-layers-arrow">▾</span></div>';
+    html += '<div class="map-layers-header">' + i18nText('layers.title', '地圖圖層') + ' <span class="map-layers-arrow">▾</span></div>';
     html += '<div class="map-layers-body">';
 
     if (storyMarkerItems.length) {
-        html += '<div class="map-layers-group">地標</div>';
+        html += '<div class="map-layers-group">' + i18nText('layers.landmarks', '地標') + '</div>';
         storyMarkerItems.forEach(function(item, i) {
             html += '<label class="map-layer-item"><input type="checkbox" checked data-ltype="landmark" data-idx="' + i + '"><span class="layer-dot" style="background:#27ae60"></span>' + item.name + '</label>';
         });
     }
     if (storyEdgeItems.length) {
-        html += '<div class="map-layers-group">路線</div>';
+        html += '<div class="map-layers-group">' + i18nText('layers.routes', '路線') + '</div>';
         storyEdgeItems.forEach(function(item, i) {
             html += '<label class="map-layer-item"><input type="checkbox" checked data-ltype="edge" data-idx="' + i + '"><span class="layer-dot" style="background:' + item.color + '"></span>' + item.label + '</label>';
         });
     }
     if (storyRegionItems.length) {
-        html += '<div class="map-layers-group">區域</div>';
+        html += '<div class="map-layers-group">' + i18nText('layers.regions', '區域') + '</div>';
         storyRegionItems.forEach(function(item, i) {
             html += '<label class="map-layer-item"><input type="checkbox" checked data-ltype="region" data-idx="' + i + '"><span class="layer-dot" style="background:' + item.color + '"></span>' + item.label + '</label>';
         });
@@ -496,7 +567,7 @@ function loadCollectionById(collection_id) {
     else if (latlngs.length === 1) mymap.setView(latlngs[0], 10);
 
     previousView = 'home';
-    showPanelBackBtn('回首頁', "blogGoBack()");
+    showPanelBackBtn(i18nText('home.backHome', '回首頁'), "blogGoBack()");
     if (mapBackControl) $(mapBackControl.getContainer()).hide();
 
     $('#blog-welcome').hide();
@@ -522,13 +593,14 @@ function loadStoryById(story_id, from_collection_id) {
                 showPanelBackBtn(fromCollection.title, "blogGoBack()");
                 previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };
             } else {
-                showPanelBackBtn('回首頁', "blogGoBack()");
+                showPanelBackBtn(i18nText('home.backHome', '回首頁'), "blogGoBack()");
                 previousView = 'home';
             }
             if (mapBackControl) $(mapBackControl.getContainer()).hide();
             $('#blog-welcome').hide();
             $('[data-story-id], [data-collection-id]').hide();
-            $('[data-story-id="' + story_id + '"]').show();
+            var section = $('[data-story-id="' + story_id + '"]').show();
+            injectStoryHashtags(section, tagsForStoryId(story_id));
         }
     }
 

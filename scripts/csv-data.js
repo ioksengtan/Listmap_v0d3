@@ -6,6 +6,22 @@ const { parse } = require('csv-parse/sync');
 
 const ROOT = path.join(__dirname, '..');
 
+/** Public Pages hashtags: drop anything outside this list rather than inventing labels. */
+const ALLOWED_STORY_TAGS = ['去過', '想去', '渡假', '吃'];
+
+function normalizeStoryTags(raw) {
+  const allowed = new Set(ALLOWED_STORY_TAGS);
+  const seen = new Set();
+  const out = [];
+  String(raw || '').split(',').forEach((token) => {
+    const t = String(token || '').trim();
+    if (!t || !allowed.has(t) || seen.has(t)) return;
+    seen.add(t);
+    out.push(t);
+  });
+  return out.join(',');
+}
+
 function readCsvFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf8');
   return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true, relax_column_count: true });
@@ -26,7 +42,7 @@ function toStory(r) {
     what: r.what || r.type || '',
     where: r.where || '',
     avatar: r.avatar || '',
-    tags: r.tags || '',
+    tags: normalizeStoryTags(r.tags),
     thumbnail: r.thumbnail || '',
     language: r.language || '',
     visibility: r.visibility || '',
@@ -101,6 +117,8 @@ function buildStaticPayload() {
 
 module.exports = {
   ROOT,
+  ALLOWED_STORY_TAGS,
+  normalizeStoryTags,
   readCsv,
   readCsvFile,
   readStories,

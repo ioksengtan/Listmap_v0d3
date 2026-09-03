@@ -556,13 +556,31 @@ margin-top:10px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+.lang-switch .lang-btn {
+  border: 1px solid #ced4da;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 4px 10px;
+  border-radius: 4px;
   cursor: pointer;
+}
+.lang-switch .lang-btn.is-active {
+  background: #198754;
+  color: #fff;
+  border-color: #198754;
+}
+.lang-switch .lang-btn:focus {
+  outline: 2px solid #198754;
+  outline-offset: 1px;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -600,4 +618,27 @@ margin-top:10px;
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+.story-hashtags {
+  padding: 4px 16px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.story-hashtag {
+  color: #0b6e99;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 0.55em;
+  cursor: pointer;
+}
+.story-hashtag:hover,
+.story-hashtag:focus {
+  text-decoration: underline;
+  color: #084c69;
+}
+.blog-article-card .story-hashtags {
+  padding: 0;
+  margin: 2px 0 6px;
+  font-size: 13px;
 }

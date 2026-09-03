@@ -2,7 +2,7 @@
 var homepageStoryLayer = null;
 
 /** Visitor homepage only heroes clearly public stories. */
-var HOMEPAGE_STORY_IDS = ['1024'];
+var HOMEPAGE_STORY_IDS = ['1024', '1025'];
 
 function escapeHtml(str) {
     return String(str || '')
@@ -23,9 +23,8 @@ function publicHomepageStories() {
     });
 }
 
-function zoomHomepageStory(storyId) {
+function zoomHomepageStories(ids) {
     if (typeof mymap === 'undefined' || !mymap) return;
-    var landmarks = ListmapData.landmarksByStoryId(storyId);
     var latlngs = [];
     if (homepageStoryLayer) {
         mymap.removeLayer(homepageStoryLayer);
@@ -33,14 +32,16 @@ function zoomHomepageStory(storyId) {
     }
     homepageStoryLayer = L.layerGroup().addTo(mymap);
     var cluster = L.markerClusterGroup();
-    landmarks.forEach(function (lm) {
-        var lat = parseFloat(lm.lat);
-        var lng = parseFloat(lm.lng);
-        if (isNaN(lat) || isNaN(lng)) return;
-        latlngs.push([lat, lng]);
-        L.marker([lat, lng])
-            .bindPopup('<b>' + escapeHtml(lm.name) + '</b>' + (lm.content ? '<br>' + escapeHtml(lm.content) : ''))
-            .addTo(cluster);
+    (ids || []).forEach(function (storyId) {
+        ListmapData.landmarksByStoryId(storyId).forEach(function (lm) {
+            var lat = parseFloat(lm.lat);
+            var lng = parseFloat(lm.lng);
+            if (isNaN(lat) || isNaN(lng)) return;
+            latlngs.push([lat, lng]);
+            L.marker([lat, lng])
+                .bindPopup('<b>' + escapeHtml(lm.name) + '</b>' + (lm.content ? '<br>' + escapeHtml(lm.content) : ''))
+                .addTo(cluster);
+        });
     });
     cluster.addTo(homepageStoryLayer);
     if (latlngs.length === 1) {
@@ -48,6 +49,10 @@ function zoomHomepageStory(storyId) {
     } else if (latlngs.length > 1) {
         mymap.fitBounds(latlngs, { padding: [40, 40] });
     }
+}
+
+function zoomHomepageStory(storyId) {
+    zoomHomepageStories([storyId]);
 }
 
 function renderHomepageList() {
@@ -70,6 +75,8 @@ function renderHomepageList() {
             zoomHomepageStory(s.story_id);
         });
         $li.append($cb).append($link);
+        var tagsHtml = ListmapData.hashtagsHtml(s.tags);
+        if (tagsHtml) $li.append(tagsHtml);
         $ul.append($li);
         StoriesDict[s.story_id] = s;
     });
@@ -77,13 +84,23 @@ function renderHomepageList() {
 }
 
 $(document).ready(function () {
+    if (window.ListmapI18n) {
+        ListmapI18n.init({
+            onChange: function () {
+                if (typeof mymap !== 'undefined' && mymap && typeof mymap.invalidateSize === 'function') {
+                    mymap.invalidateSize();
+                }
+            }
+        });
+    }
+
     if (typeof mymap === 'undefined' || !mymap) {
         initMap();
     }
 
     ListmapData.load().done(function () {
         renderHomepageList();
-        if (HOMEPAGE_STORY_IDS[0]) zoomHomepageStory(HOMEPAGE_STORY_IDS[0]);
+        zoomHomepageStories(HOMEPAGE_STORY_IDS);
     }).fail(function () {
         console.error('Failed to load data/static.json');
     });
