@@ -14,12 +14,13 @@ var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
 
-// Visitor index heroes: only clearly public stories (S1024, S1025, S1027).
+// Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MARKERS = [
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
     { label: '陽明山：住一晚，走兩天', type: 'story', story_id: '1025' },
     { label: '東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）', type: 'story', story_id: '1027' },
+    { label: '南特造船廠裡，有隻會走路的大象', type: 'story', story_id: '1028' },
 ];
 
 $(document).ready(function() {

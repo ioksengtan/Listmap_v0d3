@@ -156,6 +156,54 @@ assert(blogHtml.includes('data-i18n-story="1027"'), 'blog S1027 overlay hooks');
 assert(blogJs.includes("story_id: '1027'"), 'blog.js index markers include S1027');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
 
+const s1028 = payload.stories.find(s => s.story_id === '1028');
+assert(s1028, 'story 1028 missing');
+assert(s1028.title === '南特造船廠裡，有隻會走路的大象', 'story 1028 title');
+assert(s1028.author === 'Yu-Sheng', 'story 1028 author');
+assert(s1028.where === 'Nantes', 'story 1028 where');
+assert(s1028.tags === '想去', 'story 1028 tags must be single token 想去');
+assert(s1028.visibility === 'public', 'story 1028 visibility must stay public (not shifted by tags)');
+assert(s1028.thumbnail === '', 'story 1028 thumbnail must stay empty');
+assert(s1028.avatar === '', 'story 1028 avatar must stay empty');
+assert(s1028.created_at === '2026-09-05', 'story 1028 created_at');
+
+const lm1028 = payload.landmarks.filter(l => l.story_id === '1028');
+assert(lm1028.length === 5, 'story 1028 should have 5 landmarks');
+const lm1028Expected = {
+  '495': { name: "Les Machines de l'Île", content: '主針。Parc des Chantiers。大象停Voyage窗見正文。', lat: '47.206472', lng: '-1.564297' },
+  '496': { name: 'Les Anneaux', content: '河岸環（Buren & Bouchain）。', lat: '47.20194', lng: '-1.57278' },
+  '497': { name: 'Hangar à Bananes', content: 'Quai des Antilles／Hangar 21。座標對齊 WP 47°12′02″N 1°34′23″W。', lat: '47.20056', lng: '-1.57306' },
+  '498': { name: 'Grue Titan grise', content: '灰起重機。勿與園區黃 Titan 混淆。', lat: '47.19917', lng: '-1.57389' },
+  '499': { name: "Mémorial de l'abolition", content: '北岸。過橋。', lat: '47.20917', lng: '-1.56528' }
+};
+Object.keys(lm1028Expected).forEach(id => {
+  const lm = lm1028.find(l => l.landmark_id === id);
+  assert(lm, 'landmark ' + id + ' missing for 1028');
+  assert(lm.lat === lm1028Expected[id].lat, 'landmark ' + id + ' lat');
+  assert(lm.lng === lm1028Expected[id].lng, 'landmark ' + id + ' lng');
+  assert(lm.name === lm1028Expected[id].name, 'landmark ' + id + ' name');
+  assert(lm.content === lm1028Expected[id].content, 'landmark ' + id + ' PM content');
+});
+assert(lm1028.find(l => l.landmark_id === '495').link === 'https://www.lesmachines-nantes.fr/', '495 official link');
+
+const m1028 = blogHtml.match(/data-story-id="1028"[\s\S]*?<\/section>/);
+assert(m1028, 'blog.html missing story 1028 section');
+assert(!/javascript:zoomto/.test(m1028[0]), 'story 1028 must not use javascript:zoomto');
+assert(!/\/api/.test(m1028[0]), 'story 1028 must not call /api');
+assert((m1028[0].match(/class="map-place-link"/g) || []).length === 6, 'story 1028 place links');
+['495', '496', '497', '498', '499'].forEach(id => {
+  assert(m1028[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1028 section landmark ' + id);
+});
+assert(m1028[0].includes('data-landmark="495"') && m1028[0].includes("Les Machines de l'Île"), 'story 1028 machines link');
+assert(m1028[0].includes('Grand Éléphant'), 'story 1028 Grand Éléphant link text');
+assert(m1028[0].includes('Les Anneaux'), 'story 1028 Anneaux');
+assert(m1028[0].includes('Hangar à Bananes'), 'story 1028 Hangar');
+assert(m1028[0].includes('Grue Titan grise'), 'story 1028 grey Titan');
+assert(m1028[0].includes("Mémorial de l'abolition"), 'story 1028 memorial');
+assert(blogHtml.includes("loadStoryById('1028')"), 'blog index card for S1028');
+assert(blogHtml.includes('data-i18n-story="1028"'), 'blog S1028 overlay hooks');
+assert(blogJs.includes("story_id: '1028'"), 'blog.js index markers include S1028');
+
 const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
 assert(mapJs.includes('invalidateSize'), 'map.js should call invalidateSize on resize');
 assert(mapJs.includes('orientationchange'), 'map.js should invalidateSize on orientation change');
@@ -185,9 +233,11 @@ assert(/個人地圖故事/.test(aboutHtml), 'about copy should say 個人地圖
 assert(/blog\.html#1024/.test(indexHtml), 'homepage should CTA to blog.html#1024');
 assert(/blog\.html#1025/.test(indexHtml), 'homepage should CTA to blog.html#1025');
 assert(/blog\.html#1027/.test(indexHtml), 'homepage should CTA to blog.html#1027');
+assert(/blog\.html#1028/.test(indexHtml), 'homepage should CTA to blog.html#1028');
 assert(/blog\.html#1024/.test(aboutHtml), 'about should CTA to blog.html#1024');
 assert(/blog\.html#1025/.test(aboutHtml), 'about should CTA to blog.html#1025');
 assert(/blog\.html#1027/.test(aboutHtml), 'about should CTA to blog.html#1027');
+assert(/blog\.html#1028/.test(aboutHtml), 'about should CTA to blog.html#1028');
 assert(!/href=["']\/api/.test(indexHtml), 'index.html must not link to /api');
 assert(!/href=["']\/api/.test(aboutHtml), 'about.html must not link to /api');
 assert(!/>API<\/a>/.test(indexHtml), 'index must not hero a dead API nav item');
@@ -202,11 +252,12 @@ assert(markerBlock, 'INDEX_MARKERS must be defined');
 assert(/story_id:\s*'1024'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1024');
 assert(/story_id:\s*'1025'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1025');
 assert(/story_id:\s*'1027'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1027');
+assert(/story_id:\s*'1028'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1028');
 assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
-assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"]\]/.test(indexJs), 'homepage list should hero public S1024, S1025, and S1027');
+assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"]\]/.test(indexJs), 'homepage list should hero public S1024, S1025, S1027, and S1028');
 
 const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
 assert(welcomeMatch, 'blog welcome should precede story 1001 section');
@@ -214,6 +265,7 @@ assert(/個人地圖故事/.test(welcomeMatch[0]), 'blog index should say 個人
 assert(/loadStoryById\('1024'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1024');
 assert(/loadStoryById\('1025'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1025');
 assert(/loadStoryById\('1027'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1027');
+assert(/loadStoryById\('1028'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1028');
 assert(!/loadStoryById\('1001'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Heidelberg');
 assert(!/loadStoryById\('258'\)/.test(welcomeMatch[0]), 'blog welcome must not hero NY test');
 assert(!/loadCollectionById\('101'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Tokyo collection');
@@ -244,6 +296,15 @@ assert(onDisk1027.tags === '渡假,想去', 'checked-in JSON S1027 tags');
 assert(onDisk1027.visibility === 'public', 'checked-in JSON S1027 visibility');
 assert(onDisk1027.thumbnail === '', 'checked-in JSON S1027 thumbnail');
 assert(onDisk.landmarks.find(l => l.story_id === '1027' && l.landmark_id === '494').content.includes('美浜区／JFA夢フィールド'), 'checked-in JSON 494 PM blurb');
+assert(onDisk.stories.some(s => s.story_id === '1028'), 'checked-in JSON missing 1028');
+assert(onDisk.landmarks.filter(l => l.story_id === '1028').length === 5, 'checked-in JSON missing 1028 landmarks');
+const onDisk1028 = onDisk.stories.find(s => s.story_id === '1028');
+assert(onDisk1028.tags === '想去', 'checked-in JSON S1028 tags');
+assert(onDisk1028.visibility === 'public', 'checked-in JSON S1028 visibility');
+assert(onDisk1028.thumbnail === '', 'checked-in JSON S1028 thumbnail');
+assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '495').name === "Les Machines de l'Île", 'checked-in JSON 495 name');
+assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '495').link === 'https://www.lesmachines-nantes.fr/', 'checked-in JSON 495 link');
+assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '498').content.includes('勿與園區黃 Titan 混淆'), 'checked-in JSON 498 PM blurb');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -260,6 +321,9 @@ assert(!/Yangmingshan,,,去過,渡假,,public/.test(storiesCsv), 'S1025 must not
 assert(/1027,,東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）,blog,,Yu-Sheng,blog,Makuhari,,"渡假,想去",,public,2026-09-04,,/.test(storiesCsv),
   'S1027 CSV row must quote the tags field so 渡假,想去 stay in tags');
 assert(!/Makuhari,,,渡假,想去,,public/.test(storiesCsv), 'S1027 must not split unquoted tags into thumbnail/visibility');
+assert(/1028,,南特造船廠裡，有隻會走路的大象,blog,,Yu-Sheng,blog,Nantes,,想去,,public,2026-09-05,,/.test(storiesCsv),
+  'S1028 CSV row must keep single-token 想去 in tags with no comma spill');
+assert(!/Nantes,,,想去,,public/.test(storiesCsv), 'S1028 must not split tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
@@ -336,6 +400,20 @@ assert(/tabletop market/i.test(storyI18n['1027'].en.title), 'S1027 EN title matc
 assert(storyI18n['1027'].en.html.indexOf('do not commute from Shinjuku') !== -1, 'S1027 EN heading matches v5 Makuhari-not-Shinjuku');
 assert(storyI18n['1027'].en.html.indexOf('leave another day for the legs') !== -1, 'S1027 EN heading matches v5 extra day for the legs');
 assert(!storyI18n['1027']['zh-TW'], 'do not duplicate Traditional Chinese body for S1027 in story-i18n.json');
+assert(storyI18n['1028'] && storyI18n['1028'].en, 'S1028 English overlay');
+assert(/Nantes/i.test(storyI18n['1028'].en.title), 'S1028 English title');
+assert((storyI18n['1028'].en.html.match(/class="map-place-link"/g) || []).length === 6, 'S1028 EN place links');
+['495', '496', '497', '498', '499'].forEach(id => {
+  assert(storyI18n['1028'].en.html.indexOf('data-landmark="' + id + '"') !== -1, 'S1028 EN landmark ' + id);
+});
+assert(storyI18n['1028'].en.html.indexOf('javascript:zoomto') === -1, 'S1028 EN must not use javascript:zoomto');
+assert(storyI18n['1028'].en.html.indexOf("Les Machines de l'Île") !== -1, 'S1028 EN keeps Machines name');
+assert(storyI18n['1028'].en.html.indexOf('Grand Éléphant') !== -1, 'S1028 EN keeps Grand Éléphant');
+assert(storyI18n['1028'].en.html.indexOf('Les Anneaux') !== -1, 'S1028 EN keeps Les Anneaux');
+assert(storyI18n['1028'].en.html.indexOf('Hangar à Bananes') !== -1, 'S1028 EN keeps Hangar');
+assert(storyI18n['1028'].en.html.indexOf('Grue Titan grise') !== -1, 'S1028 EN keeps grey Titan');
+assert(storyI18n['1028'].en.html.indexOf("Mémorial de l'abolition") !== -1, 'S1028 EN keeps memorial name');
+assert(!storyI18n['1028']['zh-TW'], 'do not duplicate Traditional Chinese body for S1028 in story-i18n.json');
 assert(storyI18n['1002'] && storyI18n['1002'].en && storyI18n['1002'].en.html, 'Tokyo S1002 English overlay');
 assert(!onDisk.stories.filter(s => s.story_id === '1024').length || onDisk.stories.filter(s => s.story_id === '1024').length === 1, 'S1024 must not duplicate CSV rows');
 assert(onDisk.landmarks.find(l => l.story_id === '1024' && l.landmark_id === '476').name === '璽子牛肉麵', 'pin name stays original in static JSON');
@@ -343,6 +421,7 @@ assert(onDisk.landmarks.find(l => l.story_id === '1024' && l.landmark_id === '47
 assert(blogHtml.includes('data-lang="zh-TW"') && blogHtml.includes('data-lang="en"'), 'blog language switcher');
 assert(blogHtml.includes('data-i18n="nav.home"'), 'blog chrome through data-i18n');
 assert(blogHtml.includes('data-i18n-story="1024"'), 'blog S1024 overlay hooks');
+assert(blogHtml.includes('data-i18n-story="1028"'), 'blog S1028 overlay hooks');
 assert(blogJs.includes('ListmapI18n'), 'blog.js uses ListmapI18n');
 assert(blogJs.includes('invalidateSize'), 'language switch should invalidateSize');
 assert(/function afterLanguageChange\(\) \{\s*refreshDynamicI18n\(\);[\s\S]*?invalidateSize/.test(blogJs), 'afterLanguageChange invalidateSize');
