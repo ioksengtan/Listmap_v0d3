@@ -109,7 +109,7 @@ assert(blogJs.includes("story_id: '1025'"), 'blog.js index markers include S1025
 
 const s1027 = payload.stories.find(s => s.story_id === '1027');
 assert(s1027, 'story 1027 missing');
-assert(s1027.title === '東京桌遊展怎麼住幕張、哪天充電（2026 秋）', 'story 1027 title');
+assert(s1027.title === '東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）', 'story 1027 title');
 assert(s1027.author === 'Yu-Sheng', 'story 1027 author');
 assert(s1027.where === 'Makuhari', 'story 1027 where');
 assert(s1027.tags === '渡假,想去', 'story 1027 tags must be 渡假,想去 (quoted CSV field)');
@@ -147,6 +147,9 @@ assert((m1027[0].match(/class="map-place-link"/g) || []).length === 4, 'story 10
   assert(m1027[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1027 section landmark ' + id);
 });
 assert(m1027[0].includes('data-landmark="492"') && m1027[0].includes('海浜幕張'), 'story 1027 station link says 海浜幕張');
+assert(m1027[0].includes('幕張，不要新宿來回'), 'story 1027 v5 heading: stay in Makuhari, not Shinjuku commutes');
+assert(m1027[0].includes('兩天在會場，另外留一天給腿'), 'story 1027 v5 heading: two hall days plus a day for the legs');
+assert(m1027[0].includes('先住下來'), 'story 1027 v5 heading: check in first');
 assert(!/javascript:zoomto/.test(m1027[0]), 'story 1027 no zoomto');
 assert(blogHtml.includes("loadStoryById('1027')"), 'blog index card for S1027');
 assert(blogHtml.includes('data-i18n-story="1027"'), 'blog S1027 overlay hooks');
@@ -254,7 +257,7 @@ assert(!/Hsinchu,,,吃,去過,,public/.test(storiesCsv), 'S1024 must not split u
 assert(/1025,,陽明山：住一晚，走兩天,blog,,Yu-Sheng,blog,Yangmingshan,,"去過,渡假",,public,2026-09-04,,/.test(storiesCsv),
   'S1025 CSV row must quote the tags field so 去過,渡假 stay in tags');
 assert(!/Yangmingshan,,,去過,渡假,,public/.test(storiesCsv), 'S1025 must not split unquoted tags into thumbnail/visibility');
-assert(/1027,,東京桌遊展怎麼住幕張、哪天充電（2026 秋）,blog,,Yu-Sheng,blog,Makuhari,,"渡假,想去",,public,2026-09-04,,/.test(storiesCsv),
+assert(/1027,,東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）,blog,,Yu-Sheng,blog,Makuhari,,"渡假,想去",,public,2026-09-04,,/.test(storiesCsv),
   'S1027 CSV row must quote the tags field so 渡假,想去 stay in tags');
 assert(!/Makuhari,,,渡假,想去,,public/.test(storiesCsv), 'S1027 must not split unquoted tags into thumbnail/visibility');
 
@@ -329,6 +332,9 @@ assert(storyI18n['1027'].en.html.indexOf('javascript:zoomto') === -1, 'S1027 EN 
 assert(storyI18n['1027'].en.html.indexOf('幕張メッセ') !== -1, 'S1027 EN keeps 幕張メッセ name');
 assert(storyI18n['1027'].en.html.indexOf('海浜幕張') !== -1, 'S1027 EN station link says 海浜幕張');
 assert(storyI18n['1027'].en.html.indexOf('湯楽の里') !== -1, 'S1027 EN keeps 湯楽の里 name');
+assert(/tabletop market/i.test(storyI18n['1027'].en.title), 'S1027 EN title matches v5 tabletop-market wording');
+assert(storyI18n['1027'].en.html.indexOf('do not commute from Shinjuku') !== -1, 'S1027 EN heading matches v5 Makuhari-not-Shinjuku');
+assert(storyI18n['1027'].en.html.indexOf('leave another day for the legs') !== -1, 'S1027 EN heading matches v5 extra day for the legs');
 assert(!storyI18n['1027']['zh-TW'], 'do not duplicate Traditional Chinese body for S1027 in story-i18n.json');
 assert(storyI18n['1002'] && storyI18n['1002'].en && storyI18n['1002'].en.html, 'Tokyo S1002 English overlay');
 assert(!onDisk.stories.filter(s => s.story_id === '1024').length || onDisk.stories.filter(s => s.story_id === '1024').length === 1, 'S1024 must not duplicate CSV rows');
