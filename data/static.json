@@ -4877,6 +4877,24 @@
       "created_at": "2026-09-04",
       "start_date": "",
       "end_date": ""
+    },
+    {
+      "story_id": "1027",
+      "collection_id": "",
+      "title": "東京桌遊展怎麼住幕張、哪天充電（2026 秋）",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Makuhari",
+      "avatar": "",
+      "tags": "渡假,想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-04",
+      "start_date": "",
+      "end_date": ""
     }
   ],
   "landmarks": [
@@ -18011,6 +18029,50 @@
       "lng": "121.5835",
       "content": "魚路北段近金山側。",
       "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "491",
+      "story_id": "1027",
+      "name": "幕張メッセ",
+      "lat": "35.6473",
+      "lng": "140.0347",
+      "content": "ゲームマーケット2026秋會場。展示ホール1–5。不是Big Sight。不畫攤位。",
+      "link": "https://www.gamemarket.jp/gamemarket/2026a",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "492",
+      "story_id": "1027",
+      "name": "海浜幕張駅",
+      "lat": "35.6487",
+      "lng": "140.0415",
+      "content": "住宿軸。可10/16先住。メッセ步行約5分。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "493",
+      "story_id": "1027",
+      "name": "幕張海浜公園",
+      "lat": "35.6454",
+      "lng": "140.0419",
+      "content": "充電。走或騎。展後降音量。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "494",
+      "story_id": "1027",
+      "name": "幕張温泉 湯楽の里",
+      "lat": "35.6360",
+      "lng": "140.0396",
+      "content": "充電。美浜区／JFA夢フィールド。試遊後泡湯。",
+      "link": "https://www.yurakirari.com/makuhari/",
       "address": "",
       "tags": ""
     }
