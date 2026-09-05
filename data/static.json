@@ -4913,6 +4913,24 @@
       "created_at": "2026-09-05",
       "start_date": "",
       "end_date": ""
+    },
+    {
+      "story_id": "1029",
+      "collection_id": "",
+      "title": "福隆：住一晚，騎舊草嶺",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Fulong",
+      "avatar": "",
+      "tags": "渡假,想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-05",
+      "start_date": "",
+      "end_date": ""
     }
   ],
   "landmarks": [
@@ -18146,6 +18164,72 @@
       "lng": "-1.56528",
       "content": "北岸。過橋。",
       "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "500",
+      "story_id": "1029",
+      "name": "福隆車站",
+      "lat": "25.0159",
+      "lng": "121.9447",
+      "content": "樞紐／便當／站前租車群（約估座標）。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "501",
+      "story_id": "1029",
+      "name": "舊草嶺隧道北口",
+      "lat": "25.003945",
+      "lng": "121.95834",
+      "content": "制天險。觀光署 121.95834／25.003945。",
+      "link": "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=197&l=1",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "502",
+      "story_id": "1029",
+      "name": "舊草嶺隧道南口",
+      "lat": "24.983971",
+      "lng": "121.955542",
+      "content": "白雲飛處／石城端。軌跡約值，非單頁官方點。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "503",
+      "story_id": "1029",
+      "name": "福隆遊客中心／海水浴場",
+      "lat": "25.017177",
+      "lng": "121.94255",
+      "content": "內河外海；沙岸練游（海泳季約5/1–10/20、戒護至17:00）。",
+      "link": "https://www.fullon-hotels.com.tw/fl/tw/fac-detail/fullonbeach/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "504",
+      "story_id": "1029",
+      "name": "龍門吊橋",
+      "lat": "25.02277",
+      "lng": "121.93545",
+      "content": "西側短脊；接龍門—鹽寮。觀光開放資料。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "505",
+      "story_id": "1029",
+      "name": "福容大飯店福隆",
+      "lat": "25.019018",
+      "lng": "121.943771",
+      "content": "過夜極。貼浴場／沙嘴；海洋溫泉收腿。官網 fullon-hotels。",
+      "link": "https://www.fullon-hotels.com.tw/fl/tw/",
       "address": "",
       "tags": ""
     }

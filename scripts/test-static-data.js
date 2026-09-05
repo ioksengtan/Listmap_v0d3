@@ -204,6 +204,59 @@ assert(blogHtml.includes("loadStoryById('1028')"), 'blog index card for S1028');
 assert(blogHtml.includes('data-i18n-story="1028"'), 'blog S1028 overlay hooks');
 assert(blogJs.includes("story_id: '1028'"), 'blog.js index markers include S1028');
 
+const s1029 = payload.stories.find(s => s.story_id === '1029');
+assert(s1029, 'story 1029 missing');
+assert(s1029.title === '福隆：住一晚，騎舊草嶺', 'story 1029 title');
+assert(s1029.author === 'Yu-Sheng', 'story 1029 author');
+assert(s1029.where === 'Fulong', 'story 1029 where');
+assert(s1029.tags === '渡假,想去', 'story 1029 tags must be 渡假,想去 (quoted CSV field)');
+assert(s1029.visibility === 'public', 'story 1029 visibility must stay public (not shifted by unquoted tags)');
+assert(s1029.thumbnail === '', 'story 1029 thumbnail must stay empty');
+assert(s1029.avatar === '', 'story 1029 avatar must stay empty');
+assert(s1029.created_at === '2026-09-05', 'story 1029 created_at');
+
+const lm1029 = payload.landmarks.filter(l => l.story_id === '1029');
+assert(lm1029.length === 6, 'story 1029 should have 6 landmarks');
+const lm1029Expected = {
+  '500': { name: '福隆車站', content: '樞紐／便當／站前租車群（約估座標）。', lat: '25.0159', lng: '121.9447' },
+  '501': { name: '舊草嶺隧道北口', content: '制天險。觀光署 121.95834／25.003945。', lat: '25.003945', lng: '121.95834' },
+  '502': { name: '舊草嶺隧道南口', content: '白雲飛處／石城端。軌跡約值，非單頁官方點。', lat: '24.983971', lng: '121.955542' },
+  '503': { name: '福隆遊客中心／海水浴場', content: '內河外海；沙岸練游（海泳季約5/1–10/20、戒護至17:00）。', lat: '25.017177', lng: '121.94255' },
+  '504': { name: '龍門吊橋', content: '西側短脊；接龍門—鹽寮。觀光開放資料。', lat: '25.02277', lng: '121.93545' },
+  '505': { name: '福容大飯店福隆', content: '過夜極。貼浴場／沙嘴；海洋溫泉收腿。官網 fullon-hotels。', lat: '25.019018', lng: '121.943771' }
+};
+Object.keys(lm1029Expected).forEach(id => {
+  const lm = lm1029.find(l => l.landmark_id === id);
+  assert(lm, 'landmark ' + id + ' missing for 1029');
+  assert(lm.lat === lm1029Expected[id].lat, 'landmark ' + id + ' lat');
+  assert(lm.lng === lm1029Expected[id].lng, 'landmark ' + id + ' lng');
+  assert(lm.name === lm1029Expected[id].name, 'landmark ' + id + ' name');
+  assert(lm.content === lm1029Expected[id].content, 'landmark ' + id + ' PM content');
+});
+assert(lm1029.find(l => l.landmark_id === '501').link === 'https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=197&l=1', '501 official link');
+assert(lm1029.find(l => l.landmark_id === '503').link === 'https://www.fullon-hotels.com.tw/fl/tw/fac-detail/fullonbeach/', '503 beach link');
+assert(lm1029.find(l => l.landmark_id === '505').link === 'https://www.fullon-hotels.com.tw/fl/tw/', '505 Fullon link');
+
+const m1029 = blogHtml.match(/data-story-id="1029"[\s\S]*?<\/section>/);
+assert(m1029, 'blog.html missing story 1029 section');
+assert(!/javascript:zoomto/.test(m1029[0]), 'story 1029 must not use javascript:zoomto');
+assert(!/\/api/.test(m1029[0]), 'story 1029 must not call /api');
+assert((m1029[0].match(/class="map-place-link"/g) || []).length === 11, 'story 1029 place links');
+['500', '501', '502', '503', '504', '505'].forEach(id => {
+  assert(m1029[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1029 section landmark ' + id);
+});
+assert(/data-landmark="501"[^>]*>舊草嶺隧道</.test(m1029[0]), 'story 1029 intro 舊草嶺隧道 maps to 501');
+assert(m1029[0].includes('data-landmark="500"') && m1029[0].includes('福隆車站'), 'story 1029 station link');
+assert(m1029[0].includes('data-landmark="501"') && m1029[0].includes('北口'), 'story 1029 north mouth');
+assert(m1029[0].includes('data-landmark="502"') && m1029[0].includes('南口'), 'story 1029 south mouth');
+assert(m1029[0].includes('data-landmark="503"') && m1029[0].includes('遊客中心'), 'story 1029 visitor centre');
+assert(m1029[0].includes('海水浴場'), 'story 1029 beach');
+assert(m1029[0].includes('data-landmark="504"') && m1029[0].includes('龍門吊橋'), 'story 1029 Longmen');
+assert(m1029[0].includes('data-landmark="505"') && m1029[0].includes('福容'), 'story 1029 Fullon');
+assert(blogHtml.includes("loadStoryById('1029')"), 'blog index card for S1029');
+assert(blogHtml.includes('data-i18n-story="1029"'), 'blog S1029 overlay hooks');
+assert(blogJs.includes("story_id: '1029'"), 'blog.js index markers include S1029');
+
 const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
 assert(mapJs.includes('invalidateSize'), 'map.js should call invalidateSize on resize');
 assert(mapJs.includes('orientationchange'), 'map.js should invalidateSize on orientation change');
@@ -234,10 +287,12 @@ assert(/blog\.html#1024/.test(indexHtml), 'homepage should CTA to blog.html#1024
 assert(/blog\.html#1025/.test(indexHtml), 'homepage should CTA to blog.html#1025');
 assert(/blog\.html#1027/.test(indexHtml), 'homepage should CTA to blog.html#1027');
 assert(/blog\.html#1028/.test(indexHtml), 'homepage should CTA to blog.html#1028');
+assert(/blog\.html#1029/.test(indexHtml), 'homepage should CTA to blog.html#1029');
 assert(/blog\.html#1024/.test(aboutHtml), 'about should CTA to blog.html#1024');
 assert(/blog\.html#1025/.test(aboutHtml), 'about should CTA to blog.html#1025');
 assert(/blog\.html#1027/.test(aboutHtml), 'about should CTA to blog.html#1027');
 assert(/blog\.html#1028/.test(aboutHtml), 'about should CTA to blog.html#1028');
+assert(/blog\.html#1029/.test(aboutHtml), 'about should CTA to blog.html#1029');
 assert(!/href=["']\/api/.test(indexHtml), 'index.html must not link to /api');
 assert(!/href=["']\/api/.test(aboutHtml), 'about.html must not link to /api');
 assert(!/>API<\/a>/.test(indexHtml), 'index must not hero a dead API nav item');
@@ -253,11 +308,12 @@ assert(/story_id:\s*'1024'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1
 assert(/story_id:\s*'1025'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1025');
 assert(/story_id:\s*'1027'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1027');
 assert(/story_id:\s*'1028'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1028');
+assert(/story_id:\s*'1029'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1029');
 assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
-assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"]\]/.test(indexJs), 'homepage list should hero public S1024, S1025, S1027, and S1028');
+assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"]\]/.test(indexJs), 'homepage list should hero public S1024, S1025, S1027, S1028, and S1029');
 
 const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
 assert(welcomeMatch, 'blog welcome should precede story 1001 section');
@@ -266,6 +322,7 @@ assert(/loadStoryById\('1024'\)/.test(welcomeMatch[0]), 'blog welcome must hero 
 assert(/loadStoryById\('1025'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1025');
 assert(/loadStoryById\('1027'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1027');
 assert(/loadStoryById\('1028'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1028');
+assert(/loadStoryById\('1029'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1029');
 assert(!/loadStoryById\('1001'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Heidelberg');
 assert(!/loadStoryById\('258'\)/.test(welcomeMatch[0]), 'blog welcome must not hero NY test');
 assert(!/loadCollectionById\('101'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Tokyo collection');
@@ -305,6 +362,15 @@ assert(onDisk1028.thumbnail === '', 'checked-in JSON S1028 thumbnail');
 assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '495').name === "Les Machines de l'Île", 'checked-in JSON 495 name');
 assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '495').link === 'https://www.lesmachines-nantes.fr/', 'checked-in JSON 495 link');
 assert(onDisk.landmarks.find(l => l.story_id === '1028' && l.landmark_id === '498').content.includes('勿與園區黃 Titan 混淆'), 'checked-in JSON 498 PM blurb');
+assert(onDisk.stories.some(s => s.story_id === '1029'), 'checked-in JSON missing 1029');
+assert(onDisk.landmarks.filter(l => l.story_id === '1029').length === 6, 'checked-in JSON missing 1029 landmarks');
+const onDisk1029 = onDisk.stories.find(s => s.story_id === '1029');
+assert(onDisk1029.tags === '渡假,想去', 'checked-in JSON S1029 tags');
+assert(onDisk1029.visibility === 'public', 'checked-in JSON S1029 visibility');
+assert(onDisk1029.thumbnail === '', 'checked-in JSON S1029 thumbnail');
+assert(onDisk.landmarks.find(l => l.story_id === '1029' && l.landmark_id === '501').name === '舊草嶺隧道北口', 'checked-in JSON 501 name');
+assert(onDisk.landmarks.find(l => l.story_id === '1029' && l.landmark_id === '502').content.includes('白雲飛處'), 'checked-in JSON 502 PM blurb');
+assert(onDisk.landmarks.find(l => l.story_id === '1029' && l.landmark_id === '505').link === 'https://www.fullon-hotels.com.tw/fl/tw/', 'checked-in JSON 505 link');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -324,6 +390,9 @@ assert(!/Makuhari,,,渡假,想去,,public/.test(storiesCsv), 'S1027 must not spl
 assert(/1028,,南特造船廠裡，有隻會走路的大象,blog,,Yu-Sheng,blog,Nantes,,想去,,public,2026-09-05,,/.test(storiesCsv),
   'S1028 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Nantes,,,想去,,public/.test(storiesCsv), 'S1028 must not split tags into thumbnail/visibility');
+assert(/1029,,福隆：住一晚，騎舊草嶺,blog,,Yu-Sheng,blog,Fulong,,"渡假,想去",,public,2026-09-05,,/.test(storiesCsv),
+  'S1029 CSV row must quote the tags field so 渡假,想去 stay in tags');
+assert(!/Fulong,,,渡假,想去,,public/.test(storiesCsv), 'S1029 must not split unquoted tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
@@ -414,6 +483,23 @@ assert(storyI18n['1028'].en.html.indexOf('Hangar à Bananes') !== -1, 'S1028 EN 
 assert(storyI18n['1028'].en.html.indexOf('Grue Titan grise') !== -1, 'S1028 EN keeps grey Titan');
 assert(storyI18n['1028'].en.html.indexOf("Mémorial de l'abolition") !== -1, 'S1028 EN keeps memorial name');
 assert(!storyI18n['1028']['zh-TW'], 'do not duplicate Traditional Chinese body for S1028 in story-i18n.json');
+assert(storyI18n['1029'] && storyI18n['1029'].en, 'S1029 English overlay');
+assert(/Fulong/i.test(storyI18n['1029'].en.title), 'S1029 English title');
+assert(/Old Caoling/i.test(storyI18n['1029'].en.title), 'S1029 EN title keeps Old Caoling');
+assert((storyI18n['1029'].en.html.match(/class="map-place-link"/g) || []).length === 11, 'S1029 EN place links');
+['500', '501', '502', '503', '504', '505'].forEach(id => {
+  assert(storyI18n['1029'].en.html.indexOf('data-landmark="' + id + '"') !== -1, 'S1029 EN landmark ' + id);
+});
+assert(storyI18n['1029'].en.html.indexOf('javascript:zoomto') === -1, 'S1029 EN must not use javascript:zoomto');
+assert(storyI18n['1029'].en.html.indexOf('福隆車站') !== -1, 'S1029 EN keeps 福隆車站 name');
+assert(storyI18n['1029'].en.html.indexOf('舊草嶺隧道') !== -1, 'S1029 EN keeps 舊草嶺隧道');
+assert(storyI18n['1029'].en.html.indexOf('北口') !== -1, 'S1029 EN keeps 北口');
+assert(storyI18n['1029'].en.html.indexOf('南口') !== -1, 'S1029 EN keeps 南口');
+assert(storyI18n['1029'].en.html.indexOf('福隆遊客中心') !== -1, 'S1029 EN keeps visitor centre name');
+assert(storyI18n['1029'].en.html.indexOf('海水浴場') !== -1, 'S1029 EN keeps 海水浴場');
+assert(storyI18n['1029'].en.html.indexOf('龍門吊橋') !== -1, 'S1029 EN keeps 龍門吊橋');
+assert(storyI18n['1029'].en.html.indexOf('福容') !== -1, 'S1029 EN keeps 福容');
+assert(!storyI18n['1029']['zh-TW'], 'do not duplicate Traditional Chinese body for S1029 in story-i18n.json');
 assert(storyI18n['1002'] && storyI18n['1002'].en && storyI18n['1002'].en.html, 'Tokyo S1002 English overlay');
 assert(!onDisk.stories.filter(s => s.story_id === '1024').length || onDisk.stories.filter(s => s.story_id === '1024').length === 1, 'S1024 must not duplicate CSV rows');
 assert(onDisk.landmarks.find(l => l.story_id === '1024' && l.landmark_id === '476').name === '璽子牛肉麵', 'pin name stays original in static JSON');
