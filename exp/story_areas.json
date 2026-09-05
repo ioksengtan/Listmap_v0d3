@@ -1,0 +1,25 @@
+{
+  "version": "v0.2",
+  "do_not_merge": true,
+  "note": "One published story → one primary_area. Hand mapping only. S1028 Nantes is not a public story on master, so fr-nantes is omitted.",
+  "stories": [
+    {
+      "story_id": "1024",
+      "country": "tw",
+      "primary_area": "tw-hsinchu",
+      "pocket": false
+    },
+    {
+      "story_id": "1025",
+      "country": "tw",
+      "primary_area": "tw-yangmingshan",
+      "pocket": false
+    },
+    {
+      "story_id": "1027",
+      "country": "jp",
+      "primary_area": "jp-makuhari",
+      "pocket": false
+    }
+  ]
+}

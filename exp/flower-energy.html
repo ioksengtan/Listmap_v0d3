@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DO NOT MERGE · Area flower energy v0.2</title>
+  <style>
+    :root {
+      --ink: #1d1a16;
+      --muted: #6b6258;
+      --paper: #f7f1e6;
+      --card: #fffdf8;
+      --line: #e4d8c4;
+      --warn: #8a3b12;
+      --warn-bg: #fff1d6;
+      --bloom: #2f6b3a;
+      --bloom-bg: #e5f4e8;
+      --wait: #6b6258;
+      --wait-bg: #efe8dc;
+      --weekend: #c45c26;
+      --week: #2b6cb0;
+      --fortnight: #6b46c1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iwanami", "Source Han Serif TC", "Noto Serif TC", "Georgia", serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .banner {
+      background: #8a3b12;
+      color: #fff8ee;
+      padding: 10px 20px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+    h1 {
+      font-size: 1.85rem;
+      margin: 0 0 8px;
+    }
+    .kicker {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+    .lead, .formula, .footnote {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      color: #3f392f;
+      font-size: 15px;
+    }
+    .formula {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 20px 0 28px;
+    }
+    .formula h2 {
+      font-size: 1rem;
+      margin: 0 0 8px;
+    }
+    .formula ul { margin: 0; padding-left: 1.2rem; }
+    .areas {
+      display: grid;
+      gap: 18px;
+    }
+    .area {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 18px 14px;
+    }
+    .area header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .area h2 { margin: 0 0 4px; font-size: 1.35rem; }
+    .meta {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .stories {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      margin: 0 0 14px;
+    }
+    .flowers {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .flower {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+    .flower h3 {
+      margin: 0 0 6px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .flower.weekend h3 { color: var(--weekend); }
+    .flower.week h3 { color: var(--week); }
+    .flower.fortnight h3 { color: var(--fortnight); }
+    .energy {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin: 0 0 8px;
+    }
+    .counts {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      color: #3f392f;
+      margin: 0 0 10px;
+    }
+    .badge {
+      display: inline-block;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .badge.ready {
+      background: var(--bloom-bg);
+      color: var(--bloom);
+    }
+    .badge.wait {
+      background: var(--wait-bg);
+      color: var(--wait);
+    }
+    .footnote {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 800px) {
+      .flowers { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">EXPERIMENT ONLY · DO NOT MERGE TO MASTER · not linked from the homepage</div>
+  <main>
+    <p class="kicker">exp / flower-energy · formula v0.2</p>
+    <h1>Area flower energy</h1>
+    <p class="lead">Each area shows three flower types. <strong>bloom_ready is a mark only</strong> — this page never auto-publishes a collection.</p>
+    <section class="formula">
+      <h2>Locked v0.2 formula</h2>
+      <ul>
+        <li>Published stories only. One story → one primary_area. Centroid = average of that area’s pins.</li>
+        <li>Story (highest tier only): 去過 +8 · 想去 +5 · 整理 +3</li>
+        <li>Landmark +1 × w(d) vs radius R. Same-country only. d≤0.6R → 1.0 · d≤R → 0.5 · else 0.</li>
+        <li>R: weekend 30 km · week 80 km · fortnight 200 km</li>
+        <li>bloom_ready needs energy + story count + landmark count, and ≥1 去過 or pocket story.</li>
+      </ul>
+    </section>
+    <div id="areas" class="areas">Loading exp/area_energy.json…</div>
+    <p class="footnote">S1028 Nantes is not a public story on master, so <code>fr-nantes</code> is not seeded. Formal GitHub Pages visitor paths are unchanged on this branch.</p>
+  </main>
+  <script>
+    const FLOWER_ORDER = ['weekend', 'week', 'fortnight'];
+    const FLOWER_LABEL = { weekend: 'Weekend', week: 'Week', fortnight: 'Fortnight' };
+
+    function esc(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderArea(area) {
+      const centroid = area.centroid
+        ? area.centroid.lat.toFixed(5) + ', ' + area.centroid.lng.toFixed(5)
+        : '—';
+      const stories = (area.stories || []).map(function (s) {
+        return 'S' + s.story_id + ' · ' + s.title + ' · score ' + s.score
+          + (s.pocket ? ' · pocket' : '');
+      }).join('<br>');
+      const flowers = FLOWER_ORDER.map(function (key) {
+        const f = area.flowers[key];
+        const ready = f.bloom_ready;
+        return (
+          '<article class="flower ' + key + '">' +
+            '<h3>' + FLOWER_LABEL[key] + ' · R ' + f.radius_km + ' km</h3>' +
+            '<p class="energy">' + f.energy + '</p>' +
+            '<p class="counts">stories ' + f.story_count + ' · landmarks ' + f.landmark_count + '</p>' +
+            '<span class="badge ' + (ready ? 'ready' : 'wait') + '">' +
+              (ready ? 'bloom_ready · mark only' : 'not bloom_ready') +
+            '</span>' +
+          '</article>'
+        );
+      }).join('');
+      return (
+        '<section class="area" id="' + esc(area.id) + '">' +
+          '<header>' +
+            '<div>' +
+              '<h2>' + esc(area.name) + ' <span class="meta">/ ' + esc(area.name_en) + '</span></h2>' +
+              '<p class="meta">' + esc(area.id) + ' · country ' + esc(area.country) + ' · centroid ' + esc(centroid) + '</p>' +
+            '</div>' +
+          '</header>' +
+          '<p class="stories">' + (stories || 'No published stories') + '</p>' +
+          '<div class="flowers">' + flowers + '</div>' +
+        '</section>'
+      );
+    }
+
+    fetch('area_energy.json', { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        const root = document.getElementById('areas');
+        if (!data.areas || !data.areas.length) {
+          root.textContent = 'No experimental areas.';
+          return;
+        }
+        root.innerHTML = data.areas.map(renderArea).join('');
+      })
+      .catch(function (err) {
+        document.getElementById('areas').textContent =
+          'Could not load area_energy.json (' + err.message + '). Serve the exp/ folder over HTTP.';
+      });
+  </script>
+</body>
+</html>
