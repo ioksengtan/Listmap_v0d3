@@ -19,7 +19,7 @@ var previousView = null;
 var INDEX_MARKERS = [
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
     { label: '陽明山：住一晚，走兩天', type: 'story', story_id: '1025' },
-    { label: '東京桌遊展怎麼住幕張、哪天充電（2026 秋）', type: 'story', story_id: '1027' },
+    { label: '東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）', type: 'story', story_id: '1027' },
 ];
 
 $(document).ready(function() {
