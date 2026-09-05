@@ -78,7 +78,7 @@ const payload = {
       note: 'Mark only. Never auto-publish collections.'
     },
     centroid: 'average of pin lat/lng for stories whose primary_area is this area',
-    omitted: 'S1028 / fr-nantes — no public Nantes story on master'
+    nantes: 'S1028 → fr-nantes; centroid = mean of landmarks 495–499; 想去 +5; pocket-style 想去地景'
   },
   generated_from: {
     stories_csv: 'data/stories.csv',

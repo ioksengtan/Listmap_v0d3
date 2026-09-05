@@ -1,7 +1,7 @@
 {
   "version": "v0.2",
   "do_not_merge": true,
-  "note": "One published story → one primary_area. Hand mapping only. S1028 Nantes is not a public story on master, so fr-nantes is omitted.",
+  "note": "One published story → one primary_area. Hand mapping only. S1028 is pocket-style 想去地景.",
   "stories": [
     {
       "story_id": "1024",
@@ -20,6 +20,12 @@
       "country": "jp",
       "primary_area": "jp-makuhari",
       "pocket": false
+    },
+    {
+      "story_id": "1028",
+      "country": "fr",
+      "primary_area": "fr-nantes",
+      "pocket": true
     }
   ]
 }

@@ -62,11 +62,11 @@ const energyJson = JSON.parse(fs.readFileSync(path.join(ROOT, 'exp', 'area_energ
 assert(energyJson.version === 'v0.2', 'energy json version');
 assert(energyJson.do_not_merge === true, 'energy json must say do_not_merge');
 assert(energyJson.mark_only === true, 'energy json is mark-only');
-assert(!energyJson.areas.some((a) => a.id === 'fr-nantes'), 'do not invent fr-nantes without S1028');
-assert(!stories.some((s) => String(s.story_id) === '1028'), 'S1028 is not a public story on master');
+assert(stories.some((s) => String(s.story_id) === '1028' && s.visibility === 'public'), 'S1028 must be public on master');
+assert(energyJson.areas.some((a) => a.id === 'fr-nantes'), 'fr-nantes must be seeded from S1028');
 
 const ids = energyJson.areas.map((a) => a.id).sort();
-assert(ids.join(',') === 'jp-makuhari,tw-hsinchu,tw-yangmingshan', 'seed areas only');
+assert(ids.join(',') === 'fr-nantes,jp-makuhari,tw-hsinchu,tw-yangmingshan', 'four seed areas');
 
 const recomputed = computeAreaEnergy({
   areas: areasSeed.areas,
@@ -92,13 +92,20 @@ recomputed.forEach((area) => {
 const hsinchu = energyJson.areas.find((a) => a.id === 'tw-hsinchu');
 const yangming = energyJson.areas.find((a) => a.id === 'tw-yangmingshan');
 const makuhari = energyJson.areas.find((a) => a.id === 'jp-makuhari');
+const nantes = energyJson.areas.find((a) => a.id === 'fr-nantes');
 
 assert(hsinchu.stories.length === 1 && hsinchu.stories[0].story_id === '1024', 'S1024 → tw-hsinchu');
 assert(yangming.stories.length === 1 && yangming.stories[0].story_id === '1025', 'S1025 → tw-yangmingshan');
 assert(makuhari.stories.length === 1 && makuhari.stories[0].story_id === '1027', 'S1027 → jp-makuhari');
+assert(nantes.stories.length === 1 && nantes.stories[0].story_id === '1028', 'S1028 → fr-nantes');
 assert(hsinchu.stories[0].score === 8, 'S1024 去過 = 8');
 assert(yangming.stories[0].score === 8, 'S1025 去過 = 8');
 assert(makuhari.stories[0].score === 5, 'S1027 想去 = 5');
+assert(nantes.stories[0].score === 5, 'S1028 想去 = 5');
+assert(nantes.stories[0].pocket === true, 'S1028 is pocket-style 想去地景');
+assert(nantes.country === 'fr', 'Nantes country is fr');
+assert(nantes.centroid.lat === 47.203462 && nantes.centroid.lng === -1.569861,
+  'Nantes centroid is mean of landmarks 495–499, got ' + JSON.stringify(nantes.centroid));
 
 assert(hsinchu.flowers.weekend.energy === 13, 'Hsinchu weekend = 8 + 5 own pins');
 assert(hsinchu.flowers.weekend.story_count === 1, 'Hsinchu story count');
@@ -118,11 +125,22 @@ assert(makuhari.flowers.week.energy === 9, 'Makuhari week unchanged (TW pins are
 assert(makuhari.flowers.fortnight.energy === 9, 'Makuhari fortnight unchanged');
 assert(makuhari.flowers.weekend.landmark_count === 4, 'Makuhari own pins only');
 assert(makuhari.has_been_or_pocket === false, 'Makuhari has 想去, not 去過/pocket');
+assert(nantes.has_been_or_pocket === true, 'Nantes pocket-style satisfies 去過-or-pocket gate');
 
 ['weekend', 'week', 'fortnight'].forEach((flower) => {
+  assert(nantes.flowers[flower].energy === 10, 'Nantes ' + flower + ' = 5 + 5 own pins');
+  assert(nantes.flowers[flower].story_count === 1, 'Nantes ' + flower + ' story count');
+  assert(nantes.flowers[flower].landmark_count === 5, 'Nantes ' + flower + ' landmarks stay local');
+  assert(nantes.flowers[flower].bloom_ready === false, 'Nantes ' + flower + ' not bloom_ready');
   assert(hsinchu.flowers[flower].bloom_ready === false, 'Hsinchu ' + flower + ' not bloom_ready');
   assert(yangming.flowers[flower].bloom_ready === false, 'Yangmingshan ' + flower + ' not bloom_ready');
   assert(makuhari.flowers[flower].bloom_ready === false, 'Makuhari ' + flower + ' not bloom_ready');
+});
+
+const nantesPins = landmarks.filter((l) => String(l.story_id) === '1028');
+assert(nantesPins.length === 5, 'S1028 has 5 landmarks');
+['495', '496', '497', '498', '499'].forEach((id) => {
+  assert(nantesPins.some((l) => String(l.landmark_id) === id), 'S1028 missing landmark ' + id);
 });
 
 assert(hsinchu.has_been_or_pocket === true, 'Hsinchu has 去過');
@@ -130,6 +148,7 @@ assert(yangming.has_been_or_pocket === true, 'Yangmingshan has 去過');
 
 const html = fs.readFileSync(path.join(ROOT, 'exp', 'flower-energy.html'), 'utf8');
 assert(html.includes('area_energy.json'), 'page loads exp/area_energy.json');
+assert(html.includes('fr-nantes'), 'page mentions fr-nantes');
 assert(/bloom_ready|bloom-ready/.test(html), 'page marks bloom_ready');
 assert(!/auto-publish|自動發布/.test(html) || /不自動|never auto-publish|不會自動/.test(html),
   'page must not auto-publish collections');

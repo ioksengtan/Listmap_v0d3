@@ -38,6 +38,18 @@
         "lng": 140.039425
       },
       "pin_count": 4
+    },
+    {
+      "id": "fr-nantes",
+      "country": "fr",
+      "slug": "nantes",
+      "name": "南特",
+      "name_en": "Nantes",
+      "centroid": {
+        "lat": 47.203462,
+        "lng": -1.569861
+      },
+      "pin_count": 5
     }
   ]
 }

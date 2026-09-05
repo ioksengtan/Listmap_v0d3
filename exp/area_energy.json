@@ -57,7 +57,7 @@
       "note": "Mark only. Never auto-publish collections."
     },
     "centroid": "average of pin lat/lng for stories whose primary_area is this area",
-    "omitted": "S1028 / fr-nantes — no public Nantes story on master"
+    "nantes": "S1028 → fr-nantes; centroid = mean of landmarks 495–499; 想去 +5; pocket-style 想去地景"
   },
   "generated_from": {
     "stories_csv": "data/stories.csv",
@@ -216,6 +216,57 @@
           "bloom_ready": false,
           "story_energy": 5,
           "landmark_energy": 4
+        }
+      }
+    },
+    {
+      "id": "fr-nantes",
+      "country": "fr",
+      "slug": "nantes",
+      "name": "南特",
+      "name_en": "Nantes",
+      "centroid": {
+        "lat": 47.203462,
+        "lng": -1.569861
+      },
+      "stories": [
+        {
+          "story_id": "1028",
+          "title": "南特造船廠裡，有隻會走路的大象",
+          "tags": "想去",
+          "score": 5,
+          "pocket": true
+        }
+      ],
+      "has_been_or_pocket": true,
+      "pin_count": 5,
+      "flowers": {
+        "weekend": {
+          "radius_km": 30,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
+        },
+        "week": {
+          "radius_km": 80,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
+        },
+        "fortnight": {
+          "radius_km": 200,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
         }
       }
     }
