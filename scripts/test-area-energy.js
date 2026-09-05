@@ -148,8 +148,17 @@ assert(yangming.has_been_or_pocket === true, 'Yangmingshan has 去過');
 
 const html = fs.readFileSync(path.join(ROOT, 'exp', 'flower-energy.html'), 'utf8');
 assert(html.includes('area_energy.json'), 'page loads exp/area_energy.json');
-assert(html.includes('fr-nantes'), 'page mentions fr-nantes');
-assert(/bloom_ready|bloom-ready/.test(html), 'page marks bloom_ready');
+assert(html.includes('fr-nantes'), 'page keeps fr-nantes as an internal id');
+assert(/bloom_ready|bloom-ready/.test(html), 'page still reads bloom_ready from JSON');
+assert(html.includes('區域能量試算（實驗）'), 'page title is Traditional Chinese');
+assert(html.includes('可以開花（草稿）'), 'bloom mark uses 可以開花（草稿）');
+assert(html.includes('長週末花') && html.includes('一週花') && html.includes('兩週花'),
+  'flower types use 長週末花／一週花／兩週花');
+assert(html.includes('故事篇數') && html.includes('地圖釘點') && html.includes('涵蓋範圍'),
+  'counts use 故事篇數／地圖釘點／涵蓋範圍');
+assert(html.includes('怎麼算'), 'formula is collapsed under 怎麼算');
+assert(!html.includes('bloom_ready ·') && !html.includes('not bloom_ready'),
+  'English bloom_ready must not be user-facing');
 assert(!/auto-publish|自動發布/.test(html) || /不自動|never auto-publish|不會自動/.test(html),
   'page must not auto-publish collections');
 

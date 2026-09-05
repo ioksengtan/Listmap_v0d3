@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DO NOT MERGE · Area flower energy v0.2</title>
+  <title>區域能量試算（實驗）</title>
   <style>
     :root {
       --ink: #1d1a16;
@@ -52,27 +52,35 @@
       font-family: ui-sans-serif, system-ui, sans-serif;
       font-size: 12px;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: var(--muted);
       margin: 0 0 10px;
     }
-    .lead, .formula, .footnote {
+    .lead, .how, .footnote {
       font-family: ui-sans-serif, system-ui, sans-serif;
       color: #3f392f;
       font-size: 15px;
     }
-    .formula {
+    .lead { margin: 0 0 10px; }
+    .how {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 16px 18px;
+      padding: 12px 18px;
       margin: 20px 0 28px;
     }
-    .formula h2 {
-      font-size: 1rem;
-      margin: 0 0 8px;
+    .how summary {
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
     }
-    .formula ul { margin: 0; padding-left: 1.2rem; }
+    .how summary::-webkit-details-marker { display: none; }
+    .how summary::before {
+      content: "▸ ";
+      color: var(--muted);
+    }
+    .how[open] summary::before { content: "▾ "; }
+    .how ul { margin: 10px 0 0; padding-left: 1.2rem; }
+    .how li { margin: 0 0 6px; }
     .areas {
       display: grid;
       gap: 18px;
@@ -113,15 +121,31 @@
       background: #fff;
     }
     .flower h3 {
-      margin: 0 0 6px;
+      margin: 0 0 4px;
       font-family: ui-sans-serif, system-ui, sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: 15px;
     }
     .flower.weekend h3 { color: var(--weekend); }
     .flower.week h3 { color: var(--week); }
     .flower.fortnight h3 { color: var(--fortnight); }
+    .energy-label {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 8px 0 2px;
+    }
+    .provisional {
+      display: inline-block;
+      margin-left: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--warn);
+      background: var(--warn-bg);
+      border-radius: 999px;
+      padding: 1px 7px;
+      vertical-align: middle;
+    }
     .energy {
       font-size: 2rem;
       font-weight: 700;
@@ -161,27 +185,31 @@
   </style>
 </head>
 <body>
-  <div class="banner">EXPERIMENT ONLY · DO NOT MERGE TO MASTER · not linked from the homepage</div>
+  <div class="banner">實驗頁 · 達標只標記「可以開花（草稿）」· 不會自動發布</div>
   <main>
-    <p class="kicker">exp / flower-energy · formula v0.2</p>
-    <h1>Area flower energy</h1>
-    <p class="lead">Each area shows three flower types. <strong>bloom_ready is a mark only</strong> — this page never auto-publishes a collection.</p>
-    <section class="formula">
-      <h2>Locked v0.2 formula</h2>
+    <p class="kicker">實驗頁</p>
+    <h1>區域能量試算（實驗）</h1>
+    <p class="lead">這是實驗頁。它把每個區域的故事與地圖釘點，累積成三種「到訪天數」候選：長週末花（約三天）、一週花、兩週花。</p>
+    <p class="lead">達到門檻只會標記「可以開花（草稿）」，絕不會自動發布成正式行程。目前區域尚未達標，是正常現象。</p>
+    <details class="how">
+      <summary>怎麼算</summary>
       <ul>
-        <li>Published stories only. One story → one primary_area. Centroid = average of that area’s pins.</li>
-        <li>Story (highest tier only): 去過 +8 · 想去 +5 · 整理 +3</li>
-        <li>Landmark +1 × w(d) vs radius R. Same-country only. d≤0.6R → 1.0 · d≤R → 0.5 · else 0.</li>
-        <li>R: weekend 30 km · week 80 km · fortnight 200 km</li>
-        <li>bloom_ready needs energy + story count + landmark count, and ≥1 去過 or pocket story.</li>
+        <li>只計算已公開的故事。一篇故事對應一個主要區域。中心點為該區域地圖釘點的平均位置。</li>
+        <li>故事分數只取最高一檔：去過 +8、想去 +5、整理 +3。</li>
+        <li>地圖釘點依距離加權，且只計同一國家：距離 ≤ 0.6×涵蓋範圍 → 1.0；≤涵蓋範圍 → 0.5；否則 0。</li>
+        <li>涵蓋範圍（公里）：長週末花 30、一週花 80、兩週花 200。</li>
+        <li>「可以開花（草稿）」需同時滿足能量、故事篇數、地圖釘點門檻，且至少有一篇「去過」或口袋故事。達標只標記，不會自動發布。</li>
+        <li>門檻（暫定）：長週末花 能量≥22、故事篇數≥2、地圖釘點≥6；一週花 40／3／12；兩週花 70／5／20。</li>
       </ul>
-    </section>
-    <div id="areas" class="areas">Loading exp/area_energy.json…</div>
-    <p class="footnote"><code>fr-nantes</code> is S1028（想去 / pocket-style 想去地景）, centroid = mean of landmarks 495–499. This page is not linked from the homepage. Formal GitHub Pages visitor paths are unchanged by this experiment.</p>
+    </details>
+    <div id="areas" class="areas">正在載入各區域的試算…</div>
+    <p class="footnote">此頁獨立存在，未從首頁或部落格連出。畫面上的能量數字為暫定試算。</p>
   </main>
   <script>
     const FLOWER_ORDER = ['weekend', 'week', 'fortnight'];
-    const FLOWER_LABEL = { weekend: 'Weekend', week: 'Week', fortnight: 'Fortnight' };
+    const FLOWER_LABEL = { weekend: '長週末花', week: '一週花', fortnight: '兩週花' };
+    const COUNTRY_LABEL = { tw: '台灣', jp: '日本', fr: '法國' };
+    const SEEDED_AREA_IDS = ['tw-hsinchu', 'tw-yangmingshan', 'jp-makuhari', 'fr-nantes'];
 
     function esc(value) {
       return String(value == null ? '' : value)
@@ -192,23 +220,22 @@
     }
 
     function renderArea(area) {
-      const centroid = area.centroid
-        ? area.centroid.lat.toFixed(5) + ', ' + area.centroid.lng.toFixed(5)
-        : '—';
       const stories = (area.stories || []).map(function (s) {
-        return 'S' + s.story_id + ' · ' + s.title + ' · score ' + s.score
-          + (s.pocket ? ' · pocket' : '');
+        return 'S' + esc(s.story_id) + '〈' + esc(s.title) + '〉· 分數 ' + esc(s.score)
+          + (s.pocket ? ' · 口袋' : '');
       }).join('<br>');
       const flowers = FLOWER_ORDER.map(function (key) {
         const f = area.flowers[key];
         const ready = f.bloom_ready;
         return (
           '<article class="flower ' + key + '">' +
-            '<h3>' + FLOWER_LABEL[key] + ' · R ' + f.radius_km + ' km</h3>' +
+            '<h3>' + FLOWER_LABEL[key] + '</h3>' +
+            '<p class="meta">涵蓋範圍 ' + f.radius_km + ' 公里</p>' +
+            '<p class="energy-label">能量<span class="provisional">暫定</span></p>' +
             '<p class="energy">' + f.energy + '</p>' +
-            '<p class="counts">stories ' + f.story_count + ' · landmarks ' + f.landmark_count + '</p>' +
+            '<p class="counts">故事篇數 ' + f.story_count + ' · 地圖釘點 ' + f.landmark_count + '</p>' +
             '<span class="badge ' + (ready ? 'ready' : 'wait') + '">' +
-              (ready ? 'bloom_ready · mark only' : 'not bloom_ready') +
+              (ready ? '可以開花（草稿）' : '尚未達標') +
             '</span>' +
           '</article>'
         );
@@ -217,11 +244,11 @@
         '<section class="area" id="' + esc(area.id) + '">' +
           '<header>' +
             '<div>' +
-              '<h2>' + esc(area.name) + ' <span class="meta">/ ' + esc(area.name_en) + '</span></h2>' +
-              '<p class="meta">' + esc(area.id) + ' · country ' + esc(area.country) + ' · centroid ' + esc(centroid) + '</p>' +
+              '<h2>' + esc(area.name) + '</h2>' +
+              '<p class="meta">區域 · ' + esc(COUNTRY_LABEL[area.country] || area.country) + '</p>' +
             '</div>' +
           '</header>' +
-          '<p class="stories">' + (stories || 'No published stories') + '</p>' +
+          '<p class="stories">' + (stories || '尚無已公開故事') + '</p>' +
           '<div class="flowers">' + flowers + '</div>' +
         '</section>'
       );
@@ -235,14 +262,14 @@
       .then(function (data) {
         const root = document.getElementById('areas');
         if (!data.areas || !data.areas.length) {
-          root.textContent = 'No experimental areas.';
+          root.textContent = '目前沒有實驗區域。';
           return;
         }
         root.innerHTML = data.areas.map(renderArea).join('');
       })
       .catch(function (err) {
         document.getElementById('areas').textContent =
-          'Could not load area_energy.json (' + err.message + '). Serve the exp/ folder over HTTP.';
+          '無法載入區域資料（' + err.message + '）。請以網頁方式開啟此頁。';
       });
   </script>
 </body>
