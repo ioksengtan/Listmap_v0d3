@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>區域能量地圖（實驗）</title>
+  <!--
+    Experiment B / 地圖行程 PM locked halo + flower markers.
+    Data: always read exp/area_energy.json (same source as flower-energy.html).
+    Halo: ONE circle per area, radius = 一週花 R = 80km (area sketch). Do NOT draw three rings.
+    Three flower-type progresses appear only in the sidebar/popup.
+    progress_T = min(E/Et, S/St, L/Lt) capped at 1  (same three bloom gates, not energy alone)
+    max_progress = max(progress_weekend, progress_week, progress_fortnight)
+    fillOpacity = 0.12 + 0.43 * max_progress  (about 0.12–0.55)
+    Halo fill / darker stroke: 新竹 #E8A838, 陽明山 #5B8C5A, 幕張 #4A90A4, 南特 #C45C6A
+    Flower marker: not ready → none (halo only); 可以開花（草稿）→ gray dashed; published → solid.
+    This exp page defaults: 區域能量 ON, 故事釘點 ON.
+  -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <style>
+    :root {
+      --ink: #1d1a16;
+      --muted: #6b6258;
+      --paper: #f7f1e6;
+      --card: #fffdf8;
+      --line: #e4d8c4;
+      --warn: #8a3b12;
+      --warn-bg: #fff1d6;
+      --bloom: #2f6b3a;
+      --bloom-bg: #e5f4e8;
+      --wait: #6b6258;
+      --wait-bg: #efe8dc;
+      --weekend: #c45c26;
+      --week: #2b6cb0;
+      --fortnight: #6b46c1;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: "Iwanami", "Source Han Serif TC", "Noto Serif TC", "Georgia", serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .banner {
+      background: #8a3b12;
+      color: #fff8ee;
+      padding: 8px 16px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .shell {
+      height: calc(100% - 34px);
+      display: flex;
+      min-height: 0;
+    }
+    #map {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 280px;
+    }
+    .sidebar {
+      width: min(380px, 42vw);
+      flex: 0 0 auto;
+      overflow: auto;
+      background: var(--paper);
+      border-left: 1px solid var(--line);
+      padding: 18px 16px 28px;
+    }
+    .kicker {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+    h1 {
+      font-size: 1.45rem;
+      margin: 0 0 8px;
+    }
+    .lead {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      color: #3f392f;
+      margin: 0 0 14px;
+      line-height: 1.5;
+    }
+    .area-list {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+    .area-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+    }
+    .area-btn:hover, .area-btn.is-active {
+      border-color: #c9b79a;
+      box-shadow: 0 0 0 2px rgba(138, 59, 18, 0.08);
+    }
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+    .area-btn h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+    .meta {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    #detail {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    #detail h3 {
+      margin: 0 0 4px;
+      font-size: 1.2rem;
+    }
+    .flowers {
+      display: grid;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .flower {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+    }
+    .flower h4 {
+      margin: 0 0 6px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+    }
+    .flower.weekend h4 { color: var(--weekend); }
+    .flower.week h4 { color: var(--week); }
+    .flower.fortnight h4 { color: var(--fortnight); }
+    .bar {
+      height: 8px;
+      background: #efe8dc;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 0 0 6px;
+    }
+    .bar > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+    }
+    .flower.weekend .bar > span { background: var(--weekend); }
+    .flower.week .bar > span { background: var(--week); }
+    .flower.fortnight .bar > span { background: var(--fortnight); }
+    .counts {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      color: #3f392f;
+      margin: 0 0 8px;
+    }
+    .badge {
+      display: inline-block;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .badge.ready { background: var(--bloom-bg); color: var(--bloom); }
+    .badge.wait { background: var(--wait-bg); color: var(--wait); }
+    .detail-link {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+    }
+    .detail-link a { color: var(--warn); }
+    .placeholder {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .footnote {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 16px 0 0;
+    }
+    .leaflet-popup-content {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      margin: 10px 12px;
+      min-width: 180px;
+    }
+    .leaflet-popup-content strong { font-family: "Iwanami", "Noto Serif TC", serif; }
+    .flower-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #cfc8bc;
+      border: 2px dashed #6b6258;
+      box-shadow: 0 0 0 3px rgba(255, 253, 248, 0.7);
+    }
+    .flower-icon.published {
+      border-style: solid;
+      background: #d9a441;
+      border-color: #8a3b12;
+    }
+    .index-pin {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #1d1a16;
+      border: 2px solid #fffdf8;
+      box-shadow: 0 0 0 1px rgba(29, 26, 22, 0.25);
+    }
+    @media (max-width: 800px) {
+      .shell { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        max-height: 46%;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">實驗頁 · 一週花 80 公里光暈 · 達標才出現灰色虛線花標 · 不會自動發布</div>
+  <div class="shell">
+    <div id="map" role="application" aria-label="區域能量地圖"></div>
+    <aside class="sidebar">
+      <p class="kicker">實驗頁</p>
+      <h1>區域能量地圖（實驗）</h1>
+      <p class="lead">四個區域各畫一圈一週花涵蓋範圍（80 公里）。圓的深淺依三種花型的最佳進度。目前皆尚未達標，所以只有光暈、沒有實心彩色花標。</p>
+      <div id="area-list" class="area-list">正在載入各區域…</div>
+      <div id="detail"><p class="placeholder">點地圖光暈或上方區域，查看長週末花／一週花／兩週花進度。</p></div>
+      <p class="footnote">圖層可開關。此頁預設開啟「區域能量」與「故事釘點」。正式分享地圖應關閉區域能量層。未從首頁或部落格連出。</p>
+    </aside>
+  </div>
+  <script>
+    var WEEK_RADIUS_KM = 80;
+    var WEEK_RADIUS_M = WEEK_RADIUS_KM * 1000;
+    var FLOWER_ORDER = ['weekend', 'week', 'fortnight'];
+    var FLOWER_LABEL = { weekend: '長週末花', week: '一週花', fortnight: '兩週花' };
+    var FLOWER_NEED = {
+      weekend: { energy: 22, stories: 2, landmarks: 6 },
+      week: { energy: 40, stories: 3, landmarks: 12 },
+      fortnight: { energy: 70, stories: 5, landmarks: 20 }
+    };
+    var AREA_FILL = {
+      'tw-hsinchu': '#E8A838',
+      'tw-yangmingshan': '#5B8C5A',
+      'jp-makuhari': '#4A90A4',
+      'fr-nantes': '#C45C6A'
+    };
+    var COUNTRY_LABEL = { tw: '台灣', jp: '日本', fr: '法國' };
+
+    function esc(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function clamp01(n) {
+      if (!isFinite(n) || n < 0) return 0;
+      return n > 1 ? 1 : n;
+    }
+
+    function flowerProgress(flower, key) {
+      var need = FLOWER_NEED[key];
+      return Math.min(
+        clamp01(flower.energy / need.energy),
+        clamp01(flower.story_count / need.stories),
+        clamp01(flower.landmark_count / need.landmarks)
+      );
+    }
+
+    function maxProgress(area) {
+      return Math.max.apply(null, FLOWER_ORDER.map(function (key) {
+        return flowerProgress(area.flowers[key], key);
+      }));
+    }
+
+    function fillOpacityFor(area) {
+      return 0.12 + 0.43 * maxProgress(area);
+    }
+
+    function darkenHex(hex, factor) {
+      var raw = String(hex || '').replace('#', '');
+      var n = parseInt(raw, 16);
+      var r = Math.round(((n >> 16) & 255) * factor);
+      var g = Math.round(((n >> 8) & 255) * factor);
+      var b = Math.round((n & 255) * factor);
+      return '#' + [r, g, b].map(function (c) {
+        return (c < 16 ? '0' : '') + c.toString(16);
+      }).join('');
+    }
+
+    function isPublished(area) {
+      if (area.published === true) return true;
+      return FLOWER_ORDER.some(function (key) {
+        var f = area.flowers[key];
+        return f && f.published === true;
+      });
+    }
+
+    function isDraftReady(area) {
+      return FLOWER_ORDER.some(function (key) {
+        return area.flowers[key] && area.flowers[key].bloom_ready;
+      });
+    }
+
+    function areaToHaloFeature(area) {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [area.centroid.lng, area.centroid.lat]
+        },
+        properties: {
+          kind: 'halo',
+          id: area.id,
+          name: area.name,
+          fill: AREA_FILL[area.id],
+          stroke: darkenHex(AREA_FILL[area.id], 0.68),
+          radius_m: WEEK_RADIUS_M,
+          fillOpacity: fillOpacityFor(area),
+          max_progress: maxProgress(area)
+        }
+      };
+    }
+
+    function areaToFlowerFeature(area) {
+      if (!isDraftReady(area) && !isPublished(area)) return null;
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [area.centroid.lng, area.centroid.lat]
+        },
+        properties: {
+          kind: 'flower',
+          id: area.id,
+          name: area.name,
+          published: isPublished(area)
+        }
+      };
+    }
+
+    function deriveAreaGeoJSON(areas) {
+      var features = [];
+      areas.forEach(function (area) {
+        if (!area.centroid) return;
+        features.push(areaToHaloFeature(area));
+        var flower = areaToFlowerFeature(area);
+        if (flower) features.push(flower);
+      });
+      return { type: 'FeatureCollection', features: features };
+    }
+
+    function pct(n) {
+      return Math.round(n * 100);
+    }
+
+    function renderFlowerBlock(area, key) {
+      var f = area.flowers[key];
+      var need = FLOWER_NEED[key];
+      var p = flowerProgress(f, key);
+      var ready = f.bloom_ready;
+      return (
+        '<article class="flower ' + key + '">' +
+          '<h4>' + FLOWER_LABEL[key] + ' · ' + pct(p) + '%</h4>' +
+          '<div class="bar" aria-hidden="true"><span style="width:' + pct(p) + '%"></span></div>' +
+          '<p class="counts">能量 ' + esc(f.energy) + '/' + need.energy +
+            ' · 故事篇數 ' + esc(f.story_count) + '/' + need.stories +
+            ' · 地圖釘點 ' + esc(f.landmark_count) + '/' + need.landmarks + '</p>' +
+          '<span class="badge ' + (ready ? 'ready' : 'wait') + '">' +
+            (ready ? '可以開花（草稿）' : '尚未達標') +
+          '</span>' +
+        '</article>'
+      );
+    }
+
+    function renderDetail(area) {
+      var anyReady = isDraftReady(area);
+      var published = isPublished(area);
+      var status = published
+        ? '已發布'
+        : (anyReady ? '可以開花（草稿）' : '尚未達標（僅光暈）');
+      return (
+        '<h3>' + esc(area.name) + '</h3>' +
+        '<p class="meta">區域 · ' + esc(COUNTRY_LABEL[area.country] || area.country) +
+          ' · 最佳進度 ' + pct(maxProgress(area)) + '%</p>' +
+        '<p class="meta">' + status + '</p>' +
+        '<div class="flowers">' +
+          FLOWER_ORDER.map(function (key) { return renderFlowerBlock(area, key); }).join('') +
+        '</div>' +
+        '<p class="detail-link"><a href="flower-energy.html#' + encodeURIComponent(area.id) +
+          '">查看區域能量試算 →</a></p>'
+      );
+    }
+
+    function popupHtml(area) {
+      var rows = FLOWER_ORDER.map(function (key) {
+        var f = area.flowers[key];
+        var ready = f.bloom_ready ? '可以開花（草稿）' : '尚未達標';
+        return FLOWER_LABEL[key] + ' ' + pct(flowerProgress(f, key)) + '% · ' + ready;
+      }).join('<br>');
+      return (
+        '<strong>' + esc(area.name) + '</strong><br>' +
+        rows +
+        '<br><a href="flower-energy.html#' + encodeURIComponent(area.id) + '">區域能量試算 →</a>'
+      );
+    }
+
+    var map = L.map('map', {
+      center: [30, 110],
+      zoom: 4,
+      scrollWheelZoom: true,
+      maxZoom: 19
+    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+
+    var areaLayer = L.layerGroup();
+    var storyLayer = L.layerGroup();
+    var areaById = {};
+
+    function selectArea(area, fromMap) {
+      document.querySelectorAll('.area-btn').forEach(function (btn) {
+        btn.classList.toggle('is-active', btn.getAttribute('data-area') === area.id);
+      });
+      document.getElementById('detail').innerHTML = renderDetail(area);
+      if (!fromMap && area.centroid) {
+        map.flyTo([area.centroid.lat, area.centroid.lng], 8, { duration: 0.6 });
+      }
+    }
+
+    function addAreaLayers(areas, geojson) {
+      L.geoJSON(geojson, {
+        pointToLayer: function (feature, latlng) {
+          var p = feature.properties;
+          if (p.kind === 'flower') {
+            return L.marker(latlng, {
+              icon: L.divIcon({
+                className: '',
+                html: '<div class="flower-icon' + (p.published ? ' published' : '') + '"></div>',
+                iconSize: [22, 22],
+                iconAnchor: [11, 11]
+              }),
+              zIndexOffset: 400
+            });
+          }
+          return L.circle(latlng, {
+            radius: p.radius_m,
+            color: p.stroke,
+            weight: 2,
+            fillColor: p.fill,
+            fillOpacity: p.fillOpacity,
+            opacity: 0.9
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          var area = areaById[feature.properties.id];
+          if (!area) return;
+          layer.bindPopup(popupHtml(area));
+          layer.on('click', function () { selectArea(area, true); });
+        }
+      }).addTo(areaLayer);
+    }
+
+    function renderAreaButtons(areas) {
+      var root = document.getElementById('area-list');
+      root.innerHTML = areas.map(function (area) {
+        return (
+          '<button type="button" class="area-btn" data-area="' + esc(area.id) + '">' +
+            '<span class="swatch" style="background:' + AREA_FILL[area.id] + '"></span>' +
+            '<span><h2>' + esc(area.name) + '</h2>' +
+            '<span class="meta">最佳進度 ' + pct(maxProgress(area)) + '% · ' +
+              (isDraftReady(area) ? '可以開花（草稿）' : '尚未達標') +
+            '</span></span>' +
+          '</button>'
+        );
+      }).join('');
+      root.querySelectorAll('.area-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          selectArea(areaById[btn.getAttribute('data-area')], false);
+        });
+      });
+    }
+
+    function addStoryPins(areas, staticData) {
+      var landmarks = (staticData && staticData.landmarks) || [];
+      areas.forEach(function (area) {
+        (area.stories || []).forEach(function (story) {
+          var first = landmarks.find(function (lm) {
+            return String(lm.story_id) === String(story.story_id);
+          });
+          if (!first) return;
+          var lat = Number(first.lat);
+          var lng = Number(first.lng);
+          if (!isFinite(lat) || !isFinite(lng)) return;
+          var marker = L.marker([lat, lng], {
+            icon: L.divIcon({
+              className: '',
+              html: '<div class="index-pin" title="' + esc(story.title) + '"></div>',
+              iconSize: [10, 10],
+              iconAnchor: [5, 5]
+            })
+          });
+          marker.bindPopup(
+            '<strong>' + esc(story.title) + '</strong><br>' +
+            esc(area.name) +
+            '<br><a href="../blog.html#' + encodeURIComponent(story.story_id) + '">閱讀故事 →</a>'
+          );
+          storyLayer.addLayer(marker);
+        });
+      });
+    }
+
+    function fitAreas(areas) {
+      var bounds = L.latLngBounds([]);
+      areas.forEach(function (area) {
+        if (area.centroid) bounds.extend([area.centroid.lat, area.centroid.lng]);
+      });
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [48, 48], maxZoom: 5 });
+      }
+    }
+
+    Promise.all([
+      fetch('area_energy.json', { cache: 'no-store' }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      }),
+      fetch('../data/static.json', { cache: 'no-store' }).then(function (res) {
+        return res.ok ? res.json() : { landmarks: [] };
+      }).catch(function () { return { landmarks: [] }; })
+    ]).then(function (pair) {
+      var data = pair[0];
+      var staticData = pair[1];
+      var areas = (data.areas || []).filter(function (area) {
+        return area && area.centroid && AREA_FILL[area.id];
+      });
+      if (!areas.length) {
+        document.getElementById('area-list').textContent = '目前沒有實驗區域。';
+        return;
+      }
+      areas.forEach(function (area) { areaById[area.id] = area; });
+      addAreaLayers(areas, deriveAreaGeoJSON(areas));
+      addStoryPins(areas, staticData);
+      renderAreaButtons(areas);
+      areaLayer.addTo(map);
+      storyLayer.addTo(map);
+      L.control.layers(null, {
+        '區域能量': areaLayer,
+        '故事釘點': storyLayer
+      }, { collapsed: false }).addTo(map);
+      fitAreas(areas);
+    }).catch(function (err) {
+      document.getElementById('area-list').textContent =
+        '無法載入區域資料（' + err.message + '）。請以網頁方式開啟此頁。';
+    });
+  </script>
+</body>
+</html>

@@ -162,12 +162,36 @@ assert(!html.includes('bloom_ready ·') && !html.includes('not bloom_ready'),
 assert(!/auto-publish|自動發布/.test(html) || /不自動|never auto-publish|不會自動/.test(html),
   'page must not auto-publish collections');
 
+const mapHtml = fs.readFileSync(path.join(ROOT, 'exp', 'map-flower.html'), 'utf8');
+assert(mapHtml.includes('area_energy.json'), 'map page loads exp/area_energy.json');
+assert(mapHtml.includes('區域能量地圖（實驗）'), 'map page title is Traditional Chinese');
+assert(mapHtml.includes('新竹') && mapHtml.includes('陽明山') && mapHtml.includes('幕張') && mapHtml.includes('南特'),
+  'map page uses 新竹／陽明山／幕張／南特');
+assert(mapHtml.includes('長週末花') && mapHtml.includes('一週花') && mapHtml.includes('兩週花'),
+  'map page flower types use 長週末花／一週花／兩週花');
+assert(mapHtml.includes('可以開花（草稿）'), 'map page bloom mark uses 可以開花（草稿）');
+assert(mapHtml.includes('flower-energy.html'), 'map page links to exp/flower-energy.html');
+assert(mapHtml.includes('#E8A838') && mapHtml.includes('#5B8C5A') && mapHtml.includes('#4A90A4') && mapHtml.includes('#C45C6A'),
+  'map page uses locked halo fill colors');
+assert(mapHtml.includes('WEEK_RADIUS_KM = 80'), 'map halo is the single 一週花 80km radius');
+assert(mapHtml.includes('0.12 + 0.43'), 'map fillOpacity = 0.12 + 0.43 * max_progress');
+assert(mapHtml.includes('min(') && mapHtml.includes('story_count') && mapHtml.includes('landmark_count'),
+  'progress uses min of energy / stories / landmarks');
+assert(!/radius_km: 30[\s\S]*radius_km: 80[\s\S]*radius_km: 200/.test(mapHtml) || mapHtml.includes('Do NOT draw three rings'),
+  'map page documents a single halo, not three rings');
+assert(mapHtml.includes("'區域能量'") && mapHtml.includes("'故事釘點'"),
+  'map page has toggleable 區域能量 / 故事釘點 layers');
+assert(mapHtml.includes('areaLayer.addTo(map)') && mapHtml.includes('storyLayer.addTo(map)'),
+  'this exp page turns 區域能量 and 故事釘點 ON by default');
+
 const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const blogHtml = fs.readFileSync(path.join(ROOT, 'blog.html'), 'utf8');
 assert(!/exp\//.test(indexHtml), 'homepage must not link into exp/');
 assert(!/exp\//.test(blogHtml), 'blog.html must not link into exp/');
 assert(!/flower-energy/.test(indexHtml), 'homepage must not mention flower-energy');
 assert(!/flower-energy/.test(blogHtml), 'blog.html must not mention flower-energy');
+assert(!/map-flower/.test(indexHtml), 'homepage must not mention map-flower');
+assert(!/map-flower/.test(blogHtml), 'blog.html must not mention map-flower');
 
 console.log('OK: v0.2 area-flower energy checks passed');
 energyJson.areas.forEach((area) => {
