@@ -14,7 +14,7 @@ var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
 
-// Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030).
+// Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MARKERS = [
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
@@ -23,6 +23,7 @@ var INDEX_MARKERS = [
     { label: '南特造船廠裡，有隻會走路的大象', type: 'story', story_id: '1028' },
     { label: '福隆：住一晚，騎舊草嶺', type: 'story', story_id: '1029' },
     { label: '秋芳洞：地下十七度，電梯上去是台地', type: 'story', story_id: '1030' },
+    { label: '越生：黒山園釣烤，順路三座瀑布', type: 'story', story_id: '1031' },
 ];
 
 $(document).ready(function() {
