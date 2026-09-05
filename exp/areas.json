@@ -1,0 +1,55 @@
+{
+  "version": "v0.2",
+  "do_not_merge": true,
+  "note": "Hand-seeded experimental areas. Centroid = average of that area's published pins. No auto-merge, no ML.",
+  "areas": [
+    {
+      "id": "tw-hsinchu",
+      "country": "tw",
+      "slug": "hsinchu",
+      "name": "新竹",
+      "name_en": "Hsinchu",
+      "centroid": {
+        "lat": 24.80948,
+        "lng": 120.98302
+      },
+      "pin_count": 5
+    },
+    {
+      "id": "tw-yangmingshan",
+      "country": "tw",
+      "slug": "yangmingshan",
+      "name": "陽明山",
+      "name_en": "Yangmingshan",
+      "centroid": {
+        "lat": 25.176517,
+        "lng": 121.5742
+      },
+      "pin_count": 6
+    },
+    {
+      "id": "jp-makuhari",
+      "country": "jp",
+      "slug": "makuhari",
+      "name": "幕張",
+      "name_en": "Makuhari",
+      "centroid": {
+        "lat": 35.64435,
+        "lng": 140.039425
+      },
+      "pin_count": 4
+    },
+    {
+      "id": "fr-nantes",
+      "country": "fr",
+      "slug": "nantes",
+      "name": "南特",
+      "name_en": "Nantes",
+      "centroid": {
+        "lat": 47.203462,
+        "lng": -1.569861
+      },
+      "pin_count": 5
+    }
+  ]
+}

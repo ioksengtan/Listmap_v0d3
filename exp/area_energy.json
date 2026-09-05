@@ -1,0 +1,274 @@
+{
+  "version": "v0.2",
+  "do_not_merge": true,
+  "mark_only": true,
+  "formula": {
+    "name": "map-itinerary PM locked v0.2",
+    "published_stories_only": true,
+    "story_contribution": {
+      "rule": "highest tier only",
+      "tiers": [
+        {
+          "tag": "去過",
+          "score": 8
+        },
+        {
+          "tag": "想去",
+          "score": 5
+        },
+        {
+          "tag": "整理",
+          "score": 3
+        }
+      ]
+    },
+    "landmark_contribution": {
+      "per_landmark": "+1 × w(d)",
+      "weight": [
+        {
+          "when": "cross-country",
+          "w": 0
+        },
+        {
+          "when": "d ≤ 0.6R",
+          "w": 1
+        },
+        {
+          "when": "d ≤ R",
+          "w": 0.5
+        },
+        {
+          "when": "d > R",
+          "w": 0
+        }
+      ],
+      "energy": "sum of assigned story scores + sum of landmark weights vs the area centroid"
+    },
+    "radii_km": {
+      "weekend": 30,
+      "week": 80,
+      "fortnight": 200
+    },
+    "bloom_ready": {
+      "weekend": "E≥22 AND stories≥2 AND landmarks≥6",
+      "week": "E≥40 AND stories≥3 AND landmarks≥12",
+      "fortnight": "E≥70 AND stories≥5 AND landmarks≥20",
+      "also": "≥1 story tagged 去過 OR marked pocket",
+      "note": "Mark only. Never auto-publish collections."
+    },
+    "centroid": "average of pin lat/lng for stories whose primary_area is this area",
+    "nantes": "S1028 → fr-nantes; centroid = mean of landmarks 495–499; 想去 +5; pocket-style 想去地景"
+  },
+  "generated_from": {
+    "stories_csv": "data/stories.csv",
+    "landmarks_csv": "data/landmarks.csv",
+    "areas": "exp/areas.json",
+    "story_areas": "exp/story_areas.json"
+  },
+  "areas": [
+    {
+      "id": "tw-hsinchu",
+      "country": "tw",
+      "slug": "hsinchu",
+      "name": "新竹",
+      "name_en": "Hsinchu",
+      "centroid": {
+        "lat": 24.80948,
+        "lng": 120.98302
+      },
+      "stories": [
+        {
+          "story_id": "1024",
+          "title": "新竹牛肉麵五選",
+          "tags": "吃,去過",
+          "score": 8,
+          "pocket": false
+        }
+      ],
+      "has_been_or_pocket": true,
+      "pin_count": 5,
+      "flowers": {
+        "weekend": {
+          "radius_km": 30,
+          "energy": 13,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 5
+        },
+        "week": {
+          "radius_km": 80,
+          "energy": 16,
+          "story_count": 1,
+          "landmark_count": 11,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 8
+        },
+        "fortnight": {
+          "radius_km": 200,
+          "energy": 19,
+          "story_count": 1,
+          "landmark_count": 11,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 11
+        }
+      }
+    },
+    {
+      "id": "tw-yangmingshan",
+      "country": "tw",
+      "slug": "yangmingshan",
+      "name": "陽明山",
+      "name_en": "Yangmingshan",
+      "centroid": {
+        "lat": 25.176517,
+        "lng": 121.5742
+      },
+      "stories": [
+        {
+          "story_id": "1025",
+          "title": "陽明山：住一晚，走兩天",
+          "tags": "去過,渡假",
+          "score": 8,
+          "pocket": false
+        }
+      ],
+      "has_been_or_pocket": true,
+      "pin_count": 6,
+      "flowers": {
+        "weekend": {
+          "radius_km": 30,
+          "energy": 14,
+          "story_count": 1,
+          "landmark_count": 6,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 6
+        },
+        "week": {
+          "radius_km": 80,
+          "energy": 16.5,
+          "story_count": 1,
+          "landmark_count": 11,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 8.5
+        },
+        "fortnight": {
+          "radius_km": 200,
+          "energy": 19,
+          "story_count": 1,
+          "landmark_count": 11,
+          "bloom_ready": false,
+          "story_energy": 8,
+          "landmark_energy": 11
+        }
+      }
+    },
+    {
+      "id": "jp-makuhari",
+      "country": "jp",
+      "slug": "makuhari",
+      "name": "幕張",
+      "name_en": "Makuhari",
+      "centroid": {
+        "lat": 35.64435,
+        "lng": 140.039425
+      },
+      "stories": [
+        {
+          "story_id": "1027",
+          "title": "東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）",
+          "tags": "渡假,想去",
+          "score": 5,
+          "pocket": false
+        }
+      ],
+      "has_been_or_pocket": false,
+      "pin_count": 4,
+      "flowers": {
+        "weekend": {
+          "radius_km": 30,
+          "energy": 9,
+          "story_count": 1,
+          "landmark_count": 4,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 4
+        },
+        "week": {
+          "radius_km": 80,
+          "energy": 9,
+          "story_count": 1,
+          "landmark_count": 4,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 4
+        },
+        "fortnight": {
+          "radius_km": 200,
+          "energy": 9,
+          "story_count": 1,
+          "landmark_count": 4,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 4
+        }
+      }
+    },
+    {
+      "id": "fr-nantes",
+      "country": "fr",
+      "slug": "nantes",
+      "name": "南特",
+      "name_en": "Nantes",
+      "centroid": {
+        "lat": 47.203462,
+        "lng": -1.569861
+      },
+      "stories": [
+        {
+          "story_id": "1028",
+          "title": "南特造船廠裡，有隻會走路的大象",
+          "tags": "想去",
+          "score": 5,
+          "pocket": true
+        }
+      ],
+      "has_been_or_pocket": true,
+      "pin_count": 5,
+      "flowers": {
+        "weekend": {
+          "radius_km": 30,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
+        },
+        "week": {
+          "radius_km": 80,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
+        },
+        "fortnight": {
+          "radius_km": 200,
+          "energy": 10,
+          "story_count": 1,
+          "landmark_count": 5,
+          "bloom_ready": false,
+          "story_energy": 5,
+          "landmark_energy": 5
+        }
+      }
+    }
+  ]
+}
