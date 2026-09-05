@@ -4931,6 +4931,24 @@
       "created_at": "2026-09-05",
       "start_date": "",
       "end_date": ""
+    },
+    {
+      "story_id": "1030",
+      "collection_id": "",
+      "title": "秋芳洞：地下十七度，電梯上去是台地",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Akiyoshido",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-05",
+      "start_date": "",
+      "end_date": ""
     }
   ],
   "landmarks": [
@@ -18230,6 +18248,61 @@
       "lng": "121.943771",
       "content": "過夜極。貼浴場／沙嘴；海洋溫泉收腿。官網 fullon-hotels。",
       "link": "https://www.fullon-hotels.com.tw/fl/tw/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "506",
+      "story_id": "1030",
+      "name": "秋芳洞正面入口",
+      "lat": "34.2281",
+      "lng": "131.3035",
+      "content": "主針。觀光起點。座標 Wikidata 二次。",
+      "link": "https://karusuto.com/spot/akiyoshido/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "507",
+      "story_id": "1030",
+      "name": "百枚皿",
+      "lat": "34.2281",
+      "lng": "131.3035",
+      "content": "洞內主景；精確點未知，暫釘入口區。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "508",
+      "story_id": "1030",
+      "name": "黃金柱",
+      "lat": "34.2281",
+      "lng": "131.3035",
+      "content": "洞內象徵石柱（黄金柱）；精確點未知，暫釘入口區。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "509",
+      "story_id": "1030",
+      "name": "冒険コース",
+      "lat": "34.2281",
+      "lng": "131.3035",
+      "content": "青天井支線；＋300円、租手電筒。不是未公開探洞。",
+      "link": "https://caving.karusuto.com/html/adventure.html",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "510",
+      "story_id": "1030",
+      "name": "カルスト展望台",
+      "lat": "34.236",
+      "lng": "131.308",
+      "content": "地上台地對照；約值。電梯口再走約5–10分。",
+      "link": "https://karusuto.com/spot/akiyoshidai/",
       "address": "",
       "tags": ""
     }

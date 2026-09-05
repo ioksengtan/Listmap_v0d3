@@ -2,7 +2,7 @@
 var homepageStoryLayer = null;
 
 /** Visitor homepage only heroes clearly public stories. */
-var HOMEPAGE_STORY_IDS = ['1024', '1025', '1027', '1028', '1029'];
+var HOMEPAGE_STORY_IDS = ['1024', '1025', '1027', '1028', '1029', '1030'];
 
 function escapeHtml(str) {
     return String(str || '')
