@@ -662,7 +662,6 @@ const imgDir1032 = path.join(ROOT, 'images', 'stories', '1032');
 });
 assert(fs.existsSync(path.join(imgDir1032, 'CREDITS.md')), 'S1032 CREDITS.md missing');
 
-const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
 assert(mapJs.includes('invalidateSize'), 'map.js should call invalidateSize on resize');
 assert(mapJs.includes('orientationchange'), 'map.js should invalidateSize on orientation change');
 assert((mapJs.match(/L\.map\(/g) || []).length >= 1, 'map.js should create a Leaflet map');
