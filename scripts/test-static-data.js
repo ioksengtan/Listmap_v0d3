@@ -599,6 +599,15 @@ assert(/story_id:\s*'100026'/.test(markerBlock[1]), 'INDEX_MARKERS must include 
 assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
+assert(/function hideIndexLayer\s*\(/.test(blogJs), 'blog.js must define hideIndexLayer');
+assert(/function showIndexLayer\s*\(/.test(blogJs), 'blog.js must define showIndexLayer');
+const loadStoryFn = blogJs.match(/function loadStory\s*\([\s\S]*?\nfunction injectStoryHashtags/);
+assert(loadStoryFn && /hideIndexLayer\s*\(\s*\)/.test(loadStoryFn[0]), 'loadStory must hide indexLayer so homepage pins do not linger');
+assert(loadStoryFn && /mymap\.fitBounds\(allLatlngs/.test(loadStoryFn[0]), 'loadStory must still fitBounds to the current story');
+const goBackFn = blogJs.match(/function blogGoBack\s*\([\s\S]*?\nfunction loadCollectionById/);
+assert(goBackFn && /showIndexLayer\s*\(\s*\)/.test(goBackFn[0]), 'blogGoBack must restore indexLayer on home');
+const loadCollFn = blogJs.match(/function loadCollectionById\s*\([\s\S]*?\nfunction loadStoryById/);
+assert(loadCollFn && /hideIndexLayer\s*\(\s*\)/.test(loadCollFn[0]), 'loadCollectionById must hide homepage indexLayer');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
 assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]100026['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1033 and S100026');
 

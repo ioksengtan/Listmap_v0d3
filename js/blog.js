@@ -181,6 +181,18 @@ function loadIndexMarkers() {
     })(ListmapData.getStoriesIndex());
 }
 
+function hideIndexLayer() {
+    if (indexLayer && mymap.hasLayer(indexLayer)) {
+        mymap.removeLayer(indexLayer);
+    }
+}
+
+function showIndexLayer() {
+    if (indexLayer && !mymap.hasLayer(indexLayer)) {
+        indexLayer.addTo(mymap);
+    }
+}
+
 function showPanelBackBtn(label, onclick) {
     var btn = $('#blog-back-btn');
     btn.html('<button class="btn btn-sm btn-outline-secondary" onclick="' + onclick + '">← ' + label + '</button>');
@@ -333,6 +345,7 @@ $(document).on('click', '.map-place-link', function(e) {
 
 function loadStory(story, fromCollection) {
     clearMapLayers();
+    hideIndexLayer();
 
     currentLandmarkLayer = L.layerGroup().addTo(mymap);
     var allLatlngs = [];
@@ -539,6 +552,7 @@ function blogGoBack() {
     $('[data-story-id], [data-collection-id]').hide();
     $('#blog-welcome').show();
     if (mapBackControl) $(mapBackControl.getContainer()).hide();
+    showIndexLayer();
     if (indexLayer) {
         var pts = indexLayer.getLayers().filter(function(l){ return l.getLatLng; }).map(function(l){ return l.getLatLng(); });
         if (pts.length === 1) mymap.setView(pts[0], 10);
@@ -548,6 +562,7 @@ function blogGoBack() {
 
 function loadCollectionById(collection_id) {
     clearMapLayers();
+    hideIndexLayer();
 
     var data = ListmapData.getStoriesByCollection(collection_id);
     currentLandmarkLayer = L.layerGroup();
@@ -597,6 +612,7 @@ function loadStoryById(story_id, from_collection_id) {
             loadStory(story, fromCollection);
         } else {
             clearMapLayers();
+            hideIndexLayer();
             if (fromCollection) {
                 showPanelBackBtn(fromCollection.title, "blogGoBack()");
                 previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };
