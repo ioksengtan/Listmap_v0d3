@@ -601,6 +601,9 @@ assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero N
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
 assert(/function hideIndexLayer\s*\(/.test(blogJs), 'blog.js must define hideIndexLayer');
 assert(/function showIndexLayer\s*\(/.test(blogJs), 'blog.js must define showIndexLayer');
+assert(/function storyIdFromHash\s*\(/.test(blogJs), 'blog.js must parse story hashes');
+assert(/loadIndexMarkers\(\s*\{\s*attach:\s*!parsed\s*\}\)/.test(blogJs), 'story hash must not attach homepage indexLayer');
+assert(/\$\(window\)\.on\(\s*'hashchange'/.test(blogJs), 'blog.js must open stories from hashchange');
 const loadStoryFn = blogJs.match(/function loadStory\s*\([\s\S]*?\nfunction injectStoryHashtags/);
 assert(loadStoryFn && /hideIndexLayer\s*\(\s*\)/.test(loadStoryFn[0]), 'loadStory must hide indexLayer so homepage pins do not linger');
 assert(loadStoryFn && /mymap\.fitBounds\(allLatlngs/.test(loadStoryFn[0]), 'loadStory must still fitBounds to the current story');

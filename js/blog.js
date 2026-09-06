@@ -44,18 +44,23 @@ $(document).ready(function() {
     initMap();
 
     ListmapData.load().done(function() {
-        loadIndexMarkers();
-        var hash = location.hash.replace('#', '');
-        if (hash) {
-            var parts = hash.split('/');
-            var sid = parts[0];
-            var cid = parts[1] || null;
-            if (/^\d+$/.test(sid)) {
-                loadStoryById(sid, cid);
-            }
+        var parsed = storyIdFromHash();
+        // Build index pins always, but do not attach them when a story hash is already open.
+        loadIndexMarkers({ attach: !parsed });
+        if (parsed) {
+            loadStoryById(parsed.sid, parsed.cid);
         }
     }).fail(function() {
         console.error('Failed to load data/static.json');
+    });
+
+    $(window).on('hashchange', function() {
+        var parsed = storyIdFromHash();
+        if (parsed) {
+            loadStoryById(parsed.sid, parsed.cid);
+        } else if (previousView) {
+            blogGoBack();
+        }
     });
 
     // 回索引按鈕放在地圖左下角
@@ -107,7 +112,18 @@ function refreshDynamicI18n() {
     }
 }
 
-function loadIndexMarkers() {
+function storyIdFromHash() {
+    var hash = location.hash.replace('#', '');
+    if (!hash) return null;
+    var parts = hash.split('/');
+    var sid = parts[0];
+    if (!/^\d+$/.test(sid)) return null;
+    return { sid: sid, cid: parts[1] || null };
+}
+
+function loadIndexMarkers(opts) {
+    opts = opts || {};
+    var attach = opts.attach !== false;
     indexLayer = L.layerGroup();
 
     (function(data) {
@@ -149,7 +165,9 @@ function loadIndexMarkers() {
             indexLayer.addLayer(marker);
         });
 
-        indexLayer.addTo(mymap);
+        if (attach) {
+            indexLayer.addTo(mymap);
+        }
 
         // 首頁卡片 visibility 處理
         var storyMap = {};
@@ -169,14 +187,16 @@ function loadIndexMarkers() {
             }
         });
 
-        // 縮放到索引標記範圍
-        var bounds = indexLayer.getLayers()
-            .filter(function(l) { return l.getLatLng; })
-            .map(function(l) { return l.getLatLng(); });
-        if (bounds.length === 1) {
-            mymap.setView(bounds[0], 10);
-        } else if (bounds.length > 1) {
-            mymap.fitBounds(bounds, { padding: [60, 60] });
+        // 縮放到索引標記範圍（僅首頁掛上 indexLayer 時）
+        if (attach) {
+            var bounds = indexLayer.getLayers()
+                .filter(function(l) { return l.getLatLng; })
+                .map(function(l) { return l.getLatLng(); });
+            if (bounds.length === 1) {
+                mymap.setView(bounds[0], 10);
+            } else if (bounds.length > 1) {
+                mymap.fitBounds(bounds, { padding: [60, 60] });
+            }
         }
     })(ListmapData.getStoriesIndex());
 }
