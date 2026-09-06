@@ -150,9 +150,9 @@ assert((m1027[0].match(/class="map-place-link"/g) || []).length === 4, 'story 10
   assert(m1027[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1027 section landmark ' + id);
 });
 assert(m1027[0].includes('data-landmark="492"') && m1027[0].includes('海浜幕張'), 'story 1027 station link says 海浜幕張');
-assert(m1027[0].includes('幕張，不要新宿來回'), 'story 1027 v5 heading: stay in Makuhari, not Shinjuku commutes');
-assert(m1027[0].includes('兩天在會場，另外留一天給腿'), 'story 1027 v5 heading: two hall days plus a day for the legs');
-assert(m1027[0].includes('先住下來'), 'story 1027 v5 heading: check in first');
+assert(m1027[0].includes('幕張，不做新宿來回的傻事'), 'story 1027 heading: stay in Makuhari, not Shinjuku commutes');
+assert(m1027[0].includes('兩天在會場，留一天給雙腿'), 'story 1027 heading: two hall days plus a day for the legs');
+assert(m1027[0].includes('先把床找好'), 'story 1027 heading: check in first');
 assert(!/javascript:zoomto/.test(m1027[0]), 'story 1027 no zoomto');
 assert(blogHtml.includes("blogOpenStory(event,'1027')") || blogHtml.includes("loadStoryById('1027')"), 'blog index card for S1027');
 assert(blogHtml.includes('href="stories/1027.html"'), 'blog index card permalink for S1027');
@@ -306,7 +306,7 @@ assert((m1030[0].match(/class="map-place-link"/g) || []).length === 5, 'story 10
 assert(/data-landmark="506"[^>]*data-zoom="13"[^>]*>秋芳洞正面入口</.test(m1030[0]), 'story 1030 intro entrance maps to 506 zoom 13');
 assert(/data-landmark="507"[^>]*data-zoom="16"[^>]*>百枚皿</.test(m1030[0]), 'story 1030 百枚皿 maps to 507 zoom 16');
 assert(/data-landmark="508"[^>]*data-zoom="16"[^>]*>黃金柱</.test(m1030[0]), 'story 1030 黃金柱 maps to 508 zoom 16');
-assert(/data-landmark="509"[^>]*data-zoom="16"[^>]*>冒險コース</.test(m1030[0]), 'story 1030 冒險コース maps to 509');
+assert(/data-landmark="509"[^>]*data-zoom="16"[^>]*>冒険コース</.test(m1030[0]), 'story 1030 冒険コース maps to 509');
 assert(/data-landmark="510"[^>]*data-zoom="15"[^>]*>カルスト展望台</.test(m1030[0]), 'story 1030 展望台 maps to 510 zoom 15');
 assert(blogHtml.includes("blogOpenStory(event,'1030')") || blogHtml.includes("loadStoryById('1030')"), 'blog index card for S1030');
 assert(blogHtml.includes('href="stories/1030.html"'), 'blog index card permalink for S1030');
@@ -1165,6 +1165,12 @@ assert(indexHtml.includes('data-lang="en"'), 'homepage language switcher');
 assert(indexJs.includes('ListmapI18n'), 'index.js uses ListmapI18n');
 assert(indexJs.includes('invalidateSize'), 'homepage language switch invalidateSize');
 
+const GA_MEASUREMENT_ID = 'G-T97FXT0K1E';
+[['index.html', indexHtml], ['blog.html', blogHtml], ['about.html', aboutHtml]].forEach(([name, html]) => {
+  assert(html.includes('googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID), name + ' loads gtag.js with the GA4 measurement id');
+  assert(html.includes("gtag('config', '" + GA_MEASUREMENT_ID + "')"), name + ' configures gtag with the GA4 measurement id');
+});
+
 const {
   PAGES_ORIGIN,
   DEFAULT_OG_IMAGE,
@@ -1205,8 +1211,23 @@ shareable.forEach(function (story) {
   const pagePath = path.join(ROOT, 'stories', story.story_id + '.html');
   assert(fs.existsSync(pagePath), 'missing generated story page ' + story.story_id);
   const page = fs.readFileSync(pagePath, 'utf8');
-  const rebuilt = buildStoryPageHtml(blogHtml, story);
+  const rebuilt = buildStoryPageHtml(blogHtml, story, payload.landmarks);
   assert(page === rebuilt, 'stories/' + story.story_id + '.html is stale — run npm run compile-data');
+  assert(page.indexOf('type="application/ld+json"') !== -1, story.story_id + ' JSON-LD script present');
+  const ldMatch = page.match(/<script type="application\/ld\+json">\n([\s\S]*?)\n\s*<\/script>/);
+  assert(ldMatch, story.story_id + ' JSON-LD block parseable');
+  const ld = JSON.parse(ldMatch[1]);
+  assert(Array.isArray(ld['@graph']) && ld['@graph'].length === 2, story.story_id + ' JSON-LD @graph has Article + Breadcrumb');
+  const ldArticle = ld['@graph'][0];
+  assert(ldArticle['@type'] === 'BlogPosting', story.story_id + ' JSON-LD Article type');
+  assert(ldArticle.headline === story.title, story.story_id + ' JSON-LD headline matches title');
+  assert(ldArticle.url === 'https://ioksengtan.github.io/Listmap_v0d3/stories/' + story.story_id + '.html',
+    story.story_id + ' JSON-LD url matches canonical');
+  const storyLandmarkCount = payload.landmarks.filter(function (lm) { return lm.story_id === story.story_id && lm.lat && lm.lng; }).length;
+  if (storyLandmarkCount > 0) {
+    assert(Array.isArray(ldArticle.contentLocation) && ldArticle.contentLocation.length === storyLandmarkCount,
+      story.story_id + ' JSON-LD contentLocation covers all landmarks');
+  }
   assert(page.indexOf('property="og:title"') !== -1, story.story_id + ' og:title');
   assert(page.indexOf('content="' + story.title + '"') !== -1, story.story_id + ' og:title content');
   assert(page.indexOf('property="og:description"') !== -1, story.story_id + ' og:description');
@@ -1274,7 +1295,7 @@ assert(page100030.indexOf('<section data-story-id="100030" style="display:none;"
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
 
-const rewritten = compileStoryPages(payload.stories);
+const rewritten = compileStoryPages(payload.stories, payload.landmarks);
 assert(rewritten.join(',') === shareableIds.join(','), 'compileStoryPages should emit exactly the public share set');
 
 console.log('OK: static data compile + Pages wiring checks passed');
