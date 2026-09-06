@@ -142,3 +142,58 @@
 - 新增 / 編輯故事的 UI 仍依賴舊系統，本地 CSV 無寫入機制
 - 無行動裝置優化版面
 - 故事集頁面（`collections.html`）尚未與 blog 索引標記整合
+
+---
+
+## 7. 團隊回饋與優先順序
+
+### 最值得優先修正的四個項目
+1. **修正資料品質：GPS 與 story/landmark 對應**
+   - 這是整個地圖體驗的基礎，因為內容與地標綁定的準確性直接影響使用者信任。
+   - 建議先建立一份地標校正清單，逐步更新 `data/landmarks.csv`，尤其是已知偏移的海德堡景點。
+
+2. **補齊本地 CRUD：新增 / 編輯 / 刪除故事與地標**
+   - 目前新增與編輯功能仍依賴舊系統，這是最明顯的功能缺口。
+   - 最小可行版本應先支援 CSV 寫入 API，讓內容管理不再依賴舊架構。
+
+3. **統一前端地圖邏輯，移除 Google Maps 遺留程式碼**
+   - `js/map.js` 還混雜舊的 Google Maps 寫法，造成開發維護成本上升。
+   - 建議會整合成一套 `MapManager` / `storyMap` 風格的統一流程，讓所有頁面共用相同資料格式與地圖層處理邏輯。
+
+4. **強化 `blog.html` 的穩定性與內容編輯體驗**
+   - 目前 blog 模組是最重要的體驗入口，但索引點、熱區、story_id 對應仍相當手動。
+   - 建議建立命名規則、熱區模板與自動綁定流程，降低內容更新門檻。
+
+### 建議的開發順序
+- 第一階段：修正 GPS 資料、統一 API 格式、補齊 story/landmark CRUD
+- 第二階段：優化 `blog.html` 的索引、地標和熱區流程
+- 第三階段：整合 `collections.html` 與 blog 索引，以及完善 `find_stories.html` 篩選
+- 第四階段：行動裝置優化、資料匯出匯入與長期維護工具
+
+### 綜合判斷
+- 從專案價值與維護成本來看，最值得投資的不是單一頁面，而是「資料正確性」和「內容管理能力」。
+- 只要這兩者穩定，後續的地圖探索、搜尋和 blog 體驗就能快速擴張。
+
+這份整理可作為後續討論與 PR/issue 起草的基礎文本，方便與其他成員一起確認優先順序與下一步任務。
+
+---
+
+## 8. 第一階段已完成的基礎穩定工作
+
+### 統一 API 格式
+
+新增 `/api/v1` REST API。成功回應統一為 `{ "data": ... }`，錯誤回應統一為 `{ "error": { "code": "...", "message": "..." } }`。既有 `/api?command=...` 保留，以避免舊頁面立即失效。
+
+### 故事與地標 CRUD
+
+- `GET /api/v1/stories`
+- `GET /api/v1/stories/:storyId`
+- `POST/PATCH/DELETE /api/v1/stories`
+- `GET /api/v1/stories/:storyId/landmarks`
+- `POST/PATCH/DELETE /api/v1/landmarks`
+
+寫入操作目前限定 localhost，並寫入 `data/stories.csv` 與 `data/landmarks.csv`。刪除採用既有的 soft delete（`is_delete=1`）策略。
+
+### 共用地圖邏輯
+
+新增 `js/map-core.js`，集中 Leaflet tile layer、地圖建立、marker cluster、marker 加入與座標範圍縮放邏輯。首頁、blog、故事列表與探索頁已接入此共用模組。

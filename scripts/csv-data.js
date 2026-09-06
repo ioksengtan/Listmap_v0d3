@@ -27,6 +27,50 @@ function readCsvFile(filePath) {
   return parse(content, { columns: true, skip_empty_lines: true, relax_quotes: true, relax_column_count: true });
 }
 
+function csvEscape(value) {
+  const text = value == null ? '' : String(value);
+  return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+function writeCsvFile(filename, rows, columns) {
+  const filePath = path.join(ROOT, 'data', filename);
+  const header = columns || (rows.length ? Object.keys(rows[0]) : []);
+  const content = [
+    header.map(csvEscape).join(','),
+    ...rows.map(row => header.map(column => csvEscape(row[column])).join(','))
+  ].join('\n') + '\n';
+  fs.writeFileSync(filePath, content, 'utf8');
+}
+
+function updateCsvRow(filename, key, keyValue, row, columns) {
+  const filePath = path.join(ROOT, 'data', filename);
+  if (!fs.existsSync(filePath)) return false;
+  const rows = readCsv(filename);
+  const index = rows.findIndex(item => String(item[key]) === String(keyValue));
+  if (index === -1) return false;
+  rows[index] = { ...rows[index], ...row };
+  writeCsvFile(filename, rows, columns);
+  return true;
+}
+
+function appendCsvRow(filename, row, columns) {
+  const filePath = path.join(ROOT, 'data', filename);
+  const rows = fs.existsSync(filePath) ? readCsv(filename) : [];
+  rows.push(row);
+  writeCsvFile(filename, rows, columns);
+}
+
+function softDeleteCsvRow(filename, key, keyValue, columns) {
+  const filePath = path.join(ROOT, 'data', filename);
+  if (!fs.existsSync(filePath)) return false;
+  const rows = readCsv(filename);
+  const index = rows.findIndex(item => String(item[key]) === String(keyValue));
+  if (index === -1) return false;
+  rows[index].is_delete = '1';
+  writeCsvFile(filename, rows, columns || Object.keys(rows[0]));
+  return true;
+}
+
 function readCsv(filename) {
   return readCsvFile(path.join(ROOT, 'data', filename));
 }
@@ -127,5 +171,9 @@ module.exports = {
   readLandmarks,
   readCollections,
   readRoutes,
+  writeCsvFile,
+  updateCsvRow,
+  appendCsvRow,
+  softDeleteCsvRow,
   buildStaticPayload,
 };
