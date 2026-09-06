@@ -676,20 +676,14 @@ const aboutJs = fs.readFileSync(path.join(ROOT, 'js', 'about.js'), 'utf8');
 
 assert(/個人地圖故事/.test(indexHtml), 'homepage copy should say 個人地圖故事');
 assert(/個人地圖故事/.test(aboutHtml), 'about copy should say 個人地圖故事');
-assert(/stories\/1024\.html/.test(indexHtml), 'homepage should CTA to stories/1024.html');
-assert(/stories\/1025\.html/.test(indexHtml), 'homepage should CTA to stories/1025.html');
-assert(/stories\/1027\.html/.test(indexHtml), 'homepage should CTA to stories/1027.html');
-assert(/stories\/1028\.html/.test(indexHtml), 'homepage should CTA to stories/1028.html');
-assert(/stories\/1029\.html/.test(indexHtml), 'homepage should CTA to stories/1029.html');
-assert(/stories\/1030\.html/.test(indexHtml), 'homepage should CTA to stories/1030.html');
-assert(/stories\/1031\.html/.test(indexHtml), 'homepage should CTA to stories/1031.html');
-assert(/stories\/1032\.html/.test(indexHtml), 'homepage should CTA to stories/1032.html');
-assert(/stories\/1033\.html/.test(indexHtml), 'homepage should CTA to stories/1033.html');
-assert(/stories\/1034\.html/.test(indexHtml), 'homepage should CTA to stories/1034.html');
-assert(/stories\/100023\.html/.test(indexHtml), 'homepage should CTA to stories/100023.html');
-assert(/stories\/100024\.html/.test(indexHtml), 'homepage should CTA to stories/100024.html');
-assert(/stories\/100026\.html/.test(indexHtml), 'homepage should CTA to stories/100026.html');
-assert(/stories\/100030\.html/.test(indexHtml), 'homepage should CTA to stories/100030.html');
+// Homepage cards are rendered client-side from data/static.json (see js/index.js
+// renderVisitorStories), capped at HOMEPAGE_MAX_SHOWN — so individual story links
+// no longer appear as literal strings in index.html. Check the mechanism instead
+// of any specific story_id, which would go stale every time a new story ships.
+assert(/id="visitor-story-list"/.test(indexHtml), 'homepage needs the dynamic story-list container');
+assert(/renderVisitorStories/.test(indexJs), 'index.js should render the homepage story list');
+assert(/stories\/['"]\s*\+\s*\w+\.story_id\s*\+\s*['"]\.html/.test(indexJs) || /'stories\/' \+ s\.story_id \+ '\.html'/.test(indexJs),
+  'index.js should link each homepage card to its stories/<id>.html page');
 assert(/stories\/1024\.html/.test(aboutHtml), 'about should CTA to stories/1024.html');
 assert(/stories\/1025\.html/.test(aboutHtml), 'about should CTA to stories/1025.html');
 assert(/stories\/1027\.html/.test(aboutHtml), 'about should CTA to stories/1027.html');
@@ -745,9 +739,10 @@ const goBackFn = blogJs.match(/function blogGoBack\s*\([\s\S]*?\nfunction loadCo
 assert(goBackFn && /showIndexLayer\s*\(\s*\)/.test(goBackFn[0]), 'blogGoBack must restore indexLayer on home');
 const loadCollFn = blogJs.match(/function loadCollectionById\s*\([\s\S]*?\nfunction loadStoryById/);
 assert(loadCollFn && /hideIndexLayer\s*\(\s*\)/.test(loadCollFn[0]), 'loadCollectionById must hide homepage indexLayer');
-assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
+// Homepage no longer hardcodes an allowlist of story ids (that went stale every
+// time a story shipped); it caps how many of the public stories show instead.
+assert(/HOMEPAGE_MAX_SHOWN\s*=\s*\d+/.test(indexJs), 'index.js should cap how many stories the homepage shows');
 assert(indexJs.includes("stories/' + s.story_id + '.html'"), 'homepage list should link to per-story URLs');
-assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]1034['"],\s*['"]100026['"],\s*['"]100030['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1034, S100026 and S100030');
 
 const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
 assert(welcomeMatch, 'blog welcome should precede story 1001 section');
@@ -1262,7 +1257,7 @@ assert(page1025.indexOf('data-landmark="480"') !== -1, 'S1025 page landmark 480'
 const page1027 = fs.readFileSync(path.join(ROOT, 'stories', '1027.html'), 'utf8');
 assert(page1027.indexOf('先釘床跟充電；會場兩天之外另留一天給腿。') !== -1, 'S1027 OG/body keeps card description');
 assert(page1027.indexOf('data-landmark="491"') !== -1, 'S1027 page landmark 491');
-assert(page1027.indexOf('幕張，不要新宿來回') !== -1, 'S1027 page keeps v5 heading');
+assert(page1027.indexOf('幕張，不做新宿來回的傻事') !== -1, 'S1027 page keeps its heading');
 
 const page1032 = fs.readFileSync(path.join(ROOT, 'stories', '1032.html'), 'utf8');
 assert(page1032.indexOf('src="images/stories/1032/odaru-fall.jpg"') !== -1, 'S1032 page keeps root-relative inline image path');

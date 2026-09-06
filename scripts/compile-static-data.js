@@ -17,7 +17,7 @@ const payload = buildStaticPayload();
 const outFile = path.join(ROOT, 'data', 'static.json');
 fs.writeFileSync(outFile, JSON.stringify(payload, null, 2) + '\n');
 
-const storyPages = compileStoryPages(payload.stories);
+const storyPages = compileStoryPages(payload.stories, payload.landmarks);
 
 const storyIds = new Set(payload.stories.map(s => s.story_id));
 const landmarkStoryIds = new Set(payload.landmarks.map(l => l.story_id));

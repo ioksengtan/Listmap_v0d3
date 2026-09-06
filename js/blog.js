@@ -13,6 +13,9 @@ var indexLayer = null;
 var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
+var currentStoryBounds = null; // 當前故事所有有效座標（全景視角用）
+var currentScrollyObserver = null; // 捲動敘事 IntersectionObserver
+var currentScrollyStepId = null; // 當前啟動的 step 標識
 
 // Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S1034, S100026, S100030).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
@@ -251,6 +254,15 @@ function showPanelBackBtn(label, onclick) {
 }
 
 function clearMapLayers() {
+    if (currentScrollyObserver) {
+        currentScrollyObserver.disconnect();
+        currentScrollyObserver = null;
+    }
+    $('#gpstory_main').off('scroll.scrolly');
+    $(window).off('scroll.scrolly');
+    currentScrollyStepId = null;
+    currentStoryBounds = null;
+    $('.story-step-active').removeClass('story-step-active');
     if (currentLandmarkLayer) mymap.removeLayer(currentLandmarkLayer);
     if (currentStoryVectorLayer) { mymap.removeLayer(currentStoryVectorLayer); currentStoryVectorLayer = null; }
     if (currentStoryRegionLayer) { mymap.removeLayer(currentStoryRegionLayer); currentStoryRegionLayer = null; }
@@ -415,7 +427,10 @@ function loadStory(story, fromCollection) {
             storyMarkerItems.push({ name: lm.name, marker: marker, cluster: clusterLayer, landmark_id: lm.landmark_id });
         });
         clusterLayer.addTo(currentLandmarkLayer);
-        if (allLatlngs.length > 0) mymap.fitBounds(allLatlngs, { padding: [40, 40] });
+        if (allLatlngs.length > 0) {
+            currentStoryBounds = allLatlngs;
+            mymap.fitBounds(allLatlngs, { padding: [40, 40] });
+        }
 
         // edges
         storyEdgeItems = [];
@@ -495,6 +510,127 @@ function loadStory(story, fromCollection) {
         section.find('h2').first().append('<span class="story-internal-badge">' + i18nText('badge.internal', 'Internal') + '</span>');
     }
     injectReminderButton(section, story);
+    injectFieldNoteHeader(section, story);
+    initScrollytelling(section.get(0), story);
+}
+
+var scrollyTicking = false;
+
+function initScrollytelling(sectionEl, story) {
+    if (currentScrollyObserver) {
+        currentScrollyObserver.disconnect();
+        currentScrollyObserver = null;
+    }
+    $('#gpstory_main').off('scroll.scrolly');
+    $(window).off('scroll.scrolly');
+    currentScrollyStepId = null;
+    if (!sectionEl) return;
+
+    var steps = sectionEl.querySelectorAll('.story-step[data-step-landmark], .story-step[data-step-view]');
+    if (!steps || steps.length === 0) return;
+
+    var checkSteps = function() {
+        var triggerY = window.innerHeight * 0.35;
+        var activeEl = null;
+
+        for (var i = 0; i < steps.length; i++) {
+            var rect = steps[i].getBoundingClientRect();
+            if (rect.top <= triggerY && rect.bottom >= triggerY) {
+                activeEl = steps[i];
+                break;
+            }
+        }
+
+        if (!activeEl && steps.length > 0) {
+            var firstRect = steps[0].getBoundingClientRect();
+            if (firstRect.top > triggerY) {
+                activeEl = steps[0];
+            } else {
+                var lastRect = steps[steps.length - 1].getBoundingClientRect();
+                if (lastRect.bottom < triggerY) {
+                    activeEl = steps[steps.length - 1];
+                }
+            }
+        }
+
+        if (!activeEl) return;
+
+        var stepId = activeEl.getAttribute('data-step-landmark') || activeEl.getAttribute('data-step-view');
+        if (!stepId || stepId === currentScrollyStepId) return;
+
+        currentScrollyStepId = stepId;
+
+        sectionEl.querySelectorAll('.story-step-active').forEach(function(s) {
+            s.classList.remove('story-step-active');
+        });
+        activeEl.classList.add('story-step-active');
+
+        var view = activeEl.getAttribute('data-step-view');
+        if (view === 'all') {
+            if (currentStoryBounds && currentStoryBounds.length > 0 && typeof mymap !== 'undefined' && mymap) {
+                if (typeof mymap.flyToBounds === 'function') {
+                    mymap.flyToBounds(currentStoryBounds, { padding: [40, 40], animate: true });
+                } else {
+                    mymap.fitBounds(currentStoryBounds, { padding: [40, 40], animate: true });
+                }
+            }
+            return;
+        }
+
+        var lid = activeEl.getAttribute('data-step-landmark');
+        if (lid) {
+            var zoom = activeEl.getAttribute('data-step-zoom');
+            zoomToLandmarkId(lid, zoom);
+        }
+    };
+
+    var onScroll = function() {
+        if (!scrollyTicking) {
+            window.requestAnimationFrame(function() {
+                checkSteps();
+                scrollyTicking = false;
+            });
+            scrollyTicking = true;
+        }
+    };
+
+    $('#gpstory_main').on('scroll.scrolly', onScroll);
+    $(window).on('scroll.scrolly', onScroll);
+
+    setTimeout(checkSteps, 150);
+}
+
+function injectFieldNoteHeader($section, story) {
+    $section.find('.story-field-note').remove();
+    var fullStory = (window.ListmapData && ListmapData.stories)
+        ? ListmapData.stories().find(function(s) { return String(s.story_id) === String(story.story_id); })
+        : null;
+    var date = (fullStory && fullStory.created_at) || story.created_at || '';
+    var where = (fullStory && fullStory.where) || story.where || '';
+
+    var lms = ListmapData.getLandmarksByStoryId(story.story_id).table || [];
+    var validLms = lms.filter(function(lm) { return !isNaN(parseFloat(lm.lat)) && !isNaN(parseFloat(lm.lng)); });
+    var coordStr = '';
+    if (validLms.length > 0) {
+        var sumLat = 0, sumLng = 0;
+        validLms.forEach(function(lm) { sumLat += parseFloat(lm.lat); sumLng += parseFloat(lm.lng); });
+        var cLat = sumLat / validLms.length;
+        var cLng = sumLng / validLms.length;
+        var latStr = Math.abs(cLat).toFixed(4) + '°' + (cLat >= 0 ? 'N' : 'S');
+        var lngStr = Math.abs(cLng).toFixed(4) + '°' + (cLng >= 0 ? 'E' : 'W');
+        coordStr = latStr + ', ' + lngStr + (where ? ' · ' + where : '');
+    } else if (where) {
+        coordStr = where;
+    }
+
+    if (!date && !coordStr) return;
+
+    var $note = $('<div class="story-field-note">');
+    var entryLine = 'FIELD ENTRY' + (date ? ' · ' + date : '');
+    $note.append($('<span class="story-field-note-entry">').text(entryLine));
+    if (coordStr) $note.append($('<span class="story-field-note-coords">').text(coordStr));
+
+    $section.find('h2').first().before($note);
 }
 
 function injectReminderButton($section, story) {

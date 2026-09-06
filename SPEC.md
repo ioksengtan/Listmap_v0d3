@@ -274,6 +274,37 @@ Renders a shaded GeoJSON polygon on the map when the story loads. Clicking zooms
 
 ---
 
+### Scrollytelling step (`story-step`)
+
+Enables scroll-driven camera transitions on the map. As the visitor scrolls through the story in `blog.html`, crossing into a `.story-step` block smoothly triggers `mymap.flyTo()` to the landmark (or flies out to overview) and activates that section.
+
+```html
+<!-- Fly to a landmark -->
+<div class="story-step" data-step-landmark="LANDMARK_ID" data-step-zoom="ZOOM">
+  <h4>章節標題</h4>
+  <p>章節內文...</p>
+</div>
+
+<!-- Fly to story overview -->
+<div class="story-step" data-step-view="all">
+  <h4>行程總覽</h4>
+  <p>總覽內文...</p>
+</div>
+```
+
+| Attribute | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `data-step-landmark` | Optional | — | Landmark ID to fly to and display popup |
+| `data-step-zoom` | Optional | `15` | Map zoom level when flying to landmark |
+| `data-step-view` | Optional | — | Set to `"all"` to fly back to full story bounds overview |
+
+**Guidelines:**
+- **Opt-in**: Use this on narrative-driven long stories (e.g. S100032). Short stories without `.story-step` keep standard click-to-zoom behavior.
+- Wrap natural narrative chapters or major stops with `.story-step`.
+- Does not interrupt manual user panning within the same step.
+
+---
+
 ## Future Considerations
 - Migrate CSV storage to SQLite for better querying and write support
 - Auto-fill story metadata (title, thumbnail, author) from a pasted URL

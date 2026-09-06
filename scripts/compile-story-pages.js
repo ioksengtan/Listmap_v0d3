@@ -79,6 +79,10 @@ function ogImageRel(story) {
   return DEFAULT_OG_IMAGE;
 }
 
+function resolveImageUrl(imageRel) {
+  return /^https?:\/\//i.test(imageRel) ? imageRel : absolutePagesUrl(imageRel);
+}
+
 /** Every public CSV story that has a blog.html section — low lane and 100000+ lane. */
 function shareableStories(stories, blogHtml) {
   return (stories || []).filter((s) => {
@@ -91,7 +95,7 @@ function shareableStories(stories, blogHtml) {
 function ogBlock(story, description, imageRel) {
   const title = story.title || ('S' + story.story_id);
   const pageUrl = absolutePagesUrl(storyPageRel(story.story_id));
-  const imageUrl = /^https?:\/\//i.test(imageRel) ? imageRel : absolutePagesUrl(imageRel);
+  const imageUrl = resolveImageUrl(imageRel);
   const isDefault = imageRel === DEFAULT_OG_IMAGE;
   const lines = [
     '      <!-- Generated share meta: do not edit by hand; npm run compile-data -->',
@@ -119,10 +123,59 @@ function ogBlock(story, description, imageRel) {
   return lines.join('\n');
 }
 
-function buildStoryPageHtml(blogHtml, story) {
+/** JSON-LD (schema.org) so AI crawlers and rich results can parse the article + its geography. */
+function jsonLdScript(story, description, imageUrl, storyLandmarks) {
+  const pageUrl = absolutePagesUrl(storyPageRel(story.story_id));
+  const title = story.title || ('S' + story.story_id);
+
+  const places = (storyLandmarks || [])
+    .filter((lm) => lm.lat && lm.lng)
+    .map((lm) => ({
+      '@type': 'Place',
+      name: lm.name,
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: Number(lm.lat),
+        longitude: Number(lm.lng),
+      },
+    }));
+
+  const article = {
+    '@type': 'BlogPosting',
+    '@id': pageUrl + '#article',
+    mainEntityOfPage: pageUrl,
+    headline: title,
+    description: description,
+    url: pageUrl,
+    inLanguage: 'zh-TW',
+    image: [imageUrl],
+    author: { '@type': 'Person', name: story.author || 'Listmap' },
+    publisher: { '@type': 'Organization', name: 'Listmap' },
+  };
+  if (story.created_at) article.datePublished = story.created_at;
+  if (places.length) article.contentLocation = places;
+
+  const breadcrumb = {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Listmap', item: absolutePagesUrl('index.html') },
+      { '@type': 'ListItem', position: 2, name: '故事', item: absolutePagesUrl('blog.html') },
+      { '@type': 'ListItem', position: 3, name: title, item: pageUrl },
+    ],
+  };
+
+  const graph = { '@context': 'https://schema.org', '@graph': [article, breadcrumb] };
+  // Escape "<" so a title/description containing "</script>" can't break out of the tag.
+  const json = JSON.stringify(graph, null, 2).replace(/</g, '\\u003c');
+  return '      <script type="application/ld+json">\n' + json + '\n      </script>';
+}
+
+function buildStoryPageHtml(blogHtml, story, landmarks) {
   const description = descriptionForStory(blogHtml, story);
   const imageRel = ogImageRel(story);
+  const imageUrl = resolveImageUrl(imageRel);
   const title = story.title || ('S' + story.story_id);
+  const storyLandmarks = (landmarks || []).filter((lm) => lm.story_id === story.story_id);
   let html = String(blogHtml || '').replace(/^\uFEFF/, '');
 
   html = html.replace(
@@ -131,7 +184,9 @@ function buildStoryPageHtml(blogHtml, story) {
   );
   html = html.replace(
     /<title>[\s\S]*?<\/title>/i,
-    '<title>' + escapeAttr(title) + ' · Listmap</title>\n' + ogBlock(story, description, imageRel)
+    '<title>' + escapeAttr(title) + ' · Listmap</title>\n' +
+      ogBlock(story, description, imageRel) + '\n' +
+      jsonLdScript(story, description, imageUrl, storyLandmarks)
   );
   html = html.replace(
     /<div id="blog-welcome">/,
@@ -145,7 +200,7 @@ function buildStoryPageHtml(blogHtml, story) {
   return html;
 }
 
-function compileStoryPages(stories) {
+function compileStoryPages(stories, landmarks) {
   const blogPath = path.join(ROOT, 'blog.html');
   const blogHtml = fs.readFileSync(blogPath, 'utf8');
   const outDir = path.join(ROOT, 'stories');
@@ -160,7 +215,7 @@ function compileStoryPages(stories) {
   const targets = shareableStories(stories, blogHtml);
   const written = [];
   targets.forEach((story) => {
-    const html = buildStoryPageHtml(blogHtml, story);
+    const html = buildStoryPageHtml(blogHtml, story, landmarks);
     const dest = path.join(outDir, story.story_id + '.html');
     fs.writeFileSync(dest, html);
     written.push(story.story_id);
@@ -175,11 +230,13 @@ module.exports = {
   stripTags,
   storyPageRel,
   absolutePagesUrl,
+  resolveImageUrl,
   extractCardDesc,
   extractSection,
   descriptionForStory,
   ogImageRel,
   shareableStories,
+  jsonLdScript,
   buildStoryPageHtml,
   compileStoryPages,
 };

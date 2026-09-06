@@ -312,7 +312,43 @@ margin-top:10px;
   opacity: 1;
 }
 
+/* Scrollytelling narrative steps */
+.story-step {
+  position: relative;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+  border-left: 3px solid transparent;
+  padding-left: 0;
+  margin-bottom: 24px;
+}
+.story-step.story-step-active {
+  border-left-color: #2563eb;
+  background-color: rgba(37, 99, 235, 0.02);
+}
+.story-step.story-step-active h4 {
+  color: #1e3a8a;
+  transition: color 0.25s ease;
+}
+
 /* Reminder button */
+.story-field-note {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  color: #999;
+  margin: 20px 32px 2px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+}
+.story-field-note-entry {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #777;
+}
+.story-field-note-coords {
+  display: block;
+  color: #aaa;
+}
+
 .story-reminder-btn {
   display: inline-flex;
   align-items: center;
