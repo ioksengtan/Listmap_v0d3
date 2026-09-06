@@ -175,3 +175,25 @@
 - 只要這兩者穩定，後續的地圖探索、搜尋和 blog 體驗就能快速擴張。
 
 這份整理可作為後續討論與 PR/issue 起草的基礎文本，方便與其他成員一起確認優先順序與下一步任務。
+
+---
+
+## 8. 第一階段已完成的基礎穩定工作
+
+### 統一 API 格式
+
+新增 `/api/v1` REST API。成功回應統一為 `{ "data": ... }`，錯誤回應統一為 `{ "error": { "code": "...", "message": "..." } }`。既有 `/api?command=...` 保留，以避免舊頁面立即失效。
+
+### 故事與地標 CRUD
+
+- `GET /api/v1/stories`
+- `GET /api/v1/stories/:storyId`
+- `POST/PATCH/DELETE /api/v1/stories`
+- `GET /api/v1/stories/:storyId/landmarks`
+- `POST/PATCH/DELETE /api/v1/landmarks`
+
+寫入操作目前限定 localhost，並寫入 `data/stories.csv` 與 `data/landmarks.csv`。刪除採用既有的 soft delete（`is_delete=1`）策略。
+
+### 共用地圖邏輯
+
+新增 `js/map-core.js`，集中 Leaflet tile layer、地圖建立、marker cluster、marker 加入與座標範圍縮放邏輯。首頁、blog、故事列表與探索頁已接入此共用模組。

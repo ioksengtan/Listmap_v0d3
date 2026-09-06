@@ -99,9 +99,15 @@ function GetCluster(story_id) {
 
 
 function addStoriesToLayer(locations) {
-    var markers = L.markerClusterGroup();
-    locations.map(item => L.marker(new L.LatLng(item.lat, item.lng)))
-        .forEach(item => markers.addLayer(item));
+    var markers = window.ListmapMapCore
+        ? ListmapMapCore.createCluster()
+        : L.markerClusterGroup();
+    if (window.ListmapMapCore) {
+        ListmapMapCore.addMarkers(markers, locations);
+    } else {
+        locations.map(item => L.marker(new L.LatLng(item.lat, item.lng)))
+            .forEach(item => markers.addLayer(item));
+    }
     mymap.addLayer(markers)
 }
 
@@ -130,6 +136,11 @@ function pngMap(){
   img.src = 'https://i.imgur.com/x3Wf4tF.jpg';
 }
 function initMap() {
+    if (window.ListmapMapCore) {
+        mymap = ListmapMapCore.createMap('map', { center: [25.1130643, 121.5227629], zoom: 7 });
+        bindMapSizeInvalidation();
+        return;
+    }
 
     //mymap = L.map('map').setView([25.1130643, 121.5227629], 7);
     //console.log('test');
