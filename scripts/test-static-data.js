@@ -1186,7 +1186,7 @@ assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG
 
 const shareable = shareableStories(payload.stories, blogHtml);
 const shareableIds = shareable.map(s => s.story_id);
-const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030'];
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032'];
 expectedShareIds.forEach(id => {
   assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
 });
