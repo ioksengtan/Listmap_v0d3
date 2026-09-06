@@ -30,8 +30,11 @@ var INDEX_MARKERS = [
     { label: '河津：山側七座瀑布，海岸另半天', type: 'story', story_id: '1032' },
     { label: '立山室堂：兩千四百五十公尺的平地', type: 'story', story_id: '1033' },
     { label: '稲取赤尾：住一晚，看漁港與相模灣', type: 'story', story_id: '1034' },
+    { label: '瑞士：纜車一路連到馬特洪峰', type: 'story', story_id: '100023' },
+    { label: '北歐：渡輪串起的七天', type: 'story', story_id: '100024' },
     { label: '日本粉雪三選：湯澤、留壽都、富良野', type: 'story', story_id: '100026' },
     { label: '雙灣：淺水灣騎到白沙灣', type: 'story', story_id: '100030' },
+    { label: '2027關西春季：甲子園、相撲、賞櫻與登山', type: 'story', story_id: '100032' },
 ];
 
 // Public blog map: OSM geographic tiles (EPSG:3857), not map.js pngMap() Simple-CRS floorplan.

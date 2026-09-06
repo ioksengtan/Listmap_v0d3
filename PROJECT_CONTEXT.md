@@ -197,3 +197,46 @@
 ### 共用地圖邏輯
 
 新增 `js/map-core.js`，集中 Leaflet tile layer、地圖建立、marker cluster、marker 加入與座標範圍縮放邏輯。首頁、blog、故事列表與探索頁已接入此共用模組。
+
+## 9. 新故事發佈 Checklist
+
+每篇新故事在 `blog.html` 寫完後，需完成以下兩個步驟才算發佈完整：
+
+### A. 加上 Scrollytelling story-step（地圖跟著捲動）
+
+在 `<section data-story-id="...">` 裡，把各段落包進 `<div class="story-step">`：
+
+- **地點段落**（有意義的地理移動）：
+  ```html
+  <div class="story-step" data-step-landmark="地標ID" data-step-zoom="縮放層級">
+    <h4>...</h4>
+    <p>...</p>
+  </div>
+  ```
+  zoom 建議值：城市單點 14-16，地區 11-13，跨國/全覽 9-10
+
+- **總覽/收尾段落**（無特定地點，或想顯示全部標記）：
+  ```html
+  <div class="story-step" data-step-view="all">
+    <p>...</p>
+  </div>
+  ```
+
+### B. 加入 INDEX_MARKERS（地圖首頁顯示釘）
+
+在 `js/blog.js` 的 `INDEX_MARKERS` 陣列加一行：
+
+```js
+{ label: '故事標題（可縮短）', type: 'story', story_id: '100XXX' },
+```
+
+**若不加，故事地標不會出現在 blog.html 左側地圖。**
+
+### C. 重新 compile 並推上 GitHub
+
+```bash
+npm run compile-data
+git add blog.html js/blog.js stories/
+git commit -m "Add S100XXX: 故事標題"
+git push
+```
