@@ -45,8 +45,11 @@ $(document).ready(function() {
 
     ListmapData.load().done(function() {
         loadIndexMarkers();
+        var pathId = storyIdFromPathname(location.pathname);
         var hash = location.hash.replace('#', '');
-        if (hash) {
+        if (pathId) {
+            loadStoryById(pathId);
+        } else if (hash) {
             var parts = hash.split('/');
             var sid = parts[0];
             var cid = parts[1] || null;
@@ -79,6 +82,27 @@ $(document).ready(function() {
 function i18nText(key, fallback) {
     if (window.ListmapI18n) return ListmapI18n.t(key);
     return fallback;
+}
+
+function storyIdFromPathname(pathname) {
+    var m = String(pathname || '').match(/\/stories\/(\d+)\.html$/i);
+    return m ? m[1] : null;
+}
+
+function storyPageUrl(storyId) {
+    if (window.ListmapData && typeof ListmapData.assetUrl === 'function') {
+        return ListmapData.assetUrl('stories/' + storyId + '.html');
+    }
+    return 'stories/' + storyId + '.html';
+}
+
+function blogOpenStory(event, storyId) {
+    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1)) {
+        return true;
+    }
+    if (event && event.preventDefault) event.preventDefault();
+    loadStoryById(storyId);
+    return false;
 }
 
 function refreshDynamicI18n() {
@@ -149,14 +173,20 @@ function loadIndexMarkers() {
             indexLayer.addLayer(marker);
         });
 
-        indexLayer.addTo(mymap);
+        var skipIndexFit = !!storyIdFromPathname(location.pathname);
+        if (!skipIndexFit) {
+            indexLayer.addTo(mymap);
+        }
 
         // 首頁卡片 visibility 處理
         var storyMap = {};
         storiesWithGps.forEach(function(s) { storyMap[s.story_id] = s; });
         $('#blog-welcome .blog-article-card, #blog-welcome [data-collection-id] .blog-article-card').each(function() {
             var onclick = $(this).attr('onclick') || '';
-            var m = onclick.match(/loadStoryById\('(\d+)'/);
+            var href = $(this).attr('href') || '';
+            var m = onclick.match(/loadStoryById\('(\d+)'/)
+                || onclick.match(/blogOpenStory\(event,'(\d+)'/)
+                || href.match(/stories\/(\d+)\.html/);
             if (!m) return;
             var sid = m[1];
             if (!storyMap[sid]) {
@@ -170,6 +200,7 @@ function loadIndexMarkers() {
         });
 
         // 縮放到索引標記範圍
+        if (skipIndexFit) return;
         var bounds = indexLayer.getLayers()
             .filter(function(l) { return l.getLatLng; })
             .map(function(l) { return l.getLatLng(); });
@@ -533,6 +564,14 @@ function blogGoBack() {
         return;
     }
 
+    // Permalink pages are one-story URLs; go back to the blog index.
+    if (storyIdFromPathname(location.pathname)) {
+        location.href = (window.ListmapData && ListmapData.assetUrl)
+            ? ListmapData.assetUrl('blog.html')
+            : 'blog.html';
+        return;
+    }
+
     // 回首頁
     previousView = null;
     history.replaceState(null, '', location.pathname);
@@ -584,10 +623,18 @@ function loadCollectionById(collection_id) {
 }
 
 function loadStoryById(story_id, from_collection_id) {
-    // 更新 URL hash 以便 refresh / 分享
-    var newHash = from_collection_id ? story_id + '/' + from_collection_id : story_id;
-    if (location.hash !== '#' + newHash) {
-        history.replaceState(null, '', '#' + newHash);
+    var pathId = storyIdFromPathname(location.pathname);
+    if (pathId && String(pathId) !== String(story_id)) {
+        location.href = storyPageUrl(story_id);
+        return;
+    }
+
+    // Hash deep-links stay on blog.html (old bookmarks). Permalink pages keep a clean path.
+    if (!pathId) {
+        var newHash = from_collection_id ? story_id + '/' + from_collection_id : story_id;
+        if (location.hash !== '#' + newHash) {
+            history.replaceState(null, '', '#' + newHash);
+        }
     }
 
     function proceed(fromCollection) {

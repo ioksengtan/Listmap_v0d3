@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ROOT, buildStaticPayload } = require('./csv-data');
+const { compileStoryPages } = require('./compile-story-pages');
 const { execFileSync } = require('child_process');
 
 try {
@@ -16,6 +17,8 @@ const payload = buildStaticPayload();
 const outFile = path.join(ROOT, 'data', 'static.json');
 fs.writeFileSync(outFile, JSON.stringify(payload, null, 2) + '\n');
 
+const storyPages = compileStoryPages(payload.stories);
+
 const storyIds = new Set(payload.stories.map(s => s.story_id));
 const landmarkStoryIds = new Set(payload.landmarks.map(l => l.story_id));
 console.log('Wrote ' + outFile);
@@ -24,3 +27,4 @@ console.log('  landmarks:    ' + payload.landmarks.length);
 console.log('  collections:  ' + payload.collections.length);
 console.log('  routes:       ' + payload.routes.length);
 console.log('  stories with landmarks: ' + [...storyIds].filter(id => landmarkStoryIds.has(id)).length);
+console.log('  share pages:  ' + (storyPages.length ? storyPages.join(', ') : '(none)'));
