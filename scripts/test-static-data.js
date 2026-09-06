@@ -476,6 +476,56 @@ assert(blogHtml.includes('data-i18n-story="1033"'), 'blog S1033 overlay hooks');
 assert(blogJs.includes("story_id: '1033'"), 'blog.js index markers include S1033');
 assert(fs.existsSync(path.join(ROOT, 'stories', '1033.html')), 'compile-data must generate stories/1033.html');
 
+const s1034 = payload.stories.find(s => s.story_id === '1034');
+assert(s1034, 'story 1034 missing');
+assert(s1034.title === '稲取赤尾：住一晚，看漁港與相模灣', 'story 1034 title');
+assert(s1034.author === 'Yu-Sheng', 'story 1034 author');
+assert(s1034.where === 'Inatori Akao', 'story 1034 where');
+assert(s1034.tags === '渡假,想去', 'story 1034 tags must stay 渡假,想去');
+assert(s1034.visibility === 'public', 'story 1034 visibility must stay public (not shifted by tags)');
+assert(s1034.thumbnail === '', 'story 1034 thumbnail must stay empty');
+assert(s1034.avatar === '', 'story 1034 avatar must stay empty');
+assert(s1034.created_at === '2026-09-06', 'story 1034 created_at');
+assert(!s1034.contributor, 'story 1034 contributor stays blank like other low-lane rows');
+
+const lm1034 = payload.landmarks.filter(l => l.story_id === '1034');
+assert(lm1034.length === 3, 'story 1034 should have 3 landmarks');
+const lm1034Expected = {
+  '525': { name: '稲取赤尾ホテル', content: '東伊豆・稲取高台。〒413-0411 東伊豆町稲取1050。MapFan。', lat: '34.769349', lng: '139.0465704' },
+  '526': { name: '伊豆稲取駅', content: '伊豆急行 IZ11。送迎起點。Wikipedia 座標。', lat: '34.7743333', lng: '139.0370972' },
+  '527': { name: '稲取漁港／こらっしぇ', content: '直売所 MapFan 座標；漁港一帶中心。營業約8:30–15:00、第2火曜休（以現場為準）。', lat: '34.773286', lng: '139.0417534' }
+};
+Object.keys(lm1034Expected).forEach(id => {
+  const lm = lm1034.find(l => l.landmark_id === id);
+  assert(lm, 'landmark ' + id + ' missing for 1034');
+  assert(lm.lat === lm1034Expected[id].lat, 'landmark ' + id + ' lat');
+  assert(lm.lng === lm1034Expected[id].lng, 'landmark ' + id + ' lng');
+  assert(lm.name === lm1034Expected[id].name, 'landmark ' + id + ' name');
+  assert(lm.content === lm1034Expected[id].content, 'landmark ' + id + ' PM content');
+});
+assert(lm1034.find(l => l.landmark_id === '525').link === 'https://www.akao-hotel.co.jp/', '525 official link');
+assert(lm1034.find(l => l.landmark_id === '526').link === 'https://www.akao-hotel.co.jp/access/', '526 official link');
+assert(lm1034.find(l => l.landmark_id === '527').link === 'https://www.pref.shizuoka.jp/sangyoshigoto/suisan/suisangyo/uocching/1003392/1043930/1028072.html', '527 official link');
+
+const m1034 = blogHtml.match(/data-story-id="1034"[\s\S]*?<\/section>/);
+assert(m1034, 'blog.html missing story 1034 section');
+assert(!/javascript:zoomto/.test(m1034[0]), 'story 1034 must not use javascript:zoomto');
+assert(!/\/api/.test(m1034[0]), 'story 1034 must not call /api');
+assert((m1034[0].match(/class="map-place-link"/g) || []).length === 3, 'story 1034 place links');
+['525', '526', '527'].forEach(id => {
+  assert(m1034[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1034 section landmark ' + id);
+});
+assert(/data-landmark="525"[^>]*data-zoom="15"[^>]*>稲取赤尾ホテル</.test(m1034[0]), 'story 1034 稲取赤尾ホテル maps to 525 zoom 15');
+assert(/data-landmark="526"[^>]*data-zoom="15"[^>]*>伊豆稲取駅</.test(m1034[0]), 'story 1034 伊豆稲取駅 maps to 526 zoom 15');
+assert(/data-landmark="527"[^>]*data-zoom="15"[^>]*>稲取漁港／こらっしぇ</.test(m1034[0]), 'story 1034 稲取漁港 maps to 527 zoom 15');
+assert(m1034[0].includes('不是官方排名'), 'story 1034 keeps marketing-vs-official note');
+assert(m1034[0].includes('不要把河津七滝'), 'story 1034 keeps do-not-stuff-Kawazu note');
+assert(blogHtml.includes("blogOpenStory(event,'1034')") || blogHtml.includes("loadStoryById('1034')"), 'blog index card for S1034');
+assert(blogHtml.includes('href="stories/1034.html"'), 'blog index card permalink for S1034');
+assert(blogHtml.includes('data-i18n-story="1034"'), 'blog S1034 overlay hooks');
+assert(blogJs.includes("story_id: '1034'"), 'blog.js index markers include S1034');
+assert(fs.existsSync(path.join(ROOT, 'stories', '1034.html')), 'compile-data must generate stories/1034.html');
+
 const s100026 = payload.stories.find(s => s.story_id === '100026');
 assert(s100026, 'story 100026 missing');
 assert(s100026.title === '日本粉雪三選：湯澤、留壽都、富良野', 'story 100026 title');
@@ -575,6 +625,7 @@ assert(/stories\/1030\.html/.test(indexHtml), 'homepage should CTA to stories/10
 assert(/stories\/1031\.html/.test(indexHtml), 'homepage should CTA to stories/1031.html');
 assert(/stories\/1032\.html/.test(indexHtml), 'homepage should CTA to stories/1032.html');
 assert(/stories\/1033\.html/.test(indexHtml), 'homepage should CTA to stories/1033.html');
+assert(/stories\/1034\.html/.test(indexHtml), 'homepage should CTA to stories/1034.html');
 assert(/stories\/100023\.html/.test(indexHtml), 'homepage should CTA to stories/100023.html');
 assert(/stories\/100024\.html/.test(indexHtml), 'homepage should CTA to stories/100024.html');
 assert(/stories\/100026\.html/.test(indexHtml), 'homepage should CTA to stories/100026.html');
@@ -587,6 +638,7 @@ assert(/stories\/1030\.html/.test(aboutHtml), 'about should CTA to stories/1030.
 assert(/stories\/1031\.html/.test(aboutHtml), 'about should CTA to stories/1031.html');
 assert(/stories\/1032\.html/.test(aboutHtml), 'about should CTA to stories/1032.html');
 assert(/stories\/1033\.html/.test(aboutHtml), 'about should CTA to stories/1033.html');
+assert(/stories\/1034\.html/.test(aboutHtml), 'about should CTA to stories/1034.html');
 assert(/stories\/100023\.html/.test(aboutHtml), 'about should CTA to stories/100023.html');
 assert(/stories\/100024\.html/.test(aboutHtml), 'about should CTA to stories/100024.html');
 assert(/stories\/100026\.html/.test(aboutHtml), 'about should CTA to stories/100026.html');
@@ -613,6 +665,7 @@ assert(/story_id:\s*'1030'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1
 assert(/story_id:\s*'1031'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1031');
 assert(/story_id:\s*'1032'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1032');
 assert(/story_id:\s*'1033'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1033');
+assert(/story_id:\s*'1034'/.test(markerBlock[1]), 'INDEX_MARKERS must include S1034');
 assert(/story_id:\s*'100026'/.test(markerBlock[1]), 'INDEX_MARKERS must include S100026');
 assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
@@ -631,7 +684,7 @@ const loadCollFn = blogJs.match(/function loadCollectionById\s*\([\s\S]*?\nfunct
 assert(loadCollFn && /hideIndexLayer\s*\(\s*\)/.test(loadCollFn[0]), 'loadCollectionById must hide homepage indexLayer');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
 assert(indexJs.includes("stories/' + s.story_id + '.html'"), 'homepage list should link to per-story URLs');
-assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]100026['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1033 and S100026');
+assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]1034['"],\s*['"]100026['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1034 and S100026');
 
 const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
 assert(welcomeMatch, 'blog welcome should precede story 1001 section');
@@ -654,6 +707,8 @@ assert(/stories\/1032\.html/.test(welcomeMatch[0]), 'blog welcome must hero S103
 assert(/blogOpenStory\(event,'1032'\)/.test(welcomeMatch[0]), 'blog welcome S1032 stays clickable in-page');
 assert(/stories\/1033\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1033 permalink');
 assert(/blogOpenStory\(event,'1033'\)/.test(welcomeMatch[0]), 'blog welcome S1033 stays clickable in-page');
+assert(/stories\/1034\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1034 permalink');
+assert(/blogOpenStory\(event,'1034'\)/.test(welcomeMatch[0]), 'blog welcome S1034 stays clickable in-page');
 assert(/stories\/100023\.html/.test(welcomeMatch[0]), 'blog welcome must hero S100023 permalink');
 assert(/blogOpenStory\(event,'100023'\)/.test(welcomeMatch[0]), 'blog welcome S100023 stays clickable in-page');
 assert(/stories\/100024\.html/.test(welcomeMatch[0]), 'blog welcome must hero S100024 permalink');
@@ -744,6 +799,14 @@ assert(onDisk1033.visibility === 'public', 'checked-in JSON S1033 visibility');
 assert(onDisk1033.thumbnail === '', 'checked-in JSON S1033 thumbnail');
 assert(onDisk.landmarks.find(l => l.story_id === '1033' && l.landmark_id === '521').name === '立山駅', 'checked-in JSON 521 name');
 assert(onDisk.landmarks.find(l => l.story_id === '1033' && l.landmark_id === '523').link === 'https://alpen-route.com/area/murodo.php', 'checked-in JSON 523 link');
+assert(onDisk.stories.some(s => s.story_id === '1034'), 'checked-in JSON missing 1034');
+assert(onDisk.landmarks.filter(l => l.story_id === '1034').length === 3, 'checked-in JSON missing 1034 landmarks');
+const onDisk1034 = onDisk.stories.find(s => s.story_id === '1034');
+assert(onDisk1034.tags === '渡假,想去', 'checked-in JSON S1034 tags');
+assert(onDisk1034.visibility === 'public', 'checked-in JSON S1034 visibility');
+assert(onDisk1034.thumbnail === '', 'checked-in JSON S1034 thumbnail');
+assert(onDisk.landmarks.find(l => l.story_id === '1034' && l.landmark_id === '525').name === '稲取赤尾ホテル', 'checked-in JSON 525 name');
+assert(onDisk.landmarks.find(l => l.story_id === '1034' && l.landmark_id === '526').link === 'https://www.akao-hotel.co.jp/access/', 'checked-in JSON 526 link');
 assert(onDisk.stories.some(s => s.story_id === '100026'), 'checked-in JSON missing 100026');
 assert(onDisk.landmarks.filter(l => l.story_id === '100026').length === 3, 'checked-in JSON missing 100026 landmarks');
 const onDisk100026 = onDisk.stories.find(s => s.story_id === '100026');
@@ -791,6 +854,9 @@ assert(!/Kawazu,,,想去,,public/.test(storiesCsv), 'S1032 must not split tags i
 assert(/1033,,立山室堂：兩千四百五十公尺的平地,blog,,Yu-Sheng,blog,Tateyama Murodo,,想去,,public,2026-09-06,,/.test(storiesCsv),
   'S1033 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Tateyama Murodo,,,想去,,public/.test(storiesCsv), 'S1033 must not split tags into thumbnail/visibility');
+assert(/1034,,稲取赤尾：住一晚，看漁港與相模灣,blog,,Yu-Sheng,blog,Inatori Akao,,"渡假,想去",,public,2026-09-06,,/.test(storiesCsv),
+  'S1034 CSV row must quote the tags field so 渡假,想去 stay in tags');
+assert(!/Inatori Akao,,,渡假,想去,,public/.test(storiesCsv), 'S1034 must not split unquoted tags into thumbnail/visibility');
 assert(/100026,,日本粉雪三選：湯澤、留壽都、富良野,blog,,Yu-Sheng,blog,Japan powder ski,,想去,,public,2026-09-06,,/.test(storiesCsv),
   'S100026 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Japan powder ski,,,想去,,public/.test(storiesCsv), 'S100026 must not split tags into thumbnail/visibility');
@@ -955,6 +1021,17 @@ assert(storyI18n['1033'].en.html.indexOf('室堂') !== -1, 'S1033 EN keeps 室�
 assert(storyI18n['1033'].en.html.indexOf('みくりが池') !== -1, 'S1033 EN keeps みくりが池');
 assert(storyI18n['1033'].en.html.indexOf('彌陀ヶ原') !== -1, 'S1033 EN keeps 彌陀ヶ原');
 assert(!storyI18n['1033']['zh-TW'], 'do not duplicate Traditional Chinese body for S1033 in story-i18n.json');
+assert(storyI18n['1034'] && storyI18n['1034'].en, 'S1034 English overlay');
+assert(/Inatori Akao/i.test(storyI18n['1034'].en.title), 'S1034 English title');
+assert((storyI18n['1034'].en.html.match(/class="map-place-link"/g) || []).length === 3, 'S1034 EN place links');
+['525', '526', '527'].forEach(id => {
+  assert(storyI18n['1034'].en.html.indexOf('data-landmark="' + id + '"') !== -1, 'S1034 EN landmark ' + id);
+});
+assert(storyI18n['1034'].en.html.indexOf('javascript:zoomto') === -1, 'S1034 EN must not use javascript:zoomto');
+assert(storyI18n['1034'].en.html.indexOf('稲取赤尾ホテル') !== -1, 'S1034 EN keeps 稲取赤尾ホテル name');
+assert(storyI18n['1034'].en.html.indexOf('伊豆稲取駅') !== -1, 'S1034 EN keeps 伊豆稲取駅');
+assert(storyI18n['1034'].en.html.indexOf('稲取漁港／こらっしぇ') !== -1, 'S1034 EN keeps 稲取漁港／こらっしぇ');
+assert(!storyI18n['1034']['zh-TW'], 'do not duplicate Traditional Chinese body for S1034 in story-i18n.json');
 assert(storyI18n['100026'] && storyI18n['100026'].en, 'S100026 English overlay');
 assert(/powder/i.test(storyI18n['100026'].en.title), 'S100026 English title');
 assert((storyI18n['100026'].en.html.match(/class="map-place-link"/g) || []).length === 3, 'S100026 EN place links');
@@ -1010,7 +1087,7 @@ assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG
 
 const shareable = shareableStories(payload.stories, blogHtml);
 const shareableIds = shareable.map(s => s.story_id);
-const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '100023', '100024', '100026'];
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026'];
 expectedShareIds.forEach(id => {
   assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
 });
@@ -1081,6 +1158,12 @@ assert(page100024.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100
 
 const page100026 = fs.readFileSync(path.join(ROOT, 'stories', '100026.html'), 'utf8');
 assert(page100026.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100026.html') !== -1, 'S100026 absolute Pages URL');
+
+const page1034 = fs.readFileSync(path.join(ROOT, 'stories', '1034.html'), 'utf8');
+assert(page1034.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/1034.html') !== -1, 'S1034 absolute Pages URL');
+assert(page1034.indexOf('高台住一晚，看漁港與相模灣') !== -1, 'S1034 OG/body keeps card description');
+assert(page1034.indexOf('data-landmark="525"') !== -1, 'S1034 page landmark 525');
+assert(page1034.indexOf('<section data-story-id="1034" style="display:none;">') === -1, 'S1034 article must be visible for crawlers');
 
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');

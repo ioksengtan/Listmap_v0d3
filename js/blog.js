@@ -14,7 +14,7 @@ var mapBackControl = null;
 // 'home' | { type: 'collection', id, title } | null
 var previousView = null;
 
-// Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S100026).
+// Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S1034, S100026).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MARKERS = [
     { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
@@ -26,6 +26,7 @@ var INDEX_MARKERS = [
     { label: '越生：黒山園釣烤，順路三座瀑布', type: 'story', story_id: '1031' },
     { label: '河津：山側七座瀑布，海岸另半天', type: 'story', story_id: '1032' },
     { label: '立山室堂：兩千四百五十公尺的平地', type: 'story', story_id: '1033' },
+    { label: '稲取赤尾：住一晚，看漁港與相模灣', type: 'story', story_id: '1034' },
     { label: '日本粉雪三選：湯澤、留壽都、富良野', type: 'story', story_id: '100026' },
 ];
 
