@@ -1,3 +1,14 @@
+/* Typography */
+body {
+  font-family: 'Source Sans 3', 'Noto Sans TC', system-ui, sans-serif;
+}
+.gpstory_title,
+.gpstory_header,
+#geostory_blog h1,
+#geostory_blog h2 {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
  .navbar {

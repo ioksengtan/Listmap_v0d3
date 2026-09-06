@@ -1,3 +1,15 @@
+/* Typography */
+body {
+  font-family: 'Source Sans 3', 'Noto Sans TC', system-ui, sans-serif;
+}
+.visitor-intro h1,
+.visitor-story-card a {
+  font-family: 'Fraunces', Georgia, serif;
+}
+.visitor-kicker {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+}
+
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
  .navbar {
