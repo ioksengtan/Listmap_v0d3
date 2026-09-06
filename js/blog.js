@@ -44,21 +44,28 @@ $(document).ready(function() {
     initMap();
 
     ListmapData.load().done(function() {
-        loadIndexMarkers();
         var pathId = storyIdFromPathname(location.pathname);
-        var hash = location.hash.replace('#', '');
+        var parsed = storyIdFromHash();
+        // Build index pins always, but do not attach them when a story is already open
+        // via permalink (stories/1033.html) or hash deep-link (blog.html#1033).
+        loadIndexMarkers({ attach: !(pathId || parsed) });
         if (pathId) {
             loadStoryById(pathId);
-        } else if (hash) {
-            var parts = hash.split('/');
-            var sid = parts[0];
-            var cid = parts[1] || null;
-            if (/^\d+$/.test(sid)) {
-                loadStoryById(sid, cid);
-            }
+        } else if (parsed) {
+            loadStoryById(parsed.sid, parsed.cid);
         }
     }).fail(function() {
         console.error('Failed to load data/static.json');
+    });
+
+    $(window).on('hashchange', function() {
+        if (storyIdFromPathname(location.pathname)) return;
+        var parsed = storyIdFromHash();
+        if (parsed) {
+            loadStoryById(parsed.sid, parsed.cid);
+        } else if (previousView) {
+            blogGoBack();
+        }
     });
 
     // 回索引按鈕放在地圖左下角
@@ -131,7 +138,18 @@ function refreshDynamicI18n() {
     }
 }
 
-function loadIndexMarkers() {
+function storyIdFromHash() {
+    var hash = location.hash.replace('#', '');
+    if (!hash) return null;
+    var parts = hash.split('/');
+    var sid = parts[0];
+    if (!/^\d+$/.test(sid)) return null;
+    return { sid: sid, cid: parts[1] || null };
+}
+
+function loadIndexMarkers(opts) {
+    opts = opts || {};
+    var attach = opts.attach !== false;
     indexLayer = L.layerGroup();
 
     (function(data) {
@@ -173,8 +191,7 @@ function loadIndexMarkers() {
             indexLayer.addLayer(marker);
         });
 
-        var skipIndexFit = !!storyIdFromPathname(location.pathname);
-        if (!skipIndexFit) {
+        if (attach) {
             indexLayer.addTo(mymap);
         }
 
@@ -199,17 +216,30 @@ function loadIndexMarkers() {
             }
         });
 
-        // 縮放到索引標記範圍
-        if (skipIndexFit) return;
-        var bounds = indexLayer.getLayers()
-            .filter(function(l) { return l.getLatLng; })
-            .map(function(l) { return l.getLatLng(); });
-        if (bounds.length === 1) {
-            mymap.setView(bounds[0], 10);
-        } else if (bounds.length > 1) {
-            mymap.fitBounds(bounds, { padding: [60, 60] });
+        // 縮放到索引標記範圍（僅首頁掛上 indexLayer 時）
+        if (attach) {
+            var bounds = indexLayer.getLayers()
+                .filter(function(l) { return l.getLatLng; })
+                .map(function(l) { return l.getLatLng(); });
+            if (bounds.length === 1) {
+                mymap.setView(bounds[0], 10);
+            } else if (bounds.length > 1) {
+                mymap.fitBounds(bounds, { padding: [60, 60] });
+            }
         }
     })(ListmapData.getStoriesIndex());
+}
+
+function hideIndexLayer() {
+    if (indexLayer && mymap.hasLayer(indexLayer)) {
+        mymap.removeLayer(indexLayer);
+    }
+}
+
+function showIndexLayer() {
+    if (indexLayer && !mymap.hasLayer(indexLayer)) {
+        indexLayer.addTo(mymap);
+    }
 }
 
 function showPanelBackBtn(label, onclick) {
@@ -364,6 +394,7 @@ $(document).on('click', '.map-place-link', function(e) {
 
 function loadStory(story, fromCollection) {
     clearMapLayers();
+    hideIndexLayer();
 
     currentLandmarkLayer = L.layerGroup().addTo(mymap);
     var allLatlngs = [];
@@ -578,6 +609,7 @@ function blogGoBack() {
     $('[data-story-id], [data-collection-id]').hide();
     $('#blog-welcome').show();
     if (mapBackControl) $(mapBackControl.getContainer()).hide();
+    showIndexLayer();
     if (indexLayer) {
         var pts = indexLayer.getLayers().filter(function(l){ return l.getLatLng; }).map(function(l){ return l.getLatLng(); });
         if (pts.length === 1) mymap.setView(pts[0], 10);
@@ -587,6 +619,7 @@ function blogGoBack() {
 
 function loadCollectionById(collection_id) {
     clearMapLayers();
+    hideIndexLayer();
 
     var data = ListmapData.getStoriesByCollection(collection_id);
     currentLandmarkLayer = L.layerGroup();
@@ -644,6 +677,7 @@ function loadStoryById(story_id, from_collection_id) {
             loadStory(story, fromCollection);
         } else {
             clearMapLayers();
+            hideIndexLayer();
             if (fromCollection) {
                 showPanelBackBtn(fromCollection.title, "blogGoBack()");
                 previousView = { type: 'collection', id: fromCollection.id, title: fromCollection.title };

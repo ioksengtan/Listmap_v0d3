@@ -591,7 +591,7 @@ assert(/stories\/100023\.html/.test(aboutHtml), 'about should CTA to stories/100
 assert(/stories\/100024\.html/.test(aboutHtml), 'about should CTA to stories/100024.html');
 assert(/stories\/100026\.html/.test(aboutHtml), 'about should CTA to stories/100026.html');
 assert(blogJs.includes('storyIdFromPathname'), 'blog.js should read story id from /stories/NNNN.html');
-assert(blogJs.includes('skipIndexFit'), 'permalink pages must not fitBounds the multi-story index');
+assert(/loadIndexMarkers\(\s*\{\s*attach:\s*!\(pathId \|\| parsed\)\s*\}\)/.test(blogJs), 'permalink pages must not fitBounds the multi-story index');
 assert(blogJs.includes("location.hash.replace('#', '')"), 'blog.js should still honor blog.html#NNNN bookmarks');
 assert(!/href=["']\/api/.test(indexHtml), 'index.html must not link to /api');
 assert(!/href=["']\/api/.test(aboutHtml), 'about.html must not link to /api');
@@ -617,6 +617,18 @@ assert(/story_id:\s*'100026'/.test(markerBlock[1]), 'INDEX_MARKERS must include 
 assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero internal Heidelberg');
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
+assert(/function hideIndexLayer\s*\(/.test(blogJs), 'blog.js must define hideIndexLayer');
+assert(/function showIndexLayer\s*\(/.test(blogJs), 'blog.js must define showIndexLayer');
+assert(/function storyIdFromHash\s*\(/.test(blogJs), 'blog.js must parse story hashes');
+assert(/loadIndexMarkers\(\s*\{\s*attach:\s*!\(pathId \|\| parsed\)\s*\}\)/.test(blogJs), 'story hash or permalink must not attach homepage indexLayer');
+assert(/\$\(window\)\.on\(\s*'hashchange'/.test(blogJs), 'blog.js must open stories from hashchange');
+const loadStoryFn = blogJs.match(/function loadStory\s*\([\s\S]*?\nfunction injectStoryHashtags/);
+assert(loadStoryFn && /hideIndexLayer\s*\(\s*\)/.test(loadStoryFn[0]), 'loadStory must hide indexLayer so homepage pins do not linger');
+assert(loadStoryFn && /mymap\.fitBounds\(allLatlngs/.test(loadStoryFn[0]), 'loadStory must still fitBounds to the current story');
+const goBackFn = blogJs.match(/function blogGoBack\s*\([\s\S]*?\nfunction loadCollectionById/);
+assert(goBackFn && /showIndexLayer\s*\(\s*\)/.test(goBackFn[0]), 'blogGoBack must restore indexLayer on home');
+const loadCollFn = blogJs.match(/function loadCollectionById\s*\([\s\S]*?\nfunction loadStoryById/);
+assert(loadCollFn && /hideIndexLayer\s*\(\s*\)/.test(loadCollFn[0]), 'loadCollectionById must hide homepage indexLayer');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
 assert(indexJs.includes("stories/' + s.story_id + '.html'"), 'homepage list should link to per-story URLs');
 assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]100026['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1033 and S100026');
