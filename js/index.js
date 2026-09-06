@@ -1,8 +1,7 @@
-﻿StoriesDict = {};
+StoriesDict = {};
 var homepageStoryLayer = null;
 
-/** Visitor homepage only heroes clearly public stories. */
-var HOMEPAGE_STORY_IDS = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100026', '100030'];
+var HOMEPAGE_MAX_SHOWN = 8;
 
 function escapeHtml(str) {
     return String(str || '')
@@ -13,13 +12,11 @@ function escapeHtml(str) {
 }
 
 function publicHomepageStories() {
-    var all = ListmapData.getRecentStories().table || [];
-    return HOMEPAGE_STORY_IDS.map(function (id) {
-        return all.find(function (s) {
-            return String(s.story_id) === String(id);
-        });
-    }).filter(function (s) {
-        return s && (!s.visibility || s.visibility === 'public' || ListmapData.isLocalhost());
+    var all = (ListmapData.stories ? ListmapData.stories() : []);
+    return all.filter(function (s) {
+        return s.visibility === 'public' || ListmapData.isLocalhost();
+    }).sort(function (a, b) {
+        return (b.created_at || '').localeCompare(a.created_at || '');
     });
 }
 
@@ -83,6 +80,28 @@ function renderHomepageList() {
     $('#maplist').addClass('maplist-visible');
 }
 
+function renderVisitorStories() {
+    var $container = $('#visitor-story-list');
+    if (!$container.length) return;
+    var stories = publicHomepageStories();
+    var shown = stories.slice(0, HOMEPAGE_MAX_SHOWN);
+    $container.empty();
+    shown.forEach(function (s) {
+        var $card = $('<div class="visitor-story-card">');
+        var $link = $('<a>').attr('href', 'stories/' + s.story_id + '.html').text(s.title || s.story_id);
+        $card.append($link);
+        if (s.where) {
+            $card.append($('<span class="visitor-story-where">').text(s.where));
+        }
+        $container.append($card);
+    });
+    var total = stories.length;
+    if (total > 0) {
+        var $more = $('<a class="visitor-stories-more" href="blog.html">查看全部 ' + total + ' 篇故事 →</a>');
+        $container.append($more);
+    }
+}
+
 $(document).ready(function () {
     if (window.ListmapI18n) {
         ListmapI18n.init({
@@ -99,8 +118,11 @@ $(document).ready(function () {
     }
 
     ListmapData.load().done(function () {
+        var stories = publicHomepageStories();
+        var allIds = stories.map(function (s) { return s.story_id; });
         renderHomepageList();
-        zoomHomepageStories(HOMEPAGE_STORY_IDS);
+        renderVisitorStories();
+        zoomHomepageStories(allIds);
     }).fail(function () {
         console.error('Failed to load data/static.json');
     });
