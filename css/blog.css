@@ -541,6 +541,23 @@ a.blog-article-card:focus {
   margin: 0;
   line-height: 1.6;
 }
+.blog-story-more {
+  padding: 12px 32px 4px;
+}
+.blog-story-more-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #666;
+  padding: 6px 16px;
+  cursor: pointer;
+  width: 100%;
+}
+.blog-story-more-btn:hover {
+  border-color: #aaa;
+  color: #333;
+}
 .blog-id-tag {
   float: right;
   font-size: 11px;

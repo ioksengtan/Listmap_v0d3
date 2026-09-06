@@ -19,23 +19,7 @@ var currentScrollyStepId = null; // 當前啟動的 step 標識
 
 // Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S1034, S100026, S100030).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
-var INDEX_MARKERS = [
-    { label: '新竹牛肉麵五選', type: 'story', story_id: '1024' },
-    { label: '陽明山：住一晚，走兩天', type: 'story', story_id: '1025' },
-    { label: '東京桌上遊戲市集：怎麼住幕張、哪天充電（2026 秋）', type: 'story', story_id: '1027' },
-    { label: '南特造船廠裡，有隻會走路的大象', type: 'story', story_id: '1028' },
-    { label: '福隆：住一晚，騎舊草嶺', type: 'story', story_id: '1029' },
-    { label: '秋芳洞：地下十七度，電梯上去是台地', type: 'story', story_id: '1030' },
-    { label: '越生：黒山園釣烤，順路三座瀑布', type: 'story', story_id: '1031' },
-    { label: '河津：山側七座瀑布，海岸另半天', type: 'story', story_id: '1032' },
-    { label: '立山室堂：兩千四百五十公尺的平地', type: 'story', story_id: '1033' },
-    { label: '稲取赤尾：住一晚，看漁港與相模灣', type: 'story', story_id: '1034' },
-    { label: '瑞士：纜車一路連到馬特洪峰', type: 'story', story_id: '100023' },
-    { label: '北歐：渡輪串起的七天', type: 'story', story_id: '100024' },
-    { label: '日本粉雪三選：湯澤、留壽都、富良野', type: 'story', story_id: '100026' },
-    { label: '雙灣：淺水灣騎到白沙灣', type: 'story', story_id: '100030' },
-    { label: '2027關西春季：甲子園、相撲、賞櫻與登山', type: 'story', story_id: '100032' },
-];
+var INDEX_MAP_LIMIT = 10;
 
 // Public blog map: OSM geographic tiles (EPSG:3857), not map.js pngMap() Simple-CRS floorplan.
 function initBlogMap() {
@@ -181,66 +165,35 @@ function loadIndexMarkers(opts) {
     (function(data) {
         var storiesWithGps = data.table;
 
-        INDEX_MARKERS.forEach(function(def) {
-            var story = null;
-            var lat = def.lat;
-            var lng = def.lng;
+        // 最新 INDEX_MAP_LIMIT 筆 public 故事（按 created_at 降序）
+        var publicStories = storiesWithGps.filter(function(s) {
+            return s.visibility === 'public' || ListmapData.isLocalhost();
+        });
+        publicStories.sort(function(a, b) {
+            return (b.created_at || '').localeCompare(a.created_at || '');
+        });
+        var mapStories = publicStories.slice(0, INDEX_MAP_LIMIT);
 
-            if (def.type === 'latest') {
-                story = storiesWithGps[0];
-                if (story) { lat = parseFloat(story.lat); lng = parseFloat(story.lng); }
-            } else if (def.type === 'story') {
-                story = storiesWithGps.find(function(s) { return s.story_id === def.story_id; });
-                if (story) { lat = parseFloat(story.lat); lng = parseFloat(story.lng); }
-            } else if (def.type === 'collection') {
-                lat = def.lat;
-                lng = def.lng;
-            }
-
+        mapStories.forEach(function(story) {
+            var lat = parseFloat(story.lat);
+            var lng = parseFloat(story.lng);
             if (isNaN(lat) || isNaN(lng)) return;
 
-            var isCollection = def.type === 'collection';
+            var label = (story.title || story.story_id).split('｜')[0];
             var icon = L.divIcon({
                 className: '',
-                html: '<div class="index-marker-pin' + (isCollection ? ' index-marker-collection' : '') + '"><span class="index-marker-label">' + def.label + '</span></div>',
+                html: '<div class="index-marker-pin"><span class="index-marker-label">' + label + '</span></div>',
                 iconSize: [12, 12],
                 iconAnchor: [6, 6],
             });
-
-            var marker = L.marker([lat, lng], { icon: icon });
-            if (isCollection) {
-                var collId = def.collection_id;
-                marker.on('click', function() { loadCollectionById(collId); });
-            } else if (story) {
-                marker.on('click', function() { loadStory(story); });
-            }
-            indexLayer.addLayer(marker);
+            L.marker([lat, lng], { icon: icon })
+                .on('click', function() { loadStory(story); })
+                .addTo(indexLayer);
         });
 
         if (attach) {
             indexLayer.addTo(mymap);
         }
-
-        // 首頁卡片 visibility 處理
-        var storyMap = {};
-        storiesWithGps.forEach(function(s) { storyMap[s.story_id] = s; });
-        $('#blog-welcome .blog-article-card, #blog-welcome [data-collection-id] .blog-article-card').each(function() {
-            var onclick = $(this).attr('onclick') || '';
-            var href = $(this).attr('href') || '';
-            var m = onclick.match(/loadStoryById\('(\d+)'/)
-                || onclick.match(/blogOpenStory\(event,'(\d+)'/)
-                || href.match(/stories\/(\d+)\.html/);
-            if (!m) return;
-            var sid = m[1];
-            if (!storyMap[sid]) {
-                $(this).hide(); // 不在 API 回傳中（internal 且非 localhost）
-            } else             if (storyMap[sid].visibility === 'internal') {
-                $(this).find('.blog-id-tag').before('<span class="story-internal-badge" style="font-size:10px;padding:1px 5px;margin-right:4px;">' + i18nText('badge.internal', 'Internal') + '</span>');
-            }
-            if (storyMap[sid]) {
-                injectStoryHashtags($(this), storyMap[sid].tags);
-            }
-        });
 
         // 縮放到索引標記範圍（僅首頁掛上 indexLayer 時）
         if (attach) {
@@ -253,7 +206,55 @@ function loadIndexMarkers(opts) {
                 mymap.fitBounds(bounds, { padding: [60, 60] });
             }
         }
+
+        renderBlogStoryList(ListmapData.stories ? ListmapData.stories() : []);
     })(ListmapData.getStoriesIndex());
+}
+
+var BLOG_LIST_PAGE = 8;
+
+function renderBlogStoryList(storiesWithGps) {
+    var $container = $('#blog-story-list');
+    if (!$container.length) return;
+
+    var stories = (storiesWithGps || []).filter(function(s) {
+        return s.visibility === 'public' || ListmapData.isLocalhost();
+    });
+    stories.sort(function(a, b) {
+        return (b.created_at || '').localeCompare(a.created_at || '');
+    });
+
+    $container.empty();
+
+    function buildCard(s) {
+        var sid = String(s.story_id);
+        var storyUrl = 'stories/' + sid + '.html';
+        var tag = (s.tags || '').split(',')[0].trim() || '';
+        var title = s.title || sid;
+        var $card = $('<a class="blog-article-card">')
+            .attr('href', storyUrl)
+            .attr('onclick', 'return blogOpenStory(event,\'' + sid + '\')');
+        if (tag) $card.append($('<div class="blog-article-card-tag">').text(tag));
+        $card.append($('<span class="blog-id-tag">').text('S' + sid));
+        $card.append($('<h4 class="blog-article-card-title">').text(title));
+        return $card;
+    }
+
+    var shown = stories.slice(0, BLOG_LIST_PAGE);
+    var rest = stories.slice(BLOG_LIST_PAGE);
+
+    shown.forEach(function(s) { $container.append(buildCard(s)); });
+
+    if (rest.length > 0) {
+        var $more = $('<div class="blog-story-more">');
+        var $btn = $('<button class="blog-story-more-btn">').text('顯示更多 ' + rest.length + ' 篇');
+        $btn.on('click', function() {
+            rest.forEach(function(s) { $container.append(buildCard(s)); });
+            $more.remove();
+        });
+        $more.append($btn);
+        $container.append($more);
+    }
 }
 
 function hideIndexLayer() {

@@ -114,6 +114,8 @@
         tags: s.tags,
         type: s.type,
         visibility: s.visibility || 'public',
+        created_at: s.created_at || '',
+        where: s.where || '',
         lat: firstLm ? firstLm.lat : null,
         lng: firstLm ? firstLm.lng : null,
       };
