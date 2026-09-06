@@ -94,6 +94,8 @@ const m1024 = blogHtml.match(/data-story-id="1024"[\s\S]*?<\/section>/);
 assert(m1024, 'blog.html missing story 1024 section');
 assert(!/javascript:zoomto/.test(m1024[0]), 'story 1024 must not use javascript:zoomto');
 assert((m1024[0].match(/class="map-place-link"/g) || []).length >= 5, 'story 1024 place links');
+assert(blogHtml.includes('href="stories/1024.html"'), 'blog index card permalink for S1024');
+assert(blogHtml.includes("blogOpenStory(event,'1024')") || blogHtml.includes("loadStoryById('1024')"), 'blog index card for S1024');
 const m1025 = blogHtml.match(/data-story-id="1025"[\s\S]*?<\/section>/);
 assert(m1025, 'blog.html missing story 1025 section');
 assert(!/javascript:zoomto/.test(m1025[0]), 'story 1025 must not use javascript:zoomto');
@@ -103,7 +105,8 @@ assert((m1025[0].match(/class="map-place-link"/g) || []).length >= 9, 'story 102
   assert(m1025[0].indexOf('data-landmark="' + id + '"') !== -1, 'story 1025 section landmark ' + id);
 });
 assert(m1025[0].includes('補口氣——以前過路人在這補草鞋'), 'story 1025 keeps 憨丙厝地 補草鞋 line');
-assert(blogHtml.includes("loadStoryById('1025')"), 'blog index card for S1025');
+assert(blogHtml.includes("blogOpenStory(event,'1025')") || blogHtml.includes("loadStoryById('1025')"), 'blog index card for S1025');
+assert(blogHtml.includes('href="stories/1025.html"'), 'blog index card permalink for S1025');
 assert(blogHtml.includes('data-i18n-story="1025"'), 'blog S1025 overlay hooks');
 assert(blogJs.includes("story_id: '1025'"), 'blog.js index markers include S1025');
 
@@ -151,7 +154,8 @@ assert(m1027[0].includes('幕張，不要新宿來回'), 'story 1027 v5 heading:
 assert(m1027[0].includes('兩天在會場，另外留一天給腿'), 'story 1027 v5 heading: two hall days plus a day for the legs');
 assert(m1027[0].includes('先住下來'), 'story 1027 v5 heading: check in first');
 assert(!/javascript:zoomto/.test(m1027[0]), 'story 1027 no zoomto');
-assert(blogHtml.includes("loadStoryById('1027')"), 'blog index card for S1027');
+assert(blogHtml.includes("blogOpenStory(event,'1027')") || blogHtml.includes("loadStoryById('1027')"), 'blog index card for S1027');
+assert(blogHtml.includes('href="stories/1027.html"'), 'blog index card permalink for S1027');
 assert(blogHtml.includes('data-i18n-story="1027"'), 'blog S1027 overlay hooks');
 assert(blogJs.includes("story_id: '1027'"), 'blog.js index markers include S1027');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
@@ -200,7 +204,8 @@ assert(m1028[0].includes('Les Anneaux'), 'story 1028 Anneaux');
 assert(m1028[0].includes('Hangar à Bananes'), 'story 1028 Hangar');
 assert(m1028[0].includes('Grue Titan grise'), 'story 1028 grey Titan');
 assert(m1028[0].includes("Mémorial de l'abolition"), 'story 1028 memorial');
-assert(blogHtml.includes("loadStoryById('1028')"), 'blog index card for S1028');
+assert(blogHtml.includes("blogOpenStory(event,'1028')") || blogHtml.includes("loadStoryById('1028')"), 'blog index card for S1028');
+assert(blogHtml.includes('href="stories/1028.html"'), 'blog index card permalink for S1028');
 assert(blogHtml.includes('data-i18n-story="1028"'), 'blog S1028 overlay hooks');
 assert(blogJs.includes("story_id: '1028'"), 'blog.js index markers include S1028');
 
@@ -253,7 +258,8 @@ assert(m1029[0].includes('data-landmark="503"') && m1029[0].includes('遊客中�
 assert(m1029[0].includes('海水浴場'), 'story 1029 beach');
 assert(m1029[0].includes('data-landmark="504"') && m1029[0].includes('龍門吊橋'), 'story 1029 Longmen');
 assert(m1029[0].includes('data-landmark="505"') && m1029[0].includes('福容'), 'story 1029 Fullon');
-assert(blogHtml.includes("loadStoryById('1029')"), 'blog index card for S1029');
+assert(blogHtml.includes("blogOpenStory(event,'1029')") || blogHtml.includes("loadStoryById('1029')"), 'blog index card for S1029');
+assert(blogHtml.includes('href="stories/1029.html"'), 'blog index card permalink for S1029');
 assert(blogHtml.includes('data-i18n-story="1029"'), 'blog S1029 overlay hooks');
 assert(blogJs.includes("story_id: '1029'"), 'blog.js index markers include S1029');
 
@@ -302,10 +308,11 @@ assert(/data-landmark="507"[^>]*data-zoom="16"[^>]*>百枚皿</.test(m1030[0]), 
 assert(/data-landmark="508"[^>]*data-zoom="16"[^>]*>黃金柱</.test(m1030[0]), 'story 1030 黃金柱 maps to 508 zoom 16');
 assert(/data-landmark="509"[^>]*data-zoom="16"[^>]*>冒險コース</.test(m1030[0]), 'story 1030 冒險コース maps to 509');
 assert(/data-landmark="510"[^>]*data-zoom="15"[^>]*>カルスト展望台</.test(m1030[0]), 'story 1030 展望台 maps to 510 zoom 15');
-assert(blogHtml.includes("loadStoryById('1030')"), 'blog index card for S1030');
+assert(blogHtml.includes("blogOpenStory(event,'1030')") || blogHtml.includes("loadStoryById('1030')"), 'blog index card for S1030');
+assert(blogHtml.includes('href="stories/1030.html"'), 'blog index card permalink for S1030');
 assert(blogHtml.includes('data-i18n-story="1030"'), 'blog S1030 overlay hooks');
 assert(blogJs.includes("story_id: '1030'"), 'blog.js index markers include S1030');
-assert(!fs.existsSync(path.join(ROOT, 'stories', '1030.html')), 'do not generate stories/1030.html while PR #15 is open');
+assert(fs.existsSync(path.join(ROOT, 'stories', '1030.html')), 'compile-data must generate stories/1030.html');
 
 const s1031 = payload.stories.find(s => s.story_id === '1031');
 assert(s1031, 'story 1031 missing');
@@ -352,10 +359,11 @@ assert(/data-landmark="511"[^>]*data-zoom="16"[^>]*>黒山園</.test(m1031[0]), 
 assert(/data-landmark="513"[^>]*data-zoom="15"[^>]*>町營停車場</.test(m1031[0]), 'story 1031 町營停車場 maps to 513 zoom 15');
 assert(/data-landmark="514"[^>]*data-zoom="14"[^>]*>越生站</.test(m1031[0]), 'story 1031 越生站 maps to 514 zoom 14');
 assert(m1031[0].includes('烤大約半小時到四十分鐘，以現場為準'), 'story 1031 keeps grill timing text');
-assert(blogHtml.includes("loadStoryById('1031')"), 'blog index card for S1031');
+assert(blogHtml.includes("blogOpenStory(event,'1031')") || blogHtml.includes("loadStoryById('1031')"), 'blog index card for S1031');
+assert(blogHtml.includes('href="stories/1031.html"'), 'blog index card permalink for S1031');
 assert(blogHtml.includes('data-i18n-story="1031"'), 'blog S1031 overlay hooks');
 assert(blogJs.includes("story_id: '1031'"), 'blog.js index markers include S1031');
-assert(!fs.existsSync(path.join(ROOT, 'stories', '1031.html')), 'do not generate stories/1031.html while PR #15 is open');
+assert(fs.existsSync(path.join(ROOT, 'stories', '1031.html')), 'compile-data must generate stories/1031.html');
 
 const s1032 = payload.stories.find(s => s.story_id === '1032');
 assert(s1032, 'story 1032 missing');
@@ -412,10 +420,11 @@ assert(m1032[0].includes('images/stories/1032/amagiso-odaru-onsen.jpg'), 'story 
 assert(m1032[0].includes('images/stories/1032/mine-daifunto-jifunsui.jpg'), 'story 1032 inline mine geyser');
 assert(m1032[0].includes('images/stories/1032/funado-banya.jpg'), 'story 1032 inline funado-banya');
 assert(m1032[0].includes('店名是「舟戸」，不是常被寫錯的「船戸」'), 'story 1032 keeps 舟戸 vs 船戸 note');
-assert(blogHtml.includes("loadStoryById('1032')"), 'blog index card for S1032');
+assert(blogHtml.includes("blogOpenStory(event,'1032')") || blogHtml.includes("loadStoryById('1032')"), 'blog index card for S1032');
+assert(blogHtml.includes('href="stories/1032.html"'), 'blog index card permalink for S1032');
 assert(blogHtml.includes('data-i18n-story="1032"'), 'blog S1032 overlay hooks');
 assert(blogJs.includes("story_id: '1032'"), 'blog.js index markers include S1032');
-assert(!fs.existsSync(path.join(ROOT, 'stories', '1032.html')), 'do not generate stories/1032.html while PR #15 is open');
+assert(fs.existsSync(path.join(ROOT, 'stories', '1032.html')), 'compile-data must generate stories/1032.html');
 
 const s1033 = payload.stories.find(s => s.story_id === '1033');
 assert(s1033, 'story 1033 missing');
@@ -461,10 +470,11 @@ assert(/data-landmark="521"[^>]*data-zoom="13"[^>]*>立山駅</.test(m1033[0]), 
 assert(/data-landmark="522"[^>]*data-zoom="13"[^>]*>彌陀ヶ原</.test(m1033[0]), 'story 1033 彌陀ヶ原 maps to 522 zoom 13');
 assert(/data-landmark="523"[^>]*data-zoom="14"[^>]*>室堂</.test(m1033[0]), 'story 1033 室堂 maps to 523 zoom 14');
 assert(/data-landmark="524"[^>]*data-zoom="15"[^>]*>みくりが池</.test(m1033[0]), 'story 1033 みくりが池 maps to 524 zoom 15');
-assert(blogHtml.includes("loadStoryById('1033')"), 'blog index card for S1033');
+assert(blogHtml.includes("blogOpenStory(event,'1033')") || blogHtml.includes("loadStoryById('1033')"), 'blog index card for S1033');
+assert(blogHtml.includes('href="stories/1033.html"'), 'blog index card permalink for S1033');
 assert(blogHtml.includes('data-i18n-story="1033"'), 'blog S1033 overlay hooks');
 assert(blogJs.includes("story_id: '1033'"), 'blog.js index markers include S1033');
-assert(!fs.existsSync(path.join(ROOT, 'stories', '1033.html')), 'do not generate stories/1033.html while PR #15 is open');
+assert(fs.existsSync(path.join(ROOT, 'stories', '1033.html')), 'compile-data must generate stories/1033.html');
 
 const s100026 = payload.stories.find(s => s.story_id === '100026');
 assert(s100026, 'story 100026 missing');
@@ -514,10 +524,11 @@ assert(!/data-landmark="100015"/.test(m100026[0]), 'S100026 body must not use 10
 assert(/data-landmark="100029"[^>]*data-zoom="12"[^>]*>石打丸山</.test(m100026[0]), 'story 100026 石打丸山 maps to 100029 zoom 12');
 assert(/data-landmark="100030"[^>]*data-zoom="11"[^>]*>留壽都度假村</.test(m100026[0]), 'story 100026 留壽都 maps to 100030 zoom 11');
 assert(/data-landmark="100031"[^>]*data-zoom="11"[^>]*>富良野滑雪場</.test(m100026[0]), 'story 100026 富良野 maps to 100031 zoom 11');
-assert(blogHtml.includes("loadStoryById('100026')"), 'blog index card for S100026');
+assert(blogHtml.includes("blogOpenStory(event,'100026')") || blogHtml.includes("loadStoryById('100026')"), 'blog index card for S100026');
+assert(blogHtml.includes('href="stories/100026.html"'), 'blog index card permalink for S100026');
 assert(blogHtml.includes('data-i18n-story="100026"'), 'blog S100026 overlay hooks');
 assert(blogJs.includes("story_id: '100026'"), 'blog.js index markers include S100026');
-assert(!fs.existsSync(path.join(ROOT, 'stories', '100026.html')), 'do not generate stories/100026.html while PR #15 is open');
+assert(fs.existsSync(path.join(ROOT, 'stories', '100026.html')), 'compile-data must generate stories/100026.html');
 
 const imgDir1032 = path.join(ROOT, 'images', 'stories', '1032');
 ['odaru-fall.jpg', 'amagiso-odaru-onsen.jpg', 'mine-daifunto-jifunsui.jpg', 'funado-banya.jpg'].forEach(name => {
@@ -555,26 +566,33 @@ const aboutJs = fs.readFileSync(path.join(ROOT, 'js', 'about.js'), 'utf8');
 
 assert(/個人地圖故事/.test(indexHtml), 'homepage copy should say 個人地圖故事');
 assert(/個人地圖故事/.test(aboutHtml), 'about copy should say 個人地圖故事');
-assert(/blog\.html#1024/.test(indexHtml), 'homepage should CTA to blog.html#1024');
-assert(/blog\.html#1025/.test(indexHtml), 'homepage should CTA to blog.html#1025');
-assert(/blog\.html#1027/.test(indexHtml), 'homepage should CTA to blog.html#1027');
-assert(/blog\.html#1028/.test(indexHtml), 'homepage should CTA to blog.html#1028');
-assert(/blog\.html#1029/.test(indexHtml), 'homepage should CTA to blog.html#1029');
-assert(/blog\.html#1030/.test(indexHtml), 'homepage should CTA to blog.html#1030');
-assert(/blog\.html#1031/.test(indexHtml), 'homepage should CTA to blog.html#1031');
-assert(/blog\.html#1032/.test(indexHtml), 'homepage should CTA to blog.html#1032');
-assert(/blog\.html#1033/.test(indexHtml), 'homepage should CTA to blog.html#1033');
-assert(/blog\.html#100026/.test(indexHtml), 'homepage should CTA to blog.html#100026');
-assert(/blog\.html#1024/.test(aboutHtml), 'about should CTA to blog.html#1024');
-assert(/blog\.html#1025/.test(aboutHtml), 'about should CTA to blog.html#1025');
-assert(/blog\.html#1027/.test(aboutHtml), 'about should CTA to blog.html#1027');
-assert(/blog\.html#1028/.test(aboutHtml), 'about should CTA to blog.html#1028');
-assert(/blog\.html#1029/.test(aboutHtml), 'about should CTA to blog.html#1029');
-assert(/blog\.html#1030/.test(aboutHtml), 'about should CTA to blog.html#1030');
-assert(/blog\.html#1031/.test(aboutHtml), 'about should CTA to blog.html#1031');
-assert(/blog\.html#1032/.test(aboutHtml), 'about should CTA to blog.html#1032');
-assert(/blog\.html#1033/.test(aboutHtml), 'about should CTA to blog.html#1033');
-assert(/blog\.html#100026/.test(aboutHtml), 'about should CTA to blog.html#100026');
+assert(/stories\/1024\.html/.test(indexHtml), 'homepage should CTA to stories/1024.html');
+assert(/stories\/1025\.html/.test(indexHtml), 'homepage should CTA to stories/1025.html');
+assert(/stories\/1027\.html/.test(indexHtml), 'homepage should CTA to stories/1027.html');
+assert(/stories\/1028\.html/.test(indexHtml), 'homepage should CTA to stories/1028.html');
+assert(/stories\/1029\.html/.test(indexHtml), 'homepage should CTA to stories/1029.html');
+assert(/stories\/1030\.html/.test(indexHtml), 'homepage should CTA to stories/1030.html');
+assert(/stories\/1031\.html/.test(indexHtml), 'homepage should CTA to stories/1031.html');
+assert(/stories\/1032\.html/.test(indexHtml), 'homepage should CTA to stories/1032.html');
+assert(/stories\/1033\.html/.test(indexHtml), 'homepage should CTA to stories/1033.html');
+assert(/stories\/100023\.html/.test(indexHtml), 'homepage should CTA to stories/100023.html');
+assert(/stories\/100024\.html/.test(indexHtml), 'homepage should CTA to stories/100024.html');
+assert(/stories\/100026\.html/.test(indexHtml), 'homepage should CTA to stories/100026.html');
+assert(/stories\/1024\.html/.test(aboutHtml), 'about should CTA to stories/1024.html');
+assert(/stories\/1025\.html/.test(aboutHtml), 'about should CTA to stories/1025.html');
+assert(/stories\/1027\.html/.test(aboutHtml), 'about should CTA to stories/1027.html');
+assert(/stories\/1028\.html/.test(aboutHtml), 'about should CTA to stories/1028.html');
+assert(/stories\/1029\.html/.test(aboutHtml), 'about should CTA to stories/1029.html');
+assert(/stories\/1030\.html/.test(aboutHtml), 'about should CTA to stories/1030.html');
+assert(/stories\/1031\.html/.test(aboutHtml), 'about should CTA to stories/1031.html');
+assert(/stories\/1032\.html/.test(aboutHtml), 'about should CTA to stories/1032.html');
+assert(/stories\/1033\.html/.test(aboutHtml), 'about should CTA to stories/1033.html');
+assert(/stories\/100023\.html/.test(aboutHtml), 'about should CTA to stories/100023.html');
+assert(/stories\/100024\.html/.test(aboutHtml), 'about should CTA to stories/100024.html');
+assert(/stories\/100026\.html/.test(aboutHtml), 'about should CTA to stories/100026.html');
+assert(blogJs.includes('storyIdFromPathname'), 'blog.js should read story id from /stories/NNNN.html');
+assert(blogJs.includes('skipIndexFit'), 'permalink pages must not fitBounds the multi-story index');
+assert(blogJs.includes("location.hash.replace('#', '')"), 'blog.js should still honor blog.html#NNNN bookmarks');
 assert(!/href=["']\/api/.test(indexHtml), 'index.html must not link to /api');
 assert(!/href=["']\/api/.test(aboutHtml), 'about.html must not link to /api');
 assert(!/>API<\/a>/.test(indexHtml), 'index must not hero a dead API nav item');
@@ -600,21 +618,36 @@ assert(!/story_id:\s*'1001'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero 
 assert(!/story_id:\s*'258'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero NY test story');
 assert(!/collection_id:\s*'101'/.test(markerBlock[1]), 'INDEX_MARKERS must not hero Tokyo collection');
 assert(indexJs.includes('HOMEPAGE_STORY_IDS'), 'index.js should allowlist homepage stories');
+assert(indexJs.includes("stories/' + s.story_id + '.html'"), 'homepage list should link to per-story URLs');
 assert(/HOMEPAGE_STORY_IDS\s*=\s*\[['"]1024['"],\s*['"]1025['"],\s*['"]1027['"],\s*['"]1028['"],\s*['"]1029['"],\s*['"]1030['"],\s*['"]1031['"],\s*['"]1032['"],\s*['"]1033['"],\s*['"]100026['"]\]/.test(indexJs), 'homepage list should hero public S1024–S1033 and S100026');
 
 const welcomeMatch = blogHtml.match(/id="blog-welcome"[\s\S]*?<section data-story-id="1001"/);
 assert(welcomeMatch, 'blog welcome should precede story 1001 section');
 assert(/個人地圖故事/.test(welcomeMatch[0]), 'blog index should say 個人地圖故事');
-assert(/loadStoryById\('1024'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1024');
-assert(/loadStoryById\('1025'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1025');
-assert(/loadStoryById\('1027'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1027');
-assert(/loadStoryById\('1028'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1028');
-assert(/loadStoryById\('1029'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1029');
-assert(/loadStoryById\('1030'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1030');
-assert(/loadStoryById\('1031'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1031');
-assert(/loadStoryById\('1032'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1032');
-assert(/loadStoryById\('1033'\)/.test(welcomeMatch[0]), 'blog welcome must hero S1033');
-assert(/loadStoryById\('100026'\)/.test(welcomeMatch[0]), 'blog welcome must hero S100026');
+assert(/stories\/1024\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1024 permalink');
+assert(/blogOpenStory\(event,'1024'\)/.test(welcomeMatch[0]), 'blog welcome S1024 stays clickable in-page');
+assert(/stories\/1025\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1025 permalink');
+assert(/blogOpenStory\(event,'1025'\)/.test(welcomeMatch[0]), 'blog welcome S1025 stays clickable in-page');
+assert(/stories\/1027\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1027 permalink');
+assert(/blogOpenStory\(event,'1027'\)/.test(welcomeMatch[0]), 'blog welcome S1027 stays clickable in-page');
+assert(/stories\/1028\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1028 permalink');
+assert(/blogOpenStory\(event,'1028'\)/.test(welcomeMatch[0]), 'blog welcome S1028 stays clickable in-page');
+assert(/stories\/1029\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1029 permalink');
+assert(/blogOpenStory\(event,'1029'\)/.test(welcomeMatch[0]), 'blog welcome S1029 stays clickable in-page');
+assert(/stories\/1030\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1030 permalink');
+assert(/blogOpenStory\(event,'1030'\)/.test(welcomeMatch[0]), 'blog welcome S1030 stays clickable in-page');
+assert(/stories\/1031\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1031 permalink');
+assert(/blogOpenStory\(event,'1031'\)/.test(welcomeMatch[0]), 'blog welcome S1031 stays clickable in-page');
+assert(/stories\/1032\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1032 permalink');
+assert(/blogOpenStory\(event,'1032'\)/.test(welcomeMatch[0]), 'blog welcome S1032 stays clickable in-page');
+assert(/stories\/1033\.html/.test(welcomeMatch[0]), 'blog welcome must hero S1033 permalink');
+assert(/blogOpenStory\(event,'1033'\)/.test(welcomeMatch[0]), 'blog welcome S1033 stays clickable in-page');
+assert(/stories\/100023\.html/.test(welcomeMatch[0]), 'blog welcome must hero S100023 permalink');
+assert(/blogOpenStory\(event,'100023'\)/.test(welcomeMatch[0]), 'blog welcome S100023 stays clickable in-page');
+assert(/stories\/100024\.html/.test(welcomeMatch[0]), 'blog welcome must hero S100024 permalink');
+assert(/blogOpenStory\(event,'100024'\)/.test(welcomeMatch[0]), 'blog welcome S100024 stays clickable in-page');
+assert(/stories\/100026\.html/.test(welcomeMatch[0]), 'blog welcome must hero S100026 permalink');
+assert(/blogOpenStory\(event,'100026'\)/.test(welcomeMatch[0]), 'blog welcome S100026 stays clickable in-page');
 assert(!/loadStoryById\('1001'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Heidelberg');
 assert(!/loadStoryById\('258'\)/.test(welcomeMatch[0]), 'blog welcome must not hero NY test');
 assert(!/loadCollectionById\('101'\)/.test(welcomeMatch[0]), 'blog welcome must not hero Tokyo collection');
@@ -944,5 +977,105 @@ assert(indexHtml.includes('data-lang="en"'), 'homepage language switcher');
 assert(indexJs.includes('ListmapI18n'), 'index.js uses ListmapI18n');
 assert(indexJs.includes('invalidateSize'), 'homepage language switch invalidateSize');
 
+const {
+  PAGES_ORIGIN,
+  DEFAULT_OG_IMAGE,
+  storyPageRel,
+  absolutePagesUrl,
+  shareableStories,
+  buildStoryPageHtml,
+  compileStoryPages,
+} = require('./compile-story-pages');
+
+assert(PAGES_ORIGIN === 'https://ioksengtan.github.io/Listmap_v0d3', 'Pages origin must stay on github.io (no custom domain)');
+assert(storyPageRel('1024') === 'stories/1024.html', 'story path');
+assert(storyPageRel('100026') === 'stories/100026.html', '100000+ lane story path');
+assert(absolutePagesUrl('stories/1024.html') === 'https://ioksengtan.github.io/Listmap_v0d3/stories/1024.html', 'absolute story URL');
+assert(absolutePagesUrl(DEFAULT_OG_IMAGE) === 'https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png', 'absolute default OG image');
+assert(fs.existsSync(path.join(ROOT, DEFAULT_OG_IMAGE)), 'default OG image must be checked in');
+assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size > 1000, 'default OG image should not be empty');
+assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG image should stay small for crawlers');
+
+const shareable = shareableStories(payload.stories, blogHtml);
+const shareableIds = shareable.map(s => s.story_id);
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '100023', '100024', '100026'];
+expectedShareIds.forEach(id => {
+  assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
+});
+assert(shareableIds.indexOf('1001') === -1, 'internal Heidelberg must not get a public share page');
+assert(shareableIds.indexOf('258') === -1, 'NY test story must not get a public share page');
+assert(shareableIds.length === expectedShareIds.length,
+  'shareable set must be exactly the public blog stories, got ' + shareableIds.join(','));
+
+const staticDataJs = fs.readFileSync(path.join(ROOT, 'js', 'static-data.js'), 'utf8');
+assert(staticDataJs.includes('data-asset-base'), 'assetUrl must honor data-asset-base on nested story pages');
+assert(staticDataJs.includes('base[href]'), 'assetUrl must honor <base href> on nested story pages');
+assert(blogJs.includes('storyPageUrl'), 'blog.js should navigate between permalink pages');
+assert(blogJs.includes("ListmapData.assetUrl('blog.html')"), 'permalink back button should return to blog.html via assetUrl');
+
+shareable.forEach(function (story) {
+  const pagePath = path.join(ROOT, 'stories', story.story_id + '.html');
+  assert(fs.existsSync(pagePath), 'missing generated story page ' + story.story_id);
+  const page = fs.readFileSync(pagePath, 'utf8');
+  const rebuilt = buildStoryPageHtml(blogHtml, story);
+  assert(page === rebuilt, 'stories/' + story.story_id + '.html is stale — run npm run compile-data');
+  assert(page.indexOf('property="og:title"') !== -1, story.story_id + ' og:title');
+  assert(page.indexOf('content="' + story.title + '"') !== -1, story.story_id + ' og:title content');
+  assert(page.indexOf('property="og:description"') !== -1, story.story_id + ' og:description');
+  assert(page.indexOf('property="og:image"') !== -1, story.story_id + ' og:image');
+  assert(page.indexOf('property="og:url"') !== -1, story.story_id + ' og:url');
+  assert(page.indexOf('name="twitter:card"') !== -1, story.story_id + ' twitter:card');
+  assert(page.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/' + story.story_id + '.html') !== -1,
+    story.story_id + ' canonical / og:url');
+  assert(page.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1
+    || /property="og:image" content="https:\/\/ioksengtan\.github\.io\/Listmap_v0d3\//.test(page),
+    story.story_id + ' og:image must be an absolute github.io URL');
+  assert(page.indexOf('rel="canonical"') !== -1, story.story_id + ' canonical');
+  assert(page.indexOf('data-asset-base="../"') !== -1, story.story_id + ' data-asset-base');
+  assert(page.indexOf('<base href="../">') !== -1, story.story_id + ' <base href>');
+  assert(page.indexOf('data-story-id="' + story.story_id + '"') !== -1, story.story_id + ' article section');
+  assert(page.indexOf('<section data-story-id="' + story.story_id + '" style="display:none;">') === -1,
+    story.story_id + ' article must be visible in static HTML for crawlers');
+  assert(!/\/api/.test(page), story.story_id + ' must not call /api');
+  assert(page.indexOf('class="map-place-link"') !== -1, story.story_id + ' keeps map-place-link');
+  assert(page.indexOf('id="map"') !== -1, story.story_id + ' reuses blog map layout');
+});
+
+const page1024 = fs.readFileSync(path.join(ROOT, 'stories', '1024.html'), 'utf8');
+assert(page1024.indexOf('城隍廟、清大、光復路、中正路、竹北各一碗') !== -1, 'S1024 OG/body keeps card description');
+assert((page1024.match(/class="map-place-link"/g) || []).length >= 5, 'S1024 page place links');
+assert(page1024.indexOf('data-landmark="475"') !== -1, 'S1024 page landmark 475');
+
+const page1025 = fs.readFileSync(path.join(ROOT, 'stories', '1025.html'), 'utf8');
+assert(page1025.indexOf('天籟當基地。小油坑上七星，日走魚路。') !== -1, 'S1025 OG/body keeps card description');
+assert(page1025.indexOf('data-landmark="480"') !== -1, 'S1025 page landmark 480');
+
+const page1027 = fs.readFileSync(path.join(ROOT, 'stories', '1027.html'), 'utf8');
+assert(page1027.indexOf('先釘床跟充電；會場兩天之外另留一天給腿。') !== -1, 'S1027 OG/body keeps card description');
+assert(page1027.indexOf('data-landmark="491"') !== -1, 'S1027 page landmark 491');
+assert(page1027.indexOf('幕張，不要新宿來回') !== -1, 'S1027 page keeps v5 heading');
+
+const page1032 = fs.readFileSync(path.join(ROOT, 'stories', '1032.html'), 'utf8');
+assert(page1032.indexOf('src="images/stories/1032/odaru-fall.jpg"') !== -1, 'S1032 page keeps root-relative inline image path');
+assert(page1032.indexOf('<base href="../">') !== -1, 'S1032 nested page uses base href so images/stories resolves');
+assert(page1032.indexOf('data-asset-base="../"') !== -1, 'S1032 nested page marks asset base');
+
+const page100023 = fs.readFileSync(path.join(ROOT, 'stories', '100023.html'), 'utf8');
+assert(page100023.indexOf('property="og:title"') !== -1, 'S100023 100000+ lane gets OG tags');
+assert(page100023.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100023.html') !== -1, 'S100023 absolute Pages URL');
+
+const page100024 = fs.readFileSync(path.join(ROOT, 'stories', '100024.html'), 'utf8');
+assert(page100024.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100024.html') !== -1, 'S100024 absolute Pages URL');
+
+const page100026 = fs.readFileSync(path.join(ROOT, 'stories', '100026.html'), 'utf8');
+assert(page100026.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100026.html') !== -1, 'S100026 absolute Pages URL');
+
+assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
+assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
+
+const rewritten = compileStoryPages(payload.stories);
+assert(rewritten.join(',') === shareableIds.join(','), 'compileStoryPages should emit exactly the public share set');
+
 console.log('OK: static data compile + Pages wiring checks passed');
 console.log('  stories=' + payload.stories.length + ' landmarks=' + payload.landmarks.length);
+console.log('  share pages=' + shareableIds.join(','));

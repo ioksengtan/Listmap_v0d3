@@ -68,7 +68,7 @@ function renderHomepageList() {
             if (this.checked) zoomHomepageStory(s.story_id);
         });
         var $link = $('<a class="story-list-link">');
-        $link.attr('href', 'blog.html#' + s.story_id);
+        $link.attr('href', 'stories/' + s.story_id + '.html');
         $link.text(name);
         $link.on('click', function () {
             $cb.prop('checked', true);
