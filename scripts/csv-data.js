@@ -49,6 +49,7 @@ function toStory(r) {
     created_at: r.created_at || '',
     start_date: r.start_date || '',
     end_date: r.end_date || '',
+    contributor: r.contributor || '',
   };
 }
 
@@ -63,6 +64,7 @@ function toLandmark(r) {
     link: r.link || '',
     address: r.address || '',
     tags: r.tags || '',
+    contributor: r.contributor || '',
   };
 }
 

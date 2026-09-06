@@ -45,6 +45,7 @@ A single piece of content tied to one or more locations.
 | tags | Comma-separated tags |
 | thumbnail | Thumbnail image path |
 | visibility | `public`（對外公開，預設）、`internal`（僅 localhost 可見） |
+| contributor | Optional: which tool/agent authored this row (e.g. `cursor`, `claude-sonnet-5`). Blank means unspecified / predates this field. Not used for uniqueness — see "Picking a new story_id / landmark_id" below for how collisions are actually avoided. |
 
 ### Landmarks
 GPS points that belong to a story.
@@ -58,6 +59,7 @@ GPS points that belong to a story.
 | lng | Longitude |
 | content | Description of the landmark |
 | link | Optional URL for more info |
+| contributor | Optional, same meaning as the Stories field above |
 
 ### Hierarchy
 ```
@@ -161,6 +163,32 @@ Blog articles are written as `<section data-story-id="XXXX">` blocks inside `blo
 | Landmark | landmark_id (integer) | `211` |
 
 All IDs are defined in `data/stories.csv`, `data/collections.csv`, and `data/landmarks.csv`.
+
+**Picking a new story_id / landmark_id:** content is authored by more than one AI tool working in separate git branches (e.g. Cursor, Claude Code, and potentially other content providers in the future), each computing "current max id + 1" from its own checkout. Two branches that each append a new row with the same id merge cleanly as far as git is concerned — a CSV append is just two new lines, not a conflict — so the collision produces a **silently duplicated id**, not a merge error. `npm test` (and CI, `.github/workflows/check-ids.yml`) now runs `scripts/check-unique-ids.js`, which fails loudly on any duplicate `story_id`/`landmark_id` in `data/stories.csv` / `data/landmarks.csv` — but that only catches it once someone opens a PR, and doesn't stop two agents from independently drafting the same id in the meantime.
+
+**Primary method — reserve via a GitHub Issue before drafting.** GitHub's own issue/PR numbering is already a centrally-serialized, collision-free counter for this repo (two issues created at the same instant never get the same number, even across different tools with no coordination between them) — no new service to build or host, no shared counter file to maintain.
+
+1. Before starting a new story, open an issue: `gh issue create --title "Reserve: <working title>"` (or the equivalent GitHub API call for tools without `gh`).
+2. Use the returned issue number `N` to compute `story_id = 100000 + N`.
+3. Draft the story under that id. In the PR description, write `Closes #N` so the reservation issue closes automatically on merge.
+4. Landmarks belonging to that story do **not** need their own reservation issue — continue incrementing `landmark_id` within the 100000+ lane (below), scoped to that one issue's story is unnecessary overhead for what's already a disjoint, collision-free range.
+
+This has a useful side effect: the repo's open-issues list becomes a live view of "what's currently being drafted, by whom" — a lightweight content-tracking board that costs nothing extra to maintain, and scales to any number of future content providers without anyone needing to hand out a new numeric range or letter code each time one joins.
+
+**Fallback — disjoint numeric lanes**, for when opening an issue isn't practical (offline edits, a tool without repo write access), or as the historical basis for ids assigned before this convention existed:
+
+| Range | Reserved for |
+|-------|--------------|
+| below 5000 | existing convention (Cursor / manually authored) — continue incrementing from the current max as before |
+| 100000+ | Claude Code / issue-reservation scheme — `story_id`/`landmark_id` values at 100000 or above, regardless of what the low range currently contains |
+
+The gap between the two lanes (5000–99999) is deliberately wide and left unused: at the growth rate observed in the first week of this convention (~7 stories / 4 days, ~4–6 landmarks per story), the low lane's `landmark_id` alone could plausibly climb ~8–10/day and reach 5000 within roughly a year and a half — a number with no headroom margin isn't a safe boundary. 100000 gives decades of runway at that pace with zero ongoing cost, since these are plain integers with no format constraint. If the low lane ever does approach its ceiling, raising it further is a one-line edit here — it doesn't require renumbering anything already assigned, only shifts where the *next* id starts.
+
+Both ranges apply to `story_id` and `landmark_id` independently (they're different columns, no need to keep them numerically aligned). `scripts/check-unique-ids.js` remains the backstop for the rare case either method still produces a collision.
+
+**Why not encode the authoring tool into the id itself** (e.g. a letter prefix/suffix like `SC1052`, or reusing the display convention as a literal id): `js/blog.js` hardcodes two `/^\d+$/`-style checks — one gates whether `blog.html#XXXX` auto-loads a story from the URL hash (`loadStoryById`), the other gates the visibility/internal-badge logic for the `#blog-welcome` story-card grid. Both assume `story_id` is pure digits; a non-numeric id silently fails to route or silently skips that visibility check, with no error. Making ids alphanumeric would require patching both first and re-testing every existing link. Since attribution and uniqueness are different concerns, they're solved separately instead: uniqueness stays numeric-lane-based (above), and attribution goes in the plain `contributor` column on `data/stories.csv` / `data/landmarks.csv` (e.g. `cursor`, `claude-sonnet-5`) — human-readable, filterable, and it costs nothing to add a value for a new tool later (no letter to reserve, no code to touch). Note also: the `S`/`C` you see in prose ("S1024", "C101") is a display label written by hand in article text — it is never the literal `story_id`/`collection_id` value used by `data-story-id`, the URL hash, or the CSV column, which is precisely why those `/^\d+$/` checks have held up so far.
+
+(S5000/landmark 5001–5014, the first content assigned under this convention, predates the 100000 floor and is left as-is — moving already-assigned ids would be pure churn for no benefit. Only new ids need to follow the 100000+ floor.)
 
 ---
 

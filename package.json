@@ -7,7 +7,8 @@
     "compile-data": "node scripts/compile-static-data.js",
     "build:area-energy": "node scripts/build-area-energy.js",
     "test:area-energy": "node scripts/test-area-energy.js",
-    "test": "node scripts/test-static-data.js && node scripts/test-area-energy.js"
+    "check:ids": "node scripts/check-unique-ids.js",
+    "test": "node scripts/check-unique-ids.js && node scripts/test-static-data.js && node scripts/test-area-energy.js"
   },
   "repository": {
     "type": "git",

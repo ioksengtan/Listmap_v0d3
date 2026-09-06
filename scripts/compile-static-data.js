@@ -4,6 +4,13 @@
 const fs = require('fs');
 const path = require('path');
 const { ROOT, buildStaticPayload } = require('./csv-data');
+const { execFileSync } = require('child_process');
+
+try {
+  execFileSync(process.execPath, [path.join(__dirname, 'check-unique-ids.js')], { stdio: 'inherit' });
+} catch (e) {
+  process.exit(1);
+}
 
 const payload = buildStaticPayload();
 const outFile = path.join(ROOT, 'data', 'static.json');
