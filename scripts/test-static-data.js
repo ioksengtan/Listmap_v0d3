@@ -159,6 +159,18 @@ assert(blogHtml.includes('href="stories/1027.html"'), 'blog index card permalink
 assert(blogHtml.includes('data-i18n-story="1027"'), 'blog S1027 overlay hooks');
 assert(blogJs.includes("story_id: '1027'"), 'blog.js index markers include S1027');
 assert(blogJs.includes('zoomToLandmarkId'), 'blog.js should zoom from static landmark JSON');
+assert(/function initBlogMap/.test(blogJs), 'blog.js should define initBlogMap');
+assert(blogJs.includes('initBlogMap()'), 'blog.js should call initBlogMap');
+assert(!/\binitMap\s*\(/.test(blogJs), 'blog.js must not call map.js initMap');
+assert(blogJs.includes('tile.openstreetmap.org'), 'blog map must use OSM tiles');
+assert(/scrollWheelZoom:\s*true/.test(blogJs), 'blog map must allow wheel zoom');
+assert(!/L\.CRS\.Simple/.test(blogJs), 'blog.js must not use Simple CRS');
+assert(!/mapbox/i.test(blogJs), 'blog.js must not use Mapbox tiles');
+
+const mapJs = fs.readFileSync(path.join(ROOT, 'js', 'map.js'), 'utf8');
+assert(/function pngMap/.test(mapJs), 'map.js pngMap should remain for non-blog pages');
+assert(/crs:\s*L\.CRS\.Simple/.test(mapJs), 'map.js pngMap should keep Simple CRS');
+assert(/function initMap/.test(mapJs), 'map.js initMap should remain for non-blog pages');
 
 const s1028 = payload.stories.find(s => s.story_id === '1028');
 assert(s1028, 'story 1028 missing');

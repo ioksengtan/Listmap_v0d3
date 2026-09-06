@@ -34,6 +34,24 @@ var INDEX_MARKERS = [
     { label: '雙灣：淺水灣騎到白沙灣', type: 'story', story_id: '100030' },
 ];
 
+// Public blog map: OSM geographic tiles (EPSG:3857), not map.js pngMap() Simple-CRS floorplan.
+function initBlogMap() {
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    });
+    mymap = L.map('map', {
+        crs: L.CRS.EPSG3857,
+        center: [25.1130643, 121.5227629],
+        zoom: 7,
+        minZoom: 2,
+        maxZoom: 19,
+        zoomControl: true,
+        scrollWheelZoom: true,
+        layers: [osm]
+    });
+}
+
 $(document).ready(function() {
     function afterLanguageChange() {
         refreshDynamicI18n();
@@ -46,7 +64,7 @@ $(document).ready(function() {
         ListmapI18n.init({ onChange: afterLanguageChange });
     }
 
-    initMap();
+    initBlogMap();
 
     ListmapData.load().done(function() {
         var pathId = storyIdFromPathname(location.pathname);
