@@ -4949,6 +4949,24 @@
       "created_at": "2026-09-05",
       "start_date": "",
       "end_date": ""
+    },
+    {
+      "story_id": "1031",
+      "collection_id": "",
+      "title": "越生：黒山園釣烤，順路三座瀑布",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Ogose",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-06",
+      "start_date": "",
+      "end_date": ""
     }
   ],
   "landmarks": [
@@ -18303,6 +18321,50 @@
       "lng": "131.308",
       "content": "地上台地對照；約值。電梯口再走約5–10分。",
       "link": "https://karusuto.com/spot/akiyoshidai/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "511",
+      "story_id": "1031",
+      "name": "黒山園",
+      "lat": "35.9372",
+      "lng": "139.2472",
+      "content": "釣＋烤。門牌黒山1445一帶；座標約值。TEL 049-292-3862。",
+      "link": "https://www.kanritsuriba.com/kuroyamaen/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "512",
+      "story_id": "1031",
+      "name": "黒山三滝",
+      "lat": "35.9408",
+      "lng": "139.2447",
+      "content": "三座瀑布（男／女／天狗）。溪谷步道免門票。",
+      "link": "https://ogose-kanko.jp/tourist_attractions/kuroyamasantaki/",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "513",
+      "story_id": "1031",
+      "name": "黒山三滝町營駐車場",
+      "lat": "35.9388",
+      "lng": "139.2522",
+      "content": "步道入口附近；至滝約徒步15分。駐車約值。",
+      "link": "",
+      "address": "",
+      "tags": ""
+    },
+    {
+      "landmark_id": "514",
+      "story_id": "1031",
+      "name": "越生駅",
+      "lat": "35.9622",
+      "lng": "139.2993",
+      "content": "東武越生線。再轉巴士／計程車進黒山。",
+      "link": "https://www.town.ogose.saitama.jp/",
       "address": "",
       "tags": ""
     }
