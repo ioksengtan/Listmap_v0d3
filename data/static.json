@@ -5283,6 +5283,25 @@
       "contributor": ""
     },
     {
+      "story_id": "1034",
+      "collection_id": "",
+      "title": "稲取赤尾：住一晚，看漁港與相模灣",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Inatori Akao",
+      "avatar": "",
+      "tags": "渡假,想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-06",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    },
+    {
       "story_id": "100023",
       "collection_id": "",
       "title": "瑞士：纜車一路連到馬特洪峰",
@@ -20073,6 +20092,42 @@
       "lng": "137.59722",
       "content": "室堂平短散策。二次座標約值。",
       "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": ""
+    },
+    {
+      "landmark_id": "525",
+      "story_id": "1034",
+      "name": "稲取赤尾ホテル",
+      "lat": "34.769349",
+      "lng": "139.0465704",
+      "content": "東伊豆・稲取高台。〒413-0411 東伊豆町稲取1050。MapFan。",
+      "link": "https://www.akao-hotel.co.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": ""
+    },
+    {
+      "landmark_id": "526",
+      "story_id": "1034",
+      "name": "伊豆稲取駅",
+      "lat": "34.7743333",
+      "lng": "139.0370972",
+      "content": "伊豆急行 IZ11。送迎起點。Wikipedia 座標。",
+      "link": "https://www.akao-hotel.co.jp/access/",
+      "address": "",
+      "tags": "",
+      "contributor": ""
+    },
+    {
+      "landmark_id": "527",
+      "story_id": "1034",
+      "name": "稲取漁港／こらっしぇ",
+      "lat": "34.773286",
+      "lng": "139.0417534",
+      "content": "直売所 MapFan 座標；漁港一帶中心。營業約8:30–15:00、第2火曜休（以現場為準）。",
+      "link": "https://www.pref.shizuoka.jp/sangyoshigoto/suisan/suisangyo/uocching/1003392/1043930/1028072.html",
       "address": "",
       "tags": "",
       "contributor": ""
