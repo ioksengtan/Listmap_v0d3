@@ -494,6 +494,42 @@ function loadStory(story, fromCollection) {
     if (story.visibility === 'internal') {
         section.find('h2').first().append('<span class="story-internal-badge">' + i18nText('badge.internal', 'Internal') + '</span>');
     }
+    injectReminderButton(section, story);
+}
+
+function injectReminderButton($section, story) {
+    $section.find('.story-reminder-btn').remove();
+    // getStoriesIndex() strips start_date; look up the full record
+    var fullStory = (window.ListmapData && ListmapData.stories)
+        ? ListmapData.stories().find(function(s) { return String(s.story_id) === String(story.story_id); })
+        : null;
+    var startDate = (fullStory && fullStory.start_date) || story.start_date;
+    if (!startDate) return;
+    var tripDate = new Date(startDate);
+    if (isNaN(tripDate.getTime())) return;
+    var reminderDate = new Date(tripDate);
+    reminderDate.setMonth(reminderDate.getMonth() - 2);
+    // Only show if reminder is in the future
+    if (reminderDate <= new Date()) return;
+
+    var fmt = function(d) {
+        var y = d.getFullYear();
+        var m = String(d.getMonth() + 1).padStart(2, '0');
+        var day = String(d.getDate()).padStart(2, '0');
+        return y + m + day;
+    };
+    var startStr = fmt(reminderDate) + 'T090000';
+    var endStr   = fmt(reminderDate) + 'T100000';
+    var title    = encodeURIComponent('提醒：開始規劃「' + story.title + '」');
+    var details  = encodeURIComponent('你有一篇旅遊草案待規劃，出發日：' + startDate + '\n' + window.location.origin + '/blog.html#' + story.story_id);
+    var calUrl   = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+        + '&text=' + title
+        + '&dates=' + startStr + '/' + endStr
+        + '&details=' + details;
+
+    var btn = $('<button class="story-reminder-btn" title="出發前2個月提醒我開始規劃">🔔 提早提醒我</button>');
+    btn.on('click', function() { window.open(calUrl, '_blank'); });
+    $section.find('h2').first().after(btn);
 }
 
 function injectStoryHashtags($root, rawTags) {

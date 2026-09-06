@@ -301,6 +301,24 @@ margin-top:10px;
   opacity: 1;
 }
 
+/* Reminder button */
+.story-reminder-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 8px 0 4px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a73e8;
+  background: #e8f0fe;
+  border: 1px solid #c5d8fb;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.story-reminder-btn:hover { background: #d2e3fc; }
+
 /* Internal story badge */
 .story-internal-badge {
   display: inline-block;
