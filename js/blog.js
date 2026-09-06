@@ -307,7 +307,7 @@ function zoomToLandmarkId(landmarkId, zoom) {
     if (isNaN(lat) || isNaN(lng) || typeof mymap === 'undefined' || !mymap) return false;
     var z = parseInt(zoom, 10);
     if (isNaN(z) || z <= 0) z = 17;
-    mymap.flyTo([lat, lng], z, { animate: true, duration: 0.3 });
+    mymap.flyTo([lat, lng], z, { animate: true });
     var item = storyMarkerItems.find(function(it) {
         return String(it.landmark_id) === String(landmarkId);
     });
