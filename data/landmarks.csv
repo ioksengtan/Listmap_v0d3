@@ -123,3 +123,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor
 100029,100026,石打丸山スキー場,36.976111,138.794722,新潟南魚沼。Wikidata Q11586538。,https://ishiuchi.or.jp/winter/hours/
 100030,100026,ルスツリゾート,42.74968,140.90329,北海道留壽都。Wikidata Q7382688。,https://rusutsu.com/
 100031,100026,富良野スキー場,43.3326,142.3281,北海道富良野。OSM 建議針。,https://www.princehotels.co.jp/ski/furano/winter/
+100032,100030,淺水灣,25.251475,121.46991,三芝。雙灣自行車道起點灣。taiwan.net.tw。,https://www.taiwan.net.tw/m1.aspx?id=A12-00282&sNo=0001091
+100033,100030,芝蘭公園海上觀景平台,25.254117,121.47235,三芝。雙灣道旁起點側。taiwan.net.tw。,https://www.taiwan.net.tw/m1.aspx?id=A12-00619&sNo=0001016
+100034,100030,白沙灣,25.284314,121.51720,石門。雙灣終點灣／戲水。taiwan.net.tw。,https://www.taiwan.net.tw/m1.aspx?id=10596&sNo=0001091
+100035,100030,白沙灣遊客中心,25.282997,121.51885,石門德茂里。補給／諮詢。taiwan.net.tw。,https://www.taiwan.net.tw/m1.aspx?id=485&sNo=0001091
