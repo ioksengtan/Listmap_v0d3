@@ -44,10 +44,14 @@ $(document).ready(function() {
     initMap();
 
     ListmapData.load().done(function() {
+        var pathId = storyIdFromPathname(location.pathname);
         var parsed = storyIdFromHash();
-        // Build index pins always, but do not attach them when a story hash is already open.
-        loadIndexMarkers({ attach: !parsed });
-        if (parsed) {
+        // Build index pins always, but do not attach them when a story is already open
+        // via permalink (stories/1033.html) or hash deep-link (blog.html#1033).
+        loadIndexMarkers({ attach: !(pathId || parsed) });
+        if (pathId) {
+            loadStoryById(pathId);
+        } else if (parsed) {
             loadStoryById(parsed.sid, parsed.cid);
         }
     }).fail(function() {
@@ -55,6 +59,7 @@ $(document).ready(function() {
     });
 
     $(window).on('hashchange', function() {
+        if (storyIdFromPathname(location.pathname)) return;
         var parsed = storyIdFromHash();
         if (parsed) {
             loadStoryById(parsed.sid, parsed.cid);
@@ -84,6 +89,27 @@ $(document).ready(function() {
 function i18nText(key, fallback) {
     if (window.ListmapI18n) return ListmapI18n.t(key);
     return fallback;
+}
+
+function storyIdFromPathname(pathname) {
+    var m = String(pathname || '').match(/\/stories\/(\d+)\.html$/i);
+    return m ? m[1] : null;
+}
+
+function storyPageUrl(storyId) {
+    if (window.ListmapData && typeof ListmapData.assetUrl === 'function') {
+        return ListmapData.assetUrl('stories/' + storyId + '.html');
+    }
+    return 'stories/' + storyId + '.html';
+}
+
+function blogOpenStory(event, storyId) {
+    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button === 1)) {
+        return true;
+    }
+    if (event && event.preventDefault) event.preventDefault();
+    loadStoryById(storyId);
+    return false;
 }
 
 function refreshDynamicI18n() {
@@ -174,7 +200,10 @@ function loadIndexMarkers(opts) {
         storiesWithGps.forEach(function(s) { storyMap[s.story_id] = s; });
         $('#blog-welcome .blog-article-card, #blog-welcome [data-collection-id] .blog-article-card').each(function() {
             var onclick = $(this).attr('onclick') || '';
-            var m = onclick.match(/loadStoryById\('(\d+)'/);
+            var href = $(this).attr('href') || '';
+            var m = onclick.match(/loadStoryById\('(\d+)'/)
+                || onclick.match(/blogOpenStory\(event,'(\d+)'/)
+                || href.match(/stories\/(\d+)\.html/);
             if (!m) return;
             var sid = m[1];
             if (!storyMap[sid]) {
@@ -566,6 +595,14 @@ function blogGoBack() {
         return;
     }
 
+    // Permalink pages are one-story URLs; go back to the blog index.
+    if (storyIdFromPathname(location.pathname)) {
+        location.href = (window.ListmapData && ListmapData.assetUrl)
+            ? ListmapData.assetUrl('blog.html')
+            : 'blog.html';
+        return;
+    }
+
     // 回首頁
     previousView = null;
     history.replaceState(null, '', location.pathname);
@@ -619,10 +656,18 @@ function loadCollectionById(collection_id) {
 }
 
 function loadStoryById(story_id, from_collection_id) {
-    // 更新 URL hash 以便 refresh / 分享
-    var newHash = from_collection_id ? story_id + '/' + from_collection_id : story_id;
-    if (location.hash !== '#' + newHash) {
-        history.replaceState(null, '', '#' + newHash);
+    var pathId = storyIdFromPathname(location.pathname);
+    if (pathId && String(pathId) !== String(story_id)) {
+        location.href = storyPageUrl(story_id);
+        return;
+    }
+
+    // Hash deep-links stay on blog.html (old bookmarks). Permalink pages keep a clean path.
+    if (!pathId) {
+        var newHash = from_collection_id ? story_id + '/' + from_collection_id : story_id;
+        if (location.hash !== '#' + newHash) {
+            history.replaceState(null, '', '#' + newHash);
+        }
     }
 
     function proceed(fromCollection) {

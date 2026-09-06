@@ -4,10 +4,34 @@
  */
 (function (root) {
   function pageBase() {
+    var doc = typeof document !== 'undefined' ? document : null;
+    var marked = doc && doc.documentElement
+      ? doc.documentElement.getAttribute('data-asset-base')
+      : null;
+    if (marked != null && marked !== '') {
+      return resolveDirBase(marked);
+    }
+    var baseEl = doc && doc.querySelector ? doc.querySelector('base[href]') : null;
+    if (baseEl) {
+      var href = baseEl.getAttribute('href');
+      if (href) return resolveDirBase(href);
+    }
     var path = location.pathname || '/';
     if (path.endsWith('/')) return path;
     if (/\.html?$/i.test(path)) return path.replace(/\/[^/]+$/, '/');
     return path + '/';
+  }
+
+  function resolveDirBase(rel) {
+    var resolved;
+    try {
+      resolved = new URL(rel, location.href);
+    } catch (e) {
+      return String(rel || '').replace(/\/?$/, '/');
+    }
+    var p = resolved.pathname || '/';
+    if (!p.endsWith('/')) p += '/';
+    return p;
   }
 
   function assetUrl(relPath) {
