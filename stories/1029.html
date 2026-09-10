@@ -1460,6 +1460,35 @@
                    </div>
                  </section>
 
+                 <section data-story-id="100055" style="display:none;">
+                   <h2 style="padding: 0 32px;">京都分區散步：從祇園到嵐山｜區域地標示範</h2>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇文章用來示範「區域型地標」功能：地圖上的藍色半透明色塊代表一整個地區，而不只是單一地點的圖釘。捲動時地圖會自動切換——遇到區域就縮放到整個範圍（<code>flyToBounds</code>），遇到地點就放大到單點（<code>flyTo</code>）。以下以京都兩個代表性地區為例。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100145" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">祇園 — 區域型地標示範</h4>
+                     <p>點擊連結 <a class="map-place-link" data-landmark="100145" href="#">祇園地區</a> 或捲動到這個段落，地圖會自動「框選整個祇園」（flyToBounds），而不是放大到單一圖釘。左側地圖出現藍色半透明矩形就是 bounds 欄位渲染的區域遮罩，hover 顏色會加深，點擊同樣觸發飛行。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100147" data-step-zoom="17">
+                     <h4 style="padding: 0 32px;">八坂神社 — 點型地標示範</h4>
+                     <p>祇園中心的 <a class="map-place-link" data-landmark="100147" data-zoom="17" href="#">八坂神社</a> 是普通的點型地標（有 lat/lng，無 bounds），所以地圖從剛才的整區全覽，縮放聚焦到神社座標（flyTo）。比較前後兩步驟，就能直接感受到兩種行為的差異。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100146" data-step-zoom="13">
+                     <h4 style="padding: 0 32px;">嵐山 — 第二個區域地標</h4>
+                     <p><a class="map-place-link" data-landmark="100146" href="#">嵐山地區</a> 涵蓋竹林、渡月橋到天龍寺的整個西郊風景區，同樣設為區域型地標。地圖飛到整個嵐山範圍，視野比單點放大寬廣許多。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100148" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">渡月橋 — 嵐山內的點地標</h4>
+                     <p>嵐山區域內的 <a class="map-place-link" data-landmark="100148" data-zoom="16" href="#">渡月橋</a> 是點型地標，地圖從嵐山全覽聚焦到橋的位置，落在藍色區域色塊的中央附近。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>回到全覽。<strong>本文是區域地標功能的示範頁</strong>，說明兩種地標行為的設定方式：<br>
+                     　① <strong>區域地標</strong>：在 landmarks.csv 的 <code>bounds</code> 欄填 <code>sw_lat,sw_lng,ne_lat,ne_lng</code>，地圖顯示半透明矩形，scrollytelling / map-place-link 自動呼叫 flyToBounds。<br>
+                     　② <strong>點地標</strong>：填 <code>lat/lng</code>，無需 bounds，行為與舊版相同。<br>
+                     若需精確多邊形邊界，在 <code>geojson_file</code> 欄填檔名並放至 <code>data/areas/</code>，編譯時自動內嵌。</p>
+                   </div>
+                 </section>
+
 
 
             </div>

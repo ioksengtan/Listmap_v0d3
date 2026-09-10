@@ -5813,6 +5813,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100055",
+      "collection_id": "",
+      "title": "京都分區散步：從祇園到嵐山｜區域地標示範",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kyoto",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-10",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-4-6"
     }
   ],
   "landmarks": [
@@ -25063,6 +25082,62 @@
       "address": "",
       "tags": "",
       "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100145",
+      "story_id": "100055",
+      "name": "祇園地區",
+      "lat": "35.0035",
+      "lng": "135.7748",
+      "content": "京都最具代表性的傳統花街，四條通沿線的石板小巷與老茶屋林立。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "35.0030,135.7720,35.0105,135.7845",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100146",
+      "story_id": "100055",
+      "name": "嵐山地區",
+      "lat": "35.0124",
+      "lng": "135.6728",
+      "content": "京都西郊風景區，涵蓋竹林、渡月橋、天龍寺與大堰川沿岸。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "35.0050,135.6520,35.0250,135.6870",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100147",
+      "story_id": "100055",
+      "name": "八坂神社",
+      "lat": "35.0037",
+      "lng": "135.7785",
+      "content": "祇園中心的神社，毗鄰四條通東端，是京都最熱鬧的地標之一。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100148",
+      "story_id": "100055",
+      "name": "渡月橋",
+      "lat": "35.0110",
+      "lng": "135.6773",
+      "content": "嵐山最知名的木造橋，橫跨大堰川，視野遼闊。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
       "bounds": "",
       "geojson_file": ""
     }
