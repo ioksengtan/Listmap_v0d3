@@ -4,6 +4,7 @@
   "description": "test",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "compile-data": "node scripts/compile-static-data.js",
     "build:area-energy": "node scripts/build-area-energy.js",
     "test:area-energy": "node scripts/test-area-energy.js",
