@@ -222,21 +222,20 @@
   </div>
   ```
 
-### B. 加入 INDEX_MARKERS（地圖首頁顯示釘）
+### B. （可選）區域型地標 Area Landmark
 
-在 `js/blog.js` 的 `INDEX_MARKERS` 陣列加一行：
+若段落描述的是一個行政區或範圍而非單一地點，可在 `data/landmarks.csv` 中加上 `bounds` 欄位（格式：`sw_lat,sw_lng,ne_lat,ne_lng`），或提供精確 GeoJSON 多邊形：
 
-```js
-{ label: '故事標題（可縮短）', type: 'story', story_id: '100XXX' },
-```
-
-**若不加，故事地標不會出現在 blog.html 左側地圖。**
+1. 在 `data/landmarks.csv` 的該地標列加上 `bounds`（矩形），或加上 `geojson_file`（檔名，如 `tokyo.geojson`）
+2. 若用 GeoJSON，將檔案放至 `data/areas/tokyo.geojson`
+3. 地圖上會自動顯示半透明藍色矩形／多邊形（hover 加深，click 飛到該區域）
+4. 文章內仍用相同語法：`<a class="map-place-link" data-landmark="XXXX">`，以及 `<div class="story-step" data-step-landmark="XXXX">`，系統自動選用 `flyToBounds` 或 `flyTo`
 
 ### C. 重新 compile 並推上 GitHub
 
 ```bash
 npm run compile-data
-git add blog.html js/blog.js stories/
+git add blog.html js/blog.js stories/ data/
 git commit -m "Add S100XXX: 故事標題"
 git push
 ```

@@ -399,12 +399,28 @@ function findStoryLandmark(landmarkId) {
     return null;
 }
 
+function parseLandmarkBounds(boundsStr) {
+    if (!boundsStr) return null;
+    var parts = String(boundsStr).split(',').map(function(v) { return parseFloat(v.trim()); });
+    if (parts.length !== 4 || parts.some(isNaN)) return null;
+    return [[parts[0], parts[1]], [parts[2], parts[3]]];
+}
+
 function zoomToLandmarkId(landmarkId, zoom) {
     var lm = findStoryLandmark(landmarkId);
     if (!lm) return false;
+    if (typeof mymap === 'undefined' || !mymap) return false;
+
+    // Area landmark: has bounds or geojson_file
+    var bounds = parseLandmarkBounds(lm.bounds);
+    if (bounds) {
+        mymap.flyToBounds(bounds, { padding: [30, 30], animate: true });
+        return true;
+    }
+
     var lat = parseFloat(lm.lat);
     var lng = parseFloat(lm.lng);
-    if (isNaN(lat) || isNaN(lng) || typeof mymap === 'undefined' || !mymap) return false;
+    if (isNaN(lat) || isNaN(lng)) return false;
     var z = parseInt(zoom, 10);
     if (isNaN(z) || z <= 0) z = 17;
     mymap.flyTo([lat, lng], z, { animate: true });
@@ -440,6 +456,36 @@ function loadStory(story, fromCollection) {
         storyMarkerItems = [];
         var clusterLayer = L.markerClusterGroup();
         data.table.forEach(function(lm) {
+            // Area landmark: render GeoJSON polygon if available, else rectangle
+            if (lm.geojson) {
+                var geoLayer = L.geoJSON(lm.geojson, {
+                    style: { color: '#3498db', weight: 1.5, fillColor: '#3498db', fillOpacity: 0.2 }
+                });
+                geoLayer.on('mouseover', function() { geoLayer.setStyle({ fillOpacity: 0.4 }); });
+                geoLayer.on('mouseout', function() { geoLayer.setStyle({ fillOpacity: 0.2 }); });
+                geoLayer.on('click', function() { zoomToLandmarkId(lm.landmark_id); });
+                geoLayer.bindPopup('<b>' + lm.name + '</b>' + (lm.content ? '<br>' + lm.content : ''));
+                geoLayer.addTo(currentLandmarkLayer);
+                try {
+                    var glBounds = geoLayer.getBounds();
+                    allLatlngs.push(glBounds.getSouthWest(), glBounds.getNorthEast());
+                } catch (e) {}
+            } else {
+                var areaBounds = parseLandmarkBounds(lm.bounds);
+                if (areaBounds) {
+                    var rect = L.rectangle(areaBounds, {
+                        color: '#3498db', weight: 1.5,
+                        fillColor: '#3498db', fillOpacity: 0.2
+                    });
+                    rect.on('mouseover', function() { rect.setStyle({ fillOpacity: 0.4 }); });
+                    rect.on('mouseout', function() { rect.setStyle({ fillOpacity: 0.2 }); });
+                    rect.on('click', function() { zoomToLandmarkId(lm.landmark_id); });
+                    rect.bindPopup('<b>' + lm.name + '</b>' + (lm.content ? '<br>' + lm.content : ''));
+                    rect.addTo(currentLandmarkLayer);
+                    areaBounds.forEach(function(ll) { allLatlngs.push(ll); });
+                }
+            }
+
             var lat = parseFloat(lm.lat), lng = parseFloat(lm.lng);
             if (isNaN(lat) || isNaN(lng)) return;
             allLatlngs.push([lat, lng]);

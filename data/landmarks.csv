@@ -1,4 +1,4 @@
-landmark_id,story_id,name,lat,lng,content,link,contributor
+landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 101,1001,大學廣場 Universitätsplatz,49.4113,8.7064,海德堡大學校園中心，建於1386年，是德國最古老的大學之一。廣場前有奧古斯丁博物館與狮子噴泉。,
 102,1001,耶穌會教堂 Jesuitenkirche,49.4097,8.7067,巴洛克風格的三中殿式教堂，建於1712年。,
 103,1001,聖靈教堂 Heiliggeistkirche,49.4109,8.7101,建於1398年，是海德堡最重要的晚期哥德式教堂，也是市集廣場的地標。,

@@ -109,6 +109,8 @@ function toLandmark(r) {
     address: r.address || '',
     tags: r.tags || '',
     contributor: r.contributor || '',
+    bounds: r.bounds || '',
+    geojson_file: r.geojson_file || '',
   };
 }
 
@@ -153,9 +155,21 @@ function readRoutes() {
 }
 
 function buildStaticPayload() {
+  const landmarks = readLandmarks().map(function(lm) {
+    if (!lm.geojson_file) return lm;
+    const geoPath = path.join(ROOT, 'data', 'areas', lm.geojson_file);
+    if (!fs.existsSync(geoPath)) return lm;
+    try {
+      const copy = Object.assign({}, lm);
+      copy.geojson = JSON.parse(fs.readFileSync(geoPath, 'utf8'));
+      return copy;
+    } catch (e) {
+      return lm;
+    }
+  });
   return {
     stories: readStories(),
-    landmarks: readLandmarks(),
+    landmarks,
     collections: readCollections(),
     routes: readRoutes(),
   };
