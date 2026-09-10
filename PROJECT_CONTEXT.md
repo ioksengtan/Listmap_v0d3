@@ -239,3 +239,7 @@ git add blog.html js/blog.js stories/ data/
 git commit -m "Add S100XXX: 故事標題"
 git push
 ```
+
+### D. Travel Agent 標籤慣例
+
+若這篇文章的內容（行程規劃、景點建議等）是使用者與 Claude 以「Travel Agent」角色對話後產生的，需在該故事於 `data/stories.csv` 的 `tags` 欄位加上 `Travel Agent`（與其他 tag 用逗號分隔）。不是透過這種對話產生的文章不加此標籤。
