@@ -5855,6 +5855,25 @@
     {
       "story_id": "100057",
       "collection_id": "",
+      "title": "德島祖谷秘境：藤蔓橋、大步危遊船與稻草人村",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Iya Valley, Tokushima",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-11",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100058",
+      "collection_id": "",
       "title": "日本賞楓觀星規劃：東北方案",
       "type": "blog",
       "link": "",
@@ -25181,6 +25200,76 @@
     },
     {
       "landmark_id": "100149",
+      "story_id": "100057",
+      "name": "多度津駅",
+      "lat": "34.2765",
+      "lng": "133.7539",
+      "content": "JR四國站，四國觀光列車的常見起點之一。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100150",
+      "story_id": "100057",
+      "name": "大步危峽谷",
+      "lat": "33.8686",
+      "lng": "133.8228",
+      "content": "吉野川支流沖蝕兩億年岩層形成的峽谷，可搭觀光遊覽船遊覽。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100151",
+      "story_id": "100057",
+      "name": "奧祖谷二重藤蔓橋",
+      "lat": "33.8494",
+      "lng": "133.7346",
+      "content": "祖谷山區的男橋女橋，用山葡萄藤編成的傳統吊橋。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100152",
+      "story_id": "100057",
+      "name": "名頃稻草人村",
+      "lat": "33.8562",
+      "lng": "133.7458",
+      "content": "東祖谷名頃集落，居民以真人比例稻草人取代外流人口的隱世小村。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100153",
+      "story_id": "100057",
+      "name": "大步危溫泉旅館區",
+      "lat": "33.8697",
+      "lng": "133.8207",
+      "content": "大步危車站周邊的溫泉旅館聚落，多提供德島鄉土會席料理。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100162",
       "story_id": "100056",
       "name": "新倉山淺間公園（忠靈塔）",
       "lat": "35.4906",
@@ -25194,7 +25283,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100150",
+      "landmark_id": "100163",
       "story_id": "100056",
       "name": "忍野八海",
       "lat": "35.4547",
@@ -25208,7 +25297,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100151",
+      "landmark_id": "100164",
       "story_id": "100056",
       "name": "もみじ回廊（紅葉回廊）",
       "lat": "35.5231",
@@ -25222,7 +25311,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100152",
+      "landmark_id": "100165",
       "story_id": "100056",
       "name": "西湖いやしの里根場",
       "lat": "35.5083",
@@ -25236,7 +25325,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100153",
+      "landmark_id": "100166",
       "story_id": "100056",
       "name": "山中湖（觀星點）",
       "lat": "35.4167",
@@ -25250,7 +25339,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100154",
+      "landmark_id": "100167",
       "story_id": "100056",
       "name": "松本城",
       "lat": "36.2381",
@@ -25264,7 +25353,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100155",
+      "landmark_id": "100168",
       "story_id": "100056",
       "name": "富士見台高原ロープウェイ（ヘブンスそのはら）",
       "lat": "35.5219",
@@ -25278,8 +25367,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100156",
-      "story_id": "100057",
+      "landmark_id": "100169",
+      "story_id": "100058",
       "name": "十和田湖",
       "lat": "40.4667",
       "lng": "140.8833",
@@ -25292,8 +25381,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100157",
-      "story_id": "100057",
+      "landmark_id": "100170",
+      "story_id": "100058",
       "name": "奧入瀬渓流",
       "lat": "40.5253",
       "lng": "140.9139",
@@ -25306,8 +25395,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100158",
-      "story_id": "100057",
+      "landmark_id": "100171",
+      "story_id": "100058",
       "name": "八幡平・藤七温泉",
       "lat": "39.9578",
       "lng": "140.8556",
@@ -25320,8 +25409,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100159",
-      "story_id": "100057",
+      "landmark_id": "100172",
+      "story_id": "100058",
       "name": "岩手山銀河ステーション",
       "lat": "39.8867",
       "lng": "140.9528",
@@ -25334,8 +25423,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100160",
-      "story_id": "100057",
+      "landmark_id": "100173",
+      "story_id": "100058",
       "name": "盛岡城跡公園",
       "lat": "39.7016",
       "lng": "141.1525",
@@ -25348,8 +25437,8 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100161",
-      "story_id": "100057",
+      "landmark_id": "100174",
+      "story_id": "100058",
       "name": "銀山温泉",
       "lat": "38.5719",
       "lng": "140.5372",
