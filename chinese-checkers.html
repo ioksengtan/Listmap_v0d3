@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>中國地圖跳棋 · Listmap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script src="js/map-core.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --bg:#e7dfd0; --surface:#f5efe3; --line:#aa9b76; --ink:#2b251b; --muted:#746b58; --accent:#9c2e22; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif; }
+    .wrap { max-width:1400px; margin:0 auto; padding:24px 18px 48px; }
+    .heading { display:flex; justify-content:space-between; align-items:end; gap:20px; border-bottom:1px solid #c6b995; padding-bottom:14px; margin-bottom:18px; }
+    h1 { margin:0; font-family:Georgia,"Noto Serif TC",serif; font-size:clamp(24px,4vw,38px); }
+    .heading p { margin:7px 0 0; color:var(--muted); font-size:14px; }
+    .version { color:var(--muted); font:12px monospace; white-space:nowrap; }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:18px; }
+    @media (max-width:900px) { .layout { grid-template-columns:1fr; } }
+    .card { background:var(--surface); border:1px solid #c6b995; border-radius:14px; box-shadow:0 10px 28px -20px #302817; }
+    .map-card { padding:12px; }
+    #map { height:min(72vh,700px); min-height:480px; border:1px solid #c6b995; border-radius:10px; background:#d9d0bd; }
+    .hud { display:flex; flex-direction:column; gap:12px; }
+    .panel { padding:15px 16px; }
+    .label { color:var(--muted); font-size:12px; letter-spacing:.08em; }
+    #turn { font:700 21px Georgia,"Noto Serif TC",serif; margin-top:3px; }
+    .turn-dot { display:inline-block; width:15px; height:15px; border-radius:50%; margin-right:7px; vertical-align:-1px; border:1px solid #382f23; }
+    .controls { display:flex; gap:8px; align-items:center; margin-top:9px; }
+    select, button { border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:#e1d7c1; color:var(--ink); font-weight:700; }
+    button { cursor:pointer; }
+    button.primary { color:#fff9ed; background:var(--accent); border-color:var(--accent); }
+    button:disabled { cursor:not-allowed; opacity:.5; }
+    .pieces { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-top:9px; }
+    .piece-count { padding:8px; background:#e1d7c1; border-radius:8px; font-size:12px; }
+    .piece-count strong { display:block; font:600 19px monospace; }
+    #message { min-height:42px; color:var(--muted); font-size:13px; line-height:1.55; }
+    #log { list-style:none; padding:0; margin:8px 0 0; max-height:190px; overflow:auto; }
+    #log li { padding:5px 7px; margin-bottom:5px; border-radius:6px; background:#e1d7c1; font-size:12px; }
+    .rules { color:var(--muted); font-size:12px; line-height:1.7; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 13px; color:var(--muted); font-size:12px; padding:10px 3px 0; }
+    .legend i { display:inline-block; width:12px; height:12px; border-radius:50%; vertical-align:-2px; margin-right:4px; border:1px solid #594e3a; }
+    .legend .empty { background:#dfd3b9; } .legend .legal { background:#e7a64f; }
+    .node-tooltip { background:var(--surface); border:1px solid #b7a77f; color:var(--ink); box-shadow:none; font-weight:700; }
+    .leaflet-tooltip.node-tooltip:before { display:none; }
+    footer { color:var(--muted); text-align:center; margin-top:16px; font:11px monospace; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Listmap</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">☰</button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">首頁</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">故事</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">遊戲</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="game.html">燕雲十六州・實測地圖版</a></li>
+            <li><a class="dropdown-item active" href="chinese-checkers.html">中國地圖跳棋</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="about.html">關於</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="heading">
+    <div><h1>中國地圖跳棋</h1><p>標準中國跳棋 121 個 node，依六角星棋盤的相鄰關係連成 edge；棋子落在中國地圖上的節點。</p></div>
+    <span class="version">v0.1 · local multiplayer</span>
+  </header>
+  <div class="layout">
+    <section class="card map-card">
+      <div id="map"></div>
+      <div class="legend"><span><i class="empty"></i>空節點</span><span><i class="legal"></i>可移動</span><span>點自己的棋子後，再點相鄰或可連跳到的空節點</span></div>
+    </section>
+    <aside class="hud">
+      <section class="card panel">
+        <div class="label">現在輪到</div>
+        <div id="turn"></div>
+        <div class="controls">
+          <label for="playerCount">玩家</label>
+          <select id="playerCount"><option value="2">2 人</option><option value="3">3 人</option><option value="4">4 人</option><option value="6">6 人</option></select>
+          <button class="primary" id="reset">重新開始</button>
+        </div>
+      </section>
+      <section class="card panel">
+        <div class="label">進度</div>
+        <div class="pieces" id="pieces"></div>
+      </section>
+      <section class="card panel">
+        <div class="label">狀態</div>
+        <div id="message">選擇目前玩家的一枚棋子。</div>
+        <ul id="log"></ul>
+      </section>
+      <section class="card panel rules">
+        <strong>規則</strong><br>
+        每回合移動一枚自己的棋子：可沿 edge 移到相鄰空 node，或跳過任意顏色的相鄰棋子，落到其後的空 node。一次回合可連續跳躍，方向可改變。先把自己的 10 枚棋子全部移入對面三角形者獲勝。
+      </section>
+    </aside>
+  </div>
+  <footer>棋盤：標準 121-hole Chinese Checkers graph · 地圖：Leaflet + Mapbox · 狀態只保留在瀏覽器</footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var COLORS = ["#b43d2f", "#2f6596", "#d48a27", "#4b7b46", "#7b4b8c", "#277c78"];
+  var NAMES = ["朱", "藍", "金", "綠", "紫", "青"];
+  var DIRS = [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
+  var nodes = {}, order = [], edges = [], neighbors = {}, camps = [], board = {};
+  var players = [], turnIndex = 0, selected = null, legal = new Set(), markers = {}, edgeLayer, map;
+
+  function key(q, r) { return q + "," + r; }
+  function addNode(q, r, camp) {
+    var id = key(q, r);
+    if (!nodes[id]) { nodes[id] = { id:id, q:q, r:r, camp:camp == null ? null : camp }; order.push(id); neighbors[id] = []; board[id] = null; }
+    else if (camp != null) nodes[id].camp = camp;
+  }
+  function buildGraph() {
+    for (var q = -4; q <= 4; q++) for (var r = -4; r <= 4; r++) {
+      if (Math.max(Math.abs(q), Math.abs(r), Math.abs(q + r)) <= 4) addNode(q, r, null);
+    }
+    for (var camp = 0; camp < 6; camp++) {
+      var d = DIRS[camp], side = DIRS[(camp + 2) % 6];
+      for (var row = 1; row <= 4; row++) for (var t = 0; t < row; t++) {
+        addNode(4 * d[0] + row * d[0] + t * side[0], 4 * d[1] + row * d[1] + t * side[1], camp);
+      }
+      camps[camp] = order.filter(function (id) { return nodes[id].camp === camp; });
+    }
+    order.forEach(function (id) {
+      var n = nodes[id];
+      DIRS.forEach(function (d) {
+        var other = key(n.q + d[0], n.r + d[1]);
+        if (nodes[other] && neighbors[id].indexOf(other) < 0) { neighbors[id].push(other); edges.push([id, other]); }
+      });
+    });
+  }
+  function geo(n) {
+    return [35 + n.r * 0.95, 105 + (n.q + n.r * 0.5) * 1.35];
+  }
+  function setupPlayers() {
+    var count = Number(document.getElementById("playerCount").value);
+    var used = count === 2 ? [0,3] : count === 3 ? [0,2,4] : count === 4 ? [0,1,3,4] : [0,1,2,3,4,5];
+    players = used.map(function (camp, i) { return { camp:camp, color:COLORS[i], name:NAMES[i], goal:(camp + 3) % 6 }; });
+    order.forEach(function (id) { board[id] = null; });
+    players.forEach(function (p, i) { camps[p.camp].forEach(function (id) { board[id] = i; }); });
+    turnIndex = 0; selected = null; legal = new Set();
+    document.getElementById("log").innerHTML = "";
+    writeLog("遊戲開始，" + players[0].name + "方先行。");
+    render();
+  }
+  function writeLog(text) {
+    var li = document.createElement("li"); li.textContent = text;
+    var log = document.getElementById("log"); log.insertBefore(li, log.firstChild);
+    while (log.children.length > 12) log.removeChild(log.lastChild);
+  }
+  function playerCanMoveTo(id) {
+    var p = board[id]; return p != null && p === turnIndex;
+  }
+  function destinations(source) {
+    var result = new Set(), moving = board[source];
+    neighbors[source].forEach(function (id) { if (board[id] == null) result.add(id); });
+    var seen = new Set([source]), queue = [source];
+    while (queue.length) {
+      var current = queue.shift(), n = nodes[current];
+      DIRS.forEach(function (d) {
+        var over = key(n.q + d[0], n.r + d[1]), land = key(n.q + d[0] * 2, n.r + d[1] * 2);
+        if (nodes[over] && nodes[land] && board[over] != null && (board[land] == null || land === source) && !seen.has(land)) {
+          seen.add(land); queue.push(land); result.add(land);
+        }
+      });
+    }
+    return result;
+  }
+  function select(id) {
+    selected = id; legal = destinations(id);
+    document.getElementById("message").textContent = legal.size ? "選擇橙色節點完成移動。" : "這枚棋子沒有可行走的節點。";
+    render();
+  }
+  function move(to) {
+    var from = selected, p = board[from]; board[from] = null; board[to] = p;
+    var name = players[p].name;
+    writeLog(name + "方移動 " + from + " → " + to + "。");
+    selected = null; legal = new Set();
+    if (hasWon(p)) {
+      document.getElementById("message").textContent = name + "方獲勝！";
+      writeLog(name + "方已將 10 枚棋子全部送入對面三角形。");
+      render(); return;
+    }
+    turnIndex = (turnIndex + 1) % players.length;
+    document.getElementById("message").textContent = "選擇 " + players[turnIndex].name + " 方的一枚棋子。";
+    render();
+  }
+  function hasWon(p) {
+    return camps[players[p].goal].every(function (id) { return board[id] === p; });
+  }
+  function markerStyle(id) {
+    var n = nodes[id], p = board[id], isLegal = legal.has(id), isSelected = selected === id;
+    return { radius:isSelected ? 9 : (p == null ? 5 : 8), weight:isLegal || isSelected ? 3 : (n.camp == null ? 1 : 2),
+      color:isLegal ? "#e28a22" : (isSelected ? "#fff1a8" : (p == null ? "#aa9b76" : "#352d21")),
+      fillColor:p == null ? (isLegal ? "#e7a64f" : "#dfd3b9") : players[p].color, fillOpacity:1 };
+  }
+  function render() {
+    order.forEach(function (id) { if (markers[id]) markers[id].setStyle(markerStyle(id)); });
+    var p = players[turnIndex];
+    document.getElementById("turn").innerHTML = '<span class="turn-dot" style="background:' + p.color + '"></span>' + p.name + "方";
+    document.getElementById("pieces").innerHTML = players.map(function (player, i) {
+      var inGoal = camps[player.goal].filter(function (id) { return board[id] === i; }).length;
+      return '<div class="piece-count"><span style="color:' + player.color + '">' + player.name + '方</span><strong>' + inGoal + ' / 10</strong></div>';
+    }).join("");
+  }
+  function drawMap() {
+    var bounds = L.latLngBounds(order.map(function (id) { return geo(nodes[id]); }));
+    map = ListmapMapCore.createMap("map", { center:bounds.getCenter(), zoom:5 });
+    map.fitBounds(bounds, { padding:[25,25] });
+    edgeLayer = L.layerGroup().addTo(map);
+    edges.forEach(function (e) {
+      L.polyline([geo(nodes[e[0]]), geo(nodes[e[1]])], { color:"#aa9b76", weight:1.2, opacity:.55, interactive:false }).addTo(edgeLayer);
+    });
+    order.forEach(function (id) {
+      var n = nodes[id], marker = L.circleMarker(geo(n), markerStyle(id)).addTo(map);
+      marker.bindTooltip(n.camp == null ? "中國地圖節點" : "第 " + (n.camp + 1) + " 方營地", { className:"node-tooltip", direction:"top", offset:[0,-5] });
+      marker.on("click", function () {
+        if (selected && legal.has(id)) move(id);
+        else if (playerCanMoveTo(id)) select(id);
+        else if (board[id] != null) document.getElementById("message").textContent = "現在輪到 " + players[turnIndex].name + " 方。";
+      });
+      markers[id] = marker;
+    });
+  }
+  document.getElementById("reset").addEventListener("click", setupPlayers);
+  document.getElementById("playerCount").addEventListener("change", setupPlayers);
+  buildGraph(); drawMap(); setupPlayers();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
