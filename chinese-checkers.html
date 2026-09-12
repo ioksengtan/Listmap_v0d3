@@ -133,8 +133,8 @@
     }
     for (var camp = 0; camp < 6; camp++) {
       var d = DIRS[camp], side = DIRS[(camp + 1) % 6];
-      for (var row = 1; row <= 4; row++) for (var t = 0; t < row; t++) {
-        addNode(4 * d[0] + row * d[0] + t * side[0], 4 * d[1] + row * d[1] + t * side[1], camp);
+      for (var row = 0; row < 4; row++) for (var t = 0; t <= row; t++) {
+        addNode((8 - row) * d[0] + t * side[0], (8 - row) * d[1] + t * side[1], camp);
       }
       camps[camp] = order.filter(function (id) { return nodes[id].camp === camp; });
     }
