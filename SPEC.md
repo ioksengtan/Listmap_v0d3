@@ -190,6 +190,14 @@ Both ranges apply to `story_id` and `landmark_id` independently (they're differe
 
 (S5000/landmark 5001–5014, the first content assigned under this convention, predates the 100000 floor and is left as-is — moving already-assigned ids would be pure churn for no benefit. Only new ids need to follow the 100000+ floor.)
 
+**Working directory isolation for concurrent sessions.** The id-reservation scheme above solves *id* collisions across branches, but it doesn't solve a different problem: two AI sessions editing the *same local checkout* at the same time. This actually happened (2026-09-12) — two Claude Code sessions were both authoring stories directly in this checkout, and one session's `git commit` (without staging specific files) swept up the other session's still-in-progress, uncommitted edits into its own commit. The content happened to be correct, but it was luck, not design: a `git add -A`/`git commit -a` at the wrong moment can also commit a half-written article, or a `git checkout`/`reset` run by one session can discard the other's uncommitted work outright.
+
+**Rule: each concurrent authoring session must work in its own git worktree, not the shared primary checkout.** A worktree gives a session its own working-directory files while still sharing the same `.git` history, so `git commit -a` in one worktree cannot touch another worktree's uncommitted changes. Practically:
+- In Claude Code, use the `EnterWorktree` tool at the start of a session that will author content here (creates an isolated worktree under `.claude/worktrees/`, branched from `origin/master`).
+- Draft, run `npm test` / `npm run compile-data`, and commit inside that worktree as normal.
+- Merge back by pushing the worktree's branch and merging/fast-forwarding into `master` (or opening a PR), same as any other branch — this doesn't change the id-reservation workflow above, which already assumes separate branches.
+- The primary checkout (this directory) should be treated as a human-facing working copy, not a second concurrent authoring session.
+
 ---
 
 ### Landmark zoom link
