@@ -47,7 +47,7 @@
     .legend { display:flex; flex-wrap:wrap; gap:8px 13px; color:var(--muted); font-size:12px; padding:10px 3px 0; }
     .legend i { display:inline-block; width:12px; height:12px; border-radius:50%; vertical-align:-2px; margin-right:4px; border:1px solid #594e3a; }
     .legend .empty { background:#dfd3b9; } .legend .legal { background:#e7a64f; }
-    .node-tooltip { background:var(--surface); border:1px solid #b7a77f; color:var(--ink); box-shadow:none; font-weight:700; }
+    .node-tooltip { background:var(--surface); border:1px solid #b7a77f; color:var(--ink); box-shadow:none; font-weight:700; font-size:10px; padding:1px 4px; }
     .leaflet-tooltip.node-tooltip:before { display:none; }
     footer { color:var(--muted); text-align:center; margin-top:16px; font:11px monospace; }
   </style>
@@ -120,6 +120,33 @@
   var DIRS = [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
   var nodes = {}, order = [], edges = [], neighbors = {}, camps = [], board = {};
   var players = [], turnIndex = 0, selected = null, legal = new Set(), markers = {}, edgeLayer, map;
+  // These are real city coordinates, used in graph insertion order. The
+  // Chinese-checkers graph remains exact; only its visual geography is real.
+  var CITY_DATA = [
+    ["喀什",39.47,75.99],["阿克蘇",41.17,80.26],["庫爾勒",41.77,86.15],["烏魯木齊",43.83,87.62],["伊寧",43.91,81.32],["喀納斯",48.82,87.04],
+    ["西寧",36.62,101.78],["蘭州",36.06,103.83],["銀川",38.49,106.23],["呼和浩特",40.84,111.75],["包頭",40.66,109.84],["鄂爾多斯",39.61,109.99],
+    ["拉薩",29.65,91.13],["日喀則",29.27,88.88],["林芝",29.65,94.36],["格爾木",36.40,94.90],["敦煌",40.14,94.66],["張掖",38.93,100.45],
+    ["西安",34.34,108.94],["咸陽",34.33,108.71],["寶雞",34.36,107.24],["延安",36.59,109.49],["榆林",38.29,109.74],["天水",34.58,105.72],
+    ["成都",30.57,104.07],["德陽",31.13,104.40],["綿陽",31.47,104.68],["樂山",29.55,103.77],["宜賓",28.75,104.64],["西昌",27.90,102.27],
+    ["重慶",29.56,106.55],["萬州",30.81,108.38],["涪陵",29.70,107.39],["遵義",27.73,106.93],["貴陽",26.65,106.63],["六盤水",26.59,104.83],
+    ["昆明",25.04,102.71],["大理",25.61,100.27],["麗江",26.87,100.23],["景洪",22.01,100.80],["曲靖",25.49,103.80],["玉溪",24.35,102.55],
+    ["桂林",25.27,110.29],["柳州",24.31,109.43],["南寧",22.82,108.32],["北海",21.48,109.12],["梧州",23.48,111.28],["百色",23.90,106.62],
+    ["廣州",23.13,113.26],["深圳",22.54,114.06],["珠海",22.27,113.58],["佛山",23.02,113.12],["東莞",23.02,113.75],["惠州",23.11,114.42],
+    ["海口",20.02,110.35],["三亞",18.25,109.51],["瓊海",19.26,110.47],["儋州",19.52,109.58],["台北",25.03,121.57],["高雄",22.63,120.30],
+    ["廈門",24.48,118.09],["福州",26.07,119.30],["泉州",24.87,118.67],["漳州",24.51,117.65],["南平",26.64,118.18],["莆田",25.45,119.01],
+    ["南昌",28.68,115.85],["九江",29.71,115.99],["景德鎮",29.27,117.18],["上饒",28.45,117.97],["贛州",25.83,114.93],["宜春",27.80,114.39],
+    ["長沙",28.23,112.94],["岳陽",29.36,113.13],["張家界",29.12,110.48],["衡陽",26.89,112.57],["郴州",25.77,113.01],["湘潭",27.83,112.94],
+    ["武漢",30.59,114.31],["襄陽",32.01,112.12],["宜昌",30.69,111.29],["十堰",32.63,110.78],["荊州",30.33,112.24],["黃石",30.20,115.04],
+    ["鄭州",34.75,113.62],["洛陽",34.62,112.45],["開封",34.80,114.31],["安陽",36.10,114.39],["南陽",32.99,112.53],["信陽",32.13,114.07],
+    ["濟南",36.65,117.12],["青島",36.07,120.38],["煙台",37.46,121.45],["濰坊",36.71,119.16],["臨沂",35.10,118.36],["泰安",36.20,117.13],
+    ["太原",37.87,112.56],["大同",40.08,113.30],["長治",36.20,113.12],["臨汾",36.09,111.52],["運城",35.02,110.99],["晉中",37.69,112.75],
+    ["北京",39.90,116.41],["天津",39.08,117.20],["石家莊",38.04,114.51],["保定",38.87,115.46],["張家口",40.82,114.89],["承德",40.95,117.96],
+    ["瀋陽",41.80,123.43],["大連",38.91,121.61],["鞍山",41.11,122.99],["長春",43.82,125.32],["吉林",43.84,126.55],["哈爾濱",45.75,126.65],
+    ["呼倫貝爾",49.21,119.76],["齊齊哈爾",47.35,123.92],["牡丹江",44.58,129.63],["延吉",42.91,129.51],["佳木斯",46.80,130.32],["漠河",52.97,122.54],
+    ["上海",31.23,121.47],["南京",32.06,118.80],["蘇州",31.30,120.59],["杭州",30.27,120.15],["寧波",29.87,121.55],["溫州",28.00,120.70],
+    ["合肥",31.82,117.23],["蕪湖",31.35,118.43],["安慶",30.54,117.06],["蚌埠",32.92,117.39],["黃山",29.71,118.32],["阜陽",32.89,115.81],
+    ["成都東",30.65,104.16],["香港",22.32,114.17],["澳門",22.20,113.55],["台中",24.15,120.67],["花蓮",23.99,121.61]
+  ];
 
   function key(q, r) { return q + "," + r; }
   function addNode(q, r, camp) {
@@ -146,9 +173,15 @@
       });
     });
   }
-  function geo(n) {
-    return [35 + n.r * 0.95, 105 + (n.q + n.r * 0.5) * 1.35];
+  function applyCityData() {
+    order.forEach(function (id, index) {
+      var city = CITY_DATA[index % CITY_DATA.length];
+      nodes[id].name = city[0];
+      nodes[id].lat = city[1];
+      nodes[id].lng = city[2];
+    });
   }
+  function geo(n) { return [n.lat, n.lng]; }
   function setupPlayers() {
     var count = Number(document.getElementById("playerCount").value);
     var used = count === 2 ? [0,3] : count === 3 ? [0,2,4] : count === 4 ? [0,1,3,4] : [0,1,2,3,4,5];
@@ -191,7 +224,7 @@
   function move(to) {
     var from = selected, p = board[from]; board[from] = null; board[to] = p;
     var name = players[p].name;
-    writeLog(name + "方移動 " + from + " → " + to + "。");
+    writeLog(name + "方移動「" + nodes[from].name + "」→「" + nodes[to].name + "」。");
     selected = null; legal = new Set();
     if (hasWon(p)) {
       document.getElementById("message").textContent = name + "方獲勝！";
@@ -230,7 +263,7 @@
     });
     order.forEach(function (id) {
       var n = nodes[id], marker = L.circleMarker(geo(n), markerStyle(id)).addTo(map);
-      marker.bindTooltip(n.camp == null ? "中國地圖節點" : "第 " + (n.camp + 1) + " 方營地", { className:"node-tooltip", direction:"top", offset:[0,-5] });
+      marker.bindTooltip(n.name + (n.camp == null ? "" : " · 第 " + (n.camp + 1) + " 方營地"), { permanent:true, className:"node-tooltip", direction:"top", offset:[0,-5] });
       marker.on("click", function () {
         if (selected && legal.has(id)) move(id);
         else if (playerCanMoveTo(id)) select(id);
@@ -241,7 +274,7 @@
   }
   document.getElementById("reset").addEventListener("click", setupPlayers);
   document.getElementById("playerCount").addEventListener("change", setupPlayers);
-  buildGraph(); drawMap(); setupPlayers();
+  buildGraph(); applyCityData(); drawMap(); setupPlayers();
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
