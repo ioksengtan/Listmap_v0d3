@@ -235,11 +235,22 @@ function renderBlogStoryList(storiesWithGps) {
         var storyUrl = 'stories/' + sid + '.html';
         var tag = (s.tags || '').split(',')[0].trim() || '';
         var title = s.title || sid;
+        var where = s.where || '';
+        var dateStr = '';
+        if (s.created_at) {
+            var d = new Date(s.created_at);
+            if (!isNaN(d.getTime())) {
+                dateStr = d.getFullYear() + ' · ' + (d.getMonth() + 1) + '月';
+            }
+        }
         var $card = $('<a class="blog-article-card">')
             .attr('href', storyUrl)
             .attr('onclick', 'return blogOpenStory(event,\'' + sid + '\')');
-        if (tag) $card.append($('<div class="blog-article-card-tag">').text(tag));
-        $card.append($('<span class="blog-id-tag">').text('S' + sid));
+        var $meta = $('<div class="blog-article-card-meta">');
+        if (tag) $meta.append($('<span class="blog-article-card-tag" data-tag="' + tag + '">').text(tag));
+        if (where) $meta.append($('<span class="blog-article-card-where">').text(where));
+        if (dateStr) $meta.append($('<span class="blog-article-card-date">').text(dateStr));
+        $card.append($meta);
         $card.append($('<h4 class="blog-article-card-title">').text(title));
         return $card;
     }

@@ -517,16 +517,48 @@ a.blog-article-card:focus {
   border-left-color: #1a73e8;
   background: #f5f9ff;
 }
+.blog-article-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
+}
 .blog-article-card-tag {
   display: inline-block;
   font-size: 11px;
-  font-weight: 600;
-  color: #888;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  padding: 1px 6px;
-  margin-bottom: 8px;
-  letter-spacing: 0.03em;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 2px 7px;
+  letter-spacing: 0.04em;
+  background: #eef2ff;
+  color: #3b5bdb;
+  border: none;
+}
+.blog-article-card-tag[data-tag="去過"] {
+  background: #ebfbee;
+  color: #2f9e44;
+}
+.blog-article-card-tag[data-tag="渡假"] {
+  background: #fff4e6;
+  color: #e67700;
+}
+.blog-article-card-tag[data-tag="吃"] {
+  background: #fff0f6;
+  color: #c2255c;
+}
+.blog-article-card-where {
+  font-size: 12px;
+  color: #666;
+}
+.blog-article-card-where::before {
+  content: "· ";
+  color: #bbb;
+}
+.blog-article-card-date {
+  font-size: 11px;
+  color: #aaa;
+  margin-left: auto;
 }
 .blog-article-card-title {
   font-family: 'Fraunces', Georgia, serif;
