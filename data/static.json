@@ -5965,6 +5965,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100066",
+      "collection_id": "",
+      "title": "巴伐利亞因特湖：Hochkalter倒映在清晨的湖面上",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Ramsau, Bavaria, Germany",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-13",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -25533,6 +25552,20 @@
       "lat": "40.5270",
       "lng": "140.9760",
       "content": "奧入瀨溪水流最湍急的一段，溪水撞擊亂石激起白色浪花，是遊客拍照打卡最密集的一景（座標為沿步道推估位置）。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100168",
+      "story_id": "100066",
+      "name": "因特湖 Hintersee",
+      "lat": "47.604658",
+      "lng": "12.848581",
+      "content": "拉姆紹附近，貝希特斯加登國家公園裡的湖泊，以倒映Hochkalter峰與Blaueis冰河聞名。",
       "link": "",
       "address": "",
       "tags": "",
