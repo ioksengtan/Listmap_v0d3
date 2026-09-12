@@ -132,7 +132,7 @@
       if (Math.max(Math.abs(q), Math.abs(r), Math.abs(q + r)) <= 4) addNode(q, r, null);
     }
     for (var camp = 0; camp < 6; camp++) {
-      var d = DIRS[camp], side = DIRS[(camp + 2) % 6];
+      var d = DIRS[camp], side = DIRS[(camp + 1) % 6];
       for (var row = 1; row <= 4; row++) for (var t = 0; t < row; t++) {
         addNode(4 * d[0] + row * d[0] + t * side[0], 4 * d[1] + row * d[1] + t * side[1], camp);
       }
