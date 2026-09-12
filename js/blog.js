@@ -170,7 +170,9 @@ function loadIndexMarkers(opts) {
             return s.visibility === 'public' || ListmapData.isLocalhost();
         });
         publicStories.sort(function(a, b) {
-            return (b.created_at || '').localeCompare(a.created_at || '');
+            var dc = (b.created_at || '').localeCompare(a.created_at || '');
+            if (dc !== 0) return dc;
+            return parseInt(b.story_id, 10) - parseInt(a.story_id, 10);
         });
         var mapStories = publicStories.slice(0, INDEX_MAP_LIMIT);
 
@@ -221,7 +223,9 @@ function renderBlogStoryList(storiesWithGps) {
         return s.visibility === 'public' || ListmapData.isLocalhost();
     });
     stories.sort(function(a, b) {
-        return (b.created_at || '').localeCompare(a.created_at || '');
+        var dc = (b.created_at || '').localeCompare(a.created_at || '');
+        if (dc !== 0) return dc;
+        return parseInt(b.story_id, 10) - parseInt(a.story_id, 10);
     });
 
     $container.empty();
@@ -231,11 +235,22 @@ function renderBlogStoryList(storiesWithGps) {
         var storyUrl = 'stories/' + sid + '.html';
         var tag = (s.tags || '').split(',')[0].trim() || '';
         var title = s.title || sid;
+        var where = s.where || '';
+        var dateStr = '';
+        if (s.created_at) {
+            var d = new Date(s.created_at);
+            if (!isNaN(d.getTime())) {
+                dateStr = d.getFullYear() + ' · ' + (d.getMonth() + 1) + '月';
+            }
+        }
         var $card = $('<a class="blog-article-card">')
             .attr('href', storyUrl)
             .attr('onclick', 'return blogOpenStory(event,\'' + sid + '\')');
-        if (tag) $card.append($('<div class="blog-article-card-tag">').text(tag));
-        $card.append($('<span class="blog-id-tag">').text('S' + sid));
+        var $meta = $('<div class="blog-article-card-meta">');
+        if (tag) $meta.append($('<span class="blog-article-card-tag" data-tag="' + tag + '">').text(tag));
+        if (where) $meta.append($('<span class="blog-article-card-where">').text(where));
+        if (dateStr) $meta.append($('<span class="blog-article-card-date">').text(dateStr));
+        $card.append($meta);
         $card.append($('<h4 class="blog-article-card-title">').text(title));
         return $card;
     }
