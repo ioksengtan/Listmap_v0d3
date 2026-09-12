@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>燕雲十六州圍棋（實驗版 · Listmap 地圖引擎）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script src="js/map-core.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    :root {
+      --bg: #e6ded0;
+      --bg-wash: #ded4bf;
+      --surface: #f1ebdd;
+      --surface-2: #d9cfb6;
+      --ink: #2a2419;
+      --ink-soft: #6b6250;
+      --ink-faint: #948a72;
+      --line: #a4966f;
+      --line-soft: #c3b791;
+      --accent: #9c2e22;
+      --accent-2: #c24d34;
+      --accent-ink: #fdf6ea;
+      --ok: #4c6b3f;
+      --warn: #9c2e22;
+      --shadow: rgba(30, 24, 12, 0.28);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app { max-width: 1360px; margin: 0 auto; padding: 24px 20px 60px; }
+    header.top {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--line-soft);
+      padding-bottom: 16px; margin-bottom: 20px;
+    }
+    .title-cartouche {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 5px 4px;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+    }
+    .title-cartouche::before, .title-cartouche::after {
+      content: "\25C6"; color: var(--accent-2); font-size: 11px;
+    }
+    h1 {
+      font-family: "Noto Serif TC", serif;
+      font-weight: 900;
+      font-size: clamp(20px, 2.8vw, 27px);
+      margin: 0; letter-spacing: 0.05em;
+    }
+    header.top p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 66ch; }
+    .version-tag {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--ink-faint); white-space: nowrap;
+    }
+    .badge-experimental {
+      display: inline-block; margin-left: 8px; padding: 2px 8px;
+      border: 1px solid var(--accent-2); color: var(--accent-2);
+      border-radius: 999px; font-size: 10.5px; font-weight: 700; vertical-align: middle;
+    }
+
+    main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+    .card { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 14px; box-shadow: 0 10px 28px -18px var(--shadow); }
+    .map-card { padding: 14px; }
+    #map { width: 100%; height: 560px; border-radius: 10px; border: 1px solid var(--line-soft); background: var(--bg-wash); }
+    .leaflet-tooltip.city-tip {
+      font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 11.5px;
+      background: var(--surface); color: var(--ink); border: 1px solid var(--line-soft);
+      padding: 1px 5px; box-shadow: none;
+    }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-soft); padding: 12px 4px 2px; }
+    .legend .item { display: flex; align-items: center; gap: 6px; }
+    .swatch { width: 14px; height: 14px; border-radius: 50%; flex: none; display: inline-block; }
+    .swatch.empty { background: var(--surface-2); border: 2px solid var(--line); }
+    .swatch.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1.3px solid #050403; }
+    .swatch.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1.3px solid #2a2419; }
+    .swatch.hub { background: transparent; border: 2.6px solid var(--line); }
+
+    aside.hud { display: flex; flex-direction: column; gap: 14px; }
+    .turn-panel { padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .turn-label { font-size: 12px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+    .turn-value { display: flex; align-items: center; gap: 8px; font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 19px; margin-top: 2px; }
+    .dot { width: 15px; height: 15px; border-radius: 50%; flex: none; }
+    .dot.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1px solid #050403; }
+    .dot.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1px solid #2a2419; }
+
+    .score-panel { padding: 14px 18px; display: flex; gap: 10px; }
+    .score-tile { flex: 1; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; text-align: center; }
+    .score-tile .side { font-size: 12px; color: var(--ink-soft); }
+    .score-tile .count { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 600; margin-top: 2px; }
+
+    .actions { padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+    button {
+      font-family: "Noto Sans TC", sans-serif; font-size: 14px; font-weight: 700;
+      border-radius: 9px; padding: 10px 14px; border: 1px solid var(--line);
+      background: var(--surface-2); color: var(--ink); cursor: pointer;
+      transition: transform 0.08s ease, filter 0.15s ease;
+    }
+    button:hover { filter: brightness(1.06); }
+    button:active { transform: translateY(1px); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+    .log-panel { padding: 12px 16px 16px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .log-panel h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); margin: 4px 0 8px; font-weight: 700; }
+    #log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
+    #log li { font-size: 13px; line-height: 1.5; padding: 7px 10px; border-radius: 8px; background: var(--surface-2); color: var(--ink-soft); }
+    #log li.event-capture { color: var(--ok); }
+    #log li.event-illegal { color: var(--warn); }
+    #log li:first-child { color: var(--ink); }
+
+    .overlay { position: fixed; inset: 0; background: rgba(20,16,10,0.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
+    .overlay[hidden] { display: none; }
+    .score-sheet { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 16px; padding: 26px 28px; max-width: 420px; width: 100%; box-shadow: 0 24px 60px -20px var(--shadow); }
+    .score-sheet h2 { font-family: "Noto Serif TC", serif; font-size: 22px; margin: 0 0 4px; }
+    .score-sheet .sub { color: var(--ink-soft); font-size: 13px; margin-bottom: 18px; }
+    table.tally { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    table.tally th, table.tally td { text-align: right; padding: 6px 4px; font-size: 14px; border-bottom: 1px solid var(--line-soft); font-family: "JetBrains Mono", monospace; }
+    table.tally th:first-child, table.tally td:first-child { text-align: left; font-family: "Noto Sans TC", sans-serif; font-weight: 700; }
+    table.tally thead th { font-weight: 700; color: var(--ink-faint); font-size: 12px; border-bottom: 1px solid var(--line); font-family: "Noto Sans TC", sans-serif; }
+    .verdict { font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 17px; text-align: center; padding: 10px 0 18px; color: var(--accent-2); }
+
+    footer.foot { margin-top: 20px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-faint); text-align: center; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div>
+      <div class="title-cartouche"><h1>燕雲十六州圍棋<span class="badge-experimental">實驗版</span></h1></div>
+      <p>沿用 map-of-stones 專案的圍棋引擎（氣、連塊、提子、禁入、打劫、數地），改接到 Listmap 的 Leaflet 地圖上——16 座城市以真實地理座標定位，關隘驛道以 Polyline 繪製。狀態僅存在瀏覽器記憶體，重新整理即重來，尚未接後端存檔。</p>
+    </div>
+    <span class="version-tag">v0.1-experimental · Phase 1</span>
+  </header>
+
+  <main>
+    <section class="card map-card">
+      <div id="map"></div>
+      <div class="legend">
+        <span class="item"><span class="swatch empty"></span>中立空城</span>
+        <span class="item"><span class="swatch black"></span>黑棋（契丹）</span>
+        <span class="item"><span class="swatch white"></span>白棋（中原）</span>
+        <span class="item"><span class="swatch hub"></span>樞紐城市（幽州・雲州・蔚州）</span>
+        <span class="item">點擊城市節點即可落子</span>
+      </div>
+    </section>
+
+    <aside class="hud">
+      <div class="card turn-panel">
+        <div>
+          <div class="turn-label">現在輪到</div>
+          <div class="turn-value"><span id="turnDot" class="dot black"></span><span id="turnText">契丹（黑）</span></div>
+        </div>
+      </div>
+
+      <div class="card score-panel">
+        <div class="score-tile">
+          <div class="side">黑（契丹）提子</div>
+          <div class="count" id="capBlack">0</div>
+        </div>
+        <div class="score-tile">
+          <div class="side">白（中原）提子</div>
+          <div class="count" id="capWhite">0</div>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <button class="primary" id="btnScore">終局數地</button>
+        <button id="btnReset">重新開始</button>
+      </div>
+
+      <div class="card log-panel">
+        <h2>對局紀錄</h2>
+        <ul id="log"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="foot">地圖引擎：Listmap map-core.js（Leaflet 1.7.1 + Mapbox tiles）・城市節點取代交叉點・關隘驛道取代棋盤格線・遼／中原僅作皮膚包裝</footer>
+</div>
+
+<div class="overlay" id="scoreOverlay" hidden>
+  <div class="score-sheet">
+    <h2>終局數地</h2>
+    <div class="sub">地（連塊完全包圍的中立城市）＋ 提子數</div>
+    <table class="tally">
+      <thead><tr><th>陣營</th><th>地</th><th>提子</th><th>總分</th></tr></thead>
+      <tbody>
+        <tr><td>黑（契丹）</td><td id="territoryBlack">0</td><td id="tallyCapBlack">0</td><td id="totalBlack">0</td></tr>
+        <tr><td>白（中原）</td><td id="territoryWhite">0</td><td id="tallyCapWhite">0</td><td id="totalWhite">0</td></tr>
+      </tbody>
+    </table>
+    <div class="verdict" id="verdictText"></div>
+    <button class="primary" id="btnCloseScore" style="width:100%">繼續對局</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // 座標為現代對應縣市中心點的概略值，用於實驗性展示，非精確歷史治所座標。
+  var CITIES = [
+    { id: "youzhou",       name: "幽州", lat: 39.9042, lng: 116.4074, hub: true },
+    { id: "jizhou",        name: "薊州", lat: 40.0455, lng: 117.4048 },
+    { id: "zhuozhou",      name: "涿州", lat: 39.4855, lng: 115.9723 },
+    { id: "tanzhou",       name: "檀州", lat: 40.3755, lng: 116.8434 },
+    { id: "shunzhou",      name: "順州", lat: 40.1300, lng: 116.6540 },
+    { id: "yingzhou_he",   name: "瀛州", lat: 38.4437, lng: 116.0891 },
+    { id: "mozhou",        name: "莫州", lat: 38.7100, lng: 116.1300 },
+    { id: "xinzhou",       name: "新州", lat: 40.3823, lng: 115.2179 },
+    { id: "guizhou",       name: "媯州", lat: 40.4076, lng: 115.5089 },
+    { id: "ruzhou",        name: "儒州", lat: 40.4649, lng: 115.9750 },
+    { id: "wuzhou",        name: "武州", lat: 40.6086, lng: 115.0400 },
+    { id: "yunzhou",       name: "雲州", lat: 40.0768, lng: 113.3001, hub: true },
+    { id: "yingzhou_ying", name: "應州", lat: 39.5522, lng: 113.1888 },
+    { id: "huanzhou",      name: "寰州", lat: 39.5478, lng: 112.8266 },
+    { id: "shuozhou",      name: "朔州", lat: 39.3316, lng: 112.4330 },
+    { id: "weizhou",       name: "蔚州", lat: 39.8378, lng: 114.5686, hub: true }
+  ];
+  var EDGES = [
+    ["youzhou", "jizhou"], ["youzhou", "zhuozhou"], ["youzhou", "tanzhou"], ["youzhou", "shunzhou"],
+    ["tanzhou", "shunzhou"], ["jizhou", "shunzhou"],
+    ["zhuozhou", "mozhou"], ["mozhou", "yingzhou_he"], ["zhuozhou", "yingzhou_he"],
+    ["youzhou", "ruzhou"], ["ruzhou", "guizhou"], ["guizhou", "xinzhou"],
+    ["xinzhou", "wuzhou"], ["wuzhou", "yunzhou"],
+    ["yunzhou", "shuozhou"], ["shuozhou", "huanzhou"], ["huanzhou", "yingzhou_ying"],
+    ["yingzhou_ying", "weizhou"], ["xinzhou", "weizhou"], ["zhuozhou", "weizhou"],
+    ["yunzhou", "yingzhou_ying"]
+  ];
+
+  var STYLE = {
+    empty:  { fillColor: "#d9cfb6", color: "#a4966f", fillOpacity: 1 },
+    black:  { fillColor: "#14110c", color: "#050403", fillOpacity: 1 },
+    white:  { fillColor: "#fdf8ec", color: "#2a2419", fillOpacity: 1 },
+    hoverEmpty: { color: "#c24d34" },
+    lastMoveBlack: "#d8c9a3",
+    lastMoveWhite: "#2a2419"
+  };
+
+  var neighbors = {};
+  CITIES.forEach(function (c) { neighbors[c.id] = []; });
+  EDGES.forEach(function (e) {
+    neighbors[e[0]].push(e[1]);
+    neighbors[e[1]].push(e[0]);
+  });
+  var order = CITIES.map(function (c) { return c.id; });
+  var cityById = {};
+  CITIES.forEach(function (c) { cityById[c.id] = c; });
+
+  var board = {};
+  order.forEach(function (id) { board[id] = null; });
+  var turn = "black";
+  var captures = { black: 0, white: 0 };
+  var snapshotHistory = [snapshotOf(board)];
+  var lastMove = null;
+  var gameOver = false;
+
+  function snapshotOf(b) {
+    return order.map(function (id) { return b[id] ? b[id][0] : "-"; }).join("");
+  }
+  function cloneBoard(b) {
+    var out = {};
+    order.forEach(function (id) { out[id] = b[id]; });
+    return out;
+  }
+  function getGroup(b, startId) {
+    var color = b[startId];
+    var stones = new Set([startId]);
+    var stack = [startId];
+    while (stack.length) {
+      var cur = stack.pop();
+      neighbors[cur].forEach(function (n) {
+        if (b[n] === color && !stones.has(n)) {
+          stones.add(n);
+          stack.push(n);
+        }
+      });
+    }
+    var liberties = new Set();
+    stones.forEach(function (s) {
+      neighbors[s].forEach(function (n) {
+        if (b[n] === null) liberties.add(n);
+      });
+    });
+    return { stones: stones, liberties: liberties };
+  }
+  function opponent(c) { return c === "black" ? "white" : "black"; }
+
+  function attemptMove(id) {
+    if (gameOver) return;
+    if (board[id] !== null) {
+      log("此城市已被佔領，無法落子。", "illegal");
+      return;
+    }
+    var color = turn;
+    var trial = cloneBoard(board);
+    trial[id] = color;
+
+    var capturedIds = [];
+    var seen = new Set();
+    neighbors[id].forEach(function (n) {
+      if (trial[n] === opponent(color) && !seen.has(n)) {
+        var g = getGroup(trial, n);
+        g.stones.forEach(function (s) { seen.add(s); });
+        if (g.liberties.size === 0) {
+          g.stones.forEach(function (s) { capturedIds.push(s); });
+        }
+      }
+    });
+    capturedIds.forEach(function (s) { trial[s] = null; });
+
+    var ownGroup = getGroup(trial, id);
+    if (ownGroup.liberties.size === 0) {
+      log("禁入（自殺手）：落在「" + nameOf(id) + "」會讓己方連塊立即無氣，且未能提對方子。", "illegal");
+      return;
+    }
+
+    var candidateSnapshot = snapshotOf(trial);
+    var koGuard = snapshotHistory[snapshotHistory.length - 2];
+    if (koGuard !== undefined && candidateSnapshot === koGuard) {
+      log("打劫：此手會立即重現前一回合之前的同型盤面，禁止落子於「" + nameOf(id) + "」。", "illegal");
+      return;
+    }
+
+    board = trial;
+    snapshotHistory.push(candidateSnapshot);
+    if (capturedIds.length) {
+      captures[color] += capturedIds.length;
+      log(faction(color) + "於「" + nameOf(id) + "」落子，提" + faction(opponent(color)) + capturedIds.length + "子：" + capturedIds.map(nameOf).join("、") + "。", "capture");
+    } else {
+      log(faction(color) + "於「" + nameOf(id) + "」落子。氣：" + ownGroup.liberties.size + "。", "");
+    }
+    lastMove = { id: id, color: color };
+    turn = opponent(color);
+    render();
+  }
+
+  function nameOf(id) { return cityById[id] ? cityById[id].name : id; }
+  function faction(color) { return color === "black" ? "契丹（黑）" : "中原（白）"; }
+
+  function log(text, kind) {
+    var ul = document.getElementById("log");
+    var li = document.createElement("li");
+    li.textContent = text;
+    if (kind === "capture") li.className = "event-capture";
+    if (kind === "illegal") li.className = "event-illegal";
+    ul.insertBefore(li, ul.firstChild);
+    while (ul.children.length > 60) ul.removeChild(ul.lastChild);
+  }
+
+  function computeTerritory() {
+    var visited = new Set();
+    var territory = { black: 0, white: 0 };
+    order.forEach(function (id) {
+      if (board[id] !== null || visited.has(id)) return;
+      var region = new Set([id]);
+      var stack = [id];
+      var borders = new Set();
+      visited.add(id);
+      while (stack.length) {
+        var cur = stack.pop();
+        neighbors[cur].forEach(function (n) {
+          if (board[n] === null) {
+            if (!visited.has(n)) {
+              visited.add(n);
+              region.add(n);
+              stack.push(n);
+            }
+          } else {
+            borders.add(board[n]);
+          }
+        });
+      }
+      if (borders.size === 1) {
+        var owner_ = borders.values().next().value;
+        territory[owner_] += region.size;
+      }
+    });
+    return territory;
+  }
+
+  // --- Leaflet layer setup ---
+  var bounds = L.latLngBounds(CITIES.map(function (c) { return [c.lat, c.lng]; }));
+  var map = ListmapMapCore.createMap("map", { center: bounds.getCenter(), zoom: 7 });
+  function fitToCities() {
+    map.invalidateSize();
+    map.fitBounds(bounds, { padding: [40, 40] });
+  }
+  fitToCities();
+  setTimeout(fitToCities, 0);
+  window.addEventListener("load", fitToCities);
+
+  var edgeLayer = L.layerGroup().addTo(map);
+  EDGES.forEach(function (e) {
+    var a = cityById[e[0]], b = cityById[e[1]];
+    L.polyline([[a.lat, a.lng], [b.lat, b.lng]], {
+      color: "#a4966f", weight: 2, opacity: 0.85
+    }).addTo(edgeLayer);
+  });
+
+  var markers = {};
+  var lastMoveDot = null;
+
+  CITIES.forEach(function (c) {
+    var marker = L.circleMarker([c.lat, c.lng], {
+      radius: c.hub ? 12 : 10,
+      weight: c.hub ? 3 : 1.6,
+      className: "city-node",
+      fillColor: STYLE.empty.fillColor,
+      color: STYLE.empty.color,
+      fillOpacity: 1
+    }).addTo(map);
+    marker.bindTooltip(c.name, { permanent: true, direction: "top", offset: [0, -8], className: "city-tip" });
+    marker.on("click", function () { attemptMove(c.id); });
+    marker.on("mouseover", function () {
+      if (board[c.id] === null && !gameOver) marker.setStyle({ color: STYLE.hoverEmpty.color });
+    });
+    marker.on("mouseout", function () {
+      if (board[c.id] === null && !gameOver) marker.setStyle({ color: STYLE.empty.color });
+    });
+    markers[c.id] = marker;
+  });
+
+  function render() {
+    var libCache = {};
+    order.forEach(function (id) {
+      if (board[id] !== null && libCache[id] === undefined) {
+        var g = getGroup(board, id);
+        g.stones.forEach(function (s) { libCache[s] = g.liberties.size; });
+      }
+    });
+
+    order.forEach(function (id) {
+      var c = cityById[id];
+      var marker = markers[id];
+      var occupied = board[id] !== null;
+      if (!occupied) {
+        marker.setStyle({
+          radius: c.hub ? 12 : 10,
+          fillColor: STYLE.empty.fillColor,
+          color: STYLE.empty.color,
+          weight: c.hub ? 3 : 1.6
+        });
+        marker.setTooltipContent(c.name);
+      } else {
+        var s = board[id] === "black" ? STYLE.black : STYLE.white;
+        marker.setStyle({
+          radius: c.hub ? 13 : 11,
+          fillColor: s.fillColor,
+          color: s.color,
+          weight: c.hub ? 2.6 : 1.5
+        });
+        marker.setTooltipContent(c.name + "（氣：" + libCache[id] + "）");
+      }
+    });
+
+    if (lastMoveDot) { map.removeLayer(lastMoveDot); lastMoveDot = null; }
+    if (lastMove) {
+      var lc = cityById[lastMove.id];
+      lastMoveDot = L.circleMarker([lc.lat, lc.lng], {
+        radius: 3, weight: 0, fillOpacity: 1,
+        fillColor: lastMove.color === "black" ? STYLE.lastMoveBlack : STYLE.lastMoveWhite,
+        interactive: false
+      }).addTo(map);
+    }
+
+    document.getElementById("turnDot").className = "dot " + turn;
+    document.getElementById("turnText").textContent = faction(turn);
+    document.getElementById("capBlack").textContent = captures.black;
+    document.getElementById("capWhite").textContent = captures.white;
+  }
+
+  function showScore() {
+    var territory = computeTerritory();
+    var totalBlack = territory.black + captures.black;
+    var totalWhite = territory.white + captures.white;
+    document.getElementById("territoryBlack").textContent = territory.black;
+    document.getElementById("territoryWhite").textContent = territory.white;
+    document.getElementById("tallyCapBlack").textContent = captures.black;
+    document.getElementById("tallyCapWhite").textContent = captures.white;
+    document.getElementById("totalBlack").textContent = totalBlack;
+    document.getElementById("totalWhite").textContent = totalWhite;
+    var verdict = document.getElementById("verdictText");
+    if (totalBlack === totalWhite) {
+      verdict.textContent = "平局";
+    } else {
+      verdict.textContent = (totalBlack > totalWhite ? "契丹（黑）" : "中原（白）") + "領先 " + Math.abs(totalBlack - totalWhite) + " 目";
+    }
+    document.getElementById("scoreOverlay").hidden = false;
+  }
+
+  document.getElementById("btnScore").addEventListener("click", showScore);
+  document.getElementById("btnCloseScore").addEventListener("click", function () {
+    document.getElementById("scoreOverlay").hidden = true;
+  });
+  document.getElementById("btnReset").addEventListener("click", function () {
+    order.forEach(function (id) { board[id] = null; });
+    turn = "black";
+    captures = { black: 0, white: 0 };
+    snapshotHistory = [snapshotOf(board)];
+    lastMove = null;
+    gameOver = false;
+    document.getElementById("log").innerHTML = "";
+    log("重新開始對局，契丹（黑）先行。", "");
+    render();
+  });
+
+  log("對局開始，契丹（黑）先行。燕雲十六州已就位。", "");
+  render();
+})();
+</script>
+</body>
+</html>
