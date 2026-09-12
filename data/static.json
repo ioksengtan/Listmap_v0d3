@@ -5889,6 +5889,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100062",
+      "collection_id": "",
+      "title": "瑞士阿爾河峽谷：山壁裡切出來的一條棧道",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Meiringen, Switzerland",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-12",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -25373,6 +25392,20 @@
       "lat": "39.3506",
       "lng": "114.6919",
       "content": "河北淶源縣，建於遼應曆十六年（966年），現存年代最早的遼代木構建築，殿內兩根承重大柱為唐代舊木二次利用。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100162",
+      "story_id": "100062",
+      "name": "阿爾河峽谷 Aareschlucht",
+      "lat": "46.7156",
+      "lng": "8.1928",
+      "content": "伯恩高地邁林根附近，阿爾河切穿基爾希特石灰岩脊形成的峽谷，全長約1.4公里，1888年起對外開放。",
       "link": "",
       "address": "",
       "tags": "",
