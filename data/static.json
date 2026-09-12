@@ -5908,6 +5908,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100063",
+      "collection_id": "",
+      "title": "義大利翁布里亞 Stifone：石灰岩湧泉養出來的藍綠泳池",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Stifone, Umbria, Italy",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-12",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -25406,6 +25425,20 @@
       "lat": "46.7156",
       "lng": "8.1928",
       "content": "伯恩高地邁林根附近，阿爾河切穿基爾希特石灰岩脊形成的峽谷，全長約1.4公里，1888年起對外開放。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100163",
+      "story_id": "100063",
+      "name": "Stifone 天然泳池",
+      "lat": "42.5514",
+      "lng": "12.6667",
+      "content": "翁布里亞省Narni鎮下轄小聚落，Nera河畔石灰岩湧泉形成的藍綠色天然泳池，湧水量為義大利數一數二大。",
       "link": "",
       "address": "",
       "tags": "",
