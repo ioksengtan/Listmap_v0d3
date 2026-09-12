@@ -23,131 +23,144 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
   <script src="js/map-core.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/blog.css">
   <style>
+    /* Game-specific variables and overrides */
     :root {
-      --bg: #e6ded0;
-      --bg-wash: #ded4bf;
-      --surface: #f1ebdd;
-      --surface-2: #d9cfb6;
-      --ink: #2a2419;
-      --ink-soft: #6b6250;
-      --ink-faint: #948a72;
-      --line: #a4966f;
-      --line-soft: #c3b791;
-      --accent: #9c2e22;
-      --accent-2: #c24d34;
-      --accent-ink: #fdf6ea;
-      --ok: #4c6b3f;
-      --warn: #9c2e22;
-      --shadow: rgba(30, 24, 12, 0.28);
+      --g-surface: #f8f5f0;
+      --g-surface-2: #ece8de;
+      --g-ink: #2a2419;
+      --g-ink-soft: #6b6250;
+      --g-ink-faint: #948a72;
+      --g-line: #c3b791;
+      --g-accent: #9c2e22;
+      --g-accent-2: #c24d34;
+      --g-accent-ink: #fdf6ea;
+      --g-ok: #4c6b3f;
+      --g-warn: #9c2e22;
     }
-    body { background: var(--bg); color: var(--ink); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; -webkit-font-smoothing: antialiased; }
-    .game-wrap { max-width: 1360px; margin: 0 auto; padding: 28px 20px 60px; }
 
-    .game-title-row {
-      display: flex; align-items: baseline; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-      border-bottom: 1px solid var(--line-soft);
-      padding-bottom: 16px; margin-bottom: 20px;
+    /* Right panel layout */
+    .col.right#game-panel {
+      font-family: 'Source Sans 3', 'Noto Sans TC', system-ui, sans-serif;
+      background: var(--g-surface);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
     }
-    .title-cartouche {
-      display: inline-flex; align-items: center; gap: 12px;
-      padding: 5px 4px;
-      border-top: 2px solid var(--line);
-      border-bottom: 2px solid var(--line);
+
+    .game-hud {
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
     }
-    .title-cartouche::before, .title-cartouche::after {
-      content: "\25C6"; color: var(--accent-2); font-size: 11px;
+
+    /* Title row inside right panel */
+    .game-title-block { border-bottom: 1px solid var(--g-line); padding-bottom: 14px; margin-bottom: 2px; }
+    .game-title-block h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 20px; font-weight: 700; margin: 0 0 4px;
+      color: var(--g-ink);
     }
-    .game-wrap h1 {
-      font-family: "Noto Serif TC", serif;
-      font-weight: 900;
-      font-size: clamp(20px, 2.8vw, 27px);
-      margin: 0; letter-spacing: 0.05em;
-    }
-    .game-title-row p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 66ch; }
-    .version-tag {
-      font-family: "JetBrains Mono", monospace; font-size: 12px;
-      color: var(--ink-faint); white-space: nowrap;
-    }
+    .game-title-block p { font-size: 12.5px; color: var(--g-ink-soft); margin: 0; line-height: 1.6; }
     .badge-experimental {
-      display: inline-block; margin-left: 8px; padding: 2px 8px;
-      border: 1px solid var(--accent-2); color: var(--accent-2);
-      border-radius: 999px; font-size: 10.5px; font-weight: 700; vertical-align: middle;
+      display: inline-block; margin-left: 7px; padding: 1px 7px;
+      border: 1px solid var(--g-accent-2); color: var(--g-accent-2);
+      border-radius: 999px; font-size: 10px; font-weight: 700; vertical-align: middle;
     }
 
-    .game-main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
-    @media (max-width: 900px) { .game-main { grid-template-columns: 1fr; } }
-
-    .card { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 14px; box-shadow: 0 10px 28px -18px var(--shadow); }
-    .map-card { padding: 14px; }
-    #map { width: 100%; height: 560px; border-radius: 10px; border: 1px solid var(--line-soft); background: var(--bg-wash); }
-    .leaflet-tooltip.city-tip {
-      font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 11.5px;
-      background: var(--surface); color: var(--ink); border: 1px solid var(--line-soft);
-      padding: 1px 5px; box-shadow: none;
+    /* Turn indicator */
+    .turn-panel {
+      background: #fff;
+      border: 1px solid var(--g-line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
     }
-    .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-soft); padding: 12px 4px 2px; }
-    .legend .item { display: flex; align-items: center; gap: 6px; }
-    .swatch { width: 14px; height: 14px; border-radius: 50%; flex: none; display: inline-block; }
-    .swatch.empty { background: var(--surface-2); border: 2px solid var(--line); }
-    .swatch.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1.3px solid #050403; }
-    .swatch.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1.3px solid #2a2419; }
-    .swatch.hub { background: transparent; border: 2.6px solid var(--line); }
-
-    aside.hud { display: flex; flex-direction: column; gap: 14px; }
-    .turn-panel { padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .turn-label { font-size: 12px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
-    .turn-value { display: flex; align-items: center; gap: 8px; font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 19px; margin-top: 2px; }
-    .dot { width: 15px; height: 15px; border-radius: 50%; flex: none; }
+    .turn-label { font-size: 11px; color: var(--g-ink-faint); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .turn-value { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; color: var(--g-ink); }
+    .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
     .dot.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1px solid #050403; }
     .dot.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1px solid #2a2419; }
 
-    .score-panel { padding: 14px 18px; display: flex; gap: 10px; }
-    .score-tile { flex: 1; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; text-align: center; }
-    .score-tile .side { font-size: 12px; color: var(--ink-soft); }
-    .score-tile .count { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 600; margin-top: 2px; }
-
-    .actions { padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
-    .actions button {
-      font-family: "Noto Sans TC", sans-serif; font-size: 14px; font-weight: 700;
-      border-radius: 9px; padding: 10px 14px; border: 1px solid var(--line);
-      background: var(--surface-2); color: var(--ink); cursor: pointer;
-      transition: transform 0.08s ease, filter 0.15s ease;
+    /* Score tiles */
+    .score-row { display: flex; gap: 10px; }
+    .score-tile {
+      flex: 1; background: #fff; border: 1px solid var(--g-line);
+      border-radius: 12px; padding: 10px 12px; text-align: center;
     }
-    .actions button:hover { filter: brightness(1.06); }
-    .actions button:active { transform: translateY(1px); }
-    .actions button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .score-tile .side { font-size: 11.5px; color: var(--g-ink-soft); }
+    .score-tile .count { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; color: var(--g-ink); }
 
-    .log-panel { padding: 12px 16px 16px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
-    .log-panel h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); margin: 4px 0 8px; font-weight: 700; }
-    #log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
-    #log li { font-size: 13px; line-height: 1.5; padding: 7px 10px; border-radius: 8px; background: var(--surface-2); color: var(--ink-soft); }
-    #log li.event-capture { color: var(--ok); }
-    #log li.event-illegal { color: var(--warn); }
-    #log li:first-child { color: var(--ink); }
+    /* Legend */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      font-size: 12px; color: var(--g-ink-soft);
+      background: #fff; border: 1px solid var(--g-line); border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .legend .item { display: flex; align-items: center; gap: 5px; }
+    .swatch { width: 13px; height: 13px; border-radius: 50%; flex: none; display: inline-block; }
+    .swatch.empty { background: #ece8de; border: 2px solid #c3b791; }
+    .swatch.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1.3px solid #050403; }
+    .swatch.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1.3px solid #2a2419; }
+    .swatch.hub { background: transparent; border: 2.5px solid #c3b791; }
 
+    /* Action buttons */
+    .game-actions { display: flex; flex-direction: column; gap: 8px; }
+    .game-actions button {
+      font-family: 'Source Sans 3', 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 700;
+      border-radius: 9px; padding: 10px 14px;
+      border: 1px solid var(--g-line);
+      background: var(--g-surface-2); color: var(--g-ink);
+      cursor: pointer; transition: filter 0.12s ease;
+      width: 100%;
+    }
+    .game-actions button:hover { filter: brightness(0.96); }
+    .game-actions button.primary { background: var(--g-accent); border-color: var(--g-accent); color: var(--g-accent-ink); }
+    .game-actions button.primary:hover { filter: brightness(1.1); }
+
+    /* Log */
+    .log-panel {
+      flex: 1; background: #fff; border: 1px solid var(--g-line);
+      border-radius: 12px; padding: 12px 14px;
+      display: flex; flex-direction: column; min-height: 0;
+    }
+    .log-panel h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-ink-faint); margin: 0 0 8px; font-weight: 700; }
+    #log { list-style: none; margin: 0; padding: 0; overflow-y: auto; max-height: 220px; display: flex; flex-direction: column; gap: 5px; }
+    #log li { font-size: 12.5px; line-height: 1.5; padding: 6px 10px; border-radius: 7px; background: var(--g-surface); color: var(--g-ink-soft); }
+    #log li.event-capture { color: var(--g-ok); }
+    #log li.event-illegal { color: var(--g-warn); }
+    #log li:first-child { color: var(--g-ink); }
+
+    /* Score overlay */
     .overlay { position: fixed; inset: 0; background: rgba(20,16,10,0.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
     .overlay[hidden] { display: none; }
-    .score-sheet { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 16px; padding: 26px 28px; max-width: 420px; width: 100%; box-shadow: 0 24px 60px -20px var(--shadow); }
-    .score-sheet h2 { font-family: "Noto Serif TC", serif; font-size: 22px; margin: 0 0 4px; }
-    .score-sheet .sub { color: var(--ink-soft); font-size: 13px; margin-bottom: 18px; }
+    .score-sheet { background: #fff; border: 1px solid var(--g-line); border-radius: 16px; padding: 26px 28px; max-width: 400px; width: 100%; box-shadow: 0 24px 60px -20px rgba(30,24,12,0.28); }
+    .score-sheet h2 { font-family: 'Fraunces', serif; font-size: 22px; margin: 0 0 4px; color: var(--g-ink); }
+    .score-sheet .sub { color: var(--g-ink-soft); font-size: 13px; margin-bottom: 18px; }
     table.tally { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    table.tally th, table.tally td { text-align: right; padding: 6px 4px; font-size: 14px; border-bottom: 1px solid var(--line-soft); font-family: "JetBrains Mono", monospace; }
-    table.tally th:first-child, table.tally td:first-child { text-align: left; font-family: "Noto Sans TC", sans-serif; font-weight: 700; }
-    table.tally thead th { font-weight: 700; color: var(--ink-faint); font-size: 12px; border-bottom: 1px solid var(--line); font-family: "Noto Sans TC", sans-serif; }
-    .verdict { font-family: "Noto Serif TC", serif; font-weight: 700; font-size: 17px; text-align: center; padding: 10px 0 18px; color: var(--accent-2); }
-
+    table.tally th, table.tally td { text-align: right; padding: 6px 4px; font-size: 14px; border-bottom: 1px solid var(--g-line); }
+    table.tally th:first-child, table.tally td:first-child { text-align: left; font-weight: 700; }
+    table.tally thead th { font-weight: 700; color: var(--g-ink-faint); font-size: 12px; }
+    .verdict { font-family: 'Fraunces', serif; font-weight: 700; font-size: 17px; text-align: center; padding: 10px 0 18px; color: var(--g-accent-2); }
     .score-sheet .btn-close-score {
-      font-family: "Noto Sans TC", sans-serif; font-size: 14px; font-weight: 700;
+      font-family: 'Source Sans 3', 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 700;
       border-radius: 9px; padding: 10px 14px;
-      background: var(--accent); border: 1px solid var(--accent); color: var(--accent-ink);
+      background: var(--g-accent); border: 1px solid var(--g-accent); color: var(--g-accent-ink);
       cursor: pointer; width: 100%;
     }
 
-    footer.game-foot { margin-top: 20px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--ink-faint); text-align: center; }
+    /* Leaflet city tooltip */
+    .leaflet-tooltip.city-tip {
+      font-family: 'Source Sans 3', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 11.5px;
+      background: #fff; color: var(--g-ink); border: 1px solid var(--g-line);
+      padding: 1px 5px; box-shadow: none;
+    }
   </style>
 </head>
 <body>
@@ -180,61 +193,66 @@
   </div>
 </nav>
 
-<div class="game-wrap">
-  <div class="game-title-row">
-    <div>
-      <div class="title-cartouche"><h1>燕雲十六州圍棋<span class="badge-experimental">實驗版</span></h1></div>
-      <p>沿用 map-of-stones 專案的圍棋引擎（氣、連塊、提子、禁入、打劫、數地），改接到 Listmap 的 Leaflet 地圖上——16 座城市以真實地理座標定位，關隘驛道以 Polyline 繪製。狀態僅存在瀏覽器記憶體，重新整理即重來，尚未接後端存檔。</p>
+<div class="containe-fluid" style="height:100%; width:100%;">
+  <div class="row map-split" style="height:100%; width:100%;">
+
+    <!-- Left: Leaflet map -->
+    <div id="map" class="col left"></div>
+
+    <!-- Right: game HUD -->
+    <div class="col right" id="game-panel">
+      <div class="game-hud">
+
+        <div class="game-title-block">
+          <h2>燕雲十六州圍棋<span class="badge-experimental">實驗版</span></h2>
+          <p>16 座城市以真實地理座標定位，關隘驛道以 Polyline 繪製。點擊城市節點即可落子。規則包含氣、連塊、提子、禁入（自殺手）與打劫。</p>
+        </div>
+
+        <div class="turn-panel">
+          <div>
+            <div class="turn-label">現在輪到</div>
+            <div class="turn-value">
+              <span id="turnDot" class="dot black"></span>
+              <span id="turnText">契丹（黑）</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-row">
+          <div class="score-tile">
+            <div class="side">黑（契丹）提子</div>
+            <div class="count" id="capBlack">0</div>
+          </div>
+          <div class="score-tile">
+            <div class="side">白（中原）提子</div>
+            <div class="count" id="capWhite">0</div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span class="item"><span class="swatch empty"></span>中立空城</span>
+          <span class="item"><span class="swatch black"></span>黑（契丹）</span>
+          <span class="item"><span class="swatch white"></span>白（中原）</span>
+          <span class="item"><span class="swatch hub"></span>樞紐城市</span>
+        </div>
+
+        <div class="game-actions">
+          <button class="primary" id="btnScore">終局數地</button>
+          <button id="btnReset">重新開始</button>
+        </div>
+
+        <div class="log-panel">
+          <h3>對局紀錄</h3>
+          <ul id="log"></ul>
+        </div>
+
+      </div>
     </div>
-    <span class="version-tag">v0.1-experimental · Phase 1</span>
+
   </div>
-
-  <div class="game-main">
-    <section class="card map-card">
-      <div id="map"></div>
-      <div class="legend">
-        <span class="item"><span class="swatch empty"></span>中立空城</span>
-        <span class="item"><span class="swatch black"></span>黑棋（契丹）</span>
-        <span class="item"><span class="swatch white"></span>白棋（中原）</span>
-        <span class="item"><span class="swatch hub"></span>樞紐城市（幽州・雲州・蔚州）</span>
-        <span class="item">點擊城市節點即可落子</span>
-      </div>
-    </section>
-
-    <aside class="hud">
-      <div class="card turn-panel">
-        <div>
-          <div class="turn-label">現在輪到</div>
-          <div class="turn-value"><span id="turnDot" class="dot black"></span><span id="turnText">契丹（黑）</span></div>
-        </div>
-      </div>
-
-      <div class="card score-panel">
-        <div class="score-tile">
-          <div class="side">黑（契丹）提子</div>
-          <div class="count" id="capBlack">0</div>
-        </div>
-        <div class="score-tile">
-          <div class="side">白（中原）提子</div>
-          <div class="count" id="capWhite">0</div>
-        </div>
-      </div>
-
-      <div class="card actions">
-        <button class="primary" id="btnScore">終局數地</button>
-        <button id="btnReset">重新開始</button>
-      </div>
-
-      <div class="card log-panel">
-        <h2>對局紀錄</h2>
-        <ul id="log"></ul>
-      </div>
-    </aside>
-  </div>
-
-  <footer class="game-foot">地圖引擎：Listmap map-core.js（Leaflet 1.7.1 + Mapbox tiles）・城市節點取代交叉點・關隘驛道取代棋盤格線・遼／中原僅作皮膚包裝</footer>
 </div>
 
+<!-- Score overlay -->
 <div class="overlay" id="scoreOverlay" hidden>
   <div class="score-sheet">
     <h2>終局數地</h2>
@@ -284,7 +302,7 @@
   ];
 
   var STYLE = {
-    empty:  { fillColor: "#d9cfb6", color: "#a4966f", fillOpacity: 1 },
+    empty:  { fillColor: "#ece8de", color: "#c3b791", fillOpacity: 1 },
     black:  { fillColor: "#14110c", color: "#050403", fillOpacity: 1 },
     white:  { fillColor: "#fdf8ec", color: "#2a2419", fillOpacity: 1 },
     hoverEmpty: { color: "#c24d34" },
@@ -325,17 +343,12 @@
     while (stack.length) {
       var cur = stack.pop();
       neighbors[cur].forEach(function (n) {
-        if (b[n] === color && !stones.has(n)) {
-          stones.add(n);
-          stack.push(n);
-        }
+        if (b[n] === color && !stones.has(n)) { stones.add(n); stack.push(n); }
       });
     }
     var liberties = new Set();
     stones.forEach(function (s) {
-      neighbors[s].forEach(function (n) {
-        if (b[n] === null) liberties.add(n);
-      });
+      neighbors[s].forEach(function (n) { if (b[n] === null) liberties.add(n); });
     });
     return { stones: stones, liberties: liberties };
   }
@@ -343,10 +356,7 @@
 
   function attemptMove(id) {
     if (gameOver) return;
-    if (board[id] !== null) {
-      log("此城市已被佔領，無法落子。", "illegal");
-      return;
-    }
+    if (board[id] !== null) { log("此城市已被佔領，無法落子。", "illegal"); return; }
     var color = turn;
     var trial = cloneBoard(board);
     trial[id] = color;
@@ -357,9 +367,7 @@
       if (trial[n] === opponent(color) && !seen.has(n)) {
         var g = getGroup(trial, n);
         g.stones.forEach(function (s) { seen.add(s); });
-        if (g.liberties.size === 0) {
-          g.stones.forEach(function (s) { capturedIds.push(s); });
-        }
+        if (g.liberties.size === 0) g.stones.forEach(function (s) { capturedIds.push(s); });
       }
     });
     capturedIds.forEach(function (s) { trial[s] = null; });
@@ -416,11 +424,7 @@
         var cur = stack.pop();
         neighbors[cur].forEach(function (n) {
           if (board[n] === null) {
-            if (!visited.has(n)) {
-              visited.add(n);
-              region.add(n);
-              stack.push(n);
-            }
+            if (!visited.has(n)) { visited.add(n); region.add(n); stack.push(n); }
           } else {
             borders.add(board[n]);
           }
@@ -434,23 +438,17 @@
     return territory;
   }
 
-  // --- Leaflet layer setup ---
+  // --- Leaflet map ---
   var bounds = L.latLngBounds(CITIES.map(function (c) { return [c.lat, c.lng]; }));
   var map = ListmapMapCore.createMap("map", { center: bounds.getCenter(), zoom: 7 });
-  function fitToCities() {
-    map.invalidateSize();
-    map.fitBounds(bounds, { padding: [40, 40] });
-  }
+  function fitToCities() { map.invalidateSize(); map.fitBounds(bounds, { padding: [40, 40] }); }
   fitToCities();
   setTimeout(fitToCities, 0);
   window.addEventListener("load", fitToCities);
 
-  var edgeLayer = L.layerGroup().addTo(map);
   EDGES.forEach(function (e) {
     var a = cityById[e[0]], b = cityById[e[1]];
-    L.polyline([[a.lat, a.lng], [b.lat, b.lng]], {
-      color: "#a4966f", weight: 2, opacity: 0.85
-    }).addTo(edgeLayer);
+    L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: "#c3b791", weight: 2, opacity: 0.9 }).addTo(map);
   });
 
   var markers = {};
@@ -468,7 +466,7 @@
     marker.bindTooltip(c.name, { permanent: true, direction: "top", offset: [0, -8], className: "city-tip" });
     marker.on("click", function () { attemptMove(c.id); });
     marker.on("mouseover", function () {
-      if (board[c.id] === null && !gameOver) marker.setStyle({ color: STYLE.hoverEmpty.color });
+      if (board[c.id] === null && !gameOver) marker.setStyle({ color: "#c24d34" });
     });
     marker.on("mouseout", function () {
       if (board[c.id] === null && !gameOver) marker.setStyle({ color: STYLE.empty.color });
@@ -484,27 +482,15 @@
         g.stones.forEach(function (s) { libCache[s] = g.liberties.size; });
       }
     });
-
     order.forEach(function (id) {
       var c = cityById[id];
       var marker = markers[id];
-      var occupied = board[id] !== null;
-      if (!occupied) {
-        marker.setStyle({
-          radius: c.hub ? 12 : 10,
-          fillColor: STYLE.empty.fillColor,
-          color: STYLE.empty.color,
-          weight: c.hub ? 3 : 1.6
-        });
+      if (board[id] === null) {
+        marker.setStyle({ radius: c.hub ? 12 : 10, fillColor: STYLE.empty.fillColor, color: STYLE.empty.color, weight: c.hub ? 3 : 1.6 });
         marker.setTooltipContent(c.name);
       } else {
         var s = board[id] === "black" ? STYLE.black : STYLE.white;
-        marker.setStyle({
-          radius: c.hub ? 13 : 11,
-          fillColor: s.fillColor,
-          color: s.color,
-          weight: c.hub ? 2.6 : 1.5
-        });
+        marker.setStyle({ radius: c.hub ? 13 : 11, fillColor: s.fillColor, color: s.color, weight: c.hub ? 2.6 : 1.5 });
         marker.setTooltipContent(c.name + "（氣：" + libCache[id] + "）");
       }
     });
