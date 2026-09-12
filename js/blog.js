@@ -170,7 +170,9 @@ function loadIndexMarkers(opts) {
             return s.visibility === 'public' || ListmapData.isLocalhost();
         });
         publicStories.sort(function(a, b) {
-            return (b.created_at || '').localeCompare(a.created_at || '');
+            var dc = (b.created_at || '').localeCompare(a.created_at || '');
+            if (dc !== 0) return dc;
+            return parseInt(b.story_id, 10) - parseInt(a.story_id, 10);
         });
         var mapStories = publicStories.slice(0, INDEX_MAP_LIMIT);
 
@@ -221,7 +223,9 @@ function renderBlogStoryList(storiesWithGps) {
         return s.visibility === 'public' || ListmapData.isLocalhost();
     });
     stories.sort(function(a, b) {
-        return (b.created_at || '').localeCompare(a.created_at || '');
+        var dc = (b.created_at || '').localeCompare(a.created_at || '');
+        if (dc !== 0) return dc;
+        return parseInt(b.story_id, 10) - parseInt(a.story_id, 10);
     });
 
     $container.empty();
