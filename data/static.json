@@ -6003,6 +6003,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100066",
+      "collection_id": "",
+      "title": "巴伐利亞因特湖：Hochkalter倒映在清晨的湖面上",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Ramsau, Bavaria, Germany",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-13",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -25579,6 +25598,20 @@
       "geojson_file": ""
     },
     {
+      "landmark_id": "100168",
+      "story_id": "100066",
+      "name": "因特湖 Hintersee",
+      "lat": "47.604658",
+      "lng": "12.848581",
+      "content": "拉姆紹附近，貝希特斯加登國家公園裡的湖泊，以倒映Hochkalter峰與Blaueis冰河聞名。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
       "landmark_id": "100175",
       "story_id": "100056",
       "name": "新倉山淺間公園（忠靈塔）",
@@ -25663,7 +25696,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100168",
+      "landmark_id": "100181",
       "story_id": "100056",
       "name": "富士見台高原ロープウェイ（ヘブンスそのはら）",
       "lat": "35.5219",
