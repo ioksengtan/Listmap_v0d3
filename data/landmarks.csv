@@ -296,3 +296,5 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100200,100074,臺東森林公園／活水湖入園參考,22.76857,121.15599,華泰路300號。公園層級，非戲水浮標。data.bluezz／臺灣觀光資訊資料庫。,https://data.bluezz.tw/c.php?id=30034,cursor
 100201,100074,月光夏庭園民宿,22.7750469,121.1417296,馬亨亨大道625號；合法民宿712號。過夜主錨。OpenStreetMap node 3750602926。,https://www.s-moonlight.com/,cursor
 100202,100074,台東娜路彎大酒店,22.7699878,121.1222335,連航路66號。過夜備選。OpenStreetMap relation 7696580。,https://www.naruwan-hotel.com.tw/,cursor
+100204,100075,船山温泉,35.2941474,138.4220708,〒409-2217 山梨県南巨摩郡南部町本郷10617。山中一軒宿 這晚住宿。OpenStreetMap node 12350468862。,https://funayama-onsen.com/,cursor
+100205,100075,内船駅,35.2819671,138.4649795,JR身延線。宿泊送迎約10分（前日預約；到館13–17、回程9–11）。OpenStreetMap node 6074126217（name:en Utsubuna）。,https://funayama-onsen.com/traffic_guide,cursor
