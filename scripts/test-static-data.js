@@ -667,6 +667,7 @@ assert(/stories\/100023\.html/.test(aboutHtml), 'about should CTA to stories/100
 assert(/stories\/100024\.html/.test(aboutHtml), 'about should CTA to stories/100024.html');
 assert(/stories\/100026\.html/.test(aboutHtml), 'about should CTA to stories/100026.html');
 assert(/stories\/100030\.html/.test(aboutHtml), 'about should CTA to stories/100030.html');
+assert(/stories\/100074\.html/.test(aboutHtml), 'about should CTA to stories/100074.html');
 assert(blogJs.includes('storyIdFromPathname'), 'blog.js should read story id from /stories/NNNN.html');
 assert(/loadIndexMarkers\(\s*\{\s*attach:\s*!\(pathId \|\| parsed\)\s*\}\)/.test(blogJs), 'permalink pages must not fitBounds the multi-story index');
 assert(blogJs.includes("location.hash.replace('#', '')"), 'blog.js should still honor blog.html#NNNN bookmarks');
@@ -824,6 +825,17 @@ assert(onDisk.landmarks.find(l => l.story_id === '100030' && l.landmark_id === '
 });
 assert(onDisk.landmarks.find(l => l.story_id === '100026' && l.landmark_id === '100030').name === 'ルスツリゾート',
   'powder landmark 100030 must stay on S100026 after shipping S100030');
+assert(onDisk.stories.some(s => s.story_id === '100074'), 'checked-in JSON missing 100074');
+assert(onDisk.landmarks.filter(l => l.story_id === '100074').length === 3, 'checked-in JSON missing 100074 landmarks');
+const onDisk100074 = onDisk.stories.find(s => s.story_id === '100074');
+assert(onDisk100074.tags === '渡假,想去', 'checked-in JSON S100074 tags');
+assert(onDisk100074.visibility === 'public', 'checked-in JSON S100074 visibility');
+assert(onDisk100074.thumbnail === '', 'checked-in JSON S100074 thumbnail');
+assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100200' || id === '100201' || id === '100202').join(',') === '100200,100201,100202',
+  'S100074 landmarks must be exactly 100200–100202');
+assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100200').name === '臺東森林公園／活水湖入園參考', 'checked-in JSON 100200 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100201').link === 'https://www.s-moonlight.com/', 'checked-in JSON 100201 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100202').lat === '22.7699878', 'checked-in JSON 100202 lat');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -867,6 +879,9 @@ assert(!/Japan powder ski,,,想去,,public/.test(storiesCsv), 'S100026 must not 
 assert(/100030,,雙灣：淺水灣騎到白沙灣,blog,,Yu-Sheng,blog,Shuangwan North Coast,,"渡假,想去",,public,2026-09-06,,/.test(storiesCsv),
   'S100030 CSV row must quote the tags field so 渡假,想去 stay in tags');
 assert(!/Shuangwan North Coast,,,渡假,想去,,public/.test(storiesCsv), 'S100030 must not split unquoted tags into thumbnail/visibility');
+assert(/100074,,台東活水湖：住一晚，安靜練開放水域,blog,,Yu-Sheng,blog,Taitung Huoshui Lake,,"渡假,想去",,public,2026-09-14,,/.test(storiesCsv),
+  'S100074 CSV row must quote the tags field so 渡假,想去 stay in tags');
+assert(!/Taitung Huoshui Lake,,,渡假,想去,,public/.test(storiesCsv), 'S100074 must not split unquoted tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
@@ -1113,7 +1128,7 @@ assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG
 
 const shareable = shareableStories(payload.stories, blogHtml);
 const shareableIds = shareable.map(s => s.story_id);
-const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100075'];
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100074', '100075'];
 expectedShareIds.forEach(id => {
   assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
 });
