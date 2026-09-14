@@ -6155,6 +6155,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "cursor"
+    },
+    {
+      "story_id": "100079",
+      "collection_id": "",
+      "title": "伊豆湯ヶ島落合樓：150年全包式文化財溫泉旅館",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Yugashima, Izu, Japan",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-14",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -26245,6 +26264,20 @@
       "address": "",
       "tags": "",
       "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100206",
+      "story_id": "100079",
+      "name": "落合樓村上",
+      "lat": "34.8895398",
+      "lng": "138.9276571",
+      "content": "伊豆市湯ヶ島，創業超過150年的老字號溫泉旅館，主建築建於昭和8年，完全不使用鐵釘的木造工藝登錄為國家有形文化財。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
       "bounds": "",
       "geojson_file": ""
     }
