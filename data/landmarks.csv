@@ -298,5 +298,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100202,100074,台東娜路彎大酒店,22.7699878,121.1222335,連航路66號。過夜備選。OpenStreetMap relation 7696580。,https://www.naruwan-hotel.com.tw/,cursor
 100204,100075,船山温泉,35.2941474,138.4220708,〒409-2217 山梨県南巨摩郡南部町本郷10617。山中一軒宿 這晚住宿。OpenStreetMap node 12350468862。,https://funayama-onsen.com/,cursor
 100205,100075,内船駅,35.2819671,138.4649795,JR身延線。宿泊送迎約10分（前日預約；到館13–17、回程9–11）。OpenStreetMap node 6074126217（name:en Utsubuna）。,https://funayama-onsen.com/traffic_guide,cursor
-
-100206,100079,落合樓村上,34.8895398,138.9276571,伊豆市湯ヶ島，創業超過150年的老字號溫泉旅館，主建築建於昭和8年，完全不使用鐵釘的木造工藝登錄為國家有形文化財。,,claude-sonnet-5
+100206,100078,富爾卡山口觀景台 Furkapasshöhe,46.5727,8.4152,烏里與瓦萊邦交界，海拔2436公尺，是瑞士阿爾卑斯單車熱門挑戰路線的制高點之一。OpenStreetMap node 1457531552。,,claude-sonnet-5
+100207,100078,貝維德雷飯店與隆河冰河冰洞,46.5767,8.3884,1882年開業、1964年007電影《金手指》取景地的廢棄飯店，山壁下方180公尺處是每年夏天重新鑿開的隆河冰河冰洞。OpenStreetMap way 61557805。,,claude-sonnet-5
+100208,100078,格里姆瑟山口 Grimselpass,46.5615,8.3377,瓦萊與伯恩邦交界，海拔2165公尺，是富爾卡山口之後緊接著的第二座爬坡。OpenStreetMap node 1456026791。,,claude-sonnet-5
+100209,100079,落合樓村上,34.8895398,138.9276571,伊豆市湯ヶ島，創業超過150年的老字號溫泉旅館，主建築建於昭和8年，完全不使用鐵釘的木造工藝登錄為國家有形文化財。,,claude-sonnet-5
