@@ -1134,7 +1134,11 @@ const {
   shareableStories,
   buildStoryPageHtml,
   compileStoryPages,
+  generatedOgRel,
+  ogImageRel,
 } = require('./compile-story-pages');
+const { listStorySourceImages, destAlreadyPresent } = require('./compile-og-images');
+const { buildSitemapXml, buildRobotsTxt, compileSitemap } = require('./compile-sitemap');
 
 assert(PAGES_ORIGIN === 'https://ioksengtan.github.io/Listmap_v0d3', 'Pages origin must stay on github.io (no custom domain)');
 assert(storyPageRel('1024') === 'stories/1024.html', 'story path');
@@ -1223,6 +1227,12 @@ const page1032 = fs.readFileSync(path.join(ROOT, 'stories', '1032.html'), 'utf8'
 assert(page1032.indexOf('src="images/stories/1032/odaru-fall.jpg"') !== -1, 'S1032 page keeps root-relative inline image path');
 assert(page1032.indexOf('<base href="../">') !== -1, 'S1032 nested page uses base href so images/stories resolves');
 assert(page1032.indexOf('data-asset-base="../"') !== -1, 'S1032 nested page marks asset base');
+assert(fs.existsSync(path.join(ROOT, generatedOgRel('1032'))), 'S1032 generated OG image must be checked in');
+assert(ogImageRel(payload.stories.find(s => s.story_id === '1032')) === 'images/og/1032.jpg', 'S1032 ogImageRel prefers generated crop');
+assert(page1032.indexOf('https://ioksengtan.github.io/Listmap_v0d3/images/og/1032.jpg') !== -1, 'S1032 og:image uses generated asset');
+assert(page1032.indexOf('name="twitter:image" content="https://ioksengtan.github.io/Listmap_v0d3/images/og/1032.jpg"') !== -1, 'S1032 twitter:image uses generated asset');
+assert(page1032.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') === -1, 'S1032 must not fall back to default OG when a crop exists');
+assert(page1032.indexOf('property="og:image:type" content="image/jpeg"') !== -1, 'S1032 generated OG is jpeg');
 
 const page100023 = fs.readFileSync(path.join(ROOT, 'stories', '100023.html'), 'utf8');
 assert(page100023.indexOf('property="og:title"') !== -1, 'S100023 100000+ lane gets OG tags');
@@ -1262,9 +1272,51 @@ assert(page100086.indexOf('<section data-story-id="100086" style="display:none;"
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
 
+assert(listStorySourceImages('100086').length === 0, 'S100086 has no images/stories photos');
+assert(ogImageRel(payload.stories.find(s => s.story_id === '100086')) === DEFAULT_OG_IMAGE, 'S100086 stays on default OG');
+assert(page100086.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100086 og:image keeps default fallback');
+assert(page100086.indexOf('images/og/100086.jpg') === -1, 'S100086 must not invent a generated OG path');
+
+shareable.forEach(function (story) {
+  const sources = listStorySourceImages(story.story_id);
+  if (!sources.length) return;
+  const ogRel = generatedOgRel(story.story_id);
+  assert(fs.existsSync(path.join(ROOT, ogRel)), story.story_id + ' with images/stories must have ' + ogRel);
+  const page = fs.readFileSync(path.join(ROOT, 'stories', story.story_id + '.html'), 'utf8');
+  assert(page.indexOf(absolutePagesUrl(ogRel)) !== -1, story.story_id + ' og:image must point at generated crop');
+});
+
+const sitemapPath = path.join(ROOT, 'sitemap.xml');
+const robotsPath = path.join(ROOT, 'robots.txt');
+assert(fs.existsSync(sitemapPath), 'sitemap.xml must be generated at repo root');
+assert(fs.existsSync(robotsPath), 'robots.txt must be generated at repo root');
+const sitemapXml = fs.readFileSync(sitemapPath, 'utf8');
+const robotsTxt = fs.readFileSync(robotsPath, 'utf8');
+assert(sitemapXml === buildSitemapXml(payload.stories, blogHtml), 'sitemap.xml is stale — run npm run compile-data');
+assert(robotsTxt === buildRobotsTxt(), 'robots.txt is stale — run npm run compile-data');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/index.html') !== -1, 'sitemap lists homepage');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/about.html') !== -1, 'sitemap lists about');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/blog.html') !== -1, 'sitemap lists blog');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/1032.html') !== -1, 'sitemap lists S1032');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100086.html') !== -1, 'sitemap lists S100086');
+assert(sitemapXml.indexOf('<lastmod>2026-09-06</lastmod>') !== -1, 'sitemap lastmod uses story created_at when present');
+assert(sitemapXml.indexOf('stories/1001.html') === -1, 'sitemap must omit internal Heidelberg');
+assert(sitemapXml.indexOf('stories/258.html') === -1, 'sitemap must omit NY test story');
+expectedShareIds.forEach(id => {
+  assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/' + id + '.html') !== -1,
+    'sitemap must include public story ' + id);
+});
+assert(robotsTxt.indexOf('User-agent: *') !== -1, 'robots.txt allows crawlers');
+assert(robotsTxt.indexOf('Allow: /') !== -1, 'robots.txt Allow: /');
+assert(robotsTxt.indexOf('Sitemap: https://ioksengtan.github.io/Listmap_v0d3/sitemap.xml') !== -1, 'robots.txt points at sitemap');
+
+assert(destAlreadyPresent(path.join(ROOT, generatedOgRel('1032'))), 'S1032 crop is committed so CI can skip ffmpeg');
 const rewritten = compileStoryPages(payload.stories, payload.landmarks);
 assert(rewritten.join(',') === shareableIds.join(','), 'compileStoryPages should emit exactly the public share set');
+const sitemapAfter = compileSitemap(payload.stories);
+assert(sitemapAfter.urlCount === 3 + expectedShareIds.length, 'sitemap url count is static pages + public stories');
 
 console.log('OK: static data compile + Pages wiring checks passed');
 console.log('  stories=' + payload.stories.length + ' landmarks=' + payload.landmarks.length);
 console.log('  share pages=' + shareableIds.join(','));
+console.log('  sitemap urls=' + sitemapAfter.urlCount);
