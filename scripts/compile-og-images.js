@@ -42,11 +42,12 @@ function pickSourceImage(storyId, blogHtml) {
   return listed[0] || '';
 }
 
-function ensureFfmpeg() {
+function hasFfmpeg() {
   try {
     execFileSync('ffmpeg', ['-version'], { stdio: 'pipe' });
+    return true;
   } catch (e) {
-    throw new Error('ffmpeg is required to generate OG images (crop/resize to 1200x630)');
+    return false;
   }
 }
 
@@ -64,14 +65,20 @@ function writeOgJpeg(srcPath, destPath) {
   ], { stdio: 'pipe' });
 }
 
-/** Crop/resize authorized photos in images/stories/<id>/ to images/og/<id>.jpg. */
+function destAlreadyPresent(destPath) {
+  return fs.existsSync(destPath) && fs.statSync(destPath).size > 1000;
+}
+
+/** Crop/resize authorized photos in images/stories/<id>/ to images/og/<id>.jpg.
+ *  Checked-in crops are reused so CI/tests do not need ffmpeg. Regeneration
+ *  only runs when a crop is missing and ffmpeg is available. */
 function compileOgImages(stories, blogHtml) {
   const ogDir = path.join(ROOT, OG_DIR_REL);
   if (!fs.existsSync(ogDir)) fs.mkdirSync(ogDir, { recursive: true });
 
   const keep = new Set();
   const written = [];
-  let ffmpegChecked = false;
+  let canWrite = null;
 
   (stories || []).forEach((story) => {
     if (!story || !story.story_id) return;
@@ -79,16 +86,11 @@ function compileOgImages(stories, blogHtml) {
     if (!src) return;
     const rel = generatedOgRel(story.story_id);
     const dest = path.join(ROOT, rel);
-    const destFresh = fs.existsSync(dest)
-      && fs.statSync(dest).size > 1000
-      && fs.statSync(dest).mtimeMs >= fs.statSync(src).mtimeMs;
-    if (!destFresh) {
-      if (!ffmpegChecked) {
-        ensureFfmpeg();
-        ffmpegChecked = true;
-      }
-      writeOgJpeg(src, dest);
+    if (!destAlreadyPresent(dest)) {
+      if (canWrite === null) canWrite = hasFfmpeg();
+      if (canWrite) writeOgJpeg(src, dest);
     }
+    if (!destAlreadyPresent(dest)) return;
     keep.add(path.basename(dest));
     written.push(story.story_id);
   });
@@ -109,5 +111,6 @@ module.exports = {
   generatedOgRel,
   listStorySourceImages,
   pickSourceImage,
+  destAlreadyPresent,
   compileOgImages,
 };

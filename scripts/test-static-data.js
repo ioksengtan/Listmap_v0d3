@@ -1137,7 +1137,7 @@ const {
   generatedOgRel,
   ogImageRel,
 } = require('./compile-story-pages');
-const { listStorySourceImages } = require('./compile-og-images');
+const { listStorySourceImages, destAlreadyPresent } = require('./compile-og-images');
 const { buildSitemapXml, buildRobotsTxt, compileSitemap } = require('./compile-sitemap');
 
 assert(PAGES_ORIGIN === 'https://ioksengtan.github.io/Listmap_v0d3', 'Pages origin must stay on github.io (no custom domain)');
@@ -1310,6 +1310,7 @@ assert(robotsTxt.indexOf('User-agent: *') !== -1, 'robots.txt allows crawlers');
 assert(robotsTxt.indexOf('Allow: /') !== -1, 'robots.txt Allow: /');
 assert(robotsTxt.indexOf('Sitemap: https://ioksengtan.github.io/Listmap_v0d3/sitemap.xml') !== -1, 'robots.txt points at sitemap');
 
+assert(destAlreadyPresent(path.join(ROOT, generatedOgRel('1032'))), 'S1032 crop is committed so CI can skip ffmpeg');
 const rewritten = compileStoryPages(payload.stories, payload.landmarks);
 assert(rewritten.join(',') === shareableIds.join(','), 'compileStoryPages should emit exactly the public share set');
 const sitemapAfter = compileSitemap(payload.stories);
