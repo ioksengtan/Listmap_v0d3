@@ -334,3 +334,6 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100227,100086,SATISFY Supply,48.86316,2.36405,"47 Rue de Saintonge 75003。每日 11:00–19:00。街對面約20m；技術跑裝鞋全線。OpenStreetMap house node 713493289。",https://satisfyrunning.com/pages/retail,cursor
 100228,100086,Canal Saint-Martin（Quai de Jemmapes 南段近 République）,48.87149,2.36554,"自 Fuel Station 經 République 約0.9–1.2km／慢跑約10–15min。主跑廊；往北可延 Quai de Valmy／Jemmapes。OpenStreetMap way 35835512 代表點。",,cursor
 100229,100086,Square du Temple – Elie Wiesel,48.86452,2.36071,"距店約300m。樹蔭廣場短圈／熱身回冷，不當長距離主線。OpenStreetMap leisure park way 16877048。",,cursor
+100230,100088,書泉グランデ,35.695821,139.759755,"〒101-0051 東京都千代田區神田神保町1-3-2。通常11:00–20:00；定休原則1/1。5F鉄道・バス（非獨立鐵道古物店）。OpenStreetMap shop node 5875272070。",https://www.shosen.co.jp/grande/,cursor
+100231,100088,神保町駅（靖國通／A7 側）,35.695972,139.758394,"都營三田・新宿線／東京Metro半藏門線。A7出→靖國通向秋葉原方向約1分右手見書泉。OpenStreetMap railway station node 7791605905。",,cursor
+100232,100088,三省堂書店 神田神保町本店,35.695543,139.760725,"神田神保町1-1。通常10:00–20:00；元日休。書店街對照，非鐵道主題。距書泉約80–120m。OpenStreetMap shop node 13744773825。",https://www.books-sanseido.co.jp/shop/kanda/,cursor

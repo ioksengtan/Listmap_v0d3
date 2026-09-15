@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ROOT } = require('./csv-data');
+const { generatedOgRel, compileOgImages } = require('./compile-og-images');
 
 /** GitHub project Pages origin. Do not invent a custom domain. */
 const PAGES_ORIGIN = 'https://ioksengtan.github.io/Listmap_v0d3';
@@ -71,6 +72,8 @@ function descriptionForStory(blogHtml, story) {
 }
 
 function ogImageRel(story) {
+  const generated = generatedOgRel(story.story_id);
+  if (fs.existsSync(path.join(ROOT, generated))) return generated;
   const thumb = String(story.thumbnail || '').trim();
   if (thumb) {
     if (/^https?:\/\//i.test(thumb)) return thumb;
@@ -97,6 +100,7 @@ function ogBlock(story, description, imageRel) {
   const pageUrl = absolutePagesUrl(storyPageRel(story.story_id));
   const imageUrl = resolveImageUrl(imageRel);
   const isDefault = imageRel === DEFAULT_OG_IMAGE;
+  const isGeneratedOg = /^images\/og\/\d+\.jpg$/.test(imageRel);
   const lines = [
     '      <!-- Generated share meta: do not edit by hand; npm run compile-data -->',
     '      <base href="../">',
@@ -111,10 +115,10 @@ function ogBlock(story, description, imageRel) {
     '      <meta property="og:image" content="' + escapeAttr(imageUrl) + '">',
     '      <meta property="og:image:alt" content="' + escapeAttr(title + ' · Listmap') + '">',
   ];
-  if (isDefault) {
+  if (isDefault || isGeneratedOg) {
     lines.push('      <meta property="og:image:width" content="' + OG_WIDTH + '">');
     lines.push('      <meta property="og:image:height" content="' + OG_HEIGHT + '">');
-    lines.push('      <meta property="og:image:type" content="image/png">');
+    lines.push('      <meta property="og:image:type" content="' + (isGeneratedOg ? 'image/jpeg' : 'image/png') + '">');
   }
   lines.push('      <meta name="twitter:card" content="summary_large_image">');
   lines.push('      <meta name="twitter:title" content="' + escapeAttr(title) + '">');
@@ -203,6 +207,7 @@ function buildStoryPageHtml(blogHtml, story, landmarks) {
 function compileStoryPages(stories, landmarks) {
   const blogPath = path.join(ROOT, 'blog.html');
   const blogHtml = fs.readFileSync(blogPath, 'utf8');
+  compileOgImages(stories, blogHtml);
   const outDir = path.join(ROOT, 'stories');
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
@@ -239,4 +244,5 @@ module.exports = {
   jsonLdScript,
   buildStoryPageHtml,
   compileStoryPages,
+  generatedOgRel,
 };
