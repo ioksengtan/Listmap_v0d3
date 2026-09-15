@@ -852,6 +852,24 @@ assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '
 assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '100229').name === 'Square du Temple – Elie Wiesel', 'checked-in JSON 100229 name');
 assert(onDisk.landmarks.find(l => l.landmark_id === '100086').story_id === '100040',
   'existing Dolomites landmark 100086 must stay on S100040');
+assert(onDisk.stories.some(s => s.story_id === '100088'), 'checked-in JSON missing 100088');
+assert(onDisk.landmarks.filter(l => l.story_id === '100088').length === 3, 'checked-in JSON missing 100088 landmarks');
+const onDisk100088 = onDisk.stories.find(s => s.story_id === '100088');
+assert(onDisk100088.title === '神保町書泉グランデ：五樓鐵道迷的櫃', 'checked-in JSON S100088 title');
+assert(onDisk100088.author === 'Yu-Sheng', 'checked-in JSON S100088 author');
+assert(onDisk100088.tags === '想去', 'checked-in JSON S100088 tags');
+assert(onDisk100088.visibility === 'public', 'checked-in JSON S100088 visibility');
+assert(onDisk100088.thumbnail === '', 'checked-in JSON S100088 thumbnail');
+assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100230' || id === '100231' || id === '100232').join(',') === '100230,100231,100232',
+  'S100088 landmarks must be exactly 100230–100232');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100230').name === '書泉グランデ', 'checked-in JSON 100230 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100230').link === 'https://www.shosen.co.jp/grande/', 'checked-in JSON 100230 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100231').name === '神保町駅（靖國通／A7 側）', 'checked-in JSON 100231 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100231').lat === '35.695972', 'checked-in JSON 100231 lat');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100232').name === '三省堂書店 神田神保町本店', 'checked-in JSON 100232 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100088' && l.landmark_id === '100232').link === 'https://www.books-sanseido.co.jp/shop/kanda/', 'checked-in JSON 100232 link');
+assert(onDisk.landmarks.find(l => l.landmark_id === '100088').story_id === '100040',
+  'existing Dolomites landmark 100088 must stay on S100040');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -901,6 +919,9 @@ assert(!/Taitung Huoshui Lake,,,渡假,想去,,public/.test(storiesCsv), 'S10007
 assert(/100086,,巴黎 SATISFY：Fuel Station 補給再跑運河,blog,,Yu-Sheng,blog,Paris Satisfy Fuel Station,,"渡假,想去",,public,2026-09-15,,/.test(storiesCsv),
   'S100086 CSV row must quote the tags field so 渡假,想去 stay in tags');
 assert(!/Paris Satisfy Fuel Station,,,渡假,想去,,public/.test(storiesCsv), 'S100086 must not split unquoted tags into thumbnail/visibility');
+assert(/100088,,神保町書泉グランデ：五樓鐵道迷的櫃,blog,,Yu-Sheng,blog,Jimbocho Shosen Grande 5F Railway,,想去,,public,2026-09-16,,/.test(storiesCsv),
+  'S100088 CSV row must keep single-token 想去 in tags with no comma spill');
+assert(!/Jimbocho Shosen Grande 5F Railway,,,想去,,public/.test(storiesCsv), 'S100088 must not split tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
@@ -1151,7 +1172,7 @@ assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG
 
 const shareable = shareableStories(payload.stories, blogHtml);
 const shareableIds = shareable.map(s => s.story_id);
-const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100074', '100075', '100078', '100079', '100080', '100081', '100082', '100083', '100084', '100085', '100086'];
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100074', '100075', '100078', '100079', '100080', '100081', '100082', '100083', '100084', '100085', '100086', '100088'];
 expectedShareIds.forEach(id => {
   assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
 });
@@ -1269,6 +1290,19 @@ assert(section100086.indexOf('javascript:zoomto') === -1, 'S100086 section must 
 assert((section100086.match(/class="map-place-link"/g) || []).length === 4, 'S100086 section has 4 map-place-links');
 assert(page100086.indexOf('<section data-story-id="100086" style="display:none;">') === -1, 'S100086 article must be visible for crawlers');
 
+const page100088 = fs.readFileSync(path.join(ROOT, 'stories', '100088.html'), 'utf8');
+assert(page100088.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100088.html') !== -1, 'S100088 absolute Pages URL');
+assert(/<meta name="description" content="[^"]{20,}"/.test(page100088), 'S100088 OG/body keeps a non-empty description');
+assert(page100088.indexOf('data-landmark="100230"') !== -1, 'S100088 page landmark 100230');
+assert(page100088.indexOf('data-landmark="100231"') !== -1, 'S100088 page landmark 100231');
+assert(page100088.indexOf('data-landmark="100232"') !== -1, 'S100088 page landmark 100232');
+const section100088 = page100088.match(/<section\s+data-story-id="100088"[\s\S]*?<\/section>/)[0];
+assert(section100088.indexOf('javascript:zoomto') === -1, 'S100088 section must not revert to javascript:zoomto');
+assert((section100088.match(/class="map-place-link"/g) || []).length === 3, 'S100088 section has 3 map-place-links');
+assert(page100088.indexOf('<section data-story-id="100088" style="display:none;">') === -1, 'S100088 article must be visible for crawlers');
+assert(page100088.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100088 og:image keeps default fallback');
+assert(page100088.indexOf('images/og/100088.jpg') === -1, 'S100088 must not invent a generated OG path');
+
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
 
@@ -1276,6 +1310,11 @@ assert(listStorySourceImages('100086').length === 0, 'S100086 has no images/stor
 assert(ogImageRel(payload.stories.find(s => s.story_id === '100086')) === DEFAULT_OG_IMAGE, 'S100086 stays on default OG');
 assert(page100086.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100086 og:image keeps default fallback');
 assert(page100086.indexOf('images/og/100086.jpg') === -1, 'S100086 must not invent a generated OG path');
+assert(listStorySourceImages('100088').length === 0, 'S100088 has no images/stories photos');
+assert(ogImageRel(payload.stories.find(s => s.story_id === '100088')) === DEFAULT_OG_IMAGE, 'S100088 stays on default OG');
+assert(page100088.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100088 og:image keeps default fallback');
+assert(page100088.indexOf('images/og/100088.jpg') === -1, 'S100088 must not invent a generated OG path');
+
 
 shareable.forEach(function (story) {
   const sources = listStorySourceImages(story.story_id);
@@ -1299,6 +1338,7 @@ assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/about.html'
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/blog.html') !== -1, 'sitemap lists blog');
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/1032.html') !== -1, 'sitemap lists S1032');
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100086.html') !== -1, 'sitemap lists S100086');
+assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100088.html') !== -1, 'sitemap lists S100088');
 assert(sitemapXml.indexOf('<lastmod>2026-09-06</lastmod>') !== -1, 'sitemap lastmod uses story created_at when present');
 assert(sitemapXml.indexOf('stories/1001.html') === -1, 'sitemap must omit internal Heidelberg');
 assert(sitemapXml.indexOf('stories/258.html') === -1, 'sitemap must omit NY test story');
