@@ -330,3 +330,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100223,100085,萬城の滝,34.9058348,138.9931904,伊豆市地蔵堂，狩野川支流上游高20公尺、寬6公尺的瀑布，水量豐沛氣勢十足，可沿階梯下切到瀑布正面近距離感受水氣。OpenStreetMap node 5603024172。,,claude-sonnet-5
 100224,100085,堂之島天窗洞,34.782712,138.766088,西伊豆町堂ヶ島遊覽船的招牌景點，海蝕洞頂部開口讓陽光灑入，洞內海水映出藍色光澤，故有「藍洞」之稱。OpenStreetMap node 5603023865。,,claude-sonnet-5
 100225,100085,海邊的隱藏溫泉 清流,34.781197,138.774338,西伊豆町仁科，堂ヶ島海灣旁的溫泉旅館，客室與大浴場皆能望見三四郎島與夕陽海景，設有波打際的露天風呂（座標為仁科地區近似位置）。,https://www.umibe-seiryu.com/,claude-sonnet-5
+100226,100086,SATISFY Fuel Station,48.86301,2.36402,"54 Rue de Saintonge 75003 Paris。每日 8:00–16:00。都市跑補給／機能飲／水龍頭。OpenStreetMap house node 713670035。",https://satisfyrunning.com/pages/retail,cursor
+100227,100086,SATISFY Supply,48.86316,2.36405,"47 Rue de Saintonge 75003。每日 11:00–19:00。街對面約20m；技術跑裝鞋全線。OpenStreetMap house node 713493289。",https://satisfyrunning.com/pages/retail,cursor
+100228,100086,Canal Saint-Martin（Quai de Jemmapes 南段近 République）,48.87149,2.36554,"自 Fuel Station 經 République 約0.9–1.2km／慢跑約10–15min。主跑廊；往北可延 Quai de Valmy／Jemmapes。OpenStreetMap way 35835512 代表點。",,cursor
+100229,100086,Square du Temple – Elie Wiesel,48.86452,2.36071,"距店約300m。樹蔭廣場短圈／熱身回冷，不當長距離主線。OpenStreetMap leisure park way 16877048。",,cursor

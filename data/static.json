@@ -6345,6 +6345,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100086",
+      "collection_id": "",
+      "title": "巴黎 SATISFY：Fuel Station 補給再跑運河",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Paris Satisfy Fuel Station",
+      "avatar": "",
+      "tags": "渡假,想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-15",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
     }
   ],
   "landmarks": [
@@ -26897,6 +26916,62 @@
       "address": "",
       "tags": "",
       "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100226",
+      "story_id": "100086",
+      "name": "SATISFY Fuel Station",
+      "lat": "48.86301",
+      "lng": "2.36402",
+      "content": "54 Rue de Saintonge 75003 Paris。每日 8:00–16:00。都市跑補給／機能飲／水龍頭。OpenStreetMap house node 713670035。",
+      "link": "https://satisfyrunning.com/pages/retail",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100227",
+      "story_id": "100086",
+      "name": "SATISFY Supply",
+      "lat": "48.86316",
+      "lng": "2.36405",
+      "content": "47 Rue de Saintonge 75003。每日 11:00–19:00。街對面約20m；技術跑裝鞋全線。OpenStreetMap house node 713493289。",
+      "link": "https://satisfyrunning.com/pages/retail",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100228",
+      "story_id": "100086",
+      "name": "Canal Saint-Martin（Quai de Jemmapes 南段近 République）",
+      "lat": "48.87149",
+      "lng": "2.36554",
+      "content": "自 Fuel Station 經 République 約0.9–1.2km／慢跑約10–15min。主跑廊；往北可延 Quai de Valmy／Jemmapes。OpenStreetMap way 35835512 代表點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100229",
+      "story_id": "100086",
+      "name": "Square du Temple – Elie Wiesel",
+      "lat": "48.86452",
+      "lng": "2.36071",
+      "content": "距店約300m。樹蔭廣場短圈／熱身回冷，不當長距離主線。OpenStreetMap leisure park way 16877048。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
       "bounds": "",
       "geojson_file": ""
     }
