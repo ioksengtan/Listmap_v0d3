@@ -6212,6 +6212,25 @@
       "start_date": "",
       "end_date": "",
       "contributor": "claude-sonnet-5"
+    },
+    {
+      "story_id": "100081",
+      "collection_id": "",
+      "title": "群馬川場溫泉悠湯里庵：斜面單軌通往的茅葺秘境",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kawaba, Gunma, Japan",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-15",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
     }
   ],
   "landmarks": [
@@ -26382,6 +26401,20 @@
       "lat": "32.671547",
       "lng": "-16.904466",
       "content": "蒙特雪橇路線的終點，位於馮夏爾市郊，遊客在此下車後可搭計程車或巴士返回市區。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100212",
+      "story_id": "100081",
+      "name": "悠湯里庵",
+      "lat": "36.7227508",
+      "lng": "139.1250963",
+      "content": "群馬縣川場村山區的溫泉旅館，園區內有多棟超過140年歷史的茅葺屋頂建築，靠自動駕駛小車跟斜面單軌列車在腹地內移動。",
       "link": "",
       "address": "",
       "tags": "",
