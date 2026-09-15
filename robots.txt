@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ioksengtan.github.io/Listmap_v0d3/sitemap.xml
