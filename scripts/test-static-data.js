@@ -836,6 +836,22 @@ assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100200' || 
 assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100200').name === '臺東森林公園／活水湖入園參考', 'checked-in JSON 100200 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100201').link === 'https://www.s-moonlight.com/', 'checked-in JSON 100201 link');
 assert(onDisk.landmarks.find(l => l.story_id === '100074' && l.landmark_id === '100202').lat === '22.7699878', 'checked-in JSON 100202 lat');
+assert(onDisk.stories.some(s => s.story_id === '100086'), 'checked-in JSON missing 100086');
+assert(onDisk.landmarks.filter(l => l.story_id === '100086').length === 4, 'checked-in JSON missing 100086 landmarks');
+const onDisk100086 = onDisk.stories.find(s => s.story_id === '100086');
+assert(onDisk100086.title === '巴黎 SATISFY：Fuel Station 補給再跑運河', 'checked-in JSON S100086 title');
+assert(onDisk100086.author === 'Yu-Sheng', 'checked-in JSON S100086 author');
+assert(onDisk100086.tags === '渡假,想去', 'checked-in JSON S100086 tags');
+assert(onDisk100086.visibility === 'public', 'checked-in JSON S100086 visibility');
+assert(onDisk100086.thumbnail === '', 'checked-in JSON S100086 thumbnail');
+assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100226' || id === '100227' || id === '100228' || id === '100229').join(',') === '100226,100227,100228,100229',
+  'S100086 landmarks must be exactly 100226–100229');
+assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '100226').name === 'SATISFY Fuel Station', 'checked-in JSON 100226 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '100227').link === 'https://satisfyrunning.com/pages/retail', 'checked-in JSON 100227 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '100228').lat === '48.87149', 'checked-in JSON 100228 lat');
+assert(onDisk.landmarks.find(l => l.story_id === '100086' && l.landmark_id === '100229').name === 'Square du Temple – Elie Wiesel', 'checked-in JSON 100229 name');
+assert(onDisk.landmarks.find(l => l.landmark_id === '100086').story_id === '100040',
+  'existing Dolomites landmark 100086 must stay on S100040');
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
 assert(normalizeStoryTags('吃, unknown,去過,想去') === '吃,去過,想去', 'normalize drops unknown tokens');
@@ -882,6 +898,9 @@ assert(!/Shuangwan North Coast,,,渡假,想去,,public/.test(storiesCsv), 'S1000
 assert(/100074,,台東活水湖：住一晚，安靜練開放水域,blog,,Yu-Sheng,blog,Taitung Huoshui Lake,,"渡假,想去",,public,2026-09-14,,/.test(storiesCsv),
   'S100074 CSV row must quote the tags field so 渡假,想去 stay in tags');
 assert(!/Taitung Huoshui Lake,,,渡假,想去,,public/.test(storiesCsv), 'S100074 must not split unquoted tags into thumbnail/visibility');
+assert(/100086,,巴黎 SATISFY：Fuel Station 補給再跑運河,blog,,Yu-Sheng,blog,Paris Satisfy Fuel Station,,"渡假,想去",,public,2026-09-15,,/.test(storiesCsv),
+  'S100086 CSV row must quote the tags field so 渡假,想去 stay in tags');
+assert(!/Paris Satisfy Fuel Station,,,渡假,想去,,public/.test(storiesCsv), 'S100086 must not split unquoted tags into thumbnail/visibility');
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
 assert(/function refreshDynamicI18n\(\) \{[\s\S]*injectStoryHashtags\(vis/.test(blogJs),
@@ -1128,7 +1147,7 @@ assert(fs.statSync(path.join(ROOT, DEFAULT_OG_IMAGE)).size < 500000, 'default OG
 
 const shareable = shareableStories(payload.stories, blogHtml);
 const shareableIds = shareable.map(s => s.story_id);
-const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100074', '100075', '100078', '100079', '100080', '100081', '100082', '100083', '100084', '100085'];
+const expectedShareIds = ['1024', '1025', '1027', '1028', '1029', '1030', '1031', '1032', '1033', '1034', '100023', '100024', '100026', '100030', '100032', '100033', '100034', '100035', '100036', '100037', '100038', '100039', '100040', '100041', '100042', '100043', '100044', '100045', '100046', '100047', '100048', '100049', '100050', '100051', '100052', '100053', '100054', '100055', '100057', '100059', '100060', '100062', '100063', '100064', '100065', '100066', '100067', '100068', '100069', '100070', '100071', '100072', '100073', '100074', '100075', '100078', '100079', '100080', '100081', '100082', '100083', '100084', '100085', '100086'];
 expectedShareIds.forEach(id => {
   assert(shareableIds.indexOf(id) !== -1, 'shareable list must include public story ' + id);
 });
@@ -1227,6 +1246,18 @@ assert(/<meta name="description" content="[^"]{20,}"/.test(page100030), 'S100030
 assert(page100030.indexOf('data-landmark="100032"') !== -1, 'S100030 page landmark 100032');
 assert(page100030.indexOf('data-landmark="100035"') !== -1, 'S100030 page landmark 100035');
 assert(page100030.indexOf('<section data-story-id="100030" style="display:none;">') === -1, 'S100030 article must be visible for crawlers');
+
+const page100086 = fs.readFileSync(path.join(ROOT, 'stories', '100086.html'), 'utf8');
+assert(page100086.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100086.html') !== -1, 'S100086 absolute Pages URL');
+assert(/<meta name="description" content="[^"]{20,}"/.test(page100086), 'S100086 OG/body keeps a non-empty description');
+assert(page100086.indexOf('data-landmark="100226"') !== -1, 'S100086 page landmark 100226');
+assert(page100086.indexOf('data-landmark="100227"') !== -1, 'S100086 page landmark 100227');
+assert(page100086.indexOf('data-landmark="100228"') !== -1, 'S100086 page landmark 100228');
+assert(page100086.indexOf('data-landmark="100229"') !== -1, 'S100086 page landmark 100229');
+const section100086 = page100086.match(/<section\s+data-story-id="100086"[\s\S]*?<\/section>/)[0];
+assert(section100086.indexOf('javascript:zoomto') === -1, 'S100086 section must not revert to javascript:zoomto');
+assert((section100086.match(/class="map-place-link"/g) || []).length === 4, 'S100086 section has 4 map-place-links');
+assert(page100086.indexOf('<section data-story-id="100086" style="display:none;">') === -1, 'S100086 article must be visible for crawlers');
 
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
