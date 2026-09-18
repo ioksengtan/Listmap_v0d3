@@ -88,11 +88,17 @@ function renderVisitorStories() {
     $container.empty();
     shown.forEach(function (s) {
         var $card = $('<div class="visitor-story-card">');
+        var $copy = $('<div class="visitor-story-copy">');
         var $link = $('<a>').attr('href', 'stories/' + s.story_id + '.html').text(s.title || s.story_id);
-        $card.append($link);
+        $copy.append($link);
         if (s.where) {
-            $card.append($('<span class="visitor-story-where">').text(s.where));
+            $copy.append($('<span class="visitor-story-where">').text(s.where));
         }
+        var $preview = $('<button type="button" class="visitor-story-preview">')
+            .attr('aria-label', (window.ListmapI18n ? ListmapI18n.t('visitor.previewMap') : '在地圖預覽') + '：' + (s.title || s.story_id))
+            .text(window.ListmapI18n ? ListmapI18n.t('visitor.preview') : '地圖');
+        $preview.on('click', function () { zoomHomepageStory(s.story_id); });
+        $card.append($copy).append($preview);
         $container.append($card);
     });
     var total = stories.length;
@@ -116,6 +122,14 @@ $(document).ready(function () {
     if (typeof mymap === 'undefined' || !mymap) {
         initMap();
     }
+
+    $('#explore-map-btn').on('click', function () {
+        var mapEl = document.getElementById('map');
+        if (mapEl && window.matchMedia('(max-width: 767.98px)').matches) {
+            mapEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (mymap && typeof mymap.invalidateSize === 'function') mymap.invalidateSize();
+    });
 
     ListmapData.load().done(function () {
         var stories = publicHomepageStories();

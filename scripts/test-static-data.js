@@ -654,7 +654,13 @@ assert(/個人地圖故事/.test(aboutHtml), 'about copy should say 個人地圖
 // no longer appear as literal strings in index.html. Check the mechanism instead
 // of any specific story_id, which would go stale every time a new story ships.
 assert(/id="visitor-story-list"/.test(indexHtml), 'homepage needs the dynamic story-list container');
+assert(/id="explore-map-btn"/.test(indexHtml), 'homepage needs a clear map exploration action');
+assert(/href="blog\.html"[^>]*data-i18n="visitor\.allStories"/.test(indexHtml), 'homepage needs an all-stories action');
 assert(/renderVisitorStories/.test(indexJs), 'index.js should render the homepage story list');
+assert(/visitor-story-preview/.test(indexJs), 'homepage story cards need a map preview action');
+assert(/id="blog-story-search"/.test(blogHtml), 'blog index needs story search');
+assert(/data-story-filter="去過"/.test(blogHtml), 'blog index needs visited filtering');
+assert(/blogIndexFilter/.test(blogJs), 'blog.js should apply index filters');
 assert(/stories\/['"]\s*\+\s*\w+\.story_id\s*\+\s*['"]\.html/.test(indexJs) || /'stories\/' \+ s\.story_id \+ '\.html'/.test(indexJs),
   'index.js should link each homepage card to its stories/<id>.html page');
 assert(/stories\/1024\.html/.test(aboutHtml), 'about should CTA to stories/1024.html');
@@ -1140,7 +1146,7 @@ assert(afterLang && !/initMap/.test(afterLang[0]), 'language switch must not re-
 assert(!/location\.reload/.test(blogJs), 'language switch must not reload the page');
 assert(/bindPopup\('<b>' \+ lm\.name/.test(blogJs), 'pin popup uses original landmark name');
 
-assert(indexHtml.includes('data-i18n="nav.home"'), 'homepage chrome through data-i18n');
+assert(indexHtml.includes('data-i18n="nav.explore"'), 'homepage exploration nav through data-i18n');
 assert(indexHtml.includes('data-lang="en"'), 'homepage language switcher');
 assert(indexJs.includes('ListmapI18n'), 'index.js uses ListmapI18n');
 assert(indexJs.includes('invalidateSize'), 'homepage language switch invalidateSize');
