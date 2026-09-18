@@ -1198,7 +1198,7 @@ shareable.forEach(function (story) {
   const rebuilt = buildStoryPageHtml(blogHtml, story, payload.landmarks);
   assert(normalizeNewlines(page) === normalizeNewlines(rebuilt), 'stories/' + story.story_id + '.html is stale — run npm run compile-data');
   assert(page.indexOf('type="application/ld+json"') !== -1, story.story_id + ' JSON-LD script present');
-  const ldMatch = page.match(/<script type="application\/ld\+json">\n([\s\S]*?)\n\s*<\/script>/);
+  const ldMatch = page.match(/<script type="application\/ld\+json">\r?\n([\s\S]*?)\r?\n\s*<\/script>/);
   assert(ldMatch, story.story_id + ' JSON-LD block parseable');
   const ld = JSON.parse(ldMatch[1]);
   assert(Array.isArray(ld['@graph']) && ld['@graph'].length === 2, story.story_id + ' JSON-LD @graph has Article + Breadcrumb');
