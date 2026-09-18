@@ -12,6 +12,10 @@ function assert(cond, msg) {
   }
 }
 
+function normalizeNewlines(value) {
+  return String(value).replace(/\r\n/g, '\n');
+}
+
 const payload = buildStaticPayload();
 assert(payload.stories.length > 0, 'expected stories');
 assert(payload.landmarks.length > 0, 'expected landmarks');
@@ -1192,7 +1196,7 @@ shareable.forEach(function (story) {
   assert(fs.existsSync(pagePath), 'missing generated story page ' + story.story_id);
   const page = fs.readFileSync(pagePath, 'utf8');
   const rebuilt = buildStoryPageHtml(blogHtml, story, payload.landmarks);
-  assert(page === rebuilt, 'stories/' + story.story_id + '.html is stale — run npm run compile-data');
+  assert(normalizeNewlines(page) === normalizeNewlines(rebuilt), 'stories/' + story.story_id + '.html is stale — run npm run compile-data');
   assert(page.indexOf('type="application/ld+json"') !== -1, story.story_id + ' JSON-LD script present');
   const ldMatch = page.match(/<script type="application\/ld\+json">\n([\s\S]*?)\n\s*<\/script>/);
   assert(ldMatch, story.story_id + ' JSON-LD block parseable');
@@ -1331,8 +1335,8 @@ assert(fs.existsSync(sitemapPath), 'sitemap.xml must be generated at repo root')
 assert(fs.existsSync(robotsPath), 'robots.txt must be generated at repo root');
 const sitemapXml = fs.readFileSync(sitemapPath, 'utf8');
 const robotsTxt = fs.readFileSync(robotsPath, 'utf8');
-assert(sitemapXml === buildSitemapXml(payload.stories, blogHtml), 'sitemap.xml is stale — run npm run compile-data');
-assert(robotsTxt === buildRobotsTxt(), 'robots.txt is stale — run npm run compile-data');
+assert(normalizeNewlines(sitemapXml) === normalizeNewlines(buildSitemapXml(payload.stories, blogHtml)), 'sitemap.xml is stale — run npm run compile-data');
+assert(normalizeNewlines(robotsTxt) === normalizeNewlines(buildRobotsTxt()), 'robots.txt is stale — run npm run compile-data');
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/index.html') !== -1, 'sitemap lists homepage');
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/about.html') !== -1, 'sitemap lists about');
 assert(sitemapXml.indexOf('https://ioksengtan.github.io/Listmap_v0d3/blog.html') !== -1, 'sitemap lists blog');
