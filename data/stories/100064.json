@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100064",
+      "collection_id": "",
+      "title": "紐約 Sip and Guzzle：米其林主廚打造的日美混血酒吧漢堡",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "West Village, New York, USA",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-12",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100164",
+      "story_id": "100064",
+      "name": "Sip & Guzzle",
+      "lat": "40.7314",
+      "lng": "-74.0024",
+      "content": "西村Cornelia街上的雙層日美混血酒吧，樓上Sip主打經典雞尾酒、樓下Guzzle由前米其林三星主廚掌廚。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

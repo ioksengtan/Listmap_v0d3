@@ -1,0 +1,83 @@
+{
+  "stories": [
+    {
+      "story_id": "100072",
+      "collection_id": "",
+      "title": "日本四間異世界溫泉旅館：無限城大廳、船抵秘湯與煤油燈山宿",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Japan",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-13",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100196",
+      "story_id": "100072",
+      "name": "蘆之牧溫泉 大川莊",
+      "lat": "37.3955",
+      "lng": "139.9322",
+      "content": "福島會津若松市郊，大廳的浮動能舞台造型神似《鬼滅之刃》無限城，下午常有三味線表演（座標為蘆之牧溫泉站週邊近似位置）。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100197",
+      "story_id": "100072",
+      "name": "下呂溫泉 湯之島館",
+      "lat": "35.8133",
+      "lng": "137.2391",
+      "content": "岐阜下呂市，1931年創業、依山坡而建如迷宮般的木造旅館，2010年本館玄關棟等建築登錄為有形文化財，相傳曾啟發吉卜力《神隱少女》（座標為湯之島地區近似位置）。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100198",
+      "story_id": "100072",
+      "name": "大牧溫泉觀光旅館",
+      "lat": "36.5005",
+      "lng": "136.9941",
+      "content": "富山南礪市，小牧水壩湖畔的祕境溫泉，沒有陸路可達，唯一方式是搭乘旅館自營的遊覽船。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100199",
+      "story_id": "100072",
+      "name": "青荷溫泉",
+      "lat": "40.5600",
+      "lng": "140.7099",
+      "content": "青森黑石市青荷溪谷深山中，全館沒有電也沒有手機訊號，僅靠煤油燈照明，是徹底斷開數位生活的祕湯（座標為沖浦地區近似位置，實際旅館更深入溪谷山區）。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

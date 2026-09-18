@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100049",
+      "collection_id": "",
+      "title": "瑞士阿彭策爾：聖加侖近郊的碎石路",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Appenzell",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100126",
+      "story_id": "100049",
+      "name": "阿彭策爾鎮",
+      "lat": "47.3319",
+      "lng": "9.4083",
+      "content": "瑞士面積最小的州之一，農舍漆有傳統幾何花紋。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100127",
+      "story_id": "100049",
+      "name": "Säntis塞蒂斯峰",
+      "lat": "47.2494",
+      "lng": "9.3417",
+      "content": "阿爾普施泰因山群最高峰，海拔2502公尺。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

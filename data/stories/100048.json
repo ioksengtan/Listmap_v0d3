@@ -1,0 +1,97 @@
+{
+  "stories": [
+    {
+      "story_id": "100048",
+      "collection_id": "",
+      "title": "斯洛維尼亞單車環線：從阿爾卑斯山騎到亞得里亞海",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Slovenia",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100121",
+      "story_id": "100048",
+      "name": "盧比安納",
+      "lat": "46.0569",
+      "lng": "14.5058",
+      "content": "斯洛維尼亞首都，舊城配運河的悠閒氣氛，單車環線起點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100122",
+      "story_id": "100048",
+      "name": "布雷德湖",
+      "lat": "46.3683",
+      "lng": "14.1147",
+      "content": "湖中央小島教堂與懸崖上城堡是經典畫面。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100123",
+      "story_id": "100048",
+      "name": "克蘭斯卡戈拉",
+      "lat": "46.4839",
+      "lng": "13.7889",
+      "content": "奧義斯三國交界附近登山重鎮。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100124",
+      "story_id": "100048",
+      "name": "戈里什卡布爾達",
+      "lat": "45.9667",
+      "lng": "13.6333",
+      "content": "斯洛維尼亞酒鄉，暱稱斯洛維尼亞的托斯卡尼。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100125",
+      "story_id": "100048",
+      "name": "皮蘭",
+      "lat": "45.5286",
+      "lng": "13.5686",
+      "content": "亞得里亞海濱威尼斯風格古城，單車環線終點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
