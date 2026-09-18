@@ -326,3 +326,4 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100231,100088,神保町駅（靖國通／A7 側）,35.695972,139.758394,"都營三田・新宿線／東京Metro半藏門線。A7出→靖國通向秋葉原方向約1分右手見書泉。OpenStreetMap railway station node 7791605905。",,cursor
 100232,100088,三省堂書店 神田神保町本店,35.695543,139.760725,"神田神保町1-1。通常10:00–20:00；元日休。書店街對照，非鐵道主題。距書泉約80–120m。OpenStreetMap shop node 13744773825。",https://www.books-sanseido.co.jp/shop/kanda/,cursor
 100233,100094,壁湯温泉 旅館 福元屋,33.2052162,131.1693884,〒879-4723 大分県玖珠郡九重町大字町田62-1。日本秘湯を守る会加盟・天然洞窟混浴。座標：秘湯を守る会地圖／館名查詢（2026-09-18）。,https://kabeyu.jp/,cursor
+100237,100092,四万温泉 豊島屋,36.6805097,138.7813816,"〒377-0601 群馬県吾妻郡中之条町四万3887。100％源泉掛流し・渓流露天。座標依官網アクセス Google Map 館點。",https://tosimaya.co.jp/,cursor
