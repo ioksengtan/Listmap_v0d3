@@ -706,7 +706,7 @@ assert(welcomeMatch, 'blog welcome should precede story 1001 section');
 assert(/個人地圖故事/.test(welcomeMatch[0]), 'blog index should say 個人地圖故事');
 assert(/id="blog-story-list"/.test(welcomeMatch[0]), 'blog welcome should hold the dynamic story-list container');
 const s1001 = payload.stories.find(s => s.story_id === '1001');
-assert(s1001 && s1001.visibility === 'internal', 'Heidelberg (1001) must stay internal so the dynamic list never heroes it');
+assert(!s1001, 'internal Heidelberg (1001) must not be included in the public static payload');
 
 const staticJsonPath = path.join(ROOT, 'data', 'static.json');
 assert(fs.existsSync(staticJsonPath), 'data/static.json missing — run npm run compile-data');
