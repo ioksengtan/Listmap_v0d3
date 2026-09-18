@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100033",
+      "collection_id": "",
+      "title": "富山室堂平：一張照片就想拔腿去的高原",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Tateyama Murodo",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100050",
+      "story_id": "100033",
+      "name": "立山駅",
+      "lat": "36.5761",
+      "lng": "137.4517",
+      "content": "富山地方鐵道終點，立山黑部阿爾卑斯路線起點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100051",
+      "story_id": "100033",
+      "name": "室堂ターミナル／みくりが池",
+      "lat": "36.5795",
+      "lng": "137.5975",
+      "content": "海拔2450公尺，立山黑部最高點，火口湖みくりが池就在附近。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100052",
+      "story_id": "100033",
+      "name": "雄山（立山主峰）",
+      "lat": "36.5714",
+      "lng": "137.6103",
+      "content": "立山三山主峰，海拔3003公尺，日本三靈山之一。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

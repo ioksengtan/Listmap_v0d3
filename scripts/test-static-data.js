@@ -1227,6 +1227,8 @@ const {
   absolutePagesUrl,
   shareableStories,
   buildStoryPageHtml,
+  buildStoryPayload,
+  storyJsonRel,
   compileStoryPages,
   generatedOgRel,
   ogImageRel,
@@ -1257,6 +1259,11 @@ assert(shareableIds.length === expectedShareIds.length,
 const staticDataJs = fs.readFileSync(path.join(ROOT, 'js', 'static-data.js'), 'utf8');
 assert(staticDataJs.includes('data-asset-base'), 'assetUrl must honor data-asset-base on nested story pages');
 assert(staticDataJs.includes('base[href]'), 'assetUrl must honor <base href> on nested story pages');
+assert(staticDataJs.includes('data-story-page'), 'catalogUrl must detect data-story-page on permalink pages');
+assert(staticDataJs.includes("data/stories/'"), 'story pages must load data/stories/<id>.json');
+assert(/\$\.getJSON\(\s*catalogUrl\(\s*\)\s*\)/.test(staticDataJs), 'ListmapData.load must use catalogUrl()');
+assert(staticDataJs.includes("assetUrl('data/static.json')"), 'homepage/blog.html still load data/static.json');
+assert((blogHtml.match(/<section\s+data-story-id="/g) || []).length > 50, 'blog.html remains the multi-story hub');
 assert(blogJs.includes('storyPageUrl'), 'blog.js should navigate between permalink pages');
 assert(blogJs.includes("ListmapData.assetUrl('blog.html')"), 'permalink back button should return to blog.html via assetUrl');
 
@@ -1296,6 +1303,25 @@ shareable.forEach(function (story) {
   assert(page.indexOf('data-asset-base="../"') !== -1, story.story_id + ' data-asset-base');
   assert(page.indexOf('<base href="../">') !== -1, story.story_id + ' <base href>');
   assert(page.indexOf('data-story-id="' + story.story_id + '"') !== -1, story.story_id + ' article section');
+  const storySectionOpens = page.match(/<section\b[^>]*\bdata-story-id="/gi) || [];
+  assert(storySectionOpens.length === 1, story.story_id + ' page must keep exactly one story section');
+  shareableIds.forEach(function (otherId) {
+    if (otherId === story.story_id) return;
+    assert(page.indexOf('<section data-story-id="' + otherId + '"') === -1,
+      story.story_id + ' must not ship sibling story section ' + otherId);
+  });
+  assert(page.indexOf('vue.min.js') !== -1, story.story_id + ' should load vue.min.js');
+  assert(page.indexOf('/dist/vue.js') === -1, story.story_id + ' must not load the unminified Vue build');
+  const jsonPath = path.join(ROOT, storyJsonRel(story.story_id));
+  assert(fs.existsSync(jsonPath), 'missing per-story JSON ' + story.story_id);
+  const storyJson = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+  const expectedJson = buildStoryPayload(story, payload.landmarks, payload.routes);
+  assert(JSON.stringify(storyJson) === JSON.stringify(expectedJson),
+    'data/stories/' + story.story_id + '.json is stale — run npm run compile-data');
+  assert(storyJson.stories.length === 1 && storyJson.stories[0].story_id === story.story_id,
+    story.story_id + ' JSON must contain only that story');
+  assert(storyJson.landmarks.every(function (lm) { return String(lm.story_id) === String(story.story_id); }),
+    story.story_id + ' JSON must not include other stories’ landmarks');
   assert(page.indexOf('<section data-story-id="' + story.story_id + '" style="display:none;">') === -1,
     story.story_id + ' article must be visible in static HTML for crawlers');
   assert(!/\/api/.test(page), story.story_id + ' must not call /api');
@@ -1319,6 +1345,8 @@ assert(page1027.indexOf('幕張，不做新宿來回的傻事') !== -1, 'S1027 p
 
 const page1032 = fs.readFileSync(path.join(ROOT, 'stories', '1032.html'), 'utf8');
 assert(page1032.indexOf('src="images/stories/1032/odaru-fall.jpg"') !== -1, 'S1032 page keeps root-relative inline image path');
+assert(/src="images\/stories\/1032\/odaru-fall\.jpg"[^>]*\bloading="lazy"/.test(page1032), 'S1032 inline image is lazy-loaded');
+assert(page1032.indexOf('images/stories/100023/') === -1, 'S1032 must not ship other stories’ images');
 assert(page1032.indexOf('<base href="../">') !== -1, 'S1032 nested page uses base href so images/stories resolves');
 assert(page1032.indexOf('data-asset-base="../"') !== -1, 'S1032 nested page marks asset base');
 assert(fs.existsSync(path.join(ROOT, generatedOgRel('1032'))), 'S1032 generated OG image must be checked in');
@@ -1400,6 +1428,10 @@ assert(section100094.indexOf('data-landmark="100236"') === -1, 'S100094 must not
 assert(section100094.indexOf('javascript:zoomto') === -1, 'S100094 section must not revert to javascript:zoomto');
 assert((section100094.match(/class="map-place-link"/g) || []).length === 1, 'S100094 section has 1 map-place-link');
 assert(page100094.indexOf('<section data-story-id="100094" style="display:none;">') === -1, 'S100094 article must be visible for crawlers');
+assert(page100094.indexOf('<section data-story-id="100092"') === -1, 'S100094 must not include S100092 section');
+assert(page100094.indexOf('images/stories/1032/') === -1, 'S100094 must not ship other stories’ images');
+assert(fs.statSync(path.join(ROOT, 'stories', '100094.html')).size < 150000,
+  'S100094 HTML must be much smaller than the 341KB full-blog clone');
 assert(page100094.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100094 og:image keeps default fallback');
 assert(page100094.indexOf('images/og/100094.jpg') === -1, 'S100094 must not invent a generated OG path');
 
@@ -1480,7 +1512,7 @@ assert(robotsTxt.indexOf('Allow: /') !== -1, 'robots.txt Allow: /');
 assert(robotsTxt.indexOf('Sitemap: https://ioksengtan.github.io/Listmap_v0d3/sitemap.xml') !== -1, 'robots.txt points at sitemap');
 
 assert(destAlreadyPresent(path.join(ROOT, generatedOgRel('1032'))), 'S1032 crop is committed so CI can skip ffmpeg');
-const rewritten = compileStoryPages(payload.stories, payload.landmarks);
+const rewritten = compileStoryPages(payload.stories, payload.landmarks, { routes: payload.routes });
 assert(rewritten.join(',') === shareableIds.join(','), 'compileStoryPages should emit exactly the public share set');
 const sitemapAfter = compileSitemap(payload.stories);
 assert(sitemapAfter.urlCount === 3 + expectedShareIds.length, 'sitemap url count is static pages + public stories');

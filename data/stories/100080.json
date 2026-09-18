@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100080",
+      "collection_id": "",
+      "title": "葡萄牙馬德拉島：沒有引擎的百年下坡道",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Monte, Funchal, Madeira, Portugal",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-15",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100210",
+      "story_id": "100080",
+      "name": "蒙特聖母教堂",
+      "lat": "32.676001",
+      "lng": "-16.902472",
+      "content": "馮夏爾山丘上的教堂，蒙特雪橇路線的起點，柳編雪橇車伕會在教堂旁邊排隊載客下山。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100211",
+      "story_id": "100080",
+      "name": "利夫拉門托",
+      "lat": "32.671547",
+      "lng": "-16.904466",
+      "content": "蒙特雪橇路線的終點，位於馮夏爾市郊，遊客在此下車後可搭計程車或巴士返回市區。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

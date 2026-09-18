@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100026",
+      "collection_id": "",
+      "title": "日本粉雪三選：湯澤、留壽都、富良野",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Japan powder ski",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-06",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100029",
+      "story_id": "100026",
+      "name": "石打丸山スキー場",
+      "lat": "36.976111",
+      "lng": "138.794722",
+      "content": "新潟南魚沼。Wikidata Q11586538。",
+      "link": "https://ishiuchi.or.jp/winter/hours/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100030",
+      "story_id": "100026",
+      "name": "ルスツリゾート",
+      "lat": "42.74968",
+      "lng": "140.90329",
+      "content": "北海道留壽都。Wikidata Q7382688。",
+      "link": "https://rusutsu.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100031",
+      "story_id": "100026",
+      "name": "富良野スキー場",
+      "lat": "43.3326",
+      "lng": "142.3281",
+      "content": "北海道富良野。OSM 建議針。",
+      "link": "https://www.princehotels.co.jp/ski/furano/winter/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

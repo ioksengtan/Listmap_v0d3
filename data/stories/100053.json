@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100053",
+      "collection_id": "",
+      "title": "法國：安錫的運河，跟他帶我看的霞慕尼",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Annecy",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100138",
+      "story_id": "100053",
+      "name": "安錫 島宮",
+      "lat": "45.8992",
+      "lng": "6.1294",
+      "content": "建於12世紀，三角形船首造型建築，安錫運河地標。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100139",
+      "story_id": "100053",
+      "name": "霞慕尼",
+      "lat": "45.9237",
+      "lng": "6.8694",
+      "content": "白朗峰腳下門戶小鎮，纜車可直上兩千五百公尺高。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

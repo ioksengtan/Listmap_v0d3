@@ -1,0 +1,83 @@
+{
+  "stories": [
+    {
+      "story_id": "1033",
+      "collection_id": "",
+      "title": "立山室堂：兩千四百五十公尺的平地",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Tateyama Murodo",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-06",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "521",
+      "story_id": "1033",
+      "name": "立山駅",
+      "lat": "36.58332",
+      "lng": "137.44522",
+      "content": "富山側門戶。座標 Wikipedia。",
+      "link": "https://www.alpen-route.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "522",
+      "story_id": "1033",
+      "name": "彌陀ヶ原",
+      "lat": "36.575",
+      "lng": "137.5333",
+      "content": "高原濕原。Ramsar 場址中心約值，非巴士站針點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "523",
+      "story_id": "1033",
+      "name": "室堂",
+      "lat": "36.5773",
+      "lng": "137.5955",
+      "content": "路線最高點約2450m。Wikidata 室堂ターミナル。",
+      "link": "https://alpen-route.com/area/murodo.php",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "524",
+      "story_id": "1033",
+      "name": "みくりが池",
+      "lat": "36.58056",
+      "lng": "137.59722",
+      "content": "室堂平短散策。二次座標約值。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

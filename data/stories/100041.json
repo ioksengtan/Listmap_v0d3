@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100041",
+      "collection_id": "",
+      "title": "加爾達湖：懸在半空中的自行車道",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Lake Garda",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100092",
+      "story_id": "100041",
+      "name": "Capo Reamol",
+      "lat": "45.8611",
+      "lng": "10.7994",
+      "content": "Garda by Bike懸空自行車道北側起點，2018年完工。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100093",
+      "story_id": "100041",
+      "name": "Limone sul Garda",
+      "lat": "45.8067",
+      "lng": "10.7897",
+      "content": "加爾達湖畔小鎮，自行車道南側門戶。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

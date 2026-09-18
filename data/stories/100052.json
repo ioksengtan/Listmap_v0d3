@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100052",
+      "collection_id": "",
+      "title": "新北坪林：貴妃池，藏在北勢溪支流裡的天然澡盆",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Pinglin",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100137",
+      "story_id": "100052",
+      "name": "貴妃池",
+      "lat": "24.9632",
+      "lng": "121.7632",
+      "content": "新北坪林，北勢溪支流沖刷形成的天然溪池，形似澡盆。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

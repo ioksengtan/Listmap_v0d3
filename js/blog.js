@@ -68,7 +68,7 @@ $(document).ready(function() {
             loadStoryById(parsed.sid, parsed.cid);
         }
     }).fail(function() {
-        console.error('Failed to load data/static.json');
+        console.error('Failed to load Listmap story data');
     });
 
     $(window).on('hashchange', function() {

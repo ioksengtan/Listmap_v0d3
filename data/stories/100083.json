@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100083",
+      "collection_id": "",
+      "title": "福島野地溫泉ホテル：雪山中的150年乳藍色硫磺秘湯",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Tsuchiyu Onsen, Fukushima, Japan",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-15",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100217",
+      "story_id": "100083",
+      "name": "野地溫泉ホテル",
+      "lat": "37.6685",
+      "lng": "140.2696",
+      "content": "福島市土湯溫泉町鷲倉山，海拔約1200公尺山區裡的150年老牌溫泉旅館，五座24小時開放的硫磺浴場常年呈現乳白到乳藍色的泉色。OpenStreetMap node 286906542。",
+      "link": "https://www.nojionsen.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

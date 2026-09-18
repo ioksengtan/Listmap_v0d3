@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100042",
+      "collection_id": "",
+      "title": "瑞士坎德斯泰格：一座被雪山圍住的小村莊",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kandersteg",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100094",
+      "story_id": "100042",
+      "name": "Kandersteg村",
+      "lat": "46.4958",
+      "lng": "7.6767",
+      "content": "瑞士伯恩高地，三面被雪山包圍的村莊，康德河穿村而過。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100095",
+      "story_id": "100042",
+      "name": "Oeschinensee",
+      "lat": "46.4978",
+      "lng": "7.7256",
+      "content": "坎德斯泰格上方冰河湖，2007年納入世界遺產延伸區。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

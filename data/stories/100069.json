@@ -1,0 +1,97 @@
+{
+  "stories": [
+    {
+      "story_id": "100069",
+      "collection_id": "",
+      "title": "栃木塩原溫泉：明賀屋本館與紅葉谷大吊橋",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Shiobara Onsen, Tochigi",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-13",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100177",
+      "story_id": "100069",
+      "name": "紅葉谷大吊橋",
+      "lat": "36.95519895",
+      "lng": "139.8797978",
+      "content": "橫跨塩原水壩湖，全長320公尺，是本州同類型吊橋中數一數二長的一座。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100178",
+      "story_id": "100069",
+      "name": "明賀屋本館",
+      "lat": "36.95552882031912",
+      "lng": "139.82875103558226",
+      "content": "塩の湯溫泉區，創業於1674年，約350年歷史的老字號溫泉旅館，擁有兩種不同泉質的源泉。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100179",
+      "story_id": "100069",
+      "name": "小太郎ヶ淵",
+      "lat": "36.96116639",
+      "lng": "139.827766",
+      "content": "日光國家公園範圍內的深潭，附近的茶屋以草團子與抹茶聞名。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100180",
+      "story_id": "100069",
+      "name": "仙人岩吊橋",
+      "lat": "36.96024792",
+      "lng": "139.8321036",
+      "content": "塩原十一處吊橋之一，鄰近七ツ岩地區。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100181",
+      "story_id": "100069",
+      "name": "七ツ岩吊橋",
+      "lat": "36.96738303",
+      "lng": "139.8324904",
+      "content": "橫跨箒川，長87公尺，鄰近免費的七ツ岩園地足湯。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

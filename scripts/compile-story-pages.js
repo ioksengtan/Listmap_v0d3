@@ -53,12 +53,90 @@ function extractCardDesc(blogHtml, storyId) {
 }
 
 function extractSection(blogHtml, storyId) {
-  const re = new RegExp(
-    '<section\\s+data-story-id="' + storyId + '"[\\s\\S]*?<\\/section>',
+  const html = String(blogHtml || '');
+  const openRe = new RegExp(
+    '<section\\b[^>]*\\bdata-story-id="' + storyId + '"[^>]*>',
     'i'
   );
-  const m = blogHtml.match(re);
-  return m ? m[0] : '';
+  const open = html.match(openRe);
+  if (!open) return '';
+  const start = open.index;
+  const end = findMatchingSectionEnd(html, start + open[0].length);
+  return end === -1 ? '' : html.slice(start, end);
+}
+
+/** Find the </section> that closes the tag that ended at openEnd, counting nested <section>. */
+function findMatchingSectionEnd(html, openEnd) {
+  const scanner = /<\/section>|<section\b/gi;
+  scanner.lastIndex = openEnd;
+  let depth = 1;
+  let sm;
+  while ((sm = scanner.exec(html))) {
+    if (sm[0].charAt(1) === '/') {
+      depth -= 1;
+      if (depth === 0) return sm.index + sm[0].length;
+    } else {
+      depth += 1;
+    }
+  }
+  return -1;
+}
+
+/**
+ * Permalink pages keep shared chrome + map + only this story's section.
+ * Other <section data-story-id> blocks (and their images) are dropped.
+ */
+function stripOtherStorySections(html, keepId) {
+  const keep = String(keepId);
+  const openRe = /<section\b[^>]*\bdata-story-id="(\d+)"[^>]*>/gi;
+  let out = '';
+  let last = 0;
+  let m;
+  while ((m = openRe.exec(html))) {
+    const start = m.index;
+    const end = findMatchingSectionEnd(html, start + m[0].length);
+    if (end === -1) break;
+    out += html.slice(last, start);
+    if (m[1] === keep) out += html.slice(start, end);
+    last = end;
+    openRe.lastIndex = end;
+  }
+  out += html.slice(last);
+  return out;
+}
+
+function stripStoryIdCommentsExcept(html, keepId) {
+  return String(html || '').replace(/<!--\s*story_id=(\d+)[\s\S]*?-->\s*/g, function (full, id) {
+    return String(id) === String(keepId) ? full : '';
+  });
+}
+
+function addImgLazyLoading(html) {
+  return String(html || '').replace(/<img\b([^>]*?)(\s*\/?)>/gi, function (full, attrs, slash) {
+    if (/\bloading\s*=/i.test(attrs)) return full;
+    return '<img' + attrs + ' loading="lazy"' + (slash ? slash : '') + '>';
+  });
+}
+
+function useVueMinBuild(html) {
+  return String(html || '').replace(
+    /cdn\.jsdelivr\.net\/npm\/vue@2\/dist\/vue\.js/g,
+    'cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js'
+  );
+}
+
+function storyJsonRel(storyId) {
+  return 'data/stories/' + storyId + '.json';
+}
+
+function buildStoryPayload(story, landmarks, routes) {
+  const sid = String(story.story_id);
+  return {
+    stories: [story],
+    landmarks: (landmarks || []).filter((lm) => String(lm.story_id) === sid),
+    collections: [],
+    routes: (routes || []).filter((r) => String(r.story_id) === sid),
+  };
 }
 
 function descriptionForStory(blogHtml, story) {
@@ -182,6 +260,11 @@ function buildStoryPageHtml(blogHtml, story, landmarks) {
   const storyLandmarks = (landmarks || []).filter((lm) => lm.story_id === story.story_id);
   let html = String(blogHtml || '').replace(/^\uFEFF/, '');
 
+  html = stripOtherStorySections(html, story.story_id);
+  html = stripStoryIdCommentsExcept(html, story.story_id);
+  html = useVueMinBuild(html);
+  html = addImgLazyLoading(html);
+
   html = html.replace(
     /<html\b([^>]*)>/i,
     '<html$1 data-story-page="' + escapeAttr(story.story_id) + '" data-asset-base="../">'
@@ -204,7 +287,15 @@ function buildStoryPageHtml(blogHtml, story, landmarks) {
   return html;
 }
 
-function compileStoryPages(stories, landmarks) {
+function writeStoryJson(story, landmarks, routes) {
+  const dir = path.join(ROOT, 'data', 'stories');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const dest = path.join(ROOT, storyJsonRel(story.story_id));
+  fs.writeFileSync(dest, JSON.stringify(buildStoryPayload(story, landmarks, routes), null, 2) + '\n');
+}
+
+function compileStoryPages(stories, landmarks, options) {
+  const routes = (options && options.routes) || [];
   const blogPath = path.join(ROOT, 'blog.html');
   const blogHtml = fs.readFileSync(blogPath, 'utf8');
   compileOgImages(stories, blogHtml);
@@ -217,12 +308,22 @@ function compileStoryPages(stories, landmarks) {
     }
   });
 
+  const jsonDir = path.join(ROOT, 'data', 'stories');
+  if (fs.existsSync(jsonDir)) {
+    fs.readdirSync(jsonDir).forEach((name) => {
+      if (/^\d+\.json$/.test(name)) {
+        fs.unlinkSync(path.join(jsonDir, name));
+      }
+    });
+  }
+
   const targets = shareableStories(stories, blogHtml);
   const written = [];
   targets.forEach((story) => {
     const html = buildStoryPageHtml(blogHtml, story, landmarks);
     const dest = path.join(outDir, story.story_id + '.html');
     fs.writeFileSync(dest, html);
+    writeStoryJson(story, landmarks, routes);
     written.push(story.story_id);
   });
   return written;
@@ -242,6 +343,12 @@ module.exports = {
   ogImageRel,
   shareableStories,
   jsonLdScript,
+  stripOtherStorySections,
+  stripStoryIdCommentsExcept,
+  addImgLazyLoading,
+  useVueMinBuild,
+  storyJsonRel,
+  buildStoryPayload,
   buildStoryPageHtml,
   compileStoryPages,
   generatedOgRel,
