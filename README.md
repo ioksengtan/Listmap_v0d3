@@ -8,6 +8,8 @@
 
 （GitHub Pages 從 `master` 分支自動部署，是純靜態版本；本機啟動的版本還多了作者用的內容管理 API，見下方。）
 
+> `internal` / `private` 只會從網站介面、公開 API 與編譯後的 `data/static.json` 排除。此儲存庫若為公開，提交進 Git 的原始 CSV 仍可從 GitHub 讀取；真正機密的內容不可提交到此儲存庫。
+
 ## 技術棧
 
 - **後端**：Node.js + Express（`app.js`）

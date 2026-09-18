@@ -154,8 +154,16 @@ function readRoutes() {
   return readCsvFile(filePath);
 }
 
+function isPublicRow(row) {
+  return !row.visibility || row.visibility === 'public';
+}
+
 function buildStaticPayload() {
-  const landmarks = readLandmarks().map(function(lm) {
+  const stories = readStories().filter(isPublicRow);
+  const publicStoryIds = new Set(stories.map(story => story.story_id));
+  const landmarks = readLandmarks()
+    .filter(landmark => publicStoryIds.has(landmark.story_id))
+    .map(function(lm) {
     if (!lm.geojson_file) return lm;
     const geoPath = path.join(ROOT, 'data', 'areas', lm.geojson_file);
     if (!fs.existsSync(geoPath)) return lm;
@@ -168,10 +176,10 @@ function buildStaticPayload() {
     }
   });
   return {
-    stories: readStories(),
+    stories,
     landmarks,
-    collections: readCollections(),
-    routes: readRoutes(),
+    collections: readCollections().filter(isPublicRow),
+    routes: readRoutes().filter(route => publicStoryIds.has(String(route.story_id || ''))),
   };
 }
 
@@ -179,6 +187,7 @@ module.exports = {
   ROOT,
   ALLOWED_STORY_TAGS,
   normalizeStoryTags,
+  isPublicRow,
   readCsv,
   readCsvFile,
   readStories,
