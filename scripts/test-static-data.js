@@ -937,19 +937,19 @@ assert(onDisk.landmarks.find(l => l.landmark_id === '100093').story_id === '1000
 assert(onDisk.stories.some(s => s.story_id === '100099'), 'checked-in JSON missing 100099');
 assert(onDisk.landmarks.filter(l => l.story_id === '100099').length === 3, 'checked-in JSON missing 100099 landmarks');
 const onDisk100099 = onDisk.stories.find(s => s.story_id === '100099');
-assert(onDisk100099.title === '神楽坂・燻製いづみや：一軒家民宅感，預約開鎖吃燻製', 'checked-in JSON S100099 title');
+assert(onDisk100099.title === '神樂坂：簡訊密碼開鎖——燻製泉屋的預約晚餐', 'checked-in JSON S100099 title');
 assert(onDisk100099.author === 'Yu-Sheng', 'checked-in JSON S100099 author');
 assert(onDisk100099.tags === '想去', 'checked-in JSON S100099 tags');
 assert(onDisk100099.visibility === 'public', 'checked-in JSON S100099 visibility');
 assert(onDisk100099.thumbnail === '', 'checked-in JSON S100099 thumbnail');
 assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100244' || id === '100245' || id === '100246').join(',') === '100244,100245,100246',
   'S100099 landmarks must be exactly 100244, 100245, 100246');
-assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100244').name === '燻製いづみや', 'checked-in JSON 100244 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100244').name === '燻製泉屋（燻製いづみや）', 'checked-in JSON 100244 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100244').link === 'https://span-co.jp/shop/izumiya/', 'checked-in JSON 100244 link');
 assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100244').lat === '35.700126', 'checked-in JSON 100244 lat');
-assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100245').name === '神楽坂駅', 'checked-in JSON 100245 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100245').name === '神樂坂站', 'checked-in JSON 100245 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100245').lat === '35.703930', 'checked-in JSON 100245 lat');
-assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100246').name === '牛込神楽坂駅', 'checked-in JSON 100246 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100246').name === '牛込神樂坂站', 'checked-in JSON 100246 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100099' && l.landmark_id === '100246').lat === '35.700914', 'checked-in JSON 100246 lat');
 assert(onDisk.landmarks.find(l => l.landmark_id === '100099').story_id === '100043',
   'existing Fuschlsee landmark 100099 must stay on S100043');
@@ -1014,7 +1014,7 @@ assert(!/Kabeyu Onsen Fukumotoya Oita,,,想去,,public/.test(storiesCsv), 'S1000
 assert(/100093,,群馬法師温泉・長寿館：山間一軒宿，住一晚,blog,,Yu-Sheng,blog,Hoshi Onsen Chojukan Minakami Gunma,,想去,,public,2026-09-18,,/.test(storiesCsv),
   'S100093 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Hoshi Onsen Chojukan Minakami Gunma,,,想去,,public/.test(storiesCsv), 'S100093 must not split tags into thumbnail/visibility');
-assert(/100099,,神楽坂・燻製いづみや：一軒家民宅感，預約開鎖吃燻製,blog,,Yu-Sheng,blog,Kagurazaka Kunsei Izumiya Shinjuku,,想去,,public,2026-09-19,,/.test(storiesCsv),
+assert(/100099,,神樂坂：簡訊密碼開鎖——燻製泉屋的預約晚餐,blog,,Yu-Sheng,blog,Kagurazaka Kunsei Izumiya Shinjuku,,想去,,public,2026-09-19,,/.test(storiesCsv),
   'S100099 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Kagurazaka Kunsei Izumiya Shinjuku,,,想去,,public/.test(storiesCsv), 'S100099 must not split tags into thumbnail/visibility');
 
