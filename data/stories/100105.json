@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100105",
+      "collection_id": "",
+      "title": "栃尾又寶巖堂：外湯溫溫泡住一晚",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Hougandou Tochiomata Onsen Uonuma Niigata",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-19",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100253",
+      "story_id": "100105",
+      "name": "栃尾又温泉 宝巌堂（ほうがんどう／寶巖堂）",
+      "lat": "37.1855885",
+      "lng": "139.0861527",
+      "content": "〒946-0087 新潟県魚沼市上折立60番地乙。外湯共同浴場（うえの湯／したの湯／おくの湯）・一夜兩餐／湯治。預約僅官網表單或予約専用 LINE（不收電話預約）；現金・カード不可；無電梯・外階多。官網標示天然ラジウム泉／分析表泉質単純放射能泉。座標：官網 access Google Maps 以「新潟県魚沼市上折立60番地乙」查詢落點（2026-09-19；非 OSM 館名專點）。",
+      "link": "https://www.ho-gan-do.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
