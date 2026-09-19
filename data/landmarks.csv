@@ -330,7 +330,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100240,100093,法師温泉 長寿館,36.74404,138.83052,"〒379-1401 群馬県利根郡みなかみ町永井650。秘湯を守る会會員・國登錄有形文化財（本館・法師乃湯・別館）。足元湧出。座標：OSM Nominatim 2026-09-18（node 4987541303；36.7440365, 138.8305206）。",https://hoshi-onsen.com/,cursor
 100241,100093,上毛高原駅,36.69316,138.97763,"上越新幹線。町営巴士起點→猿ヶ京→法師。座標：OSM Nominatim 2026-09-18（building way 256196004）。",http://www.hoshi-onsen.com/access/index.html,cursor
 100243,100093,猿ヶ京,36.72554,138.88532,"町営巴士換乘（猿ヶ京法師線）。座標：OSM Nominatim 2026-09-18（bus_stop node 3667904025）。",http://www.hoshi-onsen.com/access/index.html,cursor
-100244,100099,燻製いづみや,35.700126,139.739291,"〒162-0827 東京都新宿区若宮町14-2。18:00–23:00・不定休（官網；第三方常寫17:00）。WEB予約＋事前決済のみ；暗証番号入店・全室個室・ほぼ非接触。座標依 Mapion 電話帳（非 OSM）。",https://span-co.jp/shop/izumiya/,cursor
-100245,100099,神楽坂駅,35.703930,139.734135,"東京 Metro 東西線。步行對照；徒歩約8分／直線約600–650m（約估）至店。OpenStreetMap railway station node 5408235029。",,cursor
-100246,100099,牛込神楽坂駅,35.700914,139.735950,"都營大江戸線。最近站；徒歩約4分／直線約300–350m（約估）至店。OpenStreetMap railway station node 2389826225。",,cursor
+100244,100099,燻製泉屋（燻製いづみや）,35.700126,139.739291,"〒162-0827 東京都新宿区若宮町14-2。晚上六點到十一點・不定休（官網；部分訂位站寫五點起）。僅網站預約＋事前付款；密碼開門・全室包間。座標依 Mapion 電話帳（非 OpenStreetMap）。",https://span-co.jp/shop/izumiya/,cursor
+100245,100099,神樂坂站,35.703930,139.734135,"東京 Metro 東西線。步行對照；大約八分鐘至店（約估）。OpenStreetMap railway station node 5408235029。",,cursor
+100246,100099,牛込神樂坂站,35.700914,139.735950,"都營大江戶線。最近站；大約四分鐘至店（約估）。OpenStreetMap railway station node 2389826225。",,cursor
 
