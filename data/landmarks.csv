@@ -333,4 +333,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100244,100099,燻製泉屋（燻製いづみや）,35.700126,139.739291,"〒162-0827 東京都新宿区若宮町14-2。晚上六點到十一點・不定休（官網；部分訂位站寫五點起）。僅網站預約＋事前付款；密碼開門・全室包間。座標依 Mapion 電話帳（非 OpenStreetMap）。",https://span-co.jp/shop/izumiya/,cursor
 100245,100099,神樂坂站,35.703930,139.734135,"東京 Metro 東西線。步行對照；大約八分鐘至店（約估）。OpenStreetMap railway station node 5408235029。",,cursor
 100246,100099,牛込神樂坂站,35.700914,139.735950,"都營大江戶線。最近站；大約四分鐘至店（約估）。OpenStreetMap railway station node 2389826225。",,cursor
+100247,100102,巨人城體育場（GIANTS TOWN STADIUM）,35.6291883,139.5119848,"東京工藝節’26 會場＝整場球場（非單一攤）。〒206-0812 東京都稲城市矢野口3228番地南山95街区1号。2026-10-03～04 10:00–16:00。座標：OSM Nominatim 2026-09-19（leisure way 1362664803）。",https://tokyocraftfestival.com/2026/,cursor
+100248,100102,京王讀賣樂園站（京王よみうりランド駅）,35.6329471,139.5168349,"京王相模原線。首選門戶；徒歩約15分至會場（約估）。會期無料シャトル運行予定——班次以開催前官方 NEWS 為準。座標：OSM Nominatim 2026-09-19（railway station node 7834562497）。",,cursor
+100249,100102,稻城站（稲城駅）,35.6362354,139.5004450,"京王相模原線。橋本方面／備援門戶；徒歩約15分至會場（約估）。座標：OSM Nominatim 2026-09-19（railway station node 7834562500）。",,cursor
 
