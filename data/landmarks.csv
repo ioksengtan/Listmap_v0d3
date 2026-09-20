@@ -343,4 +343,5 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100257,100106,中尾高原口,36.2641542,137.5624765,"巴士站。最寄下車點之一；到站後電話宿可送迎。座標：OSM node/4416143905（2026-09-19）。",https://yarimikan.com/,cursor
 100258,100106,新穗高纜車站側,36.2855422,137.5752333,"新穗高纜車巴士站側。宿車約五分鐘；可選短訪、非必走。亦可作送迎接點。座標：OSM node/4416131397（2026-09-19）。",https://shinhotaka-ropeway.jp/,cursor
 100253,100105,栃尾又温泉 宝巌堂（ほうがんどう／寶巖堂）,37.1855885,139.0861527,"〒946-0087 新潟県魚沼市上折立60番地乙。外湯共同浴場（うえの湯／したの湯／おくの湯）・一夜兩餐／湯治。預約僅官網表單或予約専用 LINE（不收電話預約）；現金・カード不可；無電梯・外階多。官網標示天然ラジウム泉／分析表泉質単純放射能泉。座標：官網 access Google Maps 以「新潟県魚沼市上折立60番地乙」查詢落點（2026-09-19；非 OSM 館名專點）。",https://www.ho-gan-do.com/,cursor
-
+100259,100107,狂人國 Puy du Fou,46.8888329,-0.9304404,"法國旺代省 Les Épesses 的歷史主題表演園區，地址 CS 70025, 85590 Les Epesses。2026 年園區約 100 公頃，節目每日依人流調整；座標：OpenStreetMap way 156944924（2026-09-20）。",https://www.puydufou.com/france/fr/,codex
+100260,100107,Angers Saint-Laud 車站,47.4643613,-0.5562093,"前往 Puy du Fou 的主要高速鐵路門戶之一。官方提供 Angers 往返園區的定期接駁，須事先預約並視供應情況而定；座標：OpenStreetMap node 3486353293（2026-09-20）。",https://www.puydufou.com/france/fr/faq/mes-billets/comment-venir-au-puy-du-fou,codex
