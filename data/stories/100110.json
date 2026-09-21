@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100110",
+      "collection_id": "",
+      "title": "京都開化堂：手造茶筒老舖一訪",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kyoto Kaikado Shimogyo Tea Caddy",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-21",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100259",
+      "story_id": "100110",
+      "name": "開化堂本店（茶筒の開化堂）",
+      "lat": "",
+      "lng": "",
+      "content": "〒600-8127 京都市下京区河原町六条東入梅湊町84-1。TEL 075-351-5788。本店 9:00–18:00；定休日曜・月曜・祝日（夏季・年末年始另休；出發前對官網營業日日曆）。現場選購；修理受付現況中止。官網：京阪清水五条駅徒歩約5分。地圖請對官網／現場門牌。",
+      "link": "https://www.kaikado.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100260",
+      "story_id": "100110",
+      "name": "清水五条駅",
+      "lat": "34.9956137",
+      "lng": "135.7684459",
+      "content": "京阪本線。官網最寄駅；徒歩約5分至開化堂本店（約估；京都觀光Navi另寫約7分）。OpenStreetMap railway station node 7944965637。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100261",
+      "story_id": "100110",
+      "name": "開化堂カフェ",
+      "lat": "34.9898989",
+      "lng": "135.7644162",
+      "content": "〒600-8143 京都市下京区河原町通七条上ル住吉町352。TEL 075-353-5668。同品牌錨點，非本篇主店。Café 10:00–18:30（L.O. 18:00）；定休木曜日。OpenStreetMap amenity=cafe node 5123266621。",
+      "link": "https://www.kaikado-cafe.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

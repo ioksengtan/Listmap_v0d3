@@ -123,8 +123,9 @@
     var lms = allLandmarks();
     var result = stories().map(function (s) {
       var firstLm = lms.find(function (l) {
-        return String(l.story_id) === String(s.story_id);
+        return String(l.story_id) === String(s.story_id) && l.lat && l.lng;
       });
+
       return {
         story_id: s.story_id,
         title: s.title,

@@ -304,7 +304,7 @@ app.get('/api', (req, res) => {
       const stories = filterByVisibility(readStories(), local);
       const landmarks = readLandmarks();
       const result = stories.map(s => {
-        const firstLm = landmarks.find(l => l.story_id === s.story_id);
+        const firstLm = landmarks.find(l => l.story_id === s.story_id && l.lat && l.lng);
         return {
           story_id: s.story_id,
           title: s.title,
