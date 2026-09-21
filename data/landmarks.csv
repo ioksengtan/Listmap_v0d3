@@ -350,3 +350,4 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100260,100110,清水五条駅,34.9956137,135.7684459,"京阪本線。官網最寄駅；徒歩約5分至開化堂本店（約估；京都觀光Navi另寫約7分）。OpenStreetMap railway station node 7944965637。",,cursor
 100261,100110,開化堂カフェ,34.9898989,135.7644162,"〒600-8143 京都市下京区河原町通七条上ル住吉町352。TEL 075-353-5668。同品牌錨點，非本篇主店。Café 10:00–18:30（L.O. 18:00）；定休木曜日。OpenStreetMap amenity=cafe node 5123266621。",https://www.kaikado-cafe.jp/,cursor
 
+100265,100085,行基の滝,34.900091,138.898197,伊豆市吉奈川上游、高13公尺寬3公尺的瀑布，相傳高僧行基曾在此受滝並供養被里人視為魔淵的水潭而得名，座標由使用者提供。,,claude-sonnet-5

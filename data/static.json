@@ -25903,6 +25903,20 @@
       "contributor": "cursor",
       "bounds": "",
       "geojson_file": ""
+    },
+    {
+      "landmark_id": "100265",
+      "story_id": "100085",
+      "name": "行基の滝",
+      "lat": "34.900091",
+      "lng": "138.898197",
+      "content": "伊豆市吉奈川上游、高13公尺寬3公尺的瀑布，相傳高僧行基曾在此受滝並供養被里人視為魔淵的水潭而得名，座標由使用者提供。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
     }
   ],
   "collections": [
