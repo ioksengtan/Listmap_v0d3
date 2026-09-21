@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100111",
+      "collection_id": "",
+      "title": "京都綠壽庵清水：百萬遍金平糖專賣一訪",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kyoto Ryokujuan Shimizu Hyakumanben Konpeito",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-21",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100262",
+      "story_id": "100111",
+      "name": "綠壽庵清水京都本店（緑寿庵清水）",
+      "lat": "35.0280830",
+      "lng": "135.7771797",
+      "content": "〒606-8301 京都市左京区吉田泉殿町38番地の2。TEL 075-771-0755；FAX 075-771-0766。本店 10:00–17:00；定休水曜（祝日逢水曜本店官網寫營業；振替休出發前再核）。無網路販售；訂購走電話／傳真。OpenStreetMap shop node 4341032989。",
+      "link": "https://www.konpeito.co.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100263",
+      "story_id": "100111",
+      "name": "出町柳駅",
+      "lat": "35.0302716",
+      "lng": "135.7726791",
+      "content": "京阪鴨東線／叡山電鉄。官網鐵道最寄：二番出口下車徒歩約10分至本店（約估）。OpenStreetMap railway station node 3964247084。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100264",
+      "story_id": "100111",
+      "name": "百萬遍巴士站",
+      "lat": "35.0287266",
+      "lng": "135.7781548",
+      "content": "市巴士「百万遍」停靠（今出川通側）。官網：京都駅7番下車徒歩約2分；祇園側206番下車徒歩約5分（約估）。OpenStreetMap highway=bus_stop node 274052456。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
