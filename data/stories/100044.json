@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100044",
+      "collection_id": "",
+      "title": "大阪美食三選：從豬排店主的獨門技法查起",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Osaka",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100104",
+      "story_id": "100044",
+      "name": "千林とんかつ中村",
+      "lat": "34.7386",
+      "lng": "135.5308",
+      "content": "大阪旭區千林商店街，自學出身的豬排名店。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100105",
+      "story_id": "100044",
+      "name": "粉浜Mカッセ",
+      "lat": "34.6086",
+      "lng": "135.4894",
+      "content": "大阪住吉區，法式主廚做的香料咖哩名店。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100106",
+      "story_id": "100044",
+      "name": "島之內焼肉ホルモン万千",
+      "lat": "34.6733",
+      "lng": "135.5058",
+      "content": "大阪中央區，一天只開五桌的預約制燒肉店。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

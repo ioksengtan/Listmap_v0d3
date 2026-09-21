@@ -1,6 +1,7 @@
 /**
  * Static CSV-compiled data for GitHub Pages (no Node /api).
- * Loads data/static.json via a path that works on project Pages (/Listmap_v0d3/).
+ * Homepage / blog.html load data/static.json.
+ * stories/<id>.html loads data/stories/<id>.json (current story only).
  */
 (function (root) {
   function pageBase() {
@@ -20,6 +21,23 @@
     if (path.endsWith('/')) return path;
     if (/\.html?$/i.test(path)) return path.replace(/\/[^/]+$/, '/');
     return path + '/';
+  }
+
+  function storyPageId() {
+    var doc = typeof document !== 'undefined' ? document : null;
+    var marked = doc && doc.documentElement
+      ? doc.documentElement.getAttribute('data-story-page')
+      : null;
+    if (marked != null && String(marked).trim() !== '') return String(marked).trim();
+    var path = (typeof location !== 'undefined' && location.pathname) || '';
+    var m = String(path).match(/\/stories\/(\d+)\.html$/i);
+    return m ? m[1] : null;
+  }
+
+  function catalogUrl() {
+    var sid = storyPageId();
+    if (sid) return assetUrl('data/stories/' + sid + '.json');
+    return assetUrl('data/static.json');
   }
 
   function resolveDirBase(rel) {
@@ -59,7 +77,7 @@
       return $.Deferred().resolve(cache).promise();
     }
     if (loadPromise) return loadPromise;
-    loadPromise = $.getJSON(assetUrl('data/static.json')).then(function (data) {
+    loadPromise = $.getJSON(catalogUrl()).then(function (data) {
       cache = data || { stories: [], landmarks: [], collections: [], routes: [] };
       cache.stories = cache.stories || [];
       cache.landmarks = cache.landmarks || [];
@@ -105,8 +123,9 @@
     var lms = allLandmarks();
     var result = stories().map(function (s) {
       var firstLm = lms.find(function (l) {
-        return String(l.story_id) === String(s.story_id);
+        return String(l.story_id) === String(s.story_id) && l.lat && l.lng;
       });
+
       return {
         story_id: s.story_id,
         title: s.title,
@@ -199,6 +218,8 @@
   root.ListmapData = {
     assetUrl: assetUrl,
     pageBase: pageBase,
+    storyPageId: storyPageId,
+    catalogUrl: catalogUrl,
     isLocalhost: isLocalhost,
     load: load,
     stories: stories,

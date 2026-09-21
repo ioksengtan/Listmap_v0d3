@@ -360,6 +360,36 @@ margin-top:10px;
   margin: 0 0 14px;
   color: #222;
 }
+.visitor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 28px;
+}
+.visitor-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid #1f5f4a;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.visitor-action-primary { background: #1f5f4a; color: #fff; }
+.visitor-action-primary:hover { background: #174837; }
+.visitor-action-secondary { background: #fff; color: #1f5f4a; }
+.visitor-action-secondary:hover { background: #f1f7f4; color: #174837; }
+.visitor-list-heading {
+  margin: 0 0 6px;
+  font: 700 12px/1.4 'Source Sans 3', system-ui, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #777;
+}
 #geostory_blog .visitor-intro p {
   width: auto;
   margin-left: 0;
@@ -375,6 +405,26 @@ margin-top:10px;
   padding: 9px 0;
   border-bottom: 1px solid #f0f0f0;
 }
+.visitor-story-copy {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.visitor-story-preview {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: #edf5f1;
+  color: #1f5f4a;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.visitor-story-preview:hover,
+.visitor-story-preview:focus { background: #dcebe4; }
 .visitor-story-card a {
   font-size: 14px;
   font-weight: 600;
@@ -392,6 +442,12 @@ margin-top:10px;
   color: #aaa;
   white-space: nowrap;
   flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .visitor-actions { flex-direction: column; }
+  .visitor-action { width: 100%; }
+  .visitor-story-copy { display: block; }
+  .visitor-story-where { display: block; margin-top: 2px; }
 }
 .visitor-stories-more {
   display: block;

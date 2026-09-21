@@ -1,0 +1,111 @@
+{
+  "stories": [
+    {
+      "story_id": "100037",
+      "collection_id": "",
+      "title": "美東鐵道棒球場巡禮：一張車票看六座球場",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "US East Coast",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100066",
+      "story_id": "100037",
+      "name": "Fenway Park",
+      "lat": "42.3467",
+      "lng": "-71.0972",
+      "content": "波士頓紅襪主場，1912年開幕，現役最老球場，招牌「綠色怪物」高牆。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100067",
+      "story_id": "100037",
+      "name": "Yankee Stadium",
+      "lat": "40.8296",
+      "lng": "-73.9262",
+      "content": "紐約洋基主場，2009年啟用，仿1923年老洋基球場設計。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100068",
+      "story_id": "100037",
+      "name": "Citi Field",
+      "lat": "40.7571",
+      "lng": "-73.8458",
+      "content": "紐約大都會主場，中外野有全壘打時升起的機械蘋果裝置。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100069",
+      "story_id": "100037",
+      "name": "Citizens Bank Park",
+      "lat": "39.9061",
+      "lng": "-75.1665",
+      "content": "費城人主場，中外野立著會發光搖擺的自由鐘複製品。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100070",
+      "story_id": "100037",
+      "name": "Oriole Park at Camden Yards",
+      "lat": "39.2838",
+      "lng": "-76.6217",
+      "content": "巴爾的摩金鶯主場，1992年啟用，復古球場風潮起點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100071",
+      "story_id": "100037",
+      "name": "Nationals Park",
+      "lat": "38.8730",
+      "lng": "-77.0074",
+      "content": "華盛頓國民主場，2008年啟用，大聯盟首座LEED認證球場。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

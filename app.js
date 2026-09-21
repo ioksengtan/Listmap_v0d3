@@ -14,9 +14,25 @@ const {
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.static('./'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Source CSV files may contain internal/private rows. Only compiled public data
+// and public region/i18n assets are allowed through the static server.
+app.use((req, res, next) => {
+  let requestPath = req.path;
+  try { requestPath = decodeURIComponent(requestPath); } catch (error) { /* keep encoded path */ }
+  const blocked = [
+    /^\/data\/(?:stories|landmarks|collections|routes|views)\.csv$/i,
+    /^\/listmap - (?:stories|landmarks)\.csv$/i,
+    /^\/(?:package(?:-lock)?\.json|app\.js)$/i,
+  ];
+  if (blocked.some(pattern => pattern.test(requestPath))) {
+    return res.status(404).end();
+  }
+  return next();
+});
+app.use(express.static('./', { dotfiles: 'deny' }));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -31,6 +47,15 @@ function filterByVisibility(rows, local) {
   // localhost 以外只顯示 public（空值視為 public）
   return rows.filter(r => !r.visibility || r.visibility === 'public');
   // internal / private 都不對外公開
+}
+
+function visibleStoryIds(local) {
+  return new Set(filterByVisibility(readStories(), local).map(story => story.story_id));
+}
+
+function filterLandmarksByVisibility(landmarks, local) {
+  const allowedStoryIds = visibleStoryIds(local);
+  return landmarks.filter(landmark => allowedStoryIds.has(landmark.story_id));
 }
 
 const STORY_COLUMNS = [
@@ -152,7 +177,11 @@ function addRestApi() {
   });
 
   app.get('/api/v1/stories/:storyId/landmarks', (req, res) => {
-    const landmarks = readLandmarks().filter(item => item.story_id === String(req.params.storyId));
+    const landmarks = filterLandmarksByVisibility(readLandmarks(), isLocalhost(req))
+      .filter(item => item.story_id === String(req.params.storyId));
+    if (!visibleStoryIds(isLocalhost(req)).has(String(req.params.storyId))) {
+      return apiError(res, 404, 'NOT_FOUND', 'Story not found');
+    }
     return apiOk(res, landmarks);
   });
 
@@ -215,7 +244,7 @@ app.get('/api', (req, res) => {
       res.json({ table: stories });
 
     } else if (command === 'get_landmarks_by_story_id') {
-      const landmarks = readLandmarks();
+      const landmarks = filterLandmarksByVisibility(readLandmarks(), local);
       const filtered = landmarks.filter(r => r.story_id === story_id);
       res.json({ table: filtered });
 
@@ -275,7 +304,7 @@ app.get('/api', (req, res) => {
       const stories = filterByVisibility(readStories(), local);
       const landmarks = readLandmarks();
       const result = stories.map(s => {
-        const firstLm = landmarks.find(l => l.story_id === s.story_id);
+        const firstLm = landmarks.find(l => l.story_id === s.story_id && l.lat && l.lng);
         return {
           story_id: s.story_id,
           title: s.title,
@@ -319,6 +348,9 @@ app.get('/api', (req, res) => {
       res.json({ table: result });
 
     } else if (command === 'getRoutesByStoryId') {
+      if (!visibleStoryIds(local).has(String(story_id))) {
+        return res.status(404).json({ error: 'Story not found' });
+      }
       const routes = readCsv('routes.csv');
       const filtered = routes.filter(r => r.story_id === story_id);
       // 將同一 route_id 的點合併成一條路線
@@ -334,8 +366,8 @@ app.get('/api', (req, res) => {
 
     } else if (command === 'get_landmarks_by_zone') {
       const { lat_south, lat_north, lng_west, lng_east } = req.query;
-      const landmarks = readLandmarks();
-      const stories = readStories();
+      const landmarks = filterLandmarksByVisibility(readLandmarks(), local);
+      const stories = filterByVisibility(readStories(), local);
       const filtered = landmarks.filter(r =>
         parseFloat(r.lat) >= parseFloat(lat_south) &&
         parseFloat(r.lat) <= parseFloat(lat_north) &&

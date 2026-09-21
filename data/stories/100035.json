@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100035",
+      "collection_id": "",
+      "title": "山梨笛吹川溫泉 坐忘：這次是真的最愛",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Yamanashi",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100063",
+      "story_id": "100035",
+      "name": "笛吹川温泉 坐忘",
+      "lat": "35.6392",
+      "lng": "138.6739",
+      "content": "山梨縣笛吹市，源泉放流溫泉旅館，緊鄰笛吹川與富士山腳。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
