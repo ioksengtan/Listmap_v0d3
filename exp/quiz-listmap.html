@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listmap 問答（實驗）</title>
+  <!--
+    Experimental Listmap place Q&A mini-game.
+    Data: exp/quiz-listmap-places.json (override with ?pack=<json-filename>).
+    No accounts, leaderboards, or analytics SDKs.
+  -->
+  <style>
+    :root {
+      --ink: #1c1914;
+      --muted: #6a6358;
+      --paper: #f3efe6;
+      --paper-deep: #ebe4d6;
+      --line: #d9d0c0;
+      --marker: #c62828;
+      --check: #2e7d32;
+      --wrong: #8a8174;
+      --card: #faf7f0;
+      --focus: #2b4c7e;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Source Han Sans TC", "Noto Sans TC", "PingFang TC",
+        "Helvetica Neue", sans-serif;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.55), transparent 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(210, 190, 150, 0.25), transparent 50%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(90, 70, 40, 0.015) 2px,
+          rgba(90, 70, 40, 0.015) 3px
+        ),
+        var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .banner {
+      background: #8a3b12;
+      color: #fff8ee;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    main {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 22px 18px 72px;
+    }
+    .kicker {
+      margin: 0 0 6px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+    }
+    .lead, .honesty {
+      margin: 0 0 10px;
+      color: #3f392f;
+      font-size: 14px;
+    }
+    .honesty {
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-bottom: 22px;
+    }
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .progress strong { color: var(--ink); font-size: 15px; }
+
+    .quiz-list {
+      display: grid;
+      gap: 28px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .q-block {
+      position: relative;
+      padding: 4px 0 8px;
+      scroll-margin-top: 18px;
+    }
+    .q-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+    .q-title {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+    .q-title .num { margin-right: 0.15em; }
+    .q-block.is-current .q-title {
+      text-decoration: underline;
+      text-decoration-color: var(--marker);
+      text-decoration-thickness: 3.5px;
+      text-underline-offset: 5px;
+      text-decoration-skip-ink: none;
+    }
+    /* Felt-tip wobble via SVG stroke under current question */
+    .q-block.is-current .q-title::after {
+      content: "";
+      display: block;
+      height: 0;
+    }
+    .q-icon {
+      font-size: 1.65rem;
+      line-height: 1;
+      opacity: 0.9;
+      filter: grayscale(0.15);
+      user-select: none;
+    }
+    .options {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+    .opt {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      width: 100%;
+      margin: 0;
+      padding: 8px 6px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .opt:hover:not(:disabled) { background: rgba(255,255,255,0.45); }
+    .opt:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .opt:disabled { cursor: default; }
+    .mark {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .radio {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border: 1.75px solid #4a4338;
+      border-radius: 50%;
+      position: relative;
+    }
+    .opt.is-picked .radio::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: #4a4338;
+    }
+    .opt.is-correct {
+      color: var(--check);
+      font-weight: 700;
+    }
+    .check-mark {
+      display: none;
+      width: 18px;
+      height: 18px;
+      color: var(--check);
+    }
+    .opt.is-correct .check-mark { display: block; }
+    .opt.is-correct .radio { display: none; }
+    .opt.is-wrong {
+      color: var(--wrong);
+      text-decoration: line-through;
+      text-decoration-thickness: 1.5px;
+      opacity: 0.72;
+    }
+    .opt.is-dim {
+      opacity: 0.45;
+    }
+    .q-block.is-answered .q-icon { opacity: 0.7; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .btn {
+      appearance: none;
+      border: 1.5px solid #4a4338;
+      background: var(--card);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn:hover { background: #fff; }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: #1d1a16;
+      color: #f7f1e6;
+      border-color: #1d1a16;
+    }
+    .btn-primary:hover { background: #33302a; }
+
+    .result {
+      display: none;
+      margin-top: 28px;
+      padding: 18px 16px;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .result.is-open { display: block; }
+    .result h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+    }
+    .score {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin: 0 0 10px;
+    }
+    .result p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #3f392f;
+    }
+    .result a.story-link {
+      color: var(--focus);
+      font-weight: 700;
+      word-break: break-all;
+    }
+    .footnote {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footnote a { color: var(--muted); }
+    .status-error {
+      padding: 14px 12px;
+      background: #fff1d6;
+      border: 1px solid #e4c48a;
+      border-radius: 10px;
+      color: #8a3b12;
+      font-size: 14px;
+    }
+    @media (min-width: 520px) {
+      main { padding-top: 28px; }
+      h1 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">實驗頁 · Listmap 地點問答 · 無帳號／無排行榜</div>
+  <main>
+    <p class="kicker">實驗頁</p>
+    <h1 id="quiz-title">Listmap 問答（實驗）</h1>
+    <p class="lead" id="quiz-subtitle">載入題庫中…</p>
+    <p class="honesty" id="quiz-honesty"></p>
+    <div class="progress" id="progress" hidden>
+      <span>已答 <strong id="answered-count">0</strong>／<span id="total-count">7</span></span>
+      <span id="live-score"></span>
+    </div>
+    <div id="quiz-root" aria-live="polite"></div>
+    <div class="actions" id="actions" hidden>
+      <button type="button" class="btn btn-primary" id="btn-results" disabled>看結果</button>
+      <button type="button" class="btn" id="btn-reset" hidden>再玩一次</button>
+    </div>
+    <section class="result" id="result" aria-live="polite">
+      <h2>本回合成績</h2>
+      <p class="score" id="final-score">0/7</p>
+      <p id="result-blurb"></p>
+      <p>
+        <a class="story-link" id="result-story" href="../stories/100110.html">打開相關故事 →</a>
+      </p>
+      <div class="actions" style="margin-top: 8px;">
+        <button type="button" class="btn btn-primary" id="btn-replay">再玩一次</button>
+        <a class="btn" href="index.html">其他實驗</a>
+      </div>
+    </section>
+    <p class="footnote">
+      此頁獨立存在於 <code>exp/</code>，未從首頁主要 CTA 連出。
+      題庫：<code>quiz-listmap-places.json</code>。
+      <a href="index.html">實驗目錄</a>
+    </p>
+  </main>
+  <script>
+    (function () {
+      var answers = Object.create(null);
+      var pack = null;
+      var currentIndex = 0;
+
+      function esc(value) {
+        return String(value == null ? '' : value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function packFile() {
+        var params = new URLSearchParams(window.location.search);
+        var raw = params.get('pack') || 'quiz-listmap-places.json';
+        raw = raw.replace(/^.*[\\/]/, '');
+        if (!/\.json$/i.test(raw)) raw += '.json';
+        return raw;
+      }
+
+      function storyHref(storyId) {
+        return '../stories/' + encodeURIComponent(String(storyId)) + '.html';
+      }
+
+      function markHtml() {
+        return (
+          '<span class="mark" aria-hidden="true">' +
+            '<svg class="check-mark" viewBox="0 0 16 16">' +
+              '<path d="M2.2 8.2c1.1 1.2 2.4 2.7 4.1 4.6 2.7-4.4 5.1-7.4 7.5-9.6" ' +
+                'fill="none" stroke="currentColor" stroke-width="2.2" ' +
+                'stroke-linecap="round" stroke-linejoin="round"/>' +
+            '</svg>' +
+            '<span class="radio"></span>' +
+          '</span>'
+        );
+      }
+
+      function renderQuestion(q, index) {
+        var opts = (q.options || []).map(function (opt) {
+          return (
+            '<li>' +
+              '<button type="button" class="opt" data-qid="' + esc(q.id) +
+                '" data-oid="' + esc(opt.id) + '">' +
+                markHtml() +
+                '<span class="opt-text">' + esc(opt.text) + '</span>' +
+              '</button>' +
+            '</li>'
+          );
+        }).join('');
+        return (
+          '<li class="q-block' + (index === 0 ? ' is-current' : '') +
+            '" id="q-' + esc(q.id) + '" data-index="' + index + '">' +
+            '<div class="q-head">' +
+              '<h2 class="q-title"><span class="num">' + (index + 1) + ')</span> ' +
+                esc(q.prompt) + '</h2>' +
+              '<span class="q-icon" aria-hidden="true">' + esc(q.icon || '📍') + '</span>' +
+            '</div>' +
+            '<ul class="options" role="list">' + opts + '</ul>' +
+          '</li>'
+        );
+      }
+
+      function answeredCount() {
+        return Object.keys(answers).length;
+      }
+
+      function scoreCount() {
+        if (!pack) return 0;
+        var n = 0;
+        pack.questions.forEach(function (q) {
+          if (answers[q.id] === q.correct) n += 1;
+        });
+        return n;
+      }
+
+      function updateProgress() {
+        var total = pack.questions.length;
+        var done = answeredCount();
+        document.getElementById('answered-count').textContent = String(done);
+        document.getElementById('total-count').textContent = String(total);
+        document.getElementById('live-score').textContent =
+          done ? ('目前 ' + scoreCount() + ' 題對') : '';
+        document.getElementById('btn-results').disabled = done < total;
+        if (done === total) {
+          document.getElementById('btn-results').focus();
+        }
+      }
+
+      function setCurrent(index) {
+        currentIndex = index;
+        document.querySelectorAll('.q-block').forEach(function (el) {
+          el.classList.toggle('is-current', Number(el.getAttribute('data-index')) === index);
+        });
+      }
+
+      function applyAnswer(q, pickedId) {
+        answers[q.id] = pickedId;
+        var block = document.getElementById('q-' + q.id);
+        if (!block) return;
+        block.classList.add('is-answered');
+        block.querySelectorAll('.opt').forEach(function (btn) {
+          var oid = btn.getAttribute('data-oid');
+          btn.disabled = true;
+          btn.classList.remove('is-picked', 'is-correct', 'is-wrong', 'is-dim');
+          if (oid === pickedId) btn.classList.add('is-picked');
+          if (oid === q.correct) {
+            btn.classList.add('is-correct');
+          } else if (oid === pickedId) {
+            btn.classList.add('is-wrong');
+          } else {
+            btn.classList.add('is-dim');
+          }
+        });
+        var idx = pack.questions.indexOf(q);
+        var next = idx + 1;
+        if (next < pack.questions.length && !answers[pack.questions[next].id]) {
+          setCurrent(next);
+          var nextEl = document.getElementById('q-' + pack.questions[next].id);
+          if (nextEl && window.matchMedia('(max-width: 720px)').matches) {
+            nextEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else if (answeredCount() === pack.questions.length) {
+          setCurrent(idx);
+        }
+        updateProgress();
+        if (answeredCount() === pack.questions.length) {
+          showResults(false);
+        }
+      }
+
+      function pickInviteStory() {
+        var wrong = pack.questions.find(function (q) {
+          return answers[q.id] && answers[q.id] !== q.correct;
+        });
+        var q = wrong || pack.questions[pack.questions.length - 1] || {
+          story_id: pack.default_story_id,
+          story_title: 'Listmap 故事'
+        };
+        return q;
+      }
+
+      function showResults(scroll) {
+        var total = pack.questions.length;
+        var score = scoreCount();
+        var invite = pickInviteStory();
+        var result = document.getElementById('result');
+        document.getElementById('final-score').textContent = score + '/' + total;
+        document.getElementById('result-blurb').textContent =
+          score === total
+            ? '全對！地圖上的店名與秘湯標題都對得起來。下一站可以打開一篇故事慢慢讀。'
+            : '答對 ' + score + ' 題。想核對細節的話，打開相關 Listmap 故事就好——那是地圖筆記，不是到訪證明。';
+        var link = document.getElementById('result-story');
+        link.href = storyHref(invite.story_id || pack.default_story_id);
+        link.textContent = '打開〈' + (invite.story_title || '相關故事') + '〉→';
+        result.classList.add('is-open');
+        document.getElementById('btn-reset').hidden = false;
+        if (scroll !== false) {
+          result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+
+      function resetQuiz() {
+        answers = Object.create(null);
+        document.getElementById('result').classList.remove('is-open');
+        document.getElementById('btn-reset').hidden = true;
+        mountQuiz(pack);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function mountQuiz(data) {
+        pack = data;
+        document.title = (data.title || 'Listmap 問答') + ' · 實驗';
+        document.getElementById('quiz-title').textContent = data.title || 'Listmap 問答（實驗）';
+        document.getElementById('quiz-subtitle').textContent = data.subtitle || '';
+        document.getElementById('quiz-honesty').textContent = data.honesty || data.note || '';
+        var root = document.getElementById('quiz-root');
+        if (!data.questions || !data.questions.length) {
+          root.innerHTML = '<p class="status-error">題庫沒有題目。</p>';
+          return;
+        }
+        root.innerHTML = '<ol class="quiz-list">' +
+          data.questions.map(renderQuestion).join('') + '</ol>';
+        document.getElementById('progress').hidden = false;
+        document.getElementById('actions').hidden = false;
+        setCurrent(0);
+        updateProgress();
+
+        root.onclick = function (ev) {
+          var btn = ev.target.closest('.opt');
+          if (!btn || btn.disabled) return;
+          var qid = btn.getAttribute('data-qid');
+          var oid = btn.getAttribute('data-oid');
+          var q = pack.questions.find(function (item) { return item.id === qid; });
+          if (!q || answers[qid]) return;
+          applyAnswer(q, oid);
+        };
+      }
+
+      document.getElementById('btn-results').addEventListener('click', function () {
+        if (answeredCount() < pack.questions.length) return;
+        showResults(true);
+      });
+      document.getElementById('btn-reset').addEventListener('click', resetQuiz);
+      document.getElementById('btn-replay').addEventListener('click', resetQuiz);
+
+      var file = packFile();
+      fetch(file, { cache: 'no-store' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(mountQuiz)
+        .catch(function (err) {
+          document.getElementById('quiz-subtitle').textContent = '';
+          document.getElementById('quiz-root').innerHTML =
+            '<p class="status-error">無法載入題庫（' + esc(file) + ' · ' +
+            esc(err.message) + '）。請以網頁伺服器開啟此頁。</p>';
+        });
+    })();
+  </script>
+</body>
+</html>
