@@ -362,3 +362,13 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100260,100110,清水五条駅,34.9956137,135.7684459,"京阪本線。官網最寄駅；徒歩約5分至開化堂本店（約估；京都觀光Navi另寫約7分）。OpenStreetMap railway station node 7944965637。",,cursor
 100261,100110,開化堂カフェ,34.9898989,135.7644162,"〒600-8143 京都市下京区河原町通七条上ル住吉町352。TEL 075-353-5668。同品牌錨點，非本篇主店。Café 10:00–18:30（L.O. 18:00）；定休木曜日。OpenStreetMap amenity=cafe node 5123266621。",https://www.kaikado-cafe.jp/,cursor
 
+100265,100085,行基の滝,34.900091,138.898197,伊豆市吉奈川上游、高13公尺寬3公尺的瀑布，相傳高僧行基曾在此受滝並供養被里人視為魔淵的水潭而得名，座標由使用者提供。,,claude-sonnet-5
+100266,100116,伊東ホテルジュラク,34.964874,139.090149,靜岡縣伊東市，2024年7月重新開幕的全包式溫泉飯店，擁有7處自家源泉，全客房皆附溫泉，10、11樓為附露天風呂的海景客房。,https://www.hotel-juraku.co.jp/ito/,claude-sonnet-5
+100267,100116,松島一の坊,38.388279,141.060349,宮城縣松島町，面朝日本三景松島灣的全包式溫泉度假村，館內附設已故人間國寶玻璃工藝家藤田喬平的玻璃美術館。,https://ichinobo.com/matsushima/,claude-sonnet-5
+100268,100116,北小梧知床ホテル&リゾート,44.0718739,144.9955971,北海道斜里町宇登呂，面向鄂霍次克海的全包式溫泉飯店，冬季可從露天風呂、三溫暖眺望流冰，館內設有以流冰跟樹洞為主題的兩座三溫暖。,https://www.shiretoko.co.jp/,claude-sonnet-5
+100269,100116,遊森俱樂部,38.125103,140.556,宮城縣藏王町遠刈田溫泉，坐落在藏王國定公園13萬平方公尺森林裡的成人限定（6歲以上）全包式溫泉旅館，園區內有溪畔小屋跟兩座森林露天風呂。,https://www.ichinobo.com/yutomori-club/,claude-sonnet-5
+100270,100117,Union Square Cafe,40.7377450,-73.9879650,Danny Meyer 1985年開的第一間餐廳，現址在東19街101號，是「啟蒙式款待」理念的起點。,https://www.unionsquarecafe.com/,claude-sonnet-5
+100271,100117,Gramercy Tavern,40.7384374,-73.9884138,1994年開業，隨季節更換菜單的美式料理餐廳，累積拿下九座James Beard Award。,https://www.gramercytavern.com/,claude-sonnet-5
+100272,100117,The Modern,40.7610807,-73.9770877,開在紐約現代藝術博物館（MoMA）裡的米其林二星餐廳，望向博物館雕塑花園。,https://www.themodernnyc.com/,claude-sonnet-5
+100273,100117,Shake Shack（麥迪遜廣場公園1號店）,40.7415111,-73.9881732,2001年先是公園整修募款的臨時熱狗餐車，2004年在公園東北角開出第一間永久店面，後於2015年獨立上市。,https://shakeshack.com/location/madison-square-park-ny,claude-sonnet-5
+100274,100117,Union Square Tokyo,35.6665482,139.7305949,2007年開業，Union Square Hospitality Group目前唯一的海外分店，位於六本木Tokyo Midtown內。,https://unionsquaretokyo.com/en,claude-sonnet-5
