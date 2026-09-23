@@ -360,3 +360,7 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100272,100117,The Modern,40.7610807,-73.9770877,開在紐約現代藝術博物館（MoMA）裡的米其林二星餐廳，望向博物館雕塑花園。,https://www.themodernnyc.com/,claude-sonnet-5
 100273,100117,Shake Shack（麥迪遜廣場公園1號店）,40.7415111,-73.9881732,2001年先是公園整修募款的臨時熱狗餐車，2004年在公園東北角開出第一間永久店面，後於2015年獨立上市。,https://shakeshack.com/location/madison-square-park-ny,claude-sonnet-5
 100274,100117,Union Square Tokyo,35.6665482,139.7305949,2007年開業，Union Square Hospitality Group目前唯一的海外分店，位於六本木Tokyo Midtown內。,https://unionsquaretokyo.com/en,claude-sonnet-5
+100275,100118,田尻漁港／日曜朝市會場,34.397916,135.288179,主會場。〒598-0093 大阪府泉南郡田尻町りんくうポート北1番。每週日曜 7:00–12:00；現金為主；雨天原則開催。細節對官網。,https://tajiri-asaichi.com/,cursor
+100276,100118,吉見ノ里駅,34.3911730,135.2894518,南海本線。主建議最寄駅。走到朝市會場大約十到十五分鐘。,,cursor
+100277,100118,田尻天空橋（スカイブリッジ）,34.3984061,135.2851002,港邊斜張橋；港邊收景展望，非第二市集。兩側遊歩道可眺關西空港。,,cursor
+100278,100118,りんくうタウン駅,34.4107517,135.2996565,南海空港線／JR 関西空港線。備援門戶；徒歩約二十分至會場，或巴士「りんくうポート北」。勿與吉見ノ里強制雙站連走。,,cursor
