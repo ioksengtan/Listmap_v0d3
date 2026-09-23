@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T97FXT0K1E"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T97FXT0K1E');</script>
+  <meta charset="utf-8">
+  <title>地標猜謎 — Listmap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="js/map-core.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/blog.css">
+  <style>
+    :root {
+      --p: #3b5bdb; --p-light: #eef2ff; --p-dark: #1e3a8a;
+      --ok: #2f9e44; --ok-light: #ebfbee;
+      --warn: #e67700; --warn-light: #fff4e6;
+      --line: #dee2e6; --ink: #212529; --ink-soft: #6c757d; --ink-faint: #adb5bd;
+    }
+    .col.right#guesser-panel { background: #f8f9fa; display: flex; flex-direction: column; overflow-y: auto; }
+    .guesser-hud { padding: 20px 18px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+    /* Progress */
+    .round-bar { display: flex; align-items: center; gap: 10px; }
+    .round-pips { display: flex; gap: 5px; }
+    .pip { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+    .pip.done { background: var(--ok); }
+    .pip.active { background: var(--p); }
+    .round-label { font-size: 12px; color: var(--ink-soft); margin-left: auto; }
+
+    /* Clue card */
+    .clue-card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+    .clue-card .landmark-name { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; color: var(--ink); }
+    .clue-card .landmark-content { font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+    .clue-card .hint-tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 3px; padding: 2px 7px; margin-top: 8px; background: var(--p-light); color: var(--p); }
+
+    /* Map instruction */
+    .map-instruction { font-size: 12.5px; color: var(--ink-soft); text-align: center; padding: 6px 10px; background: #fff; border: 1px dashed var(--line); border-radius: 8px; }
+
+    /* Feedback */
+    .feedback { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; display: none; }
+    .feedback.visible { display: block; }
+    .feedback .dist-line { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0 0 4px; }
+    .feedback .story-link { font-size: 12.5px; color: var(--p); text-decoration: none; }
+    .feedback .story-link:hover { text-decoration: underline; }
+    .score-badge { display: inline-block; font-size: 22px; font-weight: 700; color: var(--p); margin-bottom: 6px; }
+
+    /* Total scores row */
+    .scores-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .score-chip { flex: 1; min-width: 40px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; text-align: center; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+    .score-chip.filled { color: var(--p); border-color: var(--p-light); background: var(--p-light); }
+
+    /* Buttons */
+    .guesser-btn { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 700; border-radius: 9px; padding: 10px 14px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; width: 100%; transition: filter .12s; }
+    .guesser-btn:hover { filter: brightness(0.96); }
+    .guesser-btn.primary { background: var(--p); border-color: var(--p); color: #fff; }
+    .guesser-btn.primary:hover { filter: brightness(1.1); }
+    .guesser-btn:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+
+    /* Result screen */
+    .result-screen { display: none; padding: 20px 18px; flex-direction: column; gap: 16px; background: #f8f9fa; height: 100%; }
+    .result-screen.visible { display: flex; }
+    .guesser-hud.hidden { display: none; }
+    .result-screen h2 { font-family: 'Fraunces', serif; font-size: 22px; margin: 0; }
+    .result-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .result-table th { text-align: left; color: var(--ink-faint); font-weight: 600; font-size: 11px; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--line); }
+    .result-table td { padding: 7px 6px; border-bottom: 1px solid var(--line); color: var(--ink); }
+    .total-score-big { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; color: var(--p); }
+    .total-score-label { font-size: 13px; color: var(--ink-soft); }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Listmap</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">首頁</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">故事</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navGames" role="button" data-bs-toggle="dropdown" aria-expanded="false">遊戲</a>
+          <ul class="dropdown-menu" aria-labelledby="navGames">
+            <li><a class="dropdown-item" href="game.html">燕雲十六州・圍棋版</a></li>
+            <li><a class="dropdown-item" href="gomoku.html">燕雲十六州・五子棋版</a></li>
+            <li><a class="dropdown-item active" href="landmark-guesser.html">地標猜謎</a></li>
+            <li><a class="dropdown-item" href="route-challenge.html">最短路線挑戰</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="about.html">關於</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="containe-fluid" style="height:100%; width:100%;">
+  <div class="row map-split" style="height:100%; width:100%;">
+
+    <div id="map" class="col left"></div>
+
+    <div class="col right" id="guesser-panel">
+
+      <!-- Main HUD -->
+      <div class="guesser-hud" id="guesserHud">
+        <div class="round-bar">
+          <div class="round-pips" id="roundPips"></div>
+          <span class="round-label" id="roundLabel">第 1 題 / 5</span>
+        </div>
+
+        <div class="clue-card" id="clueCard">
+          <div class="landmark-name" id="clueName">載入中…</div>
+          <div class="landmark-content" id="clueContent"></div>
+          <span class="hint-tag" id="clueTag" style="display:none"></span>
+        </div>
+
+        <div class="map-instruction" id="mapInstruction">在地圖上點擊你認為的位置，然後按「提交答案」</div>
+
+        <div class="feedback" id="feedback">
+          <div class="score-badge" id="scoreEarned"></div>
+          <div class="dist-line" id="distLine"></div>
+          <a class="story-link" id="storyLink" href="#" target="_blank"></a>
+        </div>
+
+        <div class="scores-row" id="scoresRow"></div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="guesser-btn primary" id="btnSubmit" disabled>提交答案</button>
+          <button class="guesser-btn" id="btnNext" style="display:none">下一題 →</button>
+        </div>
+      </div>
+
+      <!-- Result screen -->
+      <div class="result-screen" id="resultScreen">
+        <div>
+          <div class="total-score-label">最終得分</div>
+          <div class="total-score-big" id="totalScoreBig"></div>
+          <div class="total-score-label">滿分 25,000 分</div>
+        </div>
+        <table class="result-table">
+          <thead><tr><th>地標</th><th>距離</th><th>得分</th></tr></thead>
+          <tbody id="resultBody"></tbody>
+        </table>
+        <button class="guesser-btn primary" id="btnReplay">再玩一次</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var MAX_ROUNDS = 5;
+  var rounds = [];        // {lm, storyTitle, storyId}
+  var results = [];       // {name, distKm, score}
+  var currentRound = -1;
+  var guessMarker = null;
+  var revealMarker = null;
+  var revealLine = null;
+  var answered = false;
+
+  // Map: world view, click to guess
+  var map = ListmapMapCore.createMap("map", { center: [20, 20], zoom: 2 });
+  var guessIcon = L.divIcon({ className: '', html: '<div style="width:18px;height:18px;border-radius:50%;background:#3b5bdb;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>', iconSize: [18,18], iconAnchor: [9,9] });
+  var answerIcon = L.divIcon({ className: '', html: '<div style="width:18px;height:18px;border-radius:50%;background:#e03131;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>', iconSize: [18,18], iconAnchor: [9,9] });
+
+  map.on('click', function(e) {
+    if (answered) return;
+    if (guessMarker) map.removeLayer(guessMarker);
+    guessMarker = L.marker(e.latlng, { icon: guessIcon }).addTo(map);
+    guessMarker.bindTooltip('あなたの回答', { direction: 'top', offset: [0,-10] });
+    document.getElementById('btnSubmit').disabled = false;
+  });
+
+  function haversine(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+    var a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function scoreFromKm(km) {
+    return Math.max(0, Math.round(5000 * Math.exp(-km / 2000)));
+  }
+
+  function fmtKm(km) {
+    return km < 1 ? Math.round(km*1000) + ' m' : Math.round(km).toLocaleString() + ' km';
+  }
+
+  function shuffle(arr) {
+    for (var i = arr.length-1; i > 0; i--) {
+      var j = Math.floor(Math.random()*(i+1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function buildPips() {
+    var el = document.getElementById('roundPips');
+    el.innerHTML = '';
+    for (var i = 0; i < MAX_ROUNDS; i++) {
+      var d = document.createElement('div');
+      d.className = 'pip' + (i < currentRound ? ' done' : i === currentRound ? ' active' : '');
+      el.appendChild(d);
+    }
+  }
+
+  function buildScoreChips() {
+    var el = document.getElementById('scoresRow');
+    el.innerHTML = '';
+    for (var i = 0; i < MAX_ROUNDS; i++) {
+      var d = document.createElement('div');
+      d.className = 'score-chip' + (i < results.length ? ' filled' : '');
+      d.textContent = i < results.length ? results[i].score.toLocaleString() : '—';
+      el.appendChild(d);
+    }
+  }
+
+  function showRound(idx) {
+    answered = false;
+    currentRound = idx;
+    var r = rounds[idx];
+
+    // Reset map
+    if (guessMarker) { map.removeLayer(guessMarker); guessMarker = null; }
+    if (revealMarker) { map.removeLayer(revealMarker); revealMarker = null; }
+    if (revealLine) { map.removeLayer(revealLine); revealLine = null; }
+    map.setView([20, 20], 2);
+
+    // UI
+    document.getElementById('roundLabel').textContent = '第 ' + (idx+1) + ' 題 / ' + MAX_ROUNDS;
+    buildPips();
+    buildScoreChips();
+
+    document.getElementById('clueName').textContent = r.lm.name;
+    document.getElementById('clueContent').textContent = r.lm.content ? r.lm.content.slice(0, 100) : '';
+
+    var tagEl = document.getElementById('clueTag');
+    if (r.tags) {
+      tagEl.textContent = r.tags.split(',')[0].trim();
+      tagEl.style.display = 'inline-block';
+    } else {
+      tagEl.style.display = 'none';
+    }
+
+    document.getElementById('feedback').className = 'feedback';
+    document.getElementById('mapInstruction').style.display = '';
+    document.getElementById('btnSubmit').disabled = true;
+    document.getElementById('btnNext').style.display = 'none';
+  }
+
+  function submitGuess() {
+    if (!guessMarker || answered) return;
+    answered = true;
+
+    var r = rounds[currentRound];
+    var ansLat = parseFloat(r.lm.lat), ansLng = parseFloat(r.lm.lng);
+    var gl = guessMarker.getLatLng();
+    var distKm = haversine(gl.lat, gl.lng, ansLat, ansLng);
+    var score = scoreFromKm(distKm);
+
+    results.push({ name: r.lm.name, distKm: distKm, score: score });
+
+    // Reveal
+    revealMarker = L.marker([ansLat, ansLng], { icon: answerIcon }).addTo(map);
+    revealMarker.bindTooltip(r.lm.name, { permanent: true, direction: 'top', offset: [0,-10] });
+    revealLine = L.polyline([[gl.lat, gl.lng], [ansLat, ansLng]], { color: '#3b5bdb', weight: 2, dashArray: '6 4', opacity: 0.8 }).addTo(map);
+    map.fitBounds([[gl.lat, gl.lng], [ansLat, ansLng]], { padding: [40, 40], maxZoom: 10 });
+
+    // Feedback panel
+    var fb = document.getElementById('feedback');
+    fb.className = 'feedback visible';
+    document.getElementById('scoreEarned').textContent = '+' + score.toLocaleString() + ' 分';
+    document.getElementById('distLine').textContent = '距離正確位置：' + fmtKm(distKm);
+    var lnk = document.getElementById('storyLink');
+    lnk.textContent = '→ ' + r.storyTitle;
+    lnk.href = 'stories/' + r.storyId + '.html';
+
+    document.getElementById('mapInstruction').style.display = 'none';
+    document.getElementById('btnSubmit').disabled = true;
+    buildScoreChips();
+
+    if (currentRound + 1 < MAX_ROUNDS) {
+      document.getElementById('btnNext').style.display = '';
+    } else {
+      document.getElementById('btnNext').textContent = '查看結果';
+      document.getElementById('btnNext').style.display = '';
+    }
+  }
+
+  function showResult() {
+    document.getElementById('guesserHud').className = 'guesser-hud hidden';
+    var rs = document.getElementById('resultScreen');
+    rs.className = 'result-screen visible';
+
+    var total = results.reduce(function(s,r){ return s+r.score; }, 0);
+    document.getElementById('totalScoreBig').textContent = total.toLocaleString();
+
+    var tbody = document.getElementById('resultBody');
+    tbody.innerHTML = '';
+    results.forEach(function(r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + r.name + '</td><td>' + fmtKm(r.distKm) + '</td><td>' + r.score.toLocaleString() + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    if (guessMarker) { map.removeLayer(guessMarker); guessMarker = null; }
+    if (revealMarker) { map.removeLayer(revealMarker); revealMarker = null; }
+    if (revealLine) { map.removeLayer(revealLine); revealLine = null; }
+    map.setView([20, 20], 2);
+  }
+
+  function initGame(payload) {
+    var storyMap = {};
+    payload.stories.forEach(function(s) { storyMap[String(s.story_id)] = s; });
+    var publicIds = new Set(payload.stories.filter(function(s){ return s.visibility === 'public'; }).map(function(s){ return String(s.story_id); }));
+
+    var usable = payload.landmarks.filter(function(lm) {
+      return lm.content && lm.content.length > 15 && !lm.bounds && lm.name && publicIds.has(String(lm.story_id));
+    });
+
+    shuffle(usable);
+    var seen = new Set();
+    rounds = [];
+    usable.forEach(function(lm) {
+      var sid = String(lm.story_id);
+      if (!seen.has(sid) && rounds.length < MAX_ROUNDS) {
+        seen.add(sid);
+        var s = storyMap[sid] || {};
+        rounds.push({ lm: lm, storyTitle: s.title || sid, storyId: sid, tags: s.tags || '' });
+      }
+    });
+
+    document.getElementById('clueName').textContent = '準備好了嗎？';
+    document.getElementById('clueContent').textContent = '在左側地圖點擊你認為的位置，然後按「提交答案」。';
+    showRound(0);
+  }
+
+  // Load data
+  fetch('data/static.json')
+    .then(function(r) { return r.json(); })
+    .then(initGame)
+    .catch(function() {
+      document.getElementById('clueName').textContent = '無法載入資料';
+      document.getElementById('clueContent').textContent = '請確認 data/static.json 存在。';
+    });
+
+  document.getElementById('btnSubmit').addEventListener('click', submitGuess);
+  document.getElementById('btnNext').addEventListener('click', function() {
+    if (currentRound + 1 < MAX_ROUNDS) {
+      showRound(currentRound + 1);
+    } else {
+      showResult();
+    }
+  });
+  document.getElementById('btnReplay').addEventListener('click', function() {
+    results = [];
+    document.getElementById('resultScreen').className = 'result-screen';
+    document.getElementById('guesserHud').className = 'guesser-hud';
+    fetch('data/static.json').then(function(r){return r.json();}).then(initGame);
+  });
+})();
+</script>
+</body>
+</html>

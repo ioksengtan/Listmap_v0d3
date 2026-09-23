@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T97FXT0K1E"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T97FXT0K1E');</script>
+  <meta charset="utf-8">
+  <title>燕雲十六州・五子棋版 — Listmap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="js/map-core.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/blog.css">
+  <style>
+    :root {
+      --g-surface: #f8f5f0; --g-surface-2: #ece8de; --g-ink: #2a2419;
+      --g-ink-soft: #6b6250; --g-ink-faint: #948a72;
+      --g-line: #c3b791; --g-accent: #9c2e22; --g-accent-2: #c24d34;
+      --g-accent-ink: #fdf6ea; --g-ok: #4c6b3f; --g-warn: #9c2e22;
+    }
+    .col.right#game-panel { background: var(--g-surface); display: flex; flex-direction: column; overflow-y: auto; }
+    .game-hud { padding: 20px 18px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+    .game-title-block { border-bottom: 1px solid var(--g-line); padding-bottom: 14px; }
+    .game-title-block h2 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+    .game-title-block p { font-size: 12.5px; color: var(--g-ink-soft); margin: 0; line-height: 1.6; }
+    .badge-experimental { display: inline-block; margin-left: 7px; padding: 1px 7px; border: 1px solid var(--g-accent-2); color: var(--g-accent-2); border-radius: 999px; font-size: 10px; font-weight: 700; vertical-align: middle; }
+    .turn-panel { background: #fff; border: 1px solid var(--g-line); border-radius: 12px; padding: 14px 16px; }
+    .turn-label { font-size: 11px; color: var(--g-ink-faint); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+    .turn-value { display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+    .dot.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1px solid #050403; }
+    .dot.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1px solid #2a2419; }
+    .score-row { display: flex; gap: 10px; }
+    .score-tile { flex: 1; background: #fff; border: 1px solid var(--g-line); border-radius: 12px; padding: 10px 12px; text-align: center; }
+    .score-tile .side { font-size: 11.5px; color: var(--g-ink-soft); }
+    .score-tile .count { font-size: 22px; font-weight: 700; margin-top: 2px; color: var(--g-ink); }
+    .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--g-ink-soft); background: #fff; border: 1px solid var(--g-line); border-radius: 12px; padding: 12px 14px; }
+    .legend .item { display: flex; align-items: center; gap: 5px; }
+    .swatch { width: 13px; height: 13px; border-radius: 50%; flex: none; }
+    .swatch.empty { background: #ece8de; border: 2px solid #c3b791; }
+    .swatch.black { background: radial-gradient(circle at 35% 30%, #4d463a, #14110c); border: 1.3px solid #050403; }
+    .swatch.white { background: radial-gradient(circle at 35% 30%, #fdf8ec, #e7dcc0); border: 1.3px solid #2a2419; }
+    .swatch.hub { background: transparent; border: 2.5px solid #c3b791; }
+    .game-actions { display: flex; flex-direction: column; gap: 8px; }
+    .game-actions button { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 700; border-radius: 9px; padding: 10px 14px; border: 1px solid var(--g-line); background: var(--g-surface-2); color: var(--g-ink); cursor: pointer; transition: filter .12s; width: 100%; }
+    .game-actions button:hover { filter: brightness(0.96); }
+    .game-actions button.primary { background: var(--g-accent); border-color: var(--g-accent); color: var(--g-accent-ink); }
+    .game-actions button.primary:hover { filter: brightness(1.1); }
+    .log-panel { flex: 1; background: #fff; border: 1px solid var(--g-line); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; }
+    .log-panel h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--g-ink-faint); margin: 0 0 8px; font-weight: 700; }
+    #log { list-style: none; margin: 0; padding: 0; overflow-y: auto; max-height: 220px; display: flex; flex-direction: column; gap: 5px; }
+    #log li { font-size: 12.5px; line-height: 1.5; padding: 6px 10px; border-radius: 7px; background: var(--g-surface); color: var(--g-ink-soft); }
+    #log li.event-win { color: var(--g-ok); font-weight: 700; }
+    #log li.event-illegal { color: var(--g-warn); }
+    #log li:first-child { color: var(--g-ink); }
+    .leaflet-tooltip.city-tip { font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 11.5px; background: #fff; color: var(--g-ink); border: 1px solid var(--g-line); padding: 1px 5px; box-shadow: none; }
+    /* Win highlight */
+    .city-win { animation: pulse 0.6s ease infinite alternate; }
+    @keyframes pulse { from { opacity: 1; } to { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Listmap</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">首頁</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">故事</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navGames" role="button" data-bs-toggle="dropdown" aria-expanded="false">遊戲</a>
+          <ul class="dropdown-menu" aria-labelledby="navGames">
+            <li><a class="dropdown-item" href="game.html">燕雲十六州・圍棋版</a></li>
+            <li><a class="dropdown-item active" href="gomoku.html">燕雲十六州・五子棋版</a></li>
+            <li><a class="dropdown-item" href="landmark-guesser.html">地標猜謎</a></li>
+            <li><a class="dropdown-item" href="route-challenge.html">最短路線挑戰</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="about.html">關於</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="containe-fluid" style="height:100%; width:100%;">
+  <div class="row map-split" style="height:100%; width:100%;">
+    <div id="map" class="col left"></div>
+    <div class="col right" id="game-panel">
+      <div class="game-hud">
+        <div class="game-title-block">
+          <h2>燕雲十六州<span class="badge-experimental">五子棋版</span></h2>
+          <p>同一引擎，不同勝利條件——率先佔領 <strong>5 座相連城市</strong>（圖上鄰接）即勝。無提子，無禁入，無打劫。</p>
+        </div>
+        <div class="turn-panel">
+          <div class="turn-label">現在輪到</div>
+          <div class="turn-value"><span id="turnDot" class="dot black"></span><span id="turnText">契丹（黑）</span></div>
+        </div>
+        <div class="score-row">
+          <div class="score-tile"><div class="side">黑（契丹）城市</div><div class="count" id="countBlack">0</div></div>
+          <div class="score-tile"><div class="side">白（中原）城市</div><div class="count" id="countWhite">0</div></div>
+        </div>
+        <div class="legend">
+          <span class="item"><span class="swatch empty"></span>中立空城</span>
+          <span class="item"><span class="swatch black"></span>黑（契丹）</span>
+          <span class="item"><span class="swatch white"></span>白（中原）</span>
+          <span class="item"><span class="swatch hub"></span>樞紐城市</span>
+          <span class="item" style="width:100%;margin-top:2px;font-size:11px;">目標：佔領任意 5 座相鄰城市</span>
+        </div>
+        <div class="game-actions">
+          <button id="btnReset">重新開始</button>
+        </div>
+        <div class="log-panel">
+          <h3>對局紀錄</h3>
+          <ul id="log"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var CITIES = [
+    { id: "youzhou",       name: "幽州", lat: 39.9042, lng: 116.4074, hub: true },
+    { id: "jizhou",        name: "薊州", lat: 40.0455, lng: 117.4048 },
+    { id: "zhuozhou",      name: "涿州", lat: 39.4855, lng: 115.9723 },
+    { id: "tanzhou",       name: "檀州", lat: 40.3755, lng: 116.8434 },
+    { id: "shunzhou",      name: "順州", lat: 40.1300, lng: 116.6540 },
+    { id: "yingzhou_he",   name: "瀛州", lat: 38.4437, lng: 116.0891 },
+    { id: "mozhou",        name: "莫州", lat: 38.7100, lng: 116.1300 },
+    { id: "xinzhou",       name: "新州", lat: 40.3823, lng: 115.2179 },
+    { id: "guizhou",       name: "媯州", lat: 40.4076, lng: 115.5089 },
+    { id: "ruzhou",        name: "儒州", lat: 40.4649, lng: 115.9750 },
+    { id: "wuzhou",        name: "武州", lat: 40.6086, lng: 115.0400 },
+    { id: "yunzhou",       name: "雲州", lat: 40.0768, lng: 113.3001, hub: true },
+    { id: "yingzhou_ying", name: "應州", lat: 39.5522, lng: 113.1888 },
+    { id: "huanzhou",      name: "寰州", lat: 39.5478, lng: 112.8266 },
+    { id: "shuozhou",      name: "朔州", lat: 39.3316, lng: 112.4330 },
+    { id: "weizhou",       name: "蔚州", lat: 39.8378, lng: 114.5686, hub: true }
+  ];
+  var EDGES = [
+    ["youzhou","jizhou"],["youzhou","zhuozhou"],["youzhou","tanzhou"],["youzhou","shunzhou"],
+    ["tanzhou","shunzhou"],["jizhou","shunzhou"],
+    ["zhuozhou","mozhou"],["mozhou","yingzhou_he"],["zhuozhou","yingzhou_he"],
+    ["youzhou","ruzhou"],["ruzhou","guizhou"],["guizhou","xinzhou"],
+    ["xinzhou","wuzhou"],["wuzhou","yunzhou"],
+    ["yunzhou","shuozhou"],["shuozhou","huanzhou"],["huanzhou","yingzhou_ying"],
+    ["yingzhou_ying","weizhou"],["xinzhou","weizhou"],["zhuozhou","weizhou"],
+    ["yunzhou","yingzhou_ying"]
+  ];
+  var WIN_SIZE = 5;
+
+  var neighbors = {};
+  CITIES.forEach(function(c){ neighbors[c.id] = []; });
+  EDGES.forEach(function(e){ neighbors[e[0]].push(e[1]); neighbors[e[1]].push(e[0]); });
+  var order = CITIES.map(function(c){ return c.id; });
+  var cityById = {};
+  CITIES.forEach(function(c){ cityById[c.id] = c; });
+
+  var STYLE = {
+    empty: { fillColor: "#ece8de", color: "#c3b791", fillOpacity: 1 },
+    black: { fillColor: "#14110c", color: "#050403", fillOpacity: 1 },
+    white: { fillColor: "#fdf8ec", color: "#2a2419", fillOpacity: 1 },
+    winBlack: { fillColor: "#14110c", color: "#c24d34", fillOpacity: 1 },
+    winWhite: { fillColor: "#fdf8ec", color: "#c24d34", fillOpacity: 1 }
+  };
+
+  var board = {};
+  order.forEach(function(id){ board[id] = null; });
+  var turn = "black";
+  var gameOver = false;
+  var lastMove = null;
+  var lastMoveDot = null;
+
+  // Leaflet
+  var bds = L.latLngBounds(CITIES.map(function(c){ return [c.lat,c.lng]; }));
+  var map = ListmapMapCore.createMap("map", { center: bds.getCenter(), zoom: 7 });
+  function fitMap(){ map.invalidateSize(); map.fitBounds(bds, { padding: [40,40] }); }
+  fitMap(); setTimeout(fitMap, 0); window.addEventListener("load", fitMap);
+
+  EDGES.forEach(function(e){
+    var a = cityById[e[0]], b = cityById[e[1]];
+    L.polyline([[a.lat,a.lng],[b.lat,b.lng]], { color: "#c3b791", weight: 2, opacity: 0.9 }).addTo(map);
+  });
+
+  var markers = {};
+  CITIES.forEach(function(c){
+    var m = L.circleMarker([c.lat,c.lng], {
+      radius: c.hub ? 12 : 10, weight: c.hub ? 3 : 1.6,
+      fillColor: STYLE.empty.fillColor, color: STYLE.empty.color, fillOpacity: 1
+    }).addTo(map);
+    m.bindTooltip(c.name, { permanent: true, direction: "top", offset: [0,-8], className: "city-tip" });
+    m.on("click", function(){ attemptMove(c.id); });
+    m.on("mouseover", function(){ if (!board[c.id] && !gameOver) m.setStyle({ color: "#c24d34" }); });
+    m.on("mouseout",  function(){ if (!board[c.id] && !gameOver) m.setStyle({ color: STYLE.empty.color }); });
+    markers[c.id] = m;
+  });
+
+  function checkWin(color) {
+    // BFS: find largest connected component of this color
+    var visited = new Set();
+    var owned = order.filter(function(id){ return board[id] === color; });
+    var winGroup = null;
+    for (var i = 0; i < owned.length; i++) {
+      var start = owned[i];
+      if (visited.has(start)) continue;
+      var comp = new Set([start]);
+      var stack = [start];
+      while (stack.length) {
+        var cur = stack.pop();
+        neighbors[cur].forEach(function(n){
+          if (board[n] === color && !comp.has(n)) { comp.add(n); stack.push(n); }
+        });
+      }
+      comp.forEach(function(x){ visited.add(x); });
+      if (comp.size >= WIN_SIZE) { winGroup = comp; break; }
+    }
+    return winGroup;
+  }
+
+  function attemptMove(id) {
+    if (gameOver) return;
+    if (board[id] !== null) { logMsg("此城市已被佔領。", "illegal"); return; }
+    board[id] = turn;
+    logMsg(faction(turn) + "佔領「" + nameOf(id) + "」。（已佔 " + order.filter(function(x){ return board[x]===turn; }).length + " 座）");
+    lastMove = { id: id, color: turn };
+
+    var winGroup = checkWin(turn);
+    if (winGroup) {
+      gameOver = true;
+      logMsg(faction(turn) + "以 " + winGroup.size + " 座相連城市獲勝！", "win");
+      winGroup.forEach(function(wid){
+        var s = turn === "black" ? STYLE.winBlack : STYLE.winWhite;
+        markers[wid].setStyle({ fillColor: s.fillColor, color: s.color, weight: 3.5 });
+      });
+      document.getElementById("turnText").textContent = faction(turn) + " 獲勝！";
+    } else {
+      turn = turn === "black" ? "white" : "black";
+      document.getElementById("turnDot").className = "dot " + turn;
+      document.getElementById("turnText").textContent = faction(turn);
+    }
+
+    render();
+  }
+
+  function render() {
+    order.forEach(function(id){
+      var c = cityById[id], m = markers[id];
+      if (board[id] === null) {
+        m.setStyle({ radius: c.hub?12:10, fillColor: STYLE.empty.fillColor, color: STYLE.empty.color, weight: c.hub?3:1.6 });
+        m.setTooltipContent(c.name);
+      } else {
+        var s = board[id] === "black" ? STYLE.black : STYLE.white;
+        m.setStyle({ radius: c.hub?13:11, fillColor: s.fillColor, color: s.color, weight: c.hub?2.6:1.5 });
+        m.setTooltipContent(c.name);
+      }
+    });
+    if (lastMoveDot) { map.removeLayer(lastMoveDot); lastMoveDot = null; }
+    if (lastMove) {
+      var lc = cityById[lastMove.id];
+      lastMoveDot = L.circleMarker([lc.lat,lc.lng], {
+        radius: 3, weight: 0, fillOpacity: 1, interactive: false,
+        fillColor: lastMove.color === "black" ? "#d8c9a3" : "#2a2419"
+      }).addTo(map);
+    }
+    document.getElementById("countBlack").textContent = order.filter(function(id){ return board[id]==="black"; }).length;
+    document.getElementById("countWhite").textContent = order.filter(function(id){ return board[id]==="white"; }).length;
+  }
+
+  function nameOf(id){ return cityById[id]?cityById[id].name:id; }
+  function faction(c){ return c==="black"?"契丹（黑）":"中原（白）"; }
+
+  function logMsg(text, kind) {
+    var ul = document.getElementById("log");
+    var li = document.createElement("li");
+    li.textContent = text;
+    if (kind) li.className = "event-" + kind;
+    ul.insertBefore(li, ul.firstChild);
+    while (ul.children.length > 60) ul.removeChild(ul.lastChild);
+  }
+
+  document.getElementById("btnReset").addEventListener("click", function(){
+    order.forEach(function(id){ board[id] = null; });
+    turn = "black"; gameOver = false; lastMove = null;
+    document.getElementById("log").innerHTML = "";
+    document.getElementById("turnDot").className = "dot black";
+    document.getElementById("turnText").textContent = "契丹（黑）";
+    render();
+    logMsg("重新開始，契丹（黑）先行。目標：佔領 " + WIN_SIZE + " 座相連城市。");
+  });
+
+  logMsg("對局開始，契丹（黑）先行。率先佔領 " + WIN_SIZE + " 座相連城市者勝！");
+  render();
+})();
+</script>
+</body>
+</html>

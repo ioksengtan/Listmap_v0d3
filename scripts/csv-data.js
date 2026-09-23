@@ -7,7 +7,7 @@ const { parse } = require('csv-parse/sync');
 const ROOT = path.join(__dirname, '..');
 
 /** Public Pages hashtags: drop anything outside this list rather than inventing labels. */
-const ALLOWED_STORY_TAGS = ['去過', '想去', '渡假', '吃'];
+const ALLOWED_STORY_TAGS = ['去過', '想去', '渡假', '吃', '人物'];
 
 function normalizeStoryTags(raw) {
   const allowed = new Set(ALLOWED_STORY_TAGS);
