@@ -1,0 +1,83 @@
+{
+  "stories": [
+    {
+      "story_id": "100112",
+      "collection_id": "",
+      "title": "京都永樂屋一帶：室町手拭棉布半日",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kyoto Eirakuya Muromachi Tenugui",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-24",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100279",
+      "story_id": "100112",
+      "name": "永樂屋本店／細辻伊兵衛美術館",
+      "lat": "35.0092756",
+      "lng": "135.7582358",
+      "content": "〒604-8174 京都市中京区室町通三条上ル役行者町368。TEL 075-256-0077。本店與美術館同址：店 10:00–19:00（原則無休）；館 10:00–19:00（入館至 18:30）。座標採 OpenStreetMap 美術館節點 12749348037；作文住所以官網為準。",
+      "link": "https://www.eirakuya.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100280",
+      "story_id": "100112",
+      "name": "烏丸御池駅",
+      "lat": "35.0108236",
+      "lng": "135.7596456",
+      "content": "京都市營地下鐵烏丸線・東西線。官網最寄：徒歩約三分鐘至永樂屋本店。OpenStreetMap railway station node 6565091981。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100281",
+      "story_id": "100112",
+      "name": "京都府京都文化博物館",
+      "lat": "35.0094898",
+      "lng": "135.7623128",
+      "content": "〒604-8183 京都市中京区高倉通三条上る東片町623-1。三条一帶可選加碼；綜合展示時段對 bunpaku.or.jp（月曜休常見）。OpenStreetMap way 352042994。",
+      "link": "https://www.bunpaku.or.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100282",
+      "story_id": "100112",
+      "name": "宮脇賣扇庵 京都本店",
+      "lat": "",
+      "lng": "",
+      "content": "〒604-8073 京都市中京区六角通富小路東入ル大黒町80-3。TEL 075-221-0181。10:00–18:00（夏季至 19:00）。烏丸御池徒歩約七分鐘（官網）。座標未知。",
+      "link": "https://baisenan.co.jp/about/shop/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
