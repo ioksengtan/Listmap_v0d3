@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100038",
+      "collection_id": "",
+      "title": "西班牙聖賽巴斯提安：一段木造水道滑出來的海灣全景",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "San Sebastián",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100072",
+      "story_id": "100038",
+      "name": "Monte Igueldo",
+      "lat": "43.3151",
+      "lng": "-2.0161",
+      "content": "聖賽巴斯提安拉康查灣西側山頭，山頂有老式遊樂園與觀景台，1912年纜車通行至今。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100073",
+      "story_id": "100038",
+      "name": "Playa de la Concha",
+      "lat": "43.3183",
+      "lng": "-1.9865",
+      "content": "聖賽巴斯提安市區沙灘，拉康查灣核心景觀。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

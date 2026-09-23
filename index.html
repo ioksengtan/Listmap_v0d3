@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">首頁</a>
+                     <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.explore">探索</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="blog.html" data-i18n="nav.stories">故事</a>
@@ -79,6 +79,13 @@
                    <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
                    <h1 data-i18n="visitor.title">個人地圖故事</h1>
                    <p data-i18n="visitor.homeLead">每個圖釘背後都有一段路——走過的，或還沒走的。這裡放的是我自己的。</p>
+
+                   <div class="visitor-actions" aria-label="主要操作">
+                     <button type="button" class="visitor-action visitor-action-primary" id="explore-map-btn" data-i18n="visitor.exploreMap">探索地圖</button>
+                     <a class="visitor-action visitor-action-secondary" href="blog.html" data-i18n="visitor.allStories">瀏覽全部故事</a>
+                   </div>
+
+                   <h2 class="visitor-list-heading" data-i18n="visitor.latestStories">最新故事</h2>
 
                    <div id="visitor-story-list"></div>
                  </div>

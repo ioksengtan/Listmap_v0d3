@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100050",
+      "collection_id": "",
+      "title": "提契諾州維爾扎斯卡河谷：跳躍橋，十年後終於抵達",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Verzasca Valley",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100128",
+      "story_id": "100050",
+      "name": "薩爾提橋（跳躍橋）",
+      "lat": "46.2764",
+      "lng": "8.8386",
+      "content": "提契諾州維爾扎斯卡河谷，雙拱石橋，1960年修復成現貌。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

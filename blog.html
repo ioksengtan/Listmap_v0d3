@@ -118,7 +118,18 @@
                  <div id="blog-welcome">
                    <div class="blog-home-section">
                      <p class="visitor-kicker" data-i18n="visitor.kicker">Listmap</p>
-                     <h3 class="blog-home-heading" data-i18n="visitor.title">個人地圖故事</h3>
+                     <h1 class="blog-index-title" data-i18n="visitor.title">個人地圖故事</h1>
+                     <p class="blog-index-lead" data-i18n="visitor.blogIndexLead">依地點、標題或標籤尋找故事；選擇故事後，文章與地圖會一起移動。</p>
+                     <div class="blog-story-tools">
+                       <label class="visually-hidden" for="blog-story-search" data-i18n="visitor.searchStories">搜尋故事</label>
+                       <input id="blog-story-search" class="blog-story-search" type="search" data-i18n-placeholder="visitor.searchPlaceholder" placeholder="搜尋地點、標題或標籤">
+                       <div class="blog-story-filters" role="group" aria-label="故事狀態">
+                         <button type="button" class="blog-story-filter is-active" data-story-filter="all" aria-pressed="true" data-i18n="visitor.filterAll">全部</button>
+                         <button type="button" class="blog-story-filter" data-story-filter="去過" aria-pressed="false" data-i18n="visitor.filterVisited">去過</button>
+                         <button type="button" class="blog-story-filter" data-story-filter="想去" aria-pressed="false" data-i18n="visitor.filterWishlist">想去</button>
+                       </div>
+                       <p id="blog-story-count" class="blog-story-count" aria-live="polite"></p>
+                     </div>
                      <div id="blog-story-list"></div>
                    </div>
                  </div>
@@ -1670,6 +1681,41 @@
                    </div>
                  </section>
 
+                 <!-- story_id=100075｜Issue #75｜想去｜度假健身｜山梨船山温泉 v1.1 風格審查｜整理自 YouTube -->
+                 <section data-story-id="100075" style="display:none;">
+                   <h2 style="padding: 0 16px;">山梨船山温泉：山中一軒宿，住一晚聽溪</h2>
+                   <p>這篇是想去，不是去過——還沒住過。住宿骨架整理自 <a href="https://www.youtube.com/watch?v=buEHQQV3ZOM" target="_blank" rel="noopener">YamaChannel〈山奧一軒宿・船山温泉〉住宿影片</a>（頻道 <a href="https://www.youtube.com/@yamachannel9296" target="_blank" rel="noopener">@yamachannel9296</a>），營運規則對過官網（2026-09-14）。同一頻道另有明賀屋本館 overnight vlog，調性相近；本篇只寫船山。地方在山梨縣南巨摩郡南部町、船山川畔的山中一軒宿——沒有溫泉街熱鬧，賣點是什麼都沒有的贅沢：早入住、晚退房、浴槽望得到溪、食事用個室。身延山、下部温泉、富士周邊一日遊，本篇不排同一天。</p>
+                   <h4 style="padding: 0 16px;">住哪：船山温泉一晚</h4>
+                   <p>這晚只想住<a class="map-place-link" data-landmark="100204" data-zoom="15" href="#">船山温泉</a>：山奧一軒宿，聽船山川，不趕溫泉街。一般立ち寄り湯不收，主體驗就是過夜。房型、空室、接待條件與取消規則出發前對 <a href="https://funayama-onsen.com/" target="_blank" rel="noopener">funayama-onsen.com</a>／電話——本篇不寫死一夜價。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：内船駅＋送迎</h4>
+                   <p>電車走 JR 身延線到<a class="map-place-link" data-landmark="100205" data-zoom="14" href="#">内船駅</a>，官網建議特急ふじかわ。住宿客可前日預約宿送迎；下午入住窗內到館、早上送回駅。自駕可走南部交流道接國道 52 號（路徑見 <a href="https://funayama-onsen.com/traffic_guide" target="_blank" rel="noopener">交通案内</a>）。預訂與送迎建議日文或翻譯工具＋電話。</p>
+                   <h4 style="padding: 0 16px;">湯：望得到溪</h4>
+                   <p>想去的畫面是露天聽船山川。館內大浴場、露天、無料貸切都有；官網寫浴槽望得到溪。泉質細節與開放時段對 <a href="https://funayama-onsen.com/spa" target="_blank" rel="noopener">温泉頁</a>。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚聽溪</h4>
+                   <p>想去的排法：前日約好送迎 → 下午入住窗內進館 → 先選湯（露天聽溪、或貸切）→ 個室晚餐 → 夜半或清晨再湯 → 早餐後再泡一趟 → 早上退房、送回内船駅。官網強調約二十二小時滯在，不趕觀光巴士。</p>
+                   <p>另有預約制日帰り，官網曾標受付停止——即便恢復，主體驗仍建議住宿。細節見官網。</p>
+                   <p>想去的畫面：内船駅下車、山奧一軒宿、午後露天聽船山川、個室晚餐、靜夜再湯、隔天早上才離開。地圖順序：内船駅 → 船山温泉 → 回駅。</p>
+                 </section>
+
+                 <!-- story_id=100078｜Issue #78｜想去｜富爾卡山口 v1 -->
+                 <section data-story-id="100078" style="display:none;">
+                   <h2 style="padding: 0 32px;">瑞士富爾卡山口：007廢棄飯店、冰河冰洞與格里姆瑟山口</h2>
+                   <div class="story-step" data-step-landmark="100206" data-step-zoom="13">
+                     <p>這是瑞士單車行程裡公認最硬的一天：一天騎70公里、爬升1,500公尺，連續挑戰兩座阿爾卑斯山口。<a class="map-place-link" data-landmark="100206" data-zoom="13" href="#">富爾卡山口</a>海拔2,436公尺，是烏里邦與瓦萊邦的界山，也是這條單車路線的第一個制高點，一路爬到觀景台那一刻回頭看，身後拉出的髮夾彎公路會一路蜿蜒消失在山谷裡。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100207" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">007電影取景的廢棄飯店，樓下就是冰河冰洞</h4>
+                     <p>翻過山口後不久會騎到<a class="map-place-link" data-landmark="100207" data-zoom="15" href="#">貝維德雷飯店</a>，1882年開業，1964年007電影《金手指》裡龐德開著銀色Aston Martin甩開反派的那段公路追逐戲就是在這裡取景，飯店本身已經在2016年吹熄燈號、荒廢至今，斑駁的外觀反而成了打卡熱點。飯店山壁下方180公尺處是隆河冰河的冰洞，每年夏天都要重新鑿開，得付費才能進入，洞裡終年低溫，能近距離看到冰層裡的結晶紋路跟緩慢移動時擠壓出的氣泡。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100208" data-step-zoom="13">
+                     <h4 style="padding: 0 32px;">下滑之後，緊接著第二個山頭</h4>
+                     <p>離開富爾卡山口一路下滑後，緊接著要面對這天的第二個爬坡——海拔2,165公尺的<a class="map-place-link" data-landmark="100208" data-zoom="13" href="#">格里姆瑟山口</a>，瓦萊邦與伯恩邦的界山。兩個山口幾乎背靠背排在同一天路線裡，前一段的爬升疲勞還沒消化完，就得重新調整節奏面對下一段爬坡。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道《MeloFunPlay 美樂玩不累》瑞士單車遊系列的<a href="http://www.youtube.com/watch?v=LF4ef-qxrsM" target="_blank" rel="noopener">影片</a>；我還沒騎過，富爾卡山口的開放季節（一般僅六月至十月，冬季封閉）、冰洞的開放時間跟票價、格里姆瑟山口同段路況都需要另外查證——這類高山公路每年開通時間會因融雪狀況浮動。我想像的畫面是：連續髮夾彎爬到富爾卡觀景台回頭望向山谷的瞬間、貝維德雷飯店斑駁外牆襯著背後的隆河冰河、冰洞裡低溫中看得見結晶紋路的藍白色冰層。地圖順序：富爾卡山口 → 貝維德雷飯店／冰河冰洞 → 格里姆瑟山口。</p>
+                   </div>
+                 </section>
+
                  <!-- story_id=100071｜Issue #71｜想去｜湯田中よろづや v1 -->
                  <section data-story-id="100071" style="display:none;">
                    <h2 style="padding: 0 32px;">長野湯田中溫泉：兩百年老旅館よろづや與地獄谷雪猴</h2>
@@ -1746,6 +1792,413 @@
                      <p>這篇整理自 YouTube 頻道「鬧著玩」的青森之旅影片；我還沒去過，蔦溫泉的訂房旺季搶手程度、奧入瀨溪沿線的停車跟接駁狀況都需要另外查證。影片裡另外提到青森限定的濃厚煮干拉麵，湯頭用大量沙丁魚熬煮、油脂厚重海味十足，當地吃法是加一點蘋果醋解膩；路上也巧遇山頭疊出一頂笠雲的奇特天象。我想像的畫面是：石縫裡不斷冒出溫泉水的浴池、阿修羅の流れ撞擊亂石激起的白色浪花、鋪滿整片森林地面的厚實苔蘚。</p>
                    </div>
                  </section>
+
+                 <!-- story_id=100074｜Issue #74｜想去｜度假健身｜台東活水湖 v1.2 事實回修 -->
+                 <section data-story-id="100074" style="display:none;">
+                   <h2 style="padding: 0 16px;">台東活水湖：住一晚，安靜練開放水域</h2>
+                   <p>這篇是想去，不是去過——還沒住過、也還沒下水練。系列「度假健身」：床定了，白天只練一段開放水域。地方在台東市區北側、<a class="map-place-link" data-landmark="100200" data-zoom="15" href="#">臺東森林公園</a>裡的活水湖——原滯洪池，屬卑南溪口國家級濕地；鐵人三項公開水域游泳段也在這裡。它不是泳池。琵琶湖、海濱地標、糖廠、市區美食街，本篇不排同一天。</p>
+                   <h4 style="padding: 0 16px;">住哪：月光夏，娜路彎備選</h4>
+                   <p>這晚優先住<a class="map-place-link" data-landmark="100201" data-zoom="15" href="#">月光夏庭園民宿</a>（馬亨亨大道 625 號；臺東縣合法民宿 712 號）。官網寫距森林公園約車程約三分鐘；近湖，睡完早上可直接進園練。若要市區飯店規格，備選<a class="map-place-link" data-landmark="100202" data-zoom="15" href="#">台東娜路彎大酒店</a>（連航路 66 號）——距台東站約兩公里；到活水湖約估車程約五到十分鐘。兩間擇一就夠，不要兩晚拆兩頭。</p>
+                   <h4 style="padding: 0 16px;">怎麼到森林公園</h4>
+                   <p>台東站可搭市區公車／普悠瑪客運陸海空快捷線，在「森林公園」站下（站間約十分鐘級）；計程車約估十到十五分。台東機場同線經火車站往森林公園，約估約三十分鐘級。自駕走台 11，過中華大橋後依指標／導航「臺東森林公園」。華泰路 300 號一帶進園。</p>
+                   <h4 style="padding: 0 16px;">活水湖劃定戲水區</h4>
+                   <p>想去在活水湖<strong>劃定戲水區</strong>練開放水域——短而安靜，不是長泳挑戰，也不是泳池課。進森林公園後，戲水跟當日劃設與告示走。2026 年夏季戲水窗大約至 9 月底，每日大約 08:00–17:00，只在劃定區、有救生員的時段可游；區外與時段外別下水。水偏涼，要注意深度；12 歲以下須成人全程陪同。園區是國家級濕地，勿捕動植物。細節與最新公告對 <a href="https://tour.taitung.gov.tw/" target="_blank" rel="noopener">臺東縣政府觀光旅遊網</a>；出發前再對縣府／現場是否提前收場。入園與停車自 2026-05-01 起取消收費；單車租借另計。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚，練一段</h4>
+                   <p>想去的排法：過夜在月光夏（或娜路彎）→ 進森林公園 → 劃定戲水區練一小段 → 回宿休息。腿還暖，可同園走湖岸步道或短騎一圈再回——仍在園內，不加外景。不要把琵琶湖、海濱國際地標、糖廠、美食街塞進同一天；那些留以後。</p>
+                   <p>想去的畫面：台東站或機場轉進森林公園、月光夏近湖的床、活水湖劃定區一段開放水域、回宿沖掉湖水。地圖順序：月光夏（或娜路彎）→ 森林公園／活水湖 → 回宿。距離與班次皆約估。</p>
+                 </section>
+
+                 <!-- story_id=100079｜Issue #79｜想去｜落合樓村上 v1 -->
+                 <section data-story-id="100079" style="display:none;">
+                   <h2 style="padding: 0 32px;">伊豆湯ヶ島落合樓：150年全包式文化財溫泉旅館</h2>
+                   <div class="story-step" data-step-landmark="100209" data-step-zoom="15">
+                     <p>伊豆市湯ヶ島山區的<a class="map-place-link" data-landmark="100209" data-zoom="15" href="#">落合樓村上</a>，創業已經超過一百五十年，主建築建於昭和八年——距今超過九十年，完全不使用一根鐵釘或金屬配件組成，是那個年代頂級木工技藝的具體展示，也因此被登錄為國家有形文化財。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100209" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">免費的文化財導覽，看十五公尺長的通柱</h4>
+                     <p>旅館提供免費的館內文化財導覽行程，下午五點或早上十點都能參加，由導覽員帶著住客走一遍館內幾處最具代表性的建築細節：一根長度超過十五公尺、貫穿整棟建築的通柱，還有鋪滿一百零八疊榻榻米、天花板挑高約五公尺卻完全不需要中央支柱支撐的大廣間宴會廳。這種尺度的無柱空間，放在昭和初期的木造建築裡，本身就是一種工法上的炫技。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100209" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">會席料理，鹽飯糰是晚餐後的驚喜</h4>
+                     <p>晚餐走精緻會席路線，蛤蜊佐海苔凍配北海道海膽開場，接著是伊豆伊東產的金目鯛跟比目魚做成的生魚片、鮑魚等在地高級食材依序上桌。用完晚餐後，旅館還會貼心準備鹽飯糰讓客人帶回房間，深夜肚子餓的時候剛好能派上用場——這種細節，大概就是「全包式」溫泉旅館體驗裡最讓人放鬆的部分。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「It's Time to Travel🇯🇵 / 旅する時間」介紹落合樓村上的<a href="http://www.youtube.com/watch?v=lJZmeg_eK3U" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，文化財導覽的場次時間、會席料理的季節菜色出發前建議再查證官網。我想像的畫面是：十五公尺通柱撐起的老建築結構、一百零八疊大廣間裡沒有一根柱子的挑高空間、晚餐後帶回房間的那顆鹽飯糰。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100080｜Issue #80｜想去｜蒙特雪橇 v1 -->
+                 <section data-story-id="100080" style="display:none;">
+                   <h2 style="padding: 0 32px;">葡萄牙馬德拉島：沒有引擎的百年下坡道</h2>
+                   <div class="story-step" data-step-landmark="100210" data-step-zoom="15">
+                     <p>馬德拉有一種別的地方都沒有的傳統——蒙特雪橇。這種柳編小車已經在馮夏爾的街道上滑了超過170年，一開始是當地人下山的交通工具，現在變成整座島最難忘的體驗之一。沒有引擎，靠的就是重力、老練的駕駛跟一路的好風景。</p>
+                     <p style="padding: 0 32px;"><img src="images/stories/100080/monte-toboggan.jpg" alt="蒙特雪橇" style="max-width:70%;height:auto;"></p>
+                     <p style="padding: 0 32px; font-size:0.85em; color:#666;">蒙特雪橇。Photo: Ввласенко / Wikimedia Commons / <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100210" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">1850年開始的傳統，柳條車跟消失的齒軌鐵路</h4>
+                     <p>這項傳統始於1850年。蒙特村的居民想找一種比走路更快的方式下山到馮夏爾，於是有人用柳條編了一個籃子形狀的座椅，固定在木製滑板上，靠兩位「車伕」在後面推著跑。柳條車本身是鄰近的卡馬查村手工編織的，那裡盛產柳樹，工藝至今只剩少數幾位師傅還在做。車伕穿一身白色制服，戴草編扁帽，腳上是特製的橡膠底鞋——那雙鞋就是煞車，靠腳底跟地面摩擦控制速度。1893到1943年之間，蒙特跟馮夏爾之間其實還有一條齒軌鐵路可以搭，二戰期間停駛後就沒再恢復，柳編雪橇反而成了留下來的那個。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100211" data-step-zoom="14">
+                     <p>路線從<a class="map-place-link" data-landmark="100210" data-zoom="15" href="#">蒙特聖母教堂</a>旁邊出發，一路下滑約兩公里到<a class="map-place-link" data-landmark="100211" data-zoom="14" href="#">利夫拉門托</a>，十分鐘左右結束，中途時速能衝到三十到四十五公里，過彎全靠車伕的技術跟腳力。這個職業現在是個相對封閉的技術社群，多半父子相傳，訓練不算輕鬆。二十世紀初，蒙特一帶滿街都是這種柳編車，如今本地人早就不靠它通勤，純粹變成觀光體驗，但操作方式跟一百七十年前幾乎沒變過。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100210" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">先搭纜車上山，逛完教堂跟熱帶花園再排隊</h4>
+                     <p>要上到蒙特村，通常會先搭馮夏爾纜車，全程約3.2公里、爬升560公尺，大概十五分鐘。上去後先逛蒙特聖母教堂跟旁邊的蒙特宮熱帶花園，再排隊坐雪橇下山，剛好湊成半天的行程。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自Instagram帳號vistorajourney的一則貼文，她把這條路線列進葡萄牙的必去清單；不是自己坐過的紀錄，實際票價、排隊時間、纜車銜接方式出發前建議再查證官方資訊。我想像的畫面是：兩位車伕一身白衣、草帽壓低身子推車起步，配上後方馮夏爾層層疊疊的城市景觀。地圖順序：蒙特聖母教堂 → 利夫拉門托。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100081｜Issue #81｜想去｜悠湯里庵 v1 -->
+                 <section data-story-id="100081" style="display:none;">
+                   <h2 style="padding: 0 32px;">群馬川場溫泉悠湯里庵：斜面單軌通往的茅葺秘境</h2>
+                   <div class="story-step" data-step-landmark="100222" data-step-zoom="14">
+                     <p>從東京車站搭新幹線大約七十分鐘到上毛高原站，再轉搭一趟四十五分鐘、需要事先預約的免費接駁車，才能抵達群馬縣川場村山區裡的<a class="map-place-link" data-landmark="100222" data-zoom="14" href="#">悠湯里庵</a>。腹地非常寬廣，園區內散布著好幾棟屋齡超過一百四十年的茅草屋頂建築，還收藏了上千件古董藝品，走在裡面與其說是住旅館，更像逛一座可以留宿一晚的博物館。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100222" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">斜坡上的移動方式：自動駕駛小車跟單軌列車</h4>
+                     <p>旅館建在整片山坡地上，從大廳到客房得先靠免費的自動駕駛接駁小車代步，再換乘一段專門克服坡度的迷你單軌列車，車廂外是茅草屋頂群跟成片的田園景色，這種「移動本身就是風景」的安排，讓長輩或帶小孩的家庭也能輕鬆走完整個園區。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100222" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">海拔634公尺的客房，跟東京晴空塔一樣高</h4>
+                     <p>入住的501號房「都忘れ」，標高634公尺——剛好跟東京晴空塔的高度一樣。房內有一間圍爐裏造型的和室客廳，挑高天花板下鋪著榻榻米，浴室外接一座獨立的景觀浴池，臥室則是寬敞好眠的榻榻米空間，窗外望出去就是群馬山間的鄉村田園。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100222" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">男湯獅子、女湯白鶴的日式庭園露天風呂</h4>
+                     <p>男女大浴場各自搭配一座造景精緻的日式庭園露天溫泉：女湯以白鶴為主題造景，男湯則立著一尊獅子雕像。泉質是滑順的單純鹼性溫泉，泡起來質地特別柔和。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100222" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">晚餐上州牛壽喜燒，早餐附鄉土寬扁麵</h4>
+                     <p>晚餐是使用群馬在地當季食材的會席料理，生魚片、群馬產蒟蒻、豬肉蒸鍋跟釜飯輪番上桌，壓軸是上州牛壽喜燒。隔天早餐同樣豐盛，烤鯖魚、牛肉、納豆之外，還會端上當地特產的寬扁麵「ひもかわうどん」。兩人一泊二食大約落在五萬四千日圓左右。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「It's Time to Travel🇯🇵 / 旅する時間」介紹悠湯里庵的<a href="http://www.youtube.com/watch?v=HS-s9VRNzH8" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，接駁車跟單軌列車的預約方式、客房型態、料理菜色出發前建議再查證官網。我想像的畫面是：茅草屋頂群間緩緩爬升的單軌列車車廂、634公尺高的「都忘れ」房裡那座獨立景觀浴池、白鶴造景露天風呂升起的溫泉煙氣。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100082｜Issue #82｜想去｜熊本鶴之湯旅館 v1 -->
+                 <section data-story-id="100082" style="display:none;">
+                   <h2 style="padding: 0 32px;">熊本鶴之湯旅館：球磨川畔重生的秘境溫泉旅館</h2>
+                   <div class="story-step" data-step-landmark="100212" data-step-zoom="14">
+                     <p><a class="map-place-link" data-landmark="100212" data-zoom="14" href="#">鶴之湯旅館</a>創業於昭和29年（1954年），是一棟木造三層樓的溫泉旅館，靜靜立在熊本八代市坂本町、球磨川岸邊。2020年7月熊本豪雨造成球磨川氾濫，一樓幾乎全毀，修復後又配合流域治水工程把整棟建築往上抬高約3公尺，再次休業，直到今年1月才重新開幕。現在採取一天只接待兩組客人的模式，讓住客能整層（二樓或三樓）包棟入住，館內沒有電視，氛圍復古又安靜，是那種休業又重生兩次才留下來的秘境旅館。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100212" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">一樓源泉放流溫泉，窗外就是球磨川</h4>
+                     <p>一樓設有源泉放流式的溫泉浴池，復古磁磚配上窗外球磨川的景色，一邊泡湯一邊看溪水流過。晚餐在寬敞的大廣間享用，大量使用在地當季食材——鹿肉香腸、手長蝦、香魚、新鮮生魚片，最後收在玉米炊飯跟甜點。選田舎料理方案，三樓房型一泊二食每人約24,900日圓，二樓房型約21,900日圓。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100213" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">白瀧公園，藏在巨大石灰岩斷崖裡的鍾乳洞</h4>
+                     <p>往五木村方向會經過<a class="map-place-link" data-landmark="100213" data-zoom="14" href="#">白瀧公園</a>，一片高70公尺、寬200公尺的巨大石灰岩斷崖，岩壁本身因為顏色跟紋理看起來像一道白色瀑布而得名，斷崖裡藏著一座小型鍾乳洞，氛圍神秘。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100214" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">大瀧自然森林公園，落差35公尺的森林瀑布</h4>
+                     <p>附近的<a class="map-place-link" data-landmark="100214" data-zoom="14" href="#">大瀧自然森林公園</a>有一座落差35公尺的瀑布，周圍被樹齡破百年的赤樫、山毛櫸原始林包圍，沿途森林茂密涼爽，是那種光走進去就會自動放慢腳步的地方。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100215" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">神瀨熊野座神社，供奉在巨大洞窟入口的神社</h4>
+                     <p>沿球磨川再往上游走會到<a class="map-place-link" data-landmark="100215" data-zoom="14" href="#">神瀨熊野座神社</a>，入口寬45公尺、高7公尺、深70公尺的石灰岩洞窟，2015年指定為國家名勝，神社就設在洞口，氛圍神秘又莊嚴。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100216" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">吉尾溫泉，250日圓的平價公共浴場</h4>
+                     <p>回程可以順路去<a class="map-place-link" data-landmark="100216" data-zoom="15" href="#">吉尾溫泉</a>，一間平價公共浴場，入浴費只要250日圓，泉水是直接從浴槽底部自然湧出的硫磺泉，泉質據說相當優良。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「わた旅」的<a href="http://www.youtube.com/watch?v=u6dJhnTi2ho" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，鶴之湯一天僅兩組客人的訂房難易度、球磨川流域治水工程後的最新交通狀況都需要另外查證——白瀧公園跟大瀧自然森林公園實際上在鄰村五木村，跟鶴之湯所在的八代市坂本町有一段車程，神瀨熊野座神社則在另一側的球磨村，規劃路線時建議把這幾處拆開評估車程，不要預設能全部排進同一天。我想像的畫面是：一樓浴池裡一邊泡湯一邊看球磨川流過的窗景、白瀧公園那片高聳石灰岩斷崖裡的鍾乳洞、神瀨熊野座神社供奉在巨大洞窟入口的畫面。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100083｜Issue #83｜想去｜野地溫泉ホテル v1 -->
+                 <section data-story-id="100083" style="display:none;">
+                   <h2 style="padding: 0 32px;">福島野地溫泉ホテル：雪山中的150年乳藍色硫磺秘湯</h2>
+                   <div class="story-step" data-step-landmark="100217" data-step-zoom="14">
+                     <p>從東京搭新幹線到福島站約90分鐘，再轉搭事先預約的每日接駁巴士，沿著蜿蜒山路爬升約50分鐘，一路開進海拔1,200公尺左右的豪雪地帶，就會抵達<a class="map-place-link" data-landmark="100217" data-zoom="14" href="#">野地溫泉ホテル</a>——一間有150年歷史的古典山中旅館。大廳保留著明治時期的復古裝潢，寬敞的空間裡有紀念品店，館內還養著一隻12歲、很親人的柴犬小太郎。這次入住的是館內最大的房型，兩間相連的榻榻米套房，古董式暖氣控制器搭配落地窗外堆滿積雪、垂著粗大冰柱的雪景，是那種一進房間就會忘記時間的畫面。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100217" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">五座24小時浴場，乳白到乳藍色的硫磺泉</h4>
+                     <p>野地溫泉的招牌是五座24小時開放的硫磺浴場，泉色從乳白到乳藍不等，是高溫山區蒸氣在泉水表面凝結形成的天然色澤。「馳走の湯」是館內最古老的浴場，硫磺味濃烈、泉溫燙口；「天狗の湯」有一條室內通道能直接涉水走進被雪景包圍的露天池；「疑面の湯」跟「扇の湯」則是一室內一室外的石造浴池，冰冷山風跟滾燙礦物泉水的對比在陽光下會透出很漂亮的乳藍色調。晚餐是冬季升級版懷石料理，當地山珍配上松葉蟹、蝦泥鑲茄子，還有在陶板上滋滋作響的和牛沙朗配在地清酒「金水櫻」；隔天早餐是現做豆漿鍋煮出的鮮豆皮，配溫泉蛋、烤鮭魚跟醃漬小菜。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「It's Time to Travel🇯🇵 / 旅する時間」的<a href="http://www.youtube.com/watch?v=mTU1xBhPYYQ" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，接駁巴士的預約方式、五座浴場各自的男女開放時段、冬季山路封閉狀況都需要另外查證——豪雪地帶的山區道路，出發前確認路況跟接駁時刻比什麼都重要。我想像的畫面是：落地窗外垂掛的粗大冰柱、天狗の湯裡從室內涉水走進雪景露天池的瞬間、陽光下泛著乳藍色調的硫磺溫泉。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100084｜Issue #84｜想去｜お宿華坊 v1 -->
+                 <section data-story-id="100084" style="display:none;">
+                   <h2 style="padding: 0 32px;">熊本南小國町お宿華坊：黑川溫泉旁的離屋秘湯</h2>
+                   <div class="story-step" data-step-landmark="100219" data-step-zoom="14">
+                     <p>第一天原本安排去看<a class="map-place-link" data-landmark="100219" data-zoom="14" href="#">半田瀧</a>，卻因為大雨作罷，隔天才改期重訪——連日降雨讓河川水量暴漲，瀑布跟水花的氣勢反而變得更加驚人，是那種因禍得福的意外收穫。這道瀑布分成好幾層落差，右側還有一道「片田瀧」，藏在國道212號旁一條不太起眼的小路盡頭，農忙季節車子不好停，得留意周邊田地。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100220" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">豐禮之湯，投幣式的乳藍色家族風呂</h4>
+                     <p><a class="map-place-link" data-landmark="100220" data-zoom="15" href="#">豐禮之湯</a>是わいた溫泉鄉裡的日歸家族風呂設施，投幣制，錢幣投進去等水注滿浴槽，就能享受一池白濁偏乳藍色的100%源泉放流溫泉，泉色在光線下特別好看。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100221" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">道之驛小國，補給在地小吃的中繼站</h4>
+                     <p><a class="map-place-link" data-landmark="100221" data-zoom="14" href="#">道之驛小國 ゆうステーション</a>品項相當豐富，買了赤牛肉味噌、地雞飯糰、鄉土料理「蒟蒻壽司」，還喝了現榨生乳做成的霜淇淋，是很典型的公路補給站體驗。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100218" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">お宿華坊，5000坪腹地裡的離屋秘境</h4>
+                     <p>這晚入住的<a class="map-place-link" data-landmark="100218" data-zoom="15" href="#">お宿華坊</a>就在知名的黑川溫泉旁，佔地約5000坪，客房是分散在腹地裡的獨棟離屋，復古又有味道，全館僅10間房，每一間都附源泉放流的客室露天風呂。這次入住的特別室「川蟬」正對著一片溪谷，房間旁就能直接通往大浴場，非常方便。露天風呂本身相當寬敞，一邊聽溪水聲一邊想泡多久就泡多久；館內另外還有4間貸切風呂，其中景觀最好的一間在最右側。晚餐是個室會席料理，主菜是能吃到肥後黑毛和牛、阿蘇赤雞、阿蘇龍膽豬三種肉比較的壽喜燒，被形容是「目前吃過最好吃的壽喜燒」；隔天早上則是在個室裡慢慢享用手工豆腐跟傳統朝食膳。特別室「川蟬」一泊二食每人約20,495日圓，以整體內容來說CP值很高。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「わた旅」的<a href="http://www.youtube.com/watch?v=TNdemfE-6lQ" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，華坊的訂房難易度、豐禮之湯的投幣費用、半田瀧的雨後路況都需要另外查證——半田瀧藏在小路裡，農忙期不建議開車進去，豐禮之湯所在的小國町跟華坊所在的南小國町是兩個不同行政區，規劃路線時可以拆開評估車程。我想像的畫面是：連日大雨後半田瀧激起的大片水花、豐禮之湯投幣注滿浴槽那瞬間的乳藍色水色、川蟬客房露天風呂裡一邊聽溪水聲一邊放空的畫面。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100085｜Issue #85｜想去｜西伊豆堂ヶ島 v1 -->
+                 <section data-story-id="100085" style="display:none;">
+                   <h2 style="padding: 0 32px;">西伊豆堂ヶ島：兩座瀑布、藍洞遊船與海邊隱藏溫泉</h2>
+                   <div class="story-step" data-step-landmark="100223" data-step-zoom="15">
+                     <p>伊豆半島西側的西伊豆町，一天的行程就能串起瀑布、遊船跟一間望海的溫泉旅館。第一站是<a class="map-place-link" data-landmark="100223" data-zoom="15" href="#">萬城の滝</a>，高20公尺、寬6公尺，水量豐沛氣勢十足，沿階梯下切到瀑布正面，水氣會直接撲面而來。</p>
+                     <p style="padding: 0 32px;"><img src="images/stories/100085/sanshiro-jima.jpg" alt="堂ヶ島三四郎島" style="max-width:70%;height:auto;"></p>
+                     <p style="padding: 0 32px; font-size:0.85em; color:#666;">堂ヶ島三四郎島與陸連島沙洲。Photo: Photos of Japan / Wikimedia Commons / <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a></p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100265" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">行基の滝，藏在吉奈川上游的小瀑布</h4>
+                     <p>往西走一段，沿伊豆市吉奈川上溯，會遇到氛圍神秘的<a class="map-place-link" data-landmark="100265" data-zoom="15" href="#">行基の滝</a>，落差13公尺、寬3公尺，體量不大，但藏在山谷裡、水潭幽深。名字來自高僧行基：傳說他曾在此受滝，並供養這處被里人畏懼為「魔之淵」的水潭。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100224" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">堂ヶ島遊覽船，鑽進洞頂灑光的藍洞</h4>
+                     <p>堂ヶ島是伊豆半島數一數二的定番觀光景點，搭乘遊覽船繞行沿岸大小島嶼跟海蝕洞，重頭戲是鑽進<a class="map-place-link" data-landmark="100224" data-zoom="16" href="#">天窗洞</a>——洞頂天然開口讓陽光灑落，海水在洞穴裡映出通透的藍色光澤，因此也被稱為「藍洞」，是整趟遊船行程裡最讓人屏息的一段。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100225" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">海邊的隱藏溫泉 清流，波打際的露天風呂</h4>
+                     <p>這晚入住<a class="map-place-link" data-landmark="100225" data-zoom="16" href="#">海邊的隱藏溫泉 清流</a>，客房本身就附設能眺望西伊豆絕景的露天風呂，晚餐是伊勢龍蝦、鮑魚、和牛石燒跟金目鯛等豪華海鮮山珍組成的會席料理，份量跟等級都相當有誠意。旅館最大的賣點是源泉放流的露天風呂跟免費的貸切露天風呂，其中一座就緊貼著海浪拍打的位置，泡湯時能直接聽見潮聲。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 頻道「It's Time to Travel🇯🇵 / 旅する時間」介紹西伊豆町與清流的<a href="http://www.youtube.com/watch?v=9bYrMNn2tvM" target="_blank" rel="noopener">住宿體驗影片</a>；我還沒去過，行基の滝的步行路線與入口（名稱是從影片留言區與伊豆市觀光資料確認，座標由使用者提供）、遊覽船的季節航班、清流的貸切風呂預約方式出發前建議再查證官網。我想像的畫面是：萬城の滝迎面撲來的水氣、遊覽船鑽進天窗洞那瞬間灑落的藍色光線、波打際露天風呂裡一邊聽浪聲一邊看夕陽沉入海面的畫面。地圖順序：萬城の滝 → 行基の滝 → 天窗洞 → 海邊的隱藏溫泉 清流。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100086｜Issue #86｜想去｜度假健身｜巴黎 SATISFY Fuel Station v2 風格審查 -->
+                 <section data-story-id="100086" style="display:none;">
+                   <h2 style="padding: 0 16px;">巴黎 SATISFY：Fuel Station 補給再跑運河</h2>
+                   <p>這篇是想去，不是去過——還沒進過店、也還沒在那一帶跑。系列「度假健身」。整理自 Instagram（kershaw_zhan）。一句話：都市跑補給站——出發前灌水／機能飲，再接河岸短跑。地方在巴黎 3e、Rue de Saintonge：<a class="map-place-link" data-landmark="100226" data-zoom="16" href="#">SATISFY Fuel Station</a> 專做補水與運動營養；街對面約二十公尺是 <a class="map-place-link" data-landmark="100227" data-zoom="16" href="#">SATISFY Supply</a> 賣服裝鞋履。</p>
+                   <h4 style="padding: 0 16px;">Fuel Station：出發前灌水</h4>
+                   <p>想去的畫面是出發前站在櫃台：機能飲點一杯，水與電解質龍頭往水壺／腰帶／背心裡灌滿，再出門跑。貨架會變，以到店為準。服飾過街去 Supply；別期待這裡兼賣完整服裝線。營業與地址對 <a href="https://satisfyrunning.com/pages/retail" target="_blank" rel="noopener">satisfyrunning.com/pages/retail</a>——官方寫 Fuel Station 每日大約 8:00–16:00。</p>
+                   <h4 style="padding: 0 16px;">Supply：街對面一眼</h4>
+                   <p>Supply 與 Fuel Station 互望，步行約二十公尺。官方寫每日大約 11:00–19:00。技術跑裝、鞋、全線在這邊。注意營業錯位：Fuel 早開早關（大約 8–16 時），Supply 晚開晚關（大約 11–19 時）。想早起補給再跑，回來時 Fuel 可能已關；想跑完逛裝，要等 Supply 開門。</p>
+                   <h4 style="padding: 0 16px;">跑哪：運河或廣場短圈</h4>
+                   <p>主要往運河跑，到 <a class="map-place-link" data-landmark="100228" data-zoom="14" href="#">Canal Saint-Martin</a>（Quai de Jemmapes 南段、近 République）。自店經 Place de la République，約估慢跑十到十五分鐘可到開敞河岸；單程或來回大約五到八公里。週日河岸常較擠。較輕的選項是 <a class="map-place-link" data-landmark="100229" data-zoom="15" href="#">Square du Temple – Elie Wiesel</a>：距店約三百公尺，樹蔭廣場短圈／熱身回冷，不當長距離主線。Parc des Buttes-Chaumont 另日有腿再去，本篇不當日硬塞。</p>
+                   <h4 style="padding: 0 16px;">節奏：兩條輕排法</h4>
+                   <p>想去排法一：早上進 Fuel Station 灌水／機能飲 → 過街一眼 Supply（可先不買）→ 慢跑經 République 接 Canal Saint-Martin，大約五到八公里河岸 → 盡量在 16:00 前回 Fuel 再補。Fuel 關得早，宜上午或早午做完。</p>
+                   <p>想去排法二：Fuel Station 補給 → Square du Temple 一兩圈短暖／回冷 → 回店或等 Supply 開門看裝。總時短，適合只想微動、不當日長跑。</p>
+                   <p>想去的畫面：Rue de Saintonge 灌完的水壺、街對面 Supply 一眼、République 轉進運河、或 Square du Temple 樹蔭短圈。地圖順序：Fuel Station → Supply（一眼）→ Canal Saint-Martin 或 Square du Temple → 回店。距離皆約估；雙店 2026-09-04 開幕，出發前再對官方 retail 頁。</p>
+                 </section>
+
+                 <!-- story_id=100088｜Issue #88｜想去｜神保町 書泉グランデ 5F 鉄道・バス｜整理自 Instagram（puti.japan）｜v2 風格審查｜Closes #88 -->
+                 <section data-story-id="100088" style="display:none;">
+                   <h2 style="padding: 0 16px;">神保町書泉グランデ：五樓鐵道迷的櫃</h2>
+                   <p>這篇是想去，不是去過——還沒進過店。整理自 Instagram（puti.japan）。一句話：神保町可買回家的鐵道迷櫃——舊制帽、臂章，不是只看型錄；貼文裡寫到舊制帽、臂章，以到店在庫為準。地方在神田神保町、<a class="map-place-link" data-landmark="100230" data-zoom="16" href="#">書泉グランデ</a>：整棟是趣味の本屋，鐵道賣場在五樓「鉄道・バス」，不是獨立鐵道古物店。營業通常 11:00–20:00（平日・土日祝）；定休原則只有元旦，年末年始對 <a href="https://www.shosen.co.jp/grande/" target="_blank" rel="noopener">shosen.co.jp/grande</a>。秋葉原的書泉ブックタワー另店另址，本篇不塞。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：A7 沿靖國通約一分</h4>
+                   <p>從<a class="map-place-link" data-landmark="100231" data-zoom="16" href="#">神保町駅（靖國通／A7 側）</a> A7 出站，沿靖國通向秋葉原方向走約一分，右手見店。進門直上五樓，找標示「鉄道・バス」。靖國通人車多，出站注意號誌。</p>
+                   <h4 style="padding: 0 16px;">五樓：鉄道・バス的櫃</h4>
+                   <p>想去的畫面是站在五樓櫃前：鐵道與巴士的書、雜誌、公司グッズ、DVD、同人、車両部品，架子挨著架子。來源畫面裡有舊制帽、臂章——可買回家，不是只看型錄；在庫流動，以到店為準，勿當固定目錄。別把這裡想成獨立古董鐵道屋；它是趣味書店的一層。五樓直通電話官網寫 03-3295-0016；營業與樓層再對官網。</p>
+                   <h4 style="padding: 0 16px;">順手：走到三省堂一眼書店街</h4>
+                   <p>逛完若還有腳，步行到<a class="map-place-link" data-landmark="100232" data-zoom="16" href="#">三省堂書店 神田神保町本店</a>，感受書店街的新刊尺度——對照，不是鐵道主題。距書泉大約一百公尺。三省堂通常 10:00–20:00；細節對 <a href="https://www.books-sanseido.co.jp/shop/kanda" target="_blank" rel="noopener">books-sanseido.co.jp/shop/kanda</a>。</p>
+                   <p>想去的畫面：A7 出站、靖國通右手進店、五樓櫃前、可選走到三省堂一眼。地圖順序：神保町駅 A7 → 書泉グランデ 5F → 三省堂（可選）。距離皆約估；出發前再對官網營業。</p>
+                 </section>
+
+                 <!-- story_id=100092｜Issue #92｜想去｜度假健身｜群馬四万温泉 豊島屋 v2 風格審查｜整理自 YouTube｜Closes #92 -->
+                 <section data-story-id="100092" style="display:none;">
+                   <h2 style="padding: 0 16px;">群馬四万温泉・豊島屋：渓流掛流し，住一晚聽川</h2>
+                   <p>這篇是想去，不是去過——還沒住過。住宿骨架整理自 <a href="https://www.youtube.com/watch?v=MzNgJnXT4gY" target="_blank" rel="noopener">YamaChannel〈四万温泉・豊島屋〉住宿影片</a>，營運對過官網。地方在群馬縣中之条町、四万温泉街山口一帶——<a class="map-place-link" data-landmark="100237" data-zoom="15" href="#">四万温泉 豊島屋</a>：溪畔湯宿，街中仍像隠れ宿。賣點是渓流掛流し與里山会席。奧四万湖、日向見、溫泉街一日打卡，本篇不排同一天。</p>
+                   <h4 style="padding: 0 16px;">住哪：豊島屋一晚</h4>
+                   <p>這晚只想住豊島屋：午後入住後先選湯，夕食里山会席，夜或晨再泡，隔天早上退房。日歸入浴有預約制方案，主體驗仍建議住一晚。房型、空室、一夜價與取消出發前對 <a href="https://tosimaya.co.jp/" target="_blank" rel="noopener">tosimaya.co.jp</a>／電話——本篇不寫死價目。</p>
+                   <h4 style="padding: 0 16px;">怎麼到</h4>
+                   <p>電車走 JR 吾妻線到中之条駅，轉関越交通「四万温泉行」大約三十五分鐘，在山口バス停下，步行大約一分鐘到館。東京方向亦有高速巴士「四万温泉号」可直達山口。自駕可下関越道渋川・伊香保交流道或沼田交流道，再沿國道大約六十分鐘。路徑與班次對 <a href="https://tosimaya.co.jp/access/access.html" target="_blank" rel="noopener">アクセス</a>。</p>
+                   <h4 style="padding: 0 16px;">湯：渓流掛流し</h4>
+                   <p>想去的畫面是露天望四万川、聽川音。官網寫館內全浴槽 100％源泉掛流し：不加溫、不加水、不循環；熱交換器降溫。大浴場、渓流露天、貸切（要事前予約）、部分客室附露天——時段與貸切細節對 <a href="https://tosimaya.co.jp/onsen.html" target="_blank" rel="noopener">温泉頁</a>。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚聽川</h4>
+                   <p>想去的排法：下午到館 → 先選渓流露天或大浴場 → 里山会席夕食 → 夜再湯 → 翌朝再泡後離開。刻意不做：塞滿四万溫泉街、奧四万湖、日向見——要逛另日再說。</p>
+                   <p>想去的畫面：山口下車、溪畔掛流し、午後露天聽川、里山会席、靜夜再湯、隔天早上才離開。地圖先看四万温泉 豊島屋。班次與プラン以官網／電話當日為準。</p>
+                 </section>
+
+                 <!-- story_id=100094｜Issue #94｜想去｜度假健身｜大分壁湯温泉 福元屋 v2 風格審查｜Closes #94 -->
+                 <section data-story-id="100094" style="display:none;">
+                   <h2 style="padding: 0 16px;">大分壁湯温泉・福元屋：洞窟混浴，住一晚</h2>
+                   <p>這篇是想去，不是去過——還沒住過。系列「度假健身」。營運對過官網 <a href="https://kabeyu.jp/" target="_blank" rel="noopener">kabeyu.jp</a> 與日本秘湯を守る会。一句話：町田川岩壁下的天然洞窟混浴，大約三十九度，住一晚就夠。地方在大分縣玖珠郡九重町——<a class="map-place-link" data-landmark="100233" data-zoom="15" href="#">壁湯温泉 旅館 福元屋</a>是秘湯を守る会加盟的小宿。本篇只排這一晚，不塞九重連山一日遊。</p>
+                   <h4 style="padding: 0 16px;">住哪：這晚只住這一軒</h4>
+                   <p>這晚只想住壁湯温泉 旅館 福元屋：午後到、翌朝走，先泡洞窟湯再吃飯。現金與館內段差預約時問清楚。房型、空室、一夜價與取消出發前對 <a href="https://kabeyu.jp/" target="_blank" rel="noopener">kabeyu.jp</a>／電話——本篇不寫死價目。</p>
+                   <h4 style="padding: 0 16px;">怎麼到</h4>
+                   <p>自駕最穩：大分道九重交流道下，接國道大約十分鐘到館。電車則 JR 久大本線豊後森駅，再計程車大約十五到二十分鐘；巴士便數少，出發前再核。九重交流道、豊後森駅只當抵達方向，不另釘點。</p>
+                   <h4 style="padding: 0 16px;">湯：岩壁下的洞窟</h4>
+                   <p>想去的畫面是午後下到岩壁下的洞窟：浴槽底岩間湧出，湯溫大約三十九度，長泡也不容易累——夏天尤其適。混浴；女性可穿湯浴み着。同址另有女湯、貸切、露天，可輪著泡——細節對官網。洞穴與宿同址，不用另找地方。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚再離開</h4>
+                   <p>想去的排法：下午到館 → 先下洞窟混浴 → 夕食 → 夜再湯 → 翌朝再泡後離開。日歸入浴有，主體驗仍建議住一晚。刻意不做：塞滿九重連山、由布院一日遊——要加碼另日再說。</p>
+                   <p>想去的畫面：九重交流道或豊後森方向到館、午後岩壁洞窟、夕食後再湯、隔天早上才離開。地圖主點：壁湯温泉 旅館 福元屋。</p>
+                 </section>
+
+                 <!-- story_id=100093｜Issue #93｜想去｜度假健身｜群馬法師温泉 長寿館 v2.1 風格＋事實｜Closes #93 -->
+                 <section data-story-id="100093" style="display:none;">
+                   <h2 style="padding: 0 16px;">群馬法師温泉・長寿館：山間一軒宿，住一晚</h2>
+                   <p>這篇是想去，不是去過——還沒住過。營運對過官網 <a href="https://hoshi-onsen.com/" target="_blank" rel="noopener">hoshi-onsen.com</a> 與秘湯を守る会會員頁。地方在群馬縣みなかみ町、利根川源流山間：<a class="map-place-link" data-landmark="100240" data-zoom="15" href="#">法師温泉 長寿館</a>——通年一軒宿、秘湯を守る会會員；本館・法師乃湯・別館三棟為國登錄有形文化財。賣點不是溫泉街，而是稀少的足元湧出、混浴大浴場「法師乃湯」，以及靜山舊建築裡住一晚。水上溫泉街、谷川岳一日遊，本篇不排同一天。</p>
+                   <h4 style="padding: 0 16px;">住哪：長寿館一晚</h4>
+                   <p>這晚只想住法師温泉長寿館：一夜兩餐，先湯、夕食、夜再湯，隔天再泡才走。日歸入浴有，主體驗仍建議住一晚。房型、空室、料金與取消出發前對官網／電話——本篇不寫死一夜價。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：上毛高原＋町営巴士</h4>
+                   <p>電車走上越新幹線到<a class="map-place-link" data-landmark="100241" data-zoom="14" href="#">上毛高原駅</a>，再接町営巴士經<a class="map-place-link" data-landmark="100243" data-zoom="14" href="#">猿ヶ京</a>轉到館。班次少，誤班午後難補——精確時刻對官網 <a href="http://www.hoshi-onsen.com/access/index.html" target="_blank" rel="noopener">アクセス</a>。自駕可下関越道月夜野交流道或湯沢交流道；月夜野交流道下約二十五公里、大約四十分鐘（常見旅宿頁；出發前再對）。冬雪季建議釘胎。</p>
+                   <h4 style="padding: 0 16px;">湯：足元湧出</h4>
+                   <p>想去的畫面是足元湧出的大浴場。法師乃湯為混浴：不可穿湯浴み着、不可用浴巾捲身入湯——規則嚴格，入前對館內告示。女湯為長寿乃湯。泉質與時段以宿／溫泉協會看板為準。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚湯治</h4>
+                   <p>想去的排法：午後到館 → 先入法師乃湯（或長寿乃湯）→ 山菜在地夕食 → 夜再湯 → 翌晨朝食後再泡 → 早上退房，搭下山便回上毛高原或自駕離開。不趕周邊觀光。</p>
+                   <p>想去的畫面：上毛高原下車、山間一軒宿、午後足元湧出混浴、靜夜再湯、隔天早上才離開。地圖順序：上毛高原駅 → 猿ヶ京 → 法師温泉長寿館 → 回程。班次與休館以官網當日為準。</p>
+                 </section>
+
+                 <!-- story_id=100099｜Issue #99｜想去｜神樂坂 燻製泉屋 v2.1 中文主寫｜整理自 Instagram（pingping229）｜Closes #99 -->
+                 <section data-story-id="100099" style="display:none;">
+                   <h2 style="padding: 0 16px;">神樂坂：簡訊密碼開鎖——燻製泉屋的預約晚餐</h2>
+                   <p>這篇是想去，不是去過——還沒去過。整理自 Instagram（pingping229）。想去的感覺有點像密室逃脫：不是現場排隊看菜單，而是先在網路上訂好、付完款，簡訊才把開門密碼送來——收到指示，才進得了場。它不是真的密室遊戲，是神樂坂裏路地的一軒家燻製店 <a class="map-place-link" data-landmark="100244" data-zoom="16" href="#">燻製泉屋</a>（燻製いづみや／Izumiya；若宮町14-2）：必須網站預約並事前付款，不是路過可進。</p>
+                   <p>傍晚從車站鑽進巷弄，對上門鎖輸入密碼，進到全室獨立包間。店內有人，但不做桌邊服務；料理與套餐內的飲品在房間冰箱自行取用——開火鍋、開燻製酒，幾乎不需接觸服務。營業對官網 <a href="https://span-co.jp/shop/izumiya/" target="_blank" rel="noopener">span-co.jp/shop/izumiya</a>：晚上六點到十一點、不定休（有些訂位站寫五點起，出發前以官網為準）。神樂坂坡上居酒屋酒吧爬，本篇不當夜硬塞。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：兩站皆可</h4>
+                   <p>最近多半走<a class="map-place-link" data-landmark="100246" data-zoom="16" href="#">牛込神樂坂站</a>（都營大江戶線），步行大約四分鐘進若宮町巷。也常從<a class="map-place-link" data-landmark="100245" data-zoom="16" href="#">神樂坂站</a>（東京 Metro 東西線）走過來，大約八分鐘。飯田橋西側也可到，本篇不另寫站點。住宅巷夜間小聲；迷路依地圖與預約簡訊，勿按鄰家門鈴。</p>
+                   <h4 style="padding: 0 16px;">開鎖：網預完才進得去</h4>
+                   <p>想去的畫面不是排隊看菜單，而是簡訊裡的密碼對上門鎖。官網寫：只能網站預約並事前付款；選好包間、付款完成後，門禁密碼用郵件或簡訊送來。準時開鎖入室，自取料理與酒。用完餐具留在房內再離席；店員不送客。未成年不可；包間有監視鏡頭——隱私期待先知情。人數或時間變更，官網要求前一天下午三點前處理。套餐與飲品內容以官網為準，本篇不寫死價目表。</p>
+                   <h4 style="padding: 0 16px;">想去的畫面：收到指示的一席</h4>
+                   <p>傍晚鑽進若宮町，掛著店名的一軒家入口 → 簡訊密碼開鎖 → 包間裡自己開火鍋、聞燻製香。賣點是住宅街裡的大人空間，不是坡上居酒屋街的店面打卡。「民宅感」＝一軒家外觀加幾乎不接觸的包間，仍是營業中的餐廳，不是私人住家導覽。刻意不做：未預約現場敲門、當夜再塞神樂坂酒吧爬。</p>
+                   <p>想去的畫面：牛込神樂坂或神樂坂出站、若宮町巷弄、密碼開鎖、包間自取燻製鍋與酒、靜夜離席。地圖順序：牛込神樂坂站（或神樂坂站）→ 燻製泉屋。距離皆約估；空室與營業出發前再對官網。</p>
+                 </section>
+
+                 <!-- story_id=100102｜Issue #102｜想去｜逛展旅遊｜東京工藝節’26 巨人城體育場｜整理自社群｜未親訪｜Closes #102 -->
+                 <section data-story-id="100102" style="display:none;">
+                   <h2 style="padding: 0 16px;">東京工藝節’26：到巨人城體育場摸木材質感</h2>
+                   <p>這篇是想去，不是去過——還沒進過場。系列「逛展旅遊」。整理自社群。社群畫面是寄木小箱、木紋質感，只當逛展氣氛，不當必訪攤位、也不當獨立地點——出展席次以官網與當日為準。地方在多摩丘陵、稻城一帶：<a class="map-place-link" data-landmark="100247" data-zoom="15" href="#">巨人城體育場</a>（GIANTS TOWN STADIUM／ジャイアンツタウンスタジアム；〒206-0812 東京都稲城市矢野口3228番地南山95街区1号）。兩天戶外工藝市集，約百餘組工藝與餐飲，另有音樂・トーク與クラフトビール焦點。讀賣樂園遊園全日，本篇不塞。</p>
+                   <h4 style="padding: 0 16px;">日時與票</h4>
+                   <p>2026-10-03（六）～10-04（日）10:00–16:00。前売線上 <strong>¥1,500</strong>／当日會場 <strong>¥1,700</strong>（皆稅込）；小學生以下無料。票當日有效、無兩日通票；當日現場票只收現金。細節與販售對 <a href="https://tokyocraftfestival.com/2026/" target="_blank" rel="noopener">tokyocraftfestival.com/2026</a>。戶外球場、雨天原則決行（荒天除外），屋頂有限——自備雨具。寵物不可；垃圾原則自行帶回；無寄物。攤位結帳方式各異，建議多備現金（官網亦提醒電波可能不穩）。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：兩站皆約十五分</h4>
+                   <p>首選從新宿等走京王相模原線到<a class="map-place-link" data-landmark="100248" data-zoom="15" href="#">京王讀賣樂園站</a>（京王よみうりランド駅），再徒歩約十五分上丘到會場；場館公式寫新宿・渋谷合計大約四十五分。會期無料シャトル「運行予定」——班次與乘車處以開催前官方 NEWS 為準，本篇不寫死時刻。橋本／相模原方向可改下<a class="map-place-link" data-landmark="100249" data-zoom="15" href="#">稻城站</a>（稲城駅），同樣徒歩約十五分。小田急読売ランド前駅可轉巴士約十分至「東京ジャイアンツタウン」，文內備援、不另標站。近鄰車位有限，官方勸大眾運輸。</p>
+                   <h4 style="padding: 0 16px;">節奏：半日摸木、看攤</h4>
+                   <p>想去的排法：開場後較早入場減排隊（以現場為準）→ 場內慢慢走工藝攤、摸木材質感、餐飲與クラフトビール焦點約兩到四小時 → 原路回京王讀賣樂園站，或改稻城側離場。只排逛展半日；不要同日硬塞讀賣樂園遊園全日，也不要把單一作家攤當必打卡座標。</p>
+                   <p>想去的畫面：京王讀賣樂園站出站上丘、巨人城體育場入口、木紋與寄木攤前伸手摸一下、午後原路或稻城離場。地圖順序：京王讀賣樂園站（或稻城站）→ 巨人城體育場 → 回程。距離皆約估；票與接駁出發前再對官網。</p>
+                 </section>
+
+                 <!-- story_id=100104｜Issue #104｜想去｜度假健身｜西伊豆雲見園 v2 風格審查｜Closes #104 -->
+                 <section data-story-id="100104" style="display:none;">
+                   <h2 style="padding: 0 16px;">西伊豆雲見園：漁村海鹽泉住一晚</h2>
+                   <p>這篇是想去，不是去過——還沒住過。靈感來自獨旅溫泉書選單（只取館名，不抄書）。營運對過官網 <a href="http://www.kumomien.com/" target="_blank" rel="noopener">kumomien.com</a> 與日本秘湯を守る会。地方在靜岡縣賀茂郡松崎町、西伊豆海岸漁村——<a class="map-place-link" data-landmark="100250" data-zoom="15" href="#">雲見園</a>：海邊和風小宿，秘湯を守る会會員。賣點是海鹽泉掛流與鮮魚夕食，不是溫泉街打卡。本篇只排這一晚，不做西伊豆一日環線。</p>
+                   <h4 style="padding: 0 16px;">住哪：雲見園一晚</h4>
+                   <p>這晚只想住雲見園：午後入住、翌朝退房，先湯再吃飯。入住大約十四點到十七點；為了鮮魚夕食，預計十七點後到則不接受預約——務必提早或改日。不收日歸入浴；不收信用卡，現金為主。房型、空室、一夜價出發前對官網／電話——本篇不寫死價目。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：下田再轉松崎</h4>
+                   <p>鐵道先到<a class="map-place-link" data-landmark="100252" data-zoom="14" href="#">伊豆急下田駅</a>，轉東海巴士到松崎再換雲見方向，在<a class="map-place-link" data-landmark="100251" data-zoom="15" href="#">雲見温泉巴士站</a>下車，步行到館。松崎只當換乘，不另當景點。班次少，出發前核東海巴士時刻。自駕可走沼津交流道經土肥沿海至雲見。</p>
+                   <h4 style="padding: 0 16px;">湯：海鹽泉掛流</h4>
+                   <p>想去的畫面是海邊的鹽泉：掛流、大約五十六度、不加冷水。有貸切露天、混浴露天（傍晚到晚上有一段女性專用）、男女別內湯——時段以館內為準。</p>
+                   <h4 style="padding: 0 16px;">節奏：漁村住一晚</h4>
+                   <p>想去的排法：下午十七點前到館 → 先入海鹽泉 → 夕食鮮魚 → 夜再湯 → 翌晨再泡 → 十點退房。刻意不做：塞滿千貫門、高通山、波勝崎、土肥一日圈。</p>
+                   <p>想去的畫面：下田出站、松崎換乘、雲見下車走進漁村小宿、午後海鹽泉、鮮魚夕食、隔天早上才離開。地圖順序：伊豆急下田駅 → 雲見温泉巴士站 → 雲見園。</p>
+                 </section>
+
+                 <!-- story_id=100106｜Issue #106｜想去｜度假健身｜新穗高槍見館｜Closes #106 -->
+                 <section data-story-id="100106" style="display:none;">
+                   <h2 style="padding: 0 16px;">新穗高槍見館：山岳絕景住一晚</h2>
+                   <p>這篇是想去，不是去過——還沒住過。靈感來自獨旅溫泉書選單上的館名，不是抄書。營運對過官網 <a href="https://yarimikan.com/" target="_blank" rel="noopener">yarimikan.com</a> 與日本秘湯を守る会。地方在岐阜縣高山市奥飛驒溫泉鄉・新穗高溫泉——<a class="map-place-link" data-landmark="100256" data-zoom="15" href="#">槍見館</a>（やりみかん）：蒲田川旁的一軒宿，混浴露天「槍見の湯」可望槍岳。本篇只排住一晚，不塞上高地、白川鄉同一天。</p>
+                   <h4 style="padding: 0 16px;">住哪：槍見館一晚</h4>
+                   <p>這晚只想住槍見館：午後入住、翌朝退房，先湯再吃飯。入住大約十五點到十七點、退房十一點（官網）。日歸入浴有，主體驗仍建議一夜兩餐。房型、空室、一夜價與取消出發前對官網／電話 <a href="tel:0578-89-2808">0578-89-2808</a>——本篇不寫死價目。食物過敏須入住五日前聯絡；當日改菜單通常不行。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：奥飛驒／新穗高</h4>
+                   <p>公交：JR 高山駅搭濃飛巴士往新穗高溫泉，大約九十分鐘；或 JR 松本駅出發大約一百分鐘——時刻出發前再核。於<a class="map-place-link" data-landmark="100257" data-zoom="14" href="#">中尾高原口</a>或<a class="map-place-link" data-landmark="100258" data-zoom="14" href="#">新穗高纜車站側</a>下車後，打電話請宿送迎。自駕經奥飛驒溫泉鄉入新穗高到館；松本、高山、富山交流道系都有路線，車程大約七十到九十分鐘。冬期山道請備釘胎或雪鏈；不安心就改巴士加送迎。</p>
+                   <h4 style="padding: 0 16px;">湯：望得見槍岳</h4>
+                   <p>想去的畫面是混浴露天「槍見の湯」望槍岳。湯あみ着可穿；早上七點到九點女性專用。另有男女大浴場、女性專用露天，以及四座貸切露天（住宿客無料）——時段與規則對館內／官網。泉源掛流，不加氯循環（官網）。風呂可用到翌日十點；退房十一點請預留時間。</p>
+                   <h4 style="padding: 0 16px;">節奏：住一晚看山</h4>
+                   <p>想去的排法：午後經奥飛驒／新穗高到館 → 先入槍見の湯望山 → 夕食 → 夜再湯 → 翌晨再泡後退房。天候與體力允許時，退房前後可選車約五分鐘短訪新穗高纜車——通年有營業，維修與惡天候會停，出發前再核。刻意不做：塞滿上高地、白川鄉、松本一日圈，也不把槍穂高登山寫成必走。</p>
+                   <p>想去的畫面：中尾高原口或纜車站側下車、宿送迎進谷、午後露天望槍岳、夕食後再湯、隔天早上才離開。地圖順序：中尾高原口 → 槍見館 →（可選）新穗高纜車站側 → 回程。</p>
+                 </section>
+
+                 <!-- story_id=100105｜Issue #105｜想去｜度假健身｜新潟栃尾又寶巖堂 v2 風格審查｜Closes #105 -->
+                 <section data-story-id="100105" style="display:none;">
+                   <h2 style="padding: 0 16px;">栃尾又寶巖堂：外湯溫溫泡住一晚</h2>
+                   <p>這篇是想去，不是去過——還沒住過。靈感來自獨旅溫泉書選單（只取館名，不抄書）。營運對過官網 <a href="https://www.ho-gan-do.com/" target="_blank" rel="noopener">ho-gan-do.com</a>。地方在新潟縣魚沼市上折立、湯之谷側山合——<a class="map-place-link" data-landmark="100253" data-zoom="15" href="#">寶巖堂</a>：魚沼山合三軒宿之一，賣點是外湯共同浴場與溫溫長泡，不是溫泉街打卡。本篇只排這一晚，不塞大湯、折立、奥只見一日遊。</p>
+                   <h4 style="padding: 0 16px;">住哪：寶巖堂一晚</h4>
+                   <p>這晚只住這一軒。預約走官網表單或官方 LINE，不收電話；現金、無卡。館內階多、無電梯，客室不在一樓。房型、空室、一夜價出發前對官網——本篇不寫死價目。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：小出接乘合</h4>
+                   <p>自駕：関越道魚沼交流道下，國道 352 往奥只見方向大約二十分鐘。電車到小出後，接預約制湯之谷乘合計程車或路線巴士到栃尾又——班次少，細則對官網與市觀光協會最新表。山奥電波弱。</p>
+                   <h4 style="padding: 0 16px;">外湯：溫溫的長泡</h4>
+                   <p>想去的畫面是出館走外湯，體溫左右長泡。三處外湯男女日替輪用；館內無溫泉。官網寫天然鐳泉——細節對官網 spa 頁，本篇不作療效宣稱。外階多，足不安者請自量；同鄉另有電梯宿可對照，本篇主針仍為寶巖堂。</p>
+                   <h4 style="padding: 0 16px;">節奏：外湯住一晚</h4>
+                   <p>想去的排法：午後入谷到館 → 換鞋出館入外湯 → 魚沼野菜夕食 → 夜再外湯 → 翌晨再泡 → 對齊回程便退房。刻意不做：塞滿大湯、折立溫泉街、奥只見水壩一日遊。</p>
+                   <p>想去的畫面：小出乘合午後入谷、上坡入館、外湯溫溫長泡、夕食後再外湯、隔天對齊回程。地圖主點：寶巖堂。班次、湯時段與方案以官網／LINE／市公告當日為準。</p>
+                 </section>
+
+                 <!-- story_id=100111｜Issue #111｜想去｜京都茶菓老舖｜綠壽庵清水｜Closes #111 -->
+                 <section data-story-id="100111" style="display:none;">
+                   <h2 style="padding: 0 16px;">京都綠壽庵清水：百萬遍金平糖專賣一訪</h2>
+                   <p>這篇是想去，不是去過——還沒去過。靈感來自京都百年老舖書選單上的店名，不是抄書。營運對過官網 <a href="https://www.konpeito.co.jp/" target="_blank" rel="noopener">konpeito.co.jp</a>。地方在京都市左京區吉田泉殿町、百萬遍一帶——<a class="map-place-link" data-landmark="100262" data-zoom="16" href="#">綠壽庵清水京都本店</a>（緑寿庵清水／Ryokujuan Shimizu）：弘化四年創業的金平糖專門店，賣點是挑幾味色彩與香氣都不同的小糖粒，當伴手禮或自己留著慢慢吃。本篇只排京都本店，不塞銀閣寺、哲學之道全日。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：出町柳或百萬遍</h4>
+                   <p>鐵道：京阪或叡山到<a class="map-place-link" data-landmark="100263" data-zoom="16" href="#">出町柳駅</a>，官網寫二番出口下車徒歩大約十分鐘入吉田泉殿町巷（約估；第三方另有約七分鐘寫法——以官網為準）。巴士：京都駅市巴士七番、或祇園側二〇六番，到<a class="map-place-link" data-landmark="100264" data-zoom="16" href="#">百萬遍巴士站</a>下車，官網寫徒歩大約兩分鐘至店。地址：京都市左京區吉田泉殿町38番地の2；電話 <a href="tel:075-771-0755">075-771-0755</a>；傳真 075-771-0766。</p>
+                   <h4 style="padding: 0 16px;">營業與購買：無網路販售</h4>
+                   <p>京都本店營業時間為早上十點到下午五點；定休水曜日。逢祝日若落在水曜，本店官網寫營業——是否另有振替休，出發前再對官網新着或電話確認。購買硬條件：現在一切不在網路販售；訂購與地方發送走電話或傳真。慎防高價轉賣與類似品（官網商品頁與營業頁有提醒）。天候影響製程與數量，人氣時可能品切れ——可當心理準備，不當保證。官網未公布一般觀光工房參觀時程——進店＝逛買選味，勿期待報名看製程。</p>
+                   <h4 style="padding: 0 16px;">想去的畫面：百萬遍選味</h4>
+                   <p>想去的畫面：出町柳出站或百萬遍下車、走進泉殿町巷、看暖簾與桐箱陳列、挑幾味金平糖、確認當日有無限定。同品牌祇園店（東山祇園町南側）可作文內可選加碼——營業較晚至晚上六點半，本篇不另釘地圖點，也不寫成必走雙店。刻意不做：把本書當行程腳本、誤導去第三方高價網購、未核新着就寫死一定買得到限定。</p>
+                   <p>想去的畫面：出町柳或百萬遍到店、選味結帳、原路回站或往今出川通散步。地圖順序：出町柳駅（或百萬遍巴士站）→ 綠壽庵清水京都本店。徒歩分鐘皆約估；營業與臨時休出發前再對官網新着。</p>
+                 </section>
+
+                 <!-- story_id=100110｜Issue #110｜想去｜京都工藝老舖｜開化堂｜Closes #110 -->
+                 <section data-story-id="100110" style="display:none;">
+                   <h2 style="padding: 0 16px;">京都開化堂：手造茶筒老舖一訪</h2>
+                   <p>這篇是想去，不是去過——還沒去過。靈感來自京都百年老舖書選單上的店名，不是抄書。營運對過官網 <a href="https://www.kaikado.jp/" target="_blank" rel="noopener">kaikado.jp</a>。地方在京都市下京區、河原町六条東入梅湊町——<a class="map-place-link" data-landmark="100259" data-zoom="16" href="#">開化堂本店</a>（茶筒の開化堂／Kaikado）：明治八年創業的茶筒專門店，賣點是親手試蓋合手感、選一只可帶回家的生活道具。本篇只排這一店，不塞清水寺、祇園全日。</p>
+                   <h4 style="padding: 0 16px;">怎麼到：清水五条徒歩</h4>
+                   <p>最近多半走<a class="map-place-link" data-landmark="100260" data-zoom="16" href="#">清水五条駅</a>（京阪本線）。官網寫徒歩大約五分鐘至本店；京都觀光 Navi 另寫約七分鐘——出發前以現場地圖為準。市巴士「河原町正面」下車也很近，本篇不另釘站點。地址：京都市下京區河原町六条東入梅湊町84-1；電話 <a href="tel:075-351-5788">075-351-5788</a>。</p>
+                   <h4 style="padding: 0 16px;">營業與購買：白天逛買</h4>
+                   <p>白天九點到六點；日曜、月曜與祝日休，出發前對官網日曆。進店是零售選購，不是預約工房導覽。付款、寄送與其他服務細則一律對官網。</p>
+                   <h4 style="padding: 0 16px;">想去的畫面：試手感選一只</h4>
+                   <p>想去的畫面：清水五条出站、走進梅湊町店面、看馬口鐵、銅、黃銅等材質差異、試蓋子緩緩吸合的手感、選一只茶筒或咖啡罐回家。同品牌另有<a class="map-place-link" data-landmark="100261" data-zoom="16" href="#">開化堂カフェ</a>（河原町通七条上ル住吉町；官網另站 kaikado-cafe.jp）——可沿河原町通向南歇腳，是同品牌錨點，不是第二主店，也不是必喝咖啡行程。刻意不做：未預約硬闖工房、把本書當行程腳本、同日塞滿百貨專櫃打卡。</p>
+                   <p>想去的畫面：清水五条出站、河原町六条東入、本店選筒、可選往南歇開化堂カフェ。地圖順序：清水五条駅 → 開化堂本店 →（可選）開化堂カフェ。徒歩分鐘皆約估；營業與休業出發前再對官網日曆。</p>
+                 </section>
+
+                 <!-- story_id=100116｜Issue #116｜想去｜日本全包式溫泉飯店四選 v1 -->
+                 <section data-story-id="100116" style="display:none;">
+                   <h2 style="padding: 0 32px;">日本超值溫泉飯店合輯：伊東、松島、知床、藏王四選</h2>
+                   <div class="story-step" data-step-landmark="100266" data-step-zoom="15">
+                     <p>從東京搭踊子號約1小時45分、或新幹線轉乘約1小時15分就能到的<a class="map-place-link" data-landmark="100266" data-zoom="15" href="#">伊東ホテルジュラク</a>，2024年7月才剛重新開幕，是靜岡伊東溫泉一帶交通最方便的全包式飯店之一。伊東溫泉本身擁有超過750處源泉，湧出量在全日本排名第三，這間飯店就握有其中7處自家源泉，全館客房都能直接享用溫泉。10樓以上是新推出的「Premium Ocean View露天風呂客房」，44平方公尺的房內附一座能望海的獨立溫泉浴池；館內另設兩座大浴場，一座男女時段輪替，另一座男女分開、得爬點樓梯，人潮反而比較少。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100267" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">松島一の坊，玻璃美術館旁的溫泉度假村</h4>
+                     <p>宮城<a class="map-place-link" data-landmark="100267" data-zoom="14" href="#">松島一の坊</a>面對著日本三景之一的松島灣，園區內附設已故人間國寶級玻璃工藝家藤田喬平的玻璃美術館，住客可以免費參觀。飯店坐擁一片約23,000平方公尺的日式庭園，客房望出去就是松島群島的海景；頂樓的露天風呂是鹼性溫泉，質地滑順，能一邊泡湯一邊眺望松島灣跟庭園。晚餐跟早餐都是現點現做的自助餐形式，主打宮城在地食材，牛舌、當季生魚片、握壽司都是熱門項目。</p>
+                     <p style="padding: 0 32px;"><img src="images/stories/100116/matsushima-bay.jpg" alt="松島灣" style="max-width:70%;height:auto;"></p>
+                     <p style="padding: 0 32px; font-size:0.85em; color:#666;">松島灣，日本三景之一。Photo: lumoplank / Wikimedia Commons / <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0</a></p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100268" data-step-zoom="13">
+                     <h4 style="padding: 0 32px;">北小梧知床，冬天在露天風呂裡看流冰</h4>
+                     <p>北海道斜里町宇登呂的<a class="map-place-link" data-landmark="100268" data-zoom="13" href="#">北小梧知床ホテル&リゾート</a>面向鄂霍次克海，是1960年從一間僅5個房間的小旅館起家、後來擴建成的大型度假村。這裡最大的賣點是冬季（通常1月中到2月）能一邊泡溫泉、一邊看著海面上漂來的流冰，館內兩座三溫暖各有主題：以流冰意象打造的「KAKUUNA」、以樹洞意象打造的「UNEUNA」，透過大片玻璃窗就能直接望向流冰景色。晚餐同樣是現點現做的自助餐，北海道在地海鮮跟知床蝦夷鹿肉都吃得到。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100269" data-step-zoom="14">
+                     <h4 style="padding: 0 32px;">遊森俱樂部，藏在森林裡的成人限定溫泉</h4>
+                     <p>宮城藏王遠刈田溫泉的<a class="map-place-link" data-landmark="100269" data-zoom="14" href="#">遊森俱樂部</a>，座落在藏王國定公園13萬平方公尺的森林腹地裡，是限定6歲以上入住的成人系溫泉旅館。園區內有一棟溪畔小屋，可以在裡面喝咖啡看書、盪吊床放空；每天下午還有「森林守護者」帶著營火，提供現烤棉花糖跟手作咖啡的活動。溫泉取自園區內的自家源泉，分方形跟圓形兩座露天風呂，伴著溪水聲泡湯；另外還有手工義式冰淇淋每天供應數種口味，可以無限暢吃。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇整理自 YouTube 影片<a href="https://www.youtube.com/watch?v=dQbfVxpH_sA" target="_blank" rel="noopener">「日本超值溫泉飯店合輯 吃喝泡湯無限享受」</a>；四間我都還沒去過，房型是否常態供應、旺季訂房難易度、藏王跟知床的冬季路況都需要另外查證——全包式飯店的酒精飲料、點心供應內容常隨季節調整，出發前建議再確認官網最新資訊。我想像的畫面是：伊東客房裡那座能望海的露天風呂、松島玻璃美術館裡透光的玻璃工藝品、知床三溫暖窗外緩緩漂過的流冰、藏王森林小屋裡聽著溪水聲一邊吃冰淇淋的午後。</p>
+                   </div>
+                 </section>
+
+                 <!-- story_id=100117｜Issue #117｜想去｜Danny Meyer v1 -->
+                 <section data-story-id="100117" style="display:none;">
+                   <h2 style="padding: 0 32px;">紐約餐飲教父 Danny Meyer：從一間小餐館到待客哲學帝國</h2>
+                   <div class="story-step" data-step-landmark="100270" data-step-zoom="15">
+                     <p>1985年，27歲的Danny Meyer在紐約聯合廣場開出人生第一間餐廳<a class="map-place-link" data-landmark="100270" data-zoom="15" href="#">Union Square Cafe</a>，主打當令在地食材，這在當時的紐約餐飲圈算是相當前衛的做法。這間店後來成為他「啟蒙式款待」（Enlightened Hospitality）理念的起點——他把善待的優先順序排成員工、顧客、社區、供應商、投資人，理由是員工被善待了，才會真心把這份善意傳遞給顧客，最終才輪到投資人受惠。原始店址已在2016年結束營業，現址搬到附近的東19街101號，持續營業至今。</p>
+                     <p style="padding: 0 32px;"><img src="images/stories/100117/danny-meyer.jpg" alt="Danny Meyer" style="max-width:70%;height:auto;"></p>
+                     <p style="padding: 0 32px; font-size:0.85em; color:#666;">Danny Meyer。Photo: Financial Times / Wikimedia Commons / <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a></p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100271" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">Gramercy Tavern，拿下九座James Beard Award的常青樹</h4>
+                     <p>Meyer旗下最具代表性的餐廳之一<a class="map-place-link" data-landmark="100271" data-zoom="15" href="#">Gramercy Tavern</a>，1994年開業至今超過三十年，主打隨季節更換的美式料理，累積拿下九座James Beard Award，是紐約少數同時做到「一位難求」跟「歷久不衰」的餐廳。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100272" data-step-zoom="15">
+                     <h4 style="padding: 0 32px;">The Modern，開在MoMA裡的米其林二星</h4>
+                     <p>位於紐約現代藝術博物館（MoMA）裡的<a class="map-place-link" data-landmark="100272" data-zoom="15" href="#">The Modern</a>，是Meyer旗下唯一拿到米其林二星的餐廳，館內同時經營正式的用餐間跟氣氛較輕鬆的Bar Room，兩種吃法都能望向博物館的雕塑花園。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100273" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">Shake Shack，從一台熱狗餐車長成的全球連鎖</h4>
+                     <p>2001年，Meyer在麥迪遜廣場公園擺了一台臨時熱狗餐車，作為公園整修募款活動的一部分，沒想到大排長龍；2004年正式在公園東北角開出第一間永久店面，就是後來紅遍全球的<a class="map-place-link" data-landmark="100273" data-zoom="16" href="#">Shake Shack</a>。2015年Shake Shack獨立上市，脫離Union Square Hospitality Group成為一間獨立公開發行公司，但Meyer至今仍是創辦人跟董事會成員。</p>
+                   </div>
+                   <div class="story-step" data-step-landmark="100274" data-step-zoom="16">
+                     <h4 style="padding: 0 32px;">Union Square Tokyo，開在六本木的海外唯一分店</h4>
+                     <p>2007年，Meyer把觸角伸出紐約，在東京六本木的Tokyo Midtown開出<a class="map-place-link" data-landmark="100274" data-zoom="16" href="#">Union Square Tokyo</a>——是Union Square Hospitality Group第一間、目前也仍是唯一一間海外分店，供應以在地新鮮食材做的美式料理，算是把「啟蒙式款待」的精神原封不動搬到了日本。</p>
+                   </div>
+                   <div class="story-step" data-step-view="all">
+                     <p>這篇是想透過Listmap試著介紹一個人，而不是一個地方——內容整理自Union Square Hospitality Group官網（<a href="https://www.ushg.com/" target="_blank" rel="noopener">ushg.com</a>）跟幾篇媒體報導，不是改寫自單一一支影片或貼文。Meyer旗下目前還經營著Maialino、Marta、Manhatta、Daily Provisions等十多個品牌，這裡只挑了幾間最具代表性的。他最新的書《What Could Possibly Go Right?》於2025年出版，距離第一本書《Setting the Table》剛好二十年。我都還沒去過這幾間餐廳，訂位難易度、菜單內容出發前建議再查證官網。地圖順序：Union Square Cafe → Gramercy Tavern → The Modern → Shake Shack → Union Square Tokyo。</p>
+                   </div>
+                 </section>
+
+
 
 
 

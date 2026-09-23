@@ -1,0 +1,83 @@
+{
+  "stories": [
+    {
+      "story_id": "100046",
+      "collection_id": "",
+      "title": "義大利五處不像真的地方",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Italy",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-09",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100115",
+      "story_id": "100046",
+      "name": "Lago di Resia（雷齊亞湖）",
+      "lat": "46.8367",
+      "lng": "10.5453",
+      "content": "南提洛，湖面正中央矗立十四世紀鐘樓，1950年建水壩淹沒庫龍村所致。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100116",
+      "story_id": "100046",
+      "name": "Santuario Madonna della Corona",
+      "lat": "45.6167",
+      "lng": "10.8",
+      "content": "維洛納近郊Spiazzi，教堂嵌進垂直岩壁，海拔約700公尺。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100117",
+      "story_id": "100046",
+      "name": "Campo Imperatore",
+      "lat": "42.45",
+      "lng": "13.6167",
+      "content": "阿布魯佐大薩索山區高原草甸，暱稱義大利小西藏。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100118",
+      "story_id": "100046",
+      "name": "Pietrapertosa",
+      "lat": "40.5333",
+      "lng": "15.9833",
+      "content": "巴西利卡塔石造山村，「天使的飛行」滑索起點之一。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

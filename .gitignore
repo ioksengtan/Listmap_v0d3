@@ -1,0 +1,6 @@
+node_modules/
+
+# Local agent worktrees and operating-system/editor noise
+.claude/worktrees/
+.DS_Store
+Thumbs.db

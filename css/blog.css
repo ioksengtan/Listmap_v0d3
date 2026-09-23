@@ -455,6 +455,56 @@ margin-top:10px;
   padding-bottom: 6px;
   border-bottom: 1px solid #eee;
 }
+.blog-index-title {
+  margin: 0 0 8px;
+  font: 700 1.8rem/1.2 'Fraunces', Georgia, serif;
+  color: #222;
+}
+#geostory_blog #blog-welcome .blog-index-lead {
+  color: #555;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.blog-story-tools {
+  margin-bottom: 20px;
+}
+.blog-story-search {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid #ccd5d1;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.blog-story-search:focus {
+  outline: 3px solid rgba(31, 95, 74, .16);
+  border-color: #1f5f4a;
+}
+.blog-story-filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.blog-story-filter {
+  border: 1px solid #d4d9d7;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: #fff;
+  color: #555;
+  font-size: 13px;
+  cursor: pointer;
+}
+.blog-story-filter.is-active {
+  border-color: #1f5f4a;
+  background: #1f5f4a;
+  color: #fff;
+}
+#geostory_blog #blog-welcome .blog-story-count {
+  margin: 8px 0 0;
+  padding: 0;
+  color: #888;
+  font-size: 12px;
+}
 .blog-home-section {
   margin-bottom: 32px;
 }

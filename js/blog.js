@@ -20,6 +20,8 @@ var currentScrollyStepId = null; // 當前啟動的 step 標識
 // Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S1034, S100026, S100030).
 // Internal/test stories and unverified Kyushu hardcodes stay off the first screen.
 var INDEX_MAP_LIMIT = 10;
+var blogIndexStories = [];
+var blogIndexFilter = 'all';
 
 // Public blog map: OSM geographic tiles (EPSG:3857), not map.js pngMap() Simple-CRS floorplan.
 function initBlogMap() {
@@ -42,6 +44,7 @@ function initBlogMap() {
 $(document).ready(function() {
     function afterLanguageChange() {
         refreshDynamicI18n();
+        if (blogIndexStories.length) renderBlogStoryList(blogIndexStories);
         if (typeof mymap !== 'undefined' && mymap && typeof mymap.invalidateSize === 'function') {
             mymap.invalidateSize();
         }
@@ -65,7 +68,7 @@ $(document).ready(function() {
             loadStoryById(parsed.sid, parsed.cid);
         }
     }).fail(function() {
-        console.error('Failed to load data/static.json');
+        console.error('Failed to load Listmap story data');
     });
 
     $(window).on('hashchange', function() {
@@ -219,8 +222,15 @@ function renderBlogStoryList(storiesWithGps) {
     var $container = $('#blog-story-list');
     if (!$container.length) return;
 
-    var stories = (storiesWithGps || []).filter(function(s) {
+    blogIndexStories = storiesWithGps || blogIndexStories;
+    var query = String($('#blog-story-search').val() || '').trim().toLowerCase();
+    var stories = blogIndexStories.filter(function(s) {
         return s.visibility === 'public' || ListmapData.isLocalhost();
+    }).filter(function(s) {
+        var tags = String(s.tags || '');
+        if (blogIndexFilter !== 'all' && tags.split(',').map(function(tag) { return tag.trim(); }).indexOf(blogIndexFilter) === -1) return false;
+        if (!query) return true;
+        return [s.title, s.where, s.author, tags].join(' ').toLowerCase().indexOf(query) !== -1;
     });
     stories.sort(function(a, b) {
         var dc = (b.created_at || '').localeCompare(a.created_at || '');
@@ -229,6 +239,7 @@ function renderBlogStoryList(storiesWithGps) {
     });
 
     $container.empty();
+    $('#blog-story-count').text(i18nText('visitor.resultCount', '符合條件：{count} 篇').replace('{count}', stories.length));
 
     function buildCard(s) {
         var sid = String(s.story_id);
@@ -262,7 +273,7 @@ function renderBlogStoryList(storiesWithGps) {
 
     if (rest.length > 0) {
         var $more = $('<div class="blog-story-more">');
-        var $btn = $('<button class="blog-story-more-btn">').text('顯示更多 ' + rest.length + ' 篇');
+        var $btn = $('<button class="blog-story-more-btn">').text(i18nText('visitor.showMore', '顯示更多 {count} 篇').replace('{count}', rest.length));
         $btn.on('click', function() {
             rest.forEach(function(s) { $container.append(buildCard(s)); });
             $more.remove();
@@ -271,6 +282,17 @@ function renderBlogStoryList(storiesWithGps) {
         $container.append($more);
     }
 }
+
+$(document).on('input', '#blog-story-search', function() {
+    renderBlogStoryList(blogIndexStories);
+});
+
+$(document).on('click', '.blog-story-filter', function() {
+    blogIndexFilter = String($(this).data('story-filter') || 'all');
+    $('.blog-story-filter').removeClass('is-active').attr('aria-pressed', 'false');
+    $(this).addClass('is-active').attr('aria-pressed', 'true');
+    renderBlogStoryList(blogIndexStories);
+});
 
 function hideIndexLayer() {
     if (indexLayer && mymap.hasLayer(indexLayer)) {

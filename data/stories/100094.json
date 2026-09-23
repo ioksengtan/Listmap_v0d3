@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100094",
+      "collection_id": "",
+      "title": "大分壁湯温泉・福元屋：洞窟混浴，住一晚",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kabeyu Onsen Fukumotoya Oita",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-18",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100233",
+      "story_id": "100094",
+      "name": "壁湯温泉 旅館 福元屋",
+      "lat": "33.2052162",
+      "lng": "131.1693884",
+      "content": "〒879-4723 大分県玖珠郡九重町大字町田62-1。日本秘湯を守る会加盟・天然洞窟混浴。座標：秘湯を守る会地圖／館名查詢（2026-09-18）。",
+      "link": "https://kabeyu.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
