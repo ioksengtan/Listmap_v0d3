@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listmap 實驗頁目錄</title>
+  <style>
+    :root {
+      --ink: #1d1a16;
+      --muted: #6b6258;
+      --paper: #f7f1e6;
+      --line: #e4d8c4;
+      --card: #fffdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iwanami", "Source Han Serif TC", "Noto Serif TC", Georgia, serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .banner {
+      background: #8a3b12;
+      color: #fff8ee;
+      padding: 8px 16px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+    .kicker {
+      margin: 0 0 6px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    h1 { margin: 0 0 10px; font-size: 1.65rem; }
+    .lead {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      color: #3f392f;
+      margin: 0 0 22px;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+    a.card {
+      display: block;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    a.card:hover { border-color: #c9b89a; }
+    a.card strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    a.card span {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .foot {
+      margin-top: 28px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .foot a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="banner">實驗頁目錄 · 非正式功能 · 不會自動發布</div>
+  <main>
+    <p class="kicker">實驗頁</p>
+    <h1>Listmap 實驗</h1>
+    <p class="lead">這裡放還在試的小頁面。不從首頁主按鈕連進來；知道網址的人可以自己玩。</p>
+    <ul>
+      <li>
+        <a class="card" href="quiz-listmap.html">
+          <strong>Listmap 問答（實驗）</strong>
+          <span>紙本風格地點小測驗 · 題庫 JSON 可另開一包</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="map-flower.html">
+          <strong>區域能量地圖（實驗）</strong>
+          <span>一週花光暈與開花草稿標記</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="flower-energy.html">
+          <strong>區域能量試算（實驗）</strong>
+          <span>區域能量數字與門檻對照</span>
+        </a>
+      </li>
+    </ul>
+    <p class="foot"><a href="../index.html">← 回 Listmap 首頁</a></p>
+  </main>
+</body>
+</html>
