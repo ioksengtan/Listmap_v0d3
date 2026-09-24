@@ -1185,7 +1185,7 @@ assert(onDisk.landmarks.filter(l => l.story_id === '100126').length === 3, 'S100
 const onDisk100126 = onDisk.stories.find(s => s.story_id === '100126');
 assert(onDisk100126.title === '礁溪住一晚：走五峰旗短瀑', 'checked-in JSON S100126 title');
 assert(onDisk100126.author === 'Yu-Sheng', 'checked-in JSON S100126 author');
-assert(onDisk100126.where === 'Yilan Jiaoxi Wufengqi overnight', 'checked-in JSON S100126 where');
+assert(onDisk100126.where === 'Jiaoxi overnight Wufengqi short waterfall', 'checked-in JSON S100126 where');
 assert(onDisk100126.tags === '想去', 'checked-in JSON S100126 tags');
 assert(onDisk100126.visibility === 'public', 'checked-in JSON S100126 visibility');
 assert(onDisk100126.thumbnail === '', 'checked-in JSON S100126 thumbnail');
@@ -1197,14 +1197,16 @@ assert(!onDisk.landmarks.some(l => l.landmark_id === '100301'), 'optional pin 10
 assert(!onDisk.landmarks.some(l => l.story_id === '100126' && (l.landmark_id === '100233' || l.landmark_id === '100234' || l.landmark_id === '100235' || l.landmark_id === '100236' || l.landmark_id === '100091')),
   'S100126 must not reuse cancelled Jiaoxi pins 100233–100236 or 100091');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').name === '五峰旗風景特定區／瀑布步道入口', 'checked-in JSON 100298 name');
-assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').link === 'https://travel.yilan.gov.tw/zh-tw/local-transport/', 'checked-in JSON 100298 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').link === 'https://www.taiwan.net.tw/m1.aspx?sNo=0001106', 'checked-in JSON 100298 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').content.indexOf('03-988-0940') !== -1, 'checked-in JSON 100298 keeps scenic-area phone');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').lat === '24.834224', 'checked-in JSON 100298 lat');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100298').lng === '121.74700', 'checked-in JSON 100298 lng');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100299').name === '礁溪老爺酒店', 'checked-in JSON 100299 name');
-assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100299').link === 'https://www.hotelroyal.com.tw/zh-tw/chiaohsi', 'checked-in JSON 100299 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100299').link === 'https://www.hotelroyal.com.tw/zh-tw/chiaohsi/', 'checked-in JSON 100299 link');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100299').lat === '24.8277008', 'checked-in JSON 100299 lat');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100299').lng === '121.7556915', 'checked-in JSON 100299 lng');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100300').name === '礁溪火車站／轉運站', 'checked-in JSON 100300 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100300').link === '', 'checked-in JSON 100300 link stays empty');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100300').lat === '24.826803', 'checked-in JSON 100300 lat');
 assert(onDisk.landmarks.find(l => l.story_id === '100126' && l.landmark_id === '100300').lng === '121.7754851', 'checked-in JSON 100300 lng');
 assert(onDisk.landmarks.find(l => l.landmark_id === '100126').story_id === '100049',
@@ -1304,9 +1306,9 @@ assert(!/Kyoto Ippodo Teramachi Tea Wagashi,,,想去,,public/.test(storiesCsv), 
 assert(/100085,,西伊豆堂之島：遊船、公園、海邊隱湯,blog,,Yu-Sheng,blog,Nishi-Izu Dogashima boat park onsen,,想去,,public,2026-09-24,,,cursor/.test(storiesCsv),
   'S100085 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Nishi-Izu Dogashima boat park onsen,,,想去,,public/.test(storiesCsv), 'S100085 must not split tags into thumbnail/visibility');
-assert(/100126,,礁溪住一晚：走五峰旗短瀑,blog,,Yu-Sheng,blog,Yilan Jiaoxi Wufengqi overnight,,想去,,public,2026-09-24,,,cursor/.test(storiesCsv),
+assert(/100126,,礁溪住一晚：走五峰旗短瀑,blog,,Yu-Sheng,blog,Jiaoxi overnight Wufengqi short waterfall,,想去,,public,2026-09-24,,,cursor/.test(storiesCsv),
   'S100126 CSV row must keep single-token 想去 in tags with no comma spill');
-assert(!/Yilan Jiaoxi Wufengqi overnight,,,想去,,public/.test(storiesCsv), 'S100126 must not split tags into thumbnail/visibility');
+assert(!/Jiaoxi overnight Wufengqi short waterfall,,,想去,,public/.test(storiesCsv), 'S100126 must not split tags into thumbnail/visibility');
 const landmarksCsv = fs.readFileSync(path.join(ROOT, 'data', 'landmarks.csv'), 'utf8');
 assert(/100259,100110,開化堂本店（茶筒の開化堂）,,,"/.test(landmarksCsv),
   'landmark 100259 must keep empty lat and lng — do not invent coords');
@@ -2013,6 +2015,12 @@ assert(page100126.indexOf('還沒去過') !== -1, 'S100126 page keeps the unvisi
 assert(page100126.indexOf('五峰旗風景特定區') !== -1, 'S100126 page keeps 五峰旗風景特定區');
 assert(page100126.indexOf('礁溪老爺酒店') !== -1, 'S100126 page keeps 礁溪老爺酒店');
 assert(page100126.indexOf('礁溪火車站／轉運站') !== -1, 'S100126 page keeps 礁溪火車站／轉運站');
+assert(page100126.indexOf('溪聲') !== -1, 'S100126 page keeps 溪聲');
+assert(page100126.indexOf('三疊瀑') !== -1, 'S100126 page keeps 三疊瀑');
+assert(page100126.indexOf('03-988-0940') !== -1, 'S100126 page keeps scenic-area phone');
+assert(page100126.indexOf('現場告示') !== -1, 'S100126 page keeps 現場告示');
+assert(page100126.indexOf('不串抹茶山長程') !== -1, 'S100126 page keeps the no-matcha-ridge line');
+assert(page100126.indexOf('data-zoom="14"') !== -1, 'S100126 station link keeps package zoom 14');
 assert(fs.statSync(path.join(ROOT, 'stories', '100126.html')).size < 150000,
   'S100126 HTML must stay a slim one-section permalink');
 assert(page100126.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100126 og:image keeps default fallback');
