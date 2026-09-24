@@ -377,3 +377,6 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100295,100085,洞巡遊船（堂ヶ島マリン乗船券売場）,34.7819140,138.7673678,〒410-3514 静岡県賀茂郡西伊豆町仁科2060。洞くつめぐり運航／荒天欠航——出發前對 dogashimamarine.jp 或電話 0558-52-0013。座標採 OpenStreetMap node 7802253895。,https://dogashimamarine.jp/,cursor
 100296,100085,海邊隱湯清流（海辺のかくれ湯 清流）,34.7849475,138.7656418,〒410-3514 静岡県賀茂郡西伊豆町仁科2941。日歸／宿泊時段與價錢出發前電話核對（0558-52-1118）。座標＝ゆこゆこ公開標記（非 OSM 館級）。,https://izuseinan.com/stay/nishiizu-cho/ryokan/seiryu/,cursor
 100297,100085,堂之島公園（堂ヶ島公園）,34.7825951,138.7671674,西伊豆町仁科一帶海岸公園；步道可從陸側望天窓洞。OpenStreetMap node 6176057468。,https://www.nishiizu-kankou.com/sightseeing/dougashima,cursor
+100298,100126,五峰旗風景特定區／瀑布步道入口,24.834224,121.74700,宜蘭縣礁溪鄉五峰旗風景特定區瀑布步道入口。短步道約一公里級；前兩層較平、第三層有階梯。出發前對宜蘭縣觀光資訊核對開放與路況。,https://travel.yilan.gov.tw/zh-tw/local-transport/,cursor
+100299,100126,礁溪老爺酒店,24.8277008,121.7556915,宜蘭縣礁溪鄉大忠村五峰路69號。過夜錨點；房客往返車站接駁與入住時段以館方交通頁為準。,https://www.hotelroyal.com.tw/zh-tw/chiaohsi,cursor
+100300,100126,礁溪火車站／轉運站,24.826803,121.7754851,宜蘭縣礁溪鄉台鐵礁溪車站與轉運站。進出溫泉聚落的門戶。,,cursor
