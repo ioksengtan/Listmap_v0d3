@@ -1,0 +1,55 @@
+{
+  "stories": [
+    {
+      "story_id": "100128",
+      "collection_id": "",
+      "title": "台東美濃冰品：退休台糖員工開的竹管厝冰店",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Beinan, Taitung, Taiwan",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-24",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100307",
+      "story_id": "100128",
+      "name": "美濃冰品",
+      "lat": "22.8199994",
+      "lng": "121.0946414",
+      "content": "台東縣卑南鄉美農高台2號，20多年前由9位退休台糖員工合開，現由第二代家族經營，建築是不用釘子、樑柱全靠竹片彎折榫接的竹管厝老屋。",
+      "link": "https://www.minoiceshop.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100308",
+      "story_id": "100128",
+      "name": "台東火車站（美濃冰品車站店）",
+      "lat": "22.7933000",
+      "lng": "121.1247000",
+      "content": "無自駕也能吃到美濃冰品的方式，車站廣場設有分店，一樣用在地食材製作。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
