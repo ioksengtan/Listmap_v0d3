@@ -22,7 +22,7 @@
   ],
   "landmarks": [
     {
-      "landmark_id": "100293",
+      "landmark_id": "100304",
       "story_id": "100124",
       "name": "淺草文化觀光中心",
       "lat": "35.7106419",
@@ -36,7 +36,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100294",
+      "landmark_id": "100305",
       "story_id": "100124",
       "name": "根津美術館",
       "lat": "35.6622429",
@@ -50,7 +50,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100295",
+      "landmark_id": "100306",
       "story_id": "100124",
       "name": "角川武藏野博物館",
       "lat": "35.7976890",
@@ -64,7 +64,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100296",
+      "landmark_id": "100302",
       "story_id": "100124",
       "name": "新國立競技場",
       "lat": "35.6779540",
@@ -78,7 +78,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100297",
+      "landmark_id": "100303",
       "story_id": "100124",
       "name": "星巴克洄瀾門市",
       "lat": "23.938689",

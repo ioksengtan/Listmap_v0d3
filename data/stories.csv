@@ -74,7 +74,7 @@ story_id,collection_id,title,type,link,author,what,where,avatar,tags,thumbnail,v
 100082,,熊本鶴之湯旅館：球磨川畔重生的秘境溫泉旅館,blog,,Yu-Sheng,blog,"Yatsushiro, Kumamoto, Japan",,想去,,public,2026-09-15,,,claude-sonnet-5
 100083,,福島野地溫泉ホテル：雪山中的150年乳藍色硫磺秘湯,blog,,Yu-Sheng,blog,"Tsuchiyu Onsen, Fukushima, Japan",,想去,,public,2026-09-15,,,claude-sonnet-5
 100084,,熊本南小國町お宿華坊：黑川溫泉旁的離屋秘湯,blog,,Yu-Sheng,blog,"Minami-Oguni, Kumamoto, Japan",,想去,,public,2026-09-15,,,claude-sonnet-5
-100085,,西伊豆堂ヶ島：兩座瀑布、藍洞遊船與海邊隱藏溫泉,blog,,Yu-Sheng,blog,"Nishi-Izu, Shizuoka, Japan",,想去,,public,2026-09-15,,,claude-sonnet-5
+100085,,西伊豆堂之島：遊船、公園、海邊隱湯,blog,,Yu-Sheng,blog,Nishi-Izu Dogashima boat park onsen,,想去,,public,2026-09-24,,,cursor
 100086,,巴黎 SATISFY：Fuel Station 補給再跑運河,blog,,Yu-Sheng,blog,Paris Satisfy Fuel Station,,"渡假,想去",,public,2026-09-15,,,cursor
 100088,,神保町書泉グランデ：五樓鐵道迷的櫃,blog,,Yu-Sheng,blog,Jimbocho Shosen Grande 5F Railway,,想去,,public,2026-09-16,,,cursor
 100092,,群馬四万温泉・豊島屋：渓流掛流し，住一晚聽川,blog,,Yu-Sheng,blog,Shima Onsen Toshimaya Nakanojo Gunma,,"渡假,想去",,public,2026-09-18,,,cursor
@@ -94,4 +94,5 @@ story_id,collection_id,title,type,link,author,what,where,avatar,tags,thumbnail,v
 100112,,京都永樂屋一帶：室町手拭棉布半日,blog,,Yu-Sheng,blog,Kyoto Eirakuya Muromachi Tenugui,,想去,,public,2026-09-24,,,cursor
 100122,,京都一保堂一帶：寺町二条茶葉和菓子半日,blog,,Yu-Sheng,blog,Kyoto Ippodo Teramachi Tea Wagashi,,想去,,public,2026-09-24,,,cursor
 100121,,星野佳路與星野集團：從輕井澤一間溫泉旅館到五個品牌的版圖,blog,,Yu-Sheng,blog,Japan,,"想去,人物",,public,2026-09-24,,,claude-sonnet-5
+100126,,礁溪住一晚：走五峰旗短瀑,blog,,Yu-Sheng,blog,Jiaoxi overnight Wufengqi short waterfall,,想去,,public,2026-09-24,,,cursor
 100124,,隈研吾：從東京奧運主場館到花蓮貨櫃星巴克,blog,,Yu-Sheng,blog,Japan,,"想去,人物",,public,2026-09-24,,,claude-sonnet-5
