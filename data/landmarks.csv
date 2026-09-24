@@ -368,8 +368,13 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100280,100112,烏丸御池駅,35.0108236,135.7596456,京都市營地下鐵烏丸線・東西線。官網最寄：徒歩約三分鐘至永樂屋本店。OpenStreetMap railway station node 6565091981。,,cursor
 100281,100112,京都府京都文化博物館,35.0094898,135.7623128,〒604-8183 京都市中京区高倉通三条上る東片町623-1。三条一帶可選加碼；綜合展示時段對 bunpaku.or.jp（月曜休常見）。OpenStreetMap way 352042994。,https://www.bunpaku.or.jp/,cursor
 100282,100112,宮脇賣扇庵 京都本店,,,〒604-8073 京都市中京区六角通富小路東入ル大黒町80-3。TEL 075-221-0181。10:00–18:00（夏季至 19:00）。烏丸御池徒歩約七分鐘（官網）。座標未知。,https://baisenan.co.jp/about/shop/,cursor
-100283,100121,星のや軽井沢,36.3582344,138.5908278,1914年開業的星野溫泉旅館原址，2005年改建為現在的星のや軽井沢，是星野集團事業的發源地。,https://hoshinoresorts.com/jp/hotels/hoshinoyakaruizawa/,claude-sonnet-5
-100284,100121,界 加賀,36.287525,136.360641,石川縣山代溫泉，2015年由創業於1624年的老字號旅館「白銀屋」改裝而成，館內大量使用加賀水引、九谷燒等在地工藝。,https://hoshinoresorts.com/jp/hotels/kaikaga/,claude-sonnet-5
-100285,100121,リゾナーレ八ヶ岳,35.8696440,138.3269913,山梨縣北杜市，星野集團旗下體驗型親子度假村品牌的旗艦館，主打全年適合帶小孩入住的戶外活動設施。,https://hoshinoresorts.com/jp/hotels/risonareyatsugatake/,claude-sonnet-5
-100286,100121,星のやバリ,-8.4835310,115.3012236,印尼峇里島烏布近郊，2017年開幕，是「星のや」品牌第一間海外據點，沿著佩克里森河谷而建（座標為所在村落近似位置）。,https://hoshinoresorts.com/en/hotels/hoshinoyabali/,claude-sonnet-5
-100287,100121,虹夕諾雅谷關,24.2057703,121.0097012,台中市和平區谷關溫泉，2019年6月開幕，是星野集團在台灣的第一間據點，也是繼峇里島之後「星のや」品牌的第二個海外據點。,https://hoshinoresorts.com/en/hotels/hoshinoyaguguan/,claude-sonnet-5
+100283,100122,一保堂茶舗 京都本店,35.0144633,135.7673552,〒604-0915 京都市中京区寺町通二条上ル常盤木町52。店舗 TEL 075-211-4018。10:00–17:00；定休毎月第2水曜日（臨時休對官網）。座標採 OpenStreetMap node 2274779753；作文住所以官網為準。,https://www.ippodo-tea.co.jp/pages/store-kyoto,cursor
+100284,100122,喫茶室嘉木,35.0144633,135.7673552,與本店同址（賣場右側）。10:00–17:00（L.O. 16:30）；約44席；予約不可。座標同本店 OSM。,https://www.ippodo-tea.co.jp/pages/store-kyoto,cursor
+100285,100122,京都市役所前駅,35.0108986,135.7688702,京都市營地下鐵東西線。官網最寄：11番出口徒歩約五分鐘至一保堂。OpenStreetMap railway station node 7783352311。,,cursor
+100286,100122,二條若狭屋 寺町店,,,〒604-0931 京都市中京区寺町通二条下る榎木町67。TEL 075-256-2280。1F 9:30–17:30；2F 茶房 10:30–16:30（L.O.）；定休水曜日。市役所前徒歩約五分鐘（官網）。座標未知。,http://www.kyogashi.info/access.html,cursor
+100287,100122,船はしや総本店,,,〒604-0916 京都市中京区寺町通二条上ル要法寺前町722。TEL 075-231-4127。季節定休差大（日祝休；夏冬連土曜休）——出發前核官網。座標未知。,http://www.goshikimame.co.jp/original4.html,cursor
+100288,100121,星のや軽井沢,36.3582344,138.5908278,1914年開業的星野溫泉旅館原址，2005年改建為現在的星のや軽井沢，是星野集團事業的發源地。,https://hoshinoresorts.com/jp/hotels/hoshinoyakaruizawa/,claude-sonnet-5
+100289,100121,界 加賀,36.287525,136.360641,石川縣山代溫泉，2015年由創業於1624年的老字號旅館「白銀屋」改裝而成，館內大量使用加賀水引、九谷燒等在地工藝。,https://hoshinoresorts.com/jp/hotels/kaikaga/,claude-sonnet-5
+100290,100121,リゾナーレ八ヶ岳,35.8696440,138.3269913,山梨縣北杜市，星野集團旗下體驗型親子度假村品牌的旗艦館，主打全年適合帶小孩入住的戶外活動設施。,https://hoshinoresorts.com/jp/hotels/risonareyatsugatake/,claude-sonnet-5
+100291,100121,星のやバリ,-8.4835310,115.3012236,印尼峇里島烏布近郊，2017年開幕，是「星のや」品牌第一間海外據點，沿著佩克里森河谷而建（座標為所在村落近似位置）。,https://hoshinoresorts.com/en/hotels/hoshinoyabali/,claude-sonnet-5
+100292,100121,虹夕諾雅谷關,24.2057703,121.0097012,台中市和平區谷關溫泉，2019年6月開幕，是星野集團在台灣的第一間據點，也是繼峇里島之後「星のや」品牌的第二個海外據點。,https://hoshinoresorts.com/en/hotels/hoshinoyaguguan/,claude-sonnet-5

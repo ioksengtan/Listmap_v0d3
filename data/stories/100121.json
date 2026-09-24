@@ -22,7 +22,7 @@
   ],
   "landmarks": [
     {
-      "landmark_id": "100283",
+      "landmark_id": "100288",
       "story_id": "100121",
       "name": "星のや軽井沢",
       "lat": "36.3582344",
@@ -36,7 +36,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100284",
+      "landmark_id": "100289",
       "story_id": "100121",
       "name": "界 加賀",
       "lat": "36.287525",
@@ -50,7 +50,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100285",
+      "landmark_id": "100290",
       "story_id": "100121",
       "name": "リゾナーレ八ヶ岳",
       "lat": "35.8696440",
@@ -64,7 +64,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100286",
+      "landmark_id": "100291",
       "story_id": "100121",
       "name": "星のやバリ",
       "lat": "-8.4835310",
@@ -78,7 +78,7 @@
       "geojson_file": ""
     },
     {
-      "landmark_id": "100287",
+      "landmark_id": "100292",
       "story_id": "100121",
       "name": "虹夕諾雅谷關",
       "lat": "24.2057703",
