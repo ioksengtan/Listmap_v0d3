@@ -315,9 +315,6 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100220,100084,豐禮之湯,33.1529,131.1350,熊本阿蘇郡小國町西里，わいた溫泉鄉裡的投幣式家族風呂設施，白濁偏乳藍色的天然溫泉100%源泉放流。OpenStreetMap way 694036329。,,claude-sonnet-5
 100221,100084,道之驛小國 ゆうステーション,33.1215,131.0683,熊本阿蘇郡小國町宮原，品項豐富的休息站，可買到赤牛肉味噌、地雞飯糰、蒟蒻壽司等在地小吃跟現榨生乳霜淇淋（座標為宮原地區近似位置）。,,claude-sonnet-5
 100222,100081,悠湯里庵,36.7227508,139.1250963,群馬縣川場村山區的溫泉旅館，園區內有多棟超過140年歷史的茅葺屋頂建築，靠自動駕駛小車跟斜面單軌列車在腹地內移動。,,claude-sonnet-5
-100223,100085,萬城の滝,34.9058348,138.9931904,伊豆市地蔵堂，狩野川支流上游高20公尺、寬6公尺的瀑布，水量豐沛氣勢十足，可沿階梯下切到瀑布正面近距離感受水氣。OpenStreetMap node 5603024172。,,claude-sonnet-5
-100224,100085,堂之島天窗洞,34.782712,138.766088,西伊豆町堂ヶ島遊覽船的招牌景點，海蝕洞頂部開口讓陽光灑入，洞內海水映出藍色光澤，故有「藍洞」之稱。OpenStreetMap node 5603023865。,,claude-sonnet-5
-100225,100085,海邊的隱藏溫泉 清流,34.781197,138.774338,西伊豆町仁科，堂ヶ島海灣旁的溫泉旅館，客室與大浴場皆能望見三四郎島與夕陽海景，設有波打際的露天風呂（座標為仁科地區近似位置）。,https://www.umibe-seiryu.com/,claude-sonnet-5
 100226,100086,SATISFY Fuel Station,48.86301,2.36402,"54 Rue de Saintonge 75003 Paris。每日 8:00–16:00。都市跑補給／機能飲／水龍頭。OpenStreetMap house node 713670035。",https://satisfyrunning.com/pages/retail,cursor
 100227,100086,SATISFY Supply,48.86316,2.36405,"47 Rue de Saintonge 75003。每日 11:00–19:00。街對面約20m；技術跑裝鞋全線。OpenStreetMap house node 713493289。",https://satisfyrunning.com/pages/retail,cursor
 100228,100086,Canal Saint-Martin（Quai de Jemmapes 南段近 République）,48.87149,2.36554,"自 Fuel Station 經 République 約0.9–1.2km／慢跑約10–15min。主跑廊；往北可延 Quai de Valmy／Jemmapes。OpenStreetMap way 35835512 代表點。",,cursor
@@ -350,7 +347,6 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100260,100110,清水五条駅,34.9956137,135.7684459,"京阪本線。官網最寄駅；徒歩約5分至開化堂本店（約估；京都觀光Navi另寫約7分）。OpenStreetMap railway station node 7944965637。",,cursor
 100261,100110,開化堂カフェ,34.9898989,135.7644162,"〒600-8143 京都市下京区河原町通七条上ル住吉町352。TEL 075-353-5668。同品牌錨點，非本篇主店。Café 10:00–18:30（L.O. 18:00）；定休木曜日。OpenStreetMap amenity=cafe node 5123266621。",https://www.kaikado-cafe.jp/,cursor
 
-100265,100085,行基の滝,34.900091,138.898197,伊豆市吉奈川上游、高13公尺寬3公尺的瀑布，相傳高僧行基曾在此受滝並供養被里人視為魔淵的水潭而得名，座標由使用者提供。,,claude-sonnet-5
 100266,100116,伊東ホテルジュラク,34.964874,139.090149,靜岡縣伊東市，2024年7月重新開幕的全包式溫泉飯店，擁有7處自家源泉，全客房皆附溫泉，10、11樓為附露天風呂的海景客房。,https://www.hotel-juraku.co.jp/ito/,claude-sonnet-5
 100267,100116,松島一の坊,38.388279,141.060349,宮城縣松島町，面朝日本三景松島灣的全包式溫泉度假村，館內附設已故人間國寶玻璃工藝家藤田喬平的玻璃美術館。,https://ichinobo.com/matsushima/,claude-sonnet-5
 100268,100116,北小梧知床ホテル&リゾート,44.0718739,144.9955971,北海道斜里町宇登呂，面向鄂霍次克海的全包式溫泉飯店，冬季可從露天風呂、三溫暖眺望流冰，館內設有以流冰跟樹洞為主題的兩座三溫暖。,https://www.shiretoko.co.jp/,claude-sonnet-5
@@ -378,3 +374,6 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 100290,100121,リゾナーレ八ヶ岳,35.8696440,138.3269913,山梨縣北杜市，星野集團旗下體驗型親子度假村品牌的旗艦館，主打全年適合帶小孩入住的戶外活動設施。,https://hoshinoresorts.com/jp/hotels/risonareyatsugatake/,claude-sonnet-5
 100291,100121,星のやバリ,-8.4835310,115.3012236,印尼峇里島烏布近郊，2017年開幕，是「星のや」品牌第一間海外據點，沿著佩克里森河谷而建（座標為所在村落近似位置）。,https://hoshinoresorts.com/en/hotels/hoshinoyabali/,claude-sonnet-5
 100292,100121,虹夕諾雅谷關,24.2057703,121.0097012,台中市和平區谷關溫泉，2019年6月開幕，是星野集團在台灣的第一間據點，也是繼峇里島之後「星のや」品牌的第二個海外據點。,https://hoshinoresorts.com/en/hotels/hoshinoyaguguan/,claude-sonnet-5
+100295,100085,洞巡遊船（堂ヶ島マリン乗船券売場）,34.7819140,138.7673678,〒410-3514 静岡県賀茂郡西伊豆町仁科2060。洞くつめぐり運航／荒天欠航——出發前對 dogashimamarine.jp 或電話 0558-52-0013。座標採 OpenStreetMap node 7802253895。,https://dogashimamarine.jp/,cursor
+100296,100085,海邊隱湯清流（海辺のかくれ湯 清流）,34.7849475,138.7656418,〒410-3514 静岡県賀茂郡西伊豆町仁科2941。日歸／宿泊時段與價錢出發前電話核對（0558-52-1118）。座標＝ゆこゆこ公開標記（非 OSM 館級）。,https://izuseinan.com/stay/nishiizu-cho/ryokan/seiryu/,cursor
+100297,100085,堂之島公園（堂ヶ島公園）,34.7825951,138.7671674,西伊豆町仁科一帶海岸公園；步道可從陸側望天窓洞。OpenStreetMap node 6176057468。,https://www.nishiizu-kankou.com/sightseeing/dougashima,cursor

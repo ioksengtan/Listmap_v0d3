@@ -1149,6 +1149,37 @@ assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').link === 'http://www.goshikimame.co.jp/original4.html', 'checked-in JSON 100287 link');
 assert(onDisk.landmarks.find(l => l.landmark_id === '100122').story_id === '100048',
   'existing Bled Lake landmark 100122 must stay on S100048');
+assert(onDisk.stories.some(s => s.story_id === '100085'), 'checked-in JSON missing 100085');
+assert(onDisk.landmarks.filter(l => l.story_id === '100085').length === 3, 'S100085 must have exactly 3 landmarks');
+const onDisk100085 = onDisk.stories.find(s => s.story_id === '100085');
+assert(onDisk100085.title === '西伊豆堂之島：遊船、公園、海邊隱湯', 'checked-in JSON S100085 title');
+assert(onDisk100085.author === 'Yu-Sheng', 'checked-in JSON S100085 author');
+assert(onDisk100085.where === 'Nishi-Izu Dogashima boat park onsen', 'checked-in JSON S100085 where');
+assert(onDisk100085.tags === '想去', 'checked-in JSON S100085 tags');
+assert(onDisk100085.visibility === 'public', 'checked-in JSON S100085 visibility');
+assert(onDisk100085.thumbnail === '', 'checked-in JSON S100085 thumbnail');
+assert(onDisk100085.contributor === 'cursor', 'checked-in JSON S100085 contributor');
+assert(onDisk100085.created_at === '2026-09-24', 'checked-in JSON S100085 created_at');
+assert(onDisk.landmarks.map(l => l.landmark_id).filter(id => id === '100295' || id === '100296' || id === '100297').join(',') === '100295,100296,100297',
+  'S100085 landmarks must be exactly 100295, 100296, 100297');
+assert(!onDisk.landmarks.some(l => l.landmark_id === '100293' || l.landmark_id === '100294'),
+  'cancelled waterfall pins 100293/100294 must not be added');
+assert(!onDisk.landmarks.some(l => l.story_id === '100085' && (l.landmark_id === '100223' || l.landmark_id === '100224' || l.landmark_id === '100225' || l.landmark_id === '100265')),
+  'v1 waterfall/old pins must not stay on S100085');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100295').name === '洞巡遊船（堂ヶ島マリン乗船券売場）', 'checked-in JSON 100295 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100295').link === 'https://dogashimamarine.jp/', 'checked-in JSON 100295 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100295').lat === '34.7819140', 'checked-in JSON 100295 lat');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100295').lng === '138.7673678', 'checked-in JSON 100295 lng');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100296').name === '海邊隱湯清流（海辺のかくれ湯 清流）', 'checked-in JSON 100296 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100296').link === 'https://izuseinan.com/stay/nishiizu-cho/ryokan/seiryu/', 'checked-in JSON 100296 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100296').lat === '34.7849475', 'checked-in JSON 100296 lat');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100296').lng === '138.7656418', 'checked-in JSON 100296 lng');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100297').name === '堂之島公園（堂ヶ島公園）', 'checked-in JSON 100297 name');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100297').link === 'https://www.nishiizu-kankou.com/sightseeing/dougashima', 'checked-in JSON 100297 link');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100297').lat === '34.7825951', 'checked-in JSON 100297 lat');
+assert(onDisk.landmarks.find(l => l.story_id === '100085' && l.landmark_id === '100297').lng === '138.7671674', 'checked-in JSON 100297 lng');
+assert(onDisk.landmarks.find(l => l.landmark_id === '100085').story_id === '100040',
+  'existing Seceda landmark 100085 must stay on S100040');
 
 
 assert(normalizeStoryTags('吃,去過') === '吃,去過', 'normalize keeps allowed tags');
@@ -1241,6 +1272,9 @@ assert(!/Kyoto Eirakuya Muromachi Tenugui,,,想去,,public/.test(storiesCsv), 'S
 assert(/100122,,京都一保堂一帶：寺町二条茶葉和菓子半日,blog,,Yu-Sheng,blog,Kyoto Ippodo Teramachi Tea Wagashi,,想去,,public,2026-09-24,,,cursor/.test(storiesCsv),
   'S100122 CSV row must keep single-token 想去 in tags with no comma spill');
 assert(!/Kyoto Ippodo Teramachi Tea Wagashi,,,想去,,public/.test(storiesCsv), 'S100122 must not split tags into thumbnail/visibility');
+assert(/100085,,西伊豆堂之島：遊船、公園、海邊隱湯,blog,,Yu-Sheng,blog,Nishi-Izu Dogashima boat park onsen,,想去,,public,2026-09-24,,,cursor/.test(storiesCsv),
+  'S100085 CSV row must keep single-token 想去 in tags with no comma spill');
+assert(!/Nishi-Izu Dogashima boat park onsen,,,想去,,public/.test(storiesCsv), 'S100085 must not split tags into thumbnail/visibility');
 const landmarksCsv = fs.readFileSync(path.join(ROOT, 'data', 'landmarks.csv'), 'utf8');
 assert(/100259,100110,開化堂本店（茶筒の開化堂）,,,"/.test(landmarksCsv),
   'landmark 100259 must keep empty lat and lng — do not invent coords');
@@ -1900,6 +1934,31 @@ assert(fs.statSync(path.join(ROOT, 'stories', '100122.html')).size < 150000,
   'S100122 HTML must stay a slim one-section permalink');
 assert(page100122.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100122 og:image keeps default fallback');
 assert(page100122.indexOf('images/og/100122.jpg') === -1, 'S100122 must not invent a generated OG path');
+
+const page100085 = fs.readFileSync(path.join(ROOT, 'stories', '100085.html'), 'utf8');
+assert(page100085.indexOf('https://ioksengtan.github.io/Listmap_v0d3/stories/100085.html') !== -1, 'S100085 absolute Pages URL');
+assert(/<meta name="description" content="[^"]{20,}"/.test(page100085), 'S100085 OG/body keeps a non-empty description');
+assert(page100085.indexOf('data-landmark="100295"') !== -1, 'S100085 page landmark 100295');
+assert(page100085.indexOf('data-landmark="100296"') !== -1, 'S100085 page landmark 100296');
+assert(page100085.indexOf('data-landmark="100297"') !== -1, 'S100085 page landmark 100297');
+assert(page100085.indexOf('data-landmark="100223"') === -1, 'S100085 page must drop v1 landmark 100223');
+assert(page100085.indexOf('data-landmark="100293"') === -1, 'S100085 page must not add 100293');
+assert(page100085.indexOf('data-landmark="100294"') === -1, 'S100085 page must not add 100294');
+const section100085 = page100085.match(/<section\s+data-story-id="100085"[\s\S]*?<\/section>/)[0];
+assert(section100085.indexOf('javascript:zoomto') === -1, 'S100085 section must not revert to javascript:zoomto');
+assert((section100085.match(/class="map-place-link"/g) || []).length === 3, 'S100085 section has 3 map-place-links');
+assert(page100085.indexOf('<section data-story-id="100085" style="display:none;">') === -1, 'S100085 article must be visible for crawlers');
+assert(page100085.indexOf('<section data-story-id="100086"') === -1, 'S100085 must not include S100086 section');
+assert(page100085.indexOf('images/stories/1032/') === -1, 'S100085 must not ship other stories’ images');
+assert(page100085.indexOf('西伊豆堂之島：遊船、公園、海邊隱湯') !== -1, 'S100085 page keeps the Chinese title');
+assert(page100085.indexOf('想去') !== -1, 'S100085 page keeps the 想去 honesty line');
+assert(page100085.indexOf('堂ヶ島') !== -1, 'S100085 page keeps the first 堂ヶ島 gloss');
+assert(page100085.indexOf('洞巡遊船') !== -1, 'S100085 page keeps 洞巡遊船');
+assert(page100085.indexOf('堂之島公園') !== -1, 'S100085 page keeps 堂之島公園');
+assert(page100085.indexOf('海邊隱湯清流') !== -1, 'S100085 page keeps 海邊隱湯清流');
+assert(fs.statSync(path.join(ROOT, 'stories', '100085.html')).size < 150000,
+  'S100085 HTML must stay a slim one-section permalink');
+assert(page100085.indexOf('https://ioksengtan.github.io/Listmap_v0d3/images/og/100085.jpg') !== -1, 'S100085 keeps the existing Dogashima OG crop');
 
 assert(!fs.existsSync(path.join(ROOT, 'stories', '1001.html')), 'do not generate a share page for internal Heidelberg');
 assert(!fs.existsSync(path.join(ROOT, 'CNAME')), 'do not add a custom-domain CNAME');
