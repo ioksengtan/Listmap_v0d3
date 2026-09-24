@@ -42,7 +42,7 @@ A single piece of content tied to one or more locations.
 | what | Short label for the content type (e.g. "Video", "Article") |
 | where | Human-readable location name (e.g. "Taipei", "Kyushu") |
 | avatar | Author avatar image path |
-| tags | Comma-separated tags |
+| tags | Comma-separated tags. If the story's content (itinerary, place recommendations, etc.) came out of a conversation between the owner and Claude acting as a "Travel Agent", include `Travel Agent` as one of the tags. |
 | thumbnail | Thumbnail image path |
 | visibility | `public`（對外公開，預設）、`internal`（僅 localhost 可見） |
 | contributor | Optional: which tool/agent authored this row (e.g. `cursor`, `claude-sonnet-5`). Blank means unspecified / predates this field. Not used for uniqueness — see "Picking a new story_id / landmark_id" below for how collisions are actually avoided. |

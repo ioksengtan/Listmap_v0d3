@@ -1,0 +1,111 @@
+{
+  "stories": [
+    {
+      "story_id": "100058",
+      "collection_id": "",
+      "title": "日本賞楓觀星規劃：東北方案",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Towada / Hachimantai / Morioka",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-11",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100307",
+      "story_id": "100058",
+      "name": "十和田湖",
+      "lat": "40.4667",
+      "lng": "140.8833",
+      "content": "青森／秋田交界的破火山口湖，奧入瀬渓流源頭。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100308",
+      "story_id": "100058",
+      "name": "奧入瀬渓流",
+      "lat": "40.5253",
+      "lng": "140.9139",
+      "content": "約14公里健行步道，沿溪瀑布與紅葉，見頃自上游10月中旬延續到下游11月上旬。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100309",
+      "story_id": "100058",
+      "name": "八幡平・藤七温泉",
+      "lat": "39.9578",
+      "lng": "140.8556",
+      "content": "日本海拔最高的溫泉之一，阿斯匹特山岳觀光道路（アスピーテライン）沿線。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100310",
+      "story_id": "100058",
+      "name": "岩手山銀河ステーション",
+      "lat": "39.8867",
+      "lng": "140.9528",
+      "content": "八幡平市天文台，附設望遠鏡與戶外觀星區。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100311",
+      "story_id": "100058",
+      "name": "盛岡城跡公園",
+      "lat": "39.7016",
+      "lng": "141.1525",
+      "content": "盛岡市區景點，可安排作為移動中繼日的市區行程。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100312",
+      "story_id": "100058",
+      "name": "銀山温泉",
+      "lat": "38.5719",
+      "lng": "140.5372",
+      "content": "山形縣，大正風情溫泉街，冬季雪景與紅葉季皆知名。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
