@@ -1,0 +1,97 @@
+{
+  "stories": [
+    {
+      "story_id": "100122",
+      "collection_id": "",
+      "title": "京都一保堂一帶：寺町二条茶葉和菓子半日",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kyoto Ippodo Teramachi Tea Wagashi",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-24",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "cursor"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "100283",
+      "story_id": "100122",
+      "name": "一保堂茶舗 京都本店",
+      "lat": "35.0144633",
+      "lng": "135.7673552",
+      "content": "〒604-0915 京都市中京区寺町通二条上ル常盤木町52。店舗 TEL 075-211-4018。10:00–17:00；定休毎月第2水曜日（臨時休對官網）。座標採 OpenStreetMap node 2274779753；作文住所以官網為準。",
+      "link": "https://www.ippodo-tea.co.jp/pages/store-kyoto",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100284",
+      "story_id": "100122",
+      "name": "喫茶室嘉木",
+      "lat": "35.0144633",
+      "lng": "135.7673552",
+      "content": "與本店同址（賣場右側）。10:00–17:00（L.O. 16:30）；約44席；予約不可。座標同本店 OSM。",
+      "link": "https://www.ippodo-tea.co.jp/pages/store-kyoto",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100285",
+      "story_id": "100122",
+      "name": "京都市役所前駅",
+      "lat": "35.0108986",
+      "lng": "135.7688702",
+      "content": "京都市營地下鐵東西線。官網最寄：11番出口徒歩約五分鐘至一保堂。OpenStreetMap railway station node 7783352311。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100286",
+      "story_id": "100122",
+      "name": "二條若狭屋 寺町店",
+      "lat": "",
+      "lng": "",
+      "content": "〒604-0931 京都市中京区寺町通二条下る榎木町67。TEL 075-256-2280。1F 9:30–17:30；2F 茶房 10:30–16:30（L.O.）；定休水曜日。市役所前徒歩約五分鐘（官網）。座標未知。",
+      "link": "http://www.kyogashi.info/access.html",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "100287",
+      "story_id": "100122",
+      "name": "船はしや総本店",
+      "lat": "",
+      "lng": "",
+      "content": "〒604-0916 京都市中京区寺町通二条上ル要法寺前町722。TEL 075-231-4127。季節定休差大（日祝休；夏冬連土曜休）——出發前核官網。座標未知。",
+      "link": "http://www.goshikimame.co.jp/original4.html",
+      "address": "",
+      "tags": "",
+      "contributor": "cursor",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
