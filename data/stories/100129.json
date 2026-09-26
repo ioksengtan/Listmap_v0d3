@@ -1,0 +1,69 @@
+{
+  "stories": [
+    {
+      "story_id": "100129",
+      "collection_id": "",
+      "title": "台9線卑南半日：遺址草地、竹管厝吃冰、牧場收尾",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Taitung Beinan Highway 9 half-day Beinan Site Park Mino Ice Chulu Ranch",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-25",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "206450",
+      "story_id": "100129",
+      "name": "卑南遺址公園",
+      "lat": "22.7949674",
+      "lng": "121.1167142",
+      "content": "臺東市文化公園路 200 號（國立臺灣史前文化博物館卑南遺址公園）。電話 089-233466。週二至週日 09:00–17:00；週一休館（遇國定假日、彈性放假照常開放）；除夕、年初一、選舉日休；連假前後休館日會調整，以官網公告為準。展示廳全票 100 元，售票至 16:30。座標採 OpenStreetMap way/253336242 面中心點，非入口。",
+      "link": "https://www.nmp.gov.tw/cp.aspx?n=1973",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206451",
+      "story_id": "100129",
+      "name": "美濃冰品",
+      "lat": "22.8203576",
+      "lng": "121.0944676",
+      "content": "臺東縣卑南鄉美農村高台 2 號。電話 089-570-716。營業時間來源並存（09:00–17:00 或 09:00–18:00），多數來源週二公休，出發前電話確認。建議帶現金。座標採 OpenStreetMap node/7013560985。",
+      "link": "https://ezgo.ardswc.gov.tw/zh-tw/spot/5915/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206452",
+      "story_id": "100129",
+      "name": "初鹿牧場",
+      "lat": "22.8635737",
+      "lng": "121.1092671",
+      "content": "臺東縣卑南鄉明峰村牧場 1 號。電話 089-571002。每日 08:00–17:00（體驗活動至 16:30）。門票平日全票 100 元、假日 200 元（官網，以現場為準）；門票可刷卡，體驗活動付現。座標採 OpenStreetMap way/253540623 面中心點，觀光署點位 22.865819, 121.10816 可交叉。",
+      "link": "https://home.chuluranch.com.tw/ticket.php",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
