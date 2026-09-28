@@ -1,0 +1,97 @@
+{
+  "stories": [
+    {
+      "story_id": "100131",
+      "collection_id": "",
+      "title": "別府明礬岡本屋：泡硫磺湯、看湯花小屋住一晚",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Myoban Onsen Okamotoya Yunohana Koya Beppu Oita",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-28",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "206550",
+      "story_id": "100131",
+      "name": "岡本屋旅館（明礬温泉 岡本屋）",
+      "lat": "33.3176734",
+      "lng": "131.4539163",
+      "content": "〒874-0843 大分縣別府市明礬4組（官網；Google 地點另標「別府市鶴見1210」，以官網為準）。TEL 0977-66-3228。溫泉僅限住客；不收未就學兒童；有刺青不可用大浴場；無電梯；不收電子支付。入住 15:00（最晚 18:00）、退房 10:00。座標採官網 access 頁 Google Maps 嵌入目的地（OSM 查無建物）。",
+      "link": "https://www.okamotoya.net/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206551",
+      "story_id": "100131",
+      "name": "湯花小屋（湯の花小屋）",
+      "lat": "33.3194238",
+      "lng": "131.4541230",
+      "content": "湯之里園區內的參觀小屋。別府市明礬 6組；TEL 0977-66-8166。見學免費，9:00–17:30（小屋頁），年中無休。旅館步行約 7 分（官網）。座標採 OpenStreetMap node/6594460185（見學點，非湯の里入口）。",
+      "link": "https://yuno-hana.jp/yunohana_koya/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206552",
+      "story_id": "100131",
+      "name": "明礬巴士站（明礬）",
+      "lat": "33.3165961",
+      "lng": "131.4528625",
+      "content": "龜之井巴士（亀の井バス）明礬站，國道500號旁。別府站西口 3 號乘車處搭 5 號或 41 號，約 30 分（官網）；下車步行約 1 分到旅館。座標採 OpenStreetMap node/7125175685（對向站 node/7125175785 名稱誤標，不採）。",
+      "link": "https://kamenoibus.com/scheduled_howto/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206553",
+      "story_id": "100131",
+      "name": "岡本屋賣店（岡本屋売店）",
+      "lat": "33.3180090",
+      "lng": "131.4527236",
+      "content": "可選一站：買地獄蒸布丁。別府市明礬3組（官網）；TEL 0977-66-6115。營業時間看官網。旁邊明礬地獄步道臨時休業、復開日未定，不排入主線。座標採 OpenStreetMap way/364712573（該筆地址／電話標註疑混淆，僅作店位近似點）。",
+      "link": "https://jigoku-prin.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206554",
+      "story_id": "100131",
+      "name": "別府站（JR 別府駅）",
+      "lat": "33.2796163",
+      "lng": "131.5003073",
+      "content": "JR 九州別府站。巴士從西口 3 號乘車處搭。座標採 OpenStreetMap node/8269550070。",
+      "link": "https://www.jrkyushu.co.jp/railway/station/1191859_1601.html",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}

@@ -31,7 +31,21 @@ function fileMtimeDate(relPath) {
   return new Date(fs.statSync(abs).mtimeMs).toISOString().slice(0, 10);
 }
 
-function lastmodForStatic(relPath) {
+function latestCreatedAt(stories) {
+  let latest = '';
+  (stories || []).forEach((story) => {
+    const d = isoDate(story && story.created_at);
+    if (d > latest) latest = d;
+  });
+  return latest;
+}
+
+function lastmodForStatic(relPath, stories) {
+  // File mtimes change on every CI checkout, so a sitemap committed from a
+  // local compile never matches `npm test` on GitHub. Use the newest public
+  // story date instead; it stays stable and still moves when a story is added.
+  const fromStories = latestCreatedAt(stories);
+  if (fromStories) return fromStories;
   return fileMtimeDate(relPath);
 }
 
@@ -54,12 +68,14 @@ function buildSitemapXml(stories, blogHtml) {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n',
   ];
 
+  const shareable = shareableStories(stories, blogHtml);
+
   STATIC_PAGES.forEach((rel) => {
     if (!fs.existsSync(path.join(ROOT, rel))) return;
-    chunks.push(urlEntry(rel, lastmodForStatic(rel)));
+    chunks.push(urlEntry(rel, lastmodForStatic(rel, shareable)));
   });
 
-  shareableStories(stories, blogHtml).forEach((story) => {
+  shareable.forEach((story) => {
     chunks.push(urlEntry(storyPageRel(story.story_id), lastmodForStory(story)));
   });
 
