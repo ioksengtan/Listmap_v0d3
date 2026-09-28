@@ -1,0 +1,111 @@
+{
+  "stories": [
+    {
+      "story_id": "100135",
+      "collection_id": "",
+      "title": "佛羅倫斯美食巡禮：牛肚三明治、中央市場與丁骨牛排",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Florence, Italy",
+      "avatar": "",
+      "tags": "想去",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-09-28",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-5"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "206750",
+      "story_id": "100135",
+      "name": "Da' Vinattieri",
+      "lat": "43.7712710",
+      "lng": "11.2571417",
+      "content": "佛羅倫斯，領主宮跟主教座堂之間巷子裡的牛肚三明治小窗口，只賣不設座位，是尋找lampredotto最道地也最容易錯過的一間。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206751",
+      "story_id": "100135",
+      "name": "中央市場（Da Nerbone）",
+      "lat": "43.7763234",
+      "lng": "11.2532095",
+      "content": "1874年開幕的中央市場，攤位Da Nerbone從1872年就在此販售牛肚跟燉牛肉三明治，是市場裡最知名的老攤。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206752",
+      "story_id": "100135",
+      "name": "百花聖母大教堂",
+      "lat": "43.7731015",
+      "lng": "11.2565742",
+      "content": "佛羅倫斯主教座堂，文藝復興圓頂建築代表作，可購票登頂眺望整座城市的紅瓦屋頂。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206753",
+      "story_id": "100135",
+      "name": "All'Antico Vinaio",
+      "lat": "43.7684071",
+      "lng": "11.2573959",
+      "content": "烏菲茲美術館附近的排隊三明治名店，招牌Tricolore用佛卡夏夾生火腿、起司與開心果醬，近年紅到全球開分店。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206754",
+      "story_id": "100135",
+      "name": "烏菲茲美術館",
+      "lat": "43.7683129",
+      "lng": "11.2558009",
+      "content": "收藏波提切利《春》與《維納斯的誕生》，麥地奇家族的柳橙家徽藏在多幅館藏畫作裡。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "206755",
+      "story_id": "100135",
+      "name": "米開朗基羅廣場",
+      "lat": "43.7628279",
+      "lng": "11.2649932",
+      "content": "阿諾河南岸高地廣場，眺望佛羅倫斯全景的日落名所，本地人跟遊客都會帶野餐上來等太陽下山。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-5",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
