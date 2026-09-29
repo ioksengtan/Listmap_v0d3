@@ -621,6 +621,133 @@ function loadStory(story, fromCollection) {
 
 var scrollyTicking = false;
 
+function scrollyTriggerY() {
+    var sc = document.getElementById('gpstory_main');
+    if (sc) {
+        var box = sc.getBoundingClientRect();
+        return box.top + box.height * 0.35;
+    }
+    return window.innerHeight * 0.35;
+}
+
+function scrollyPanelAtEnd() {
+    var sc = document.getElementById('gpstory_main');
+    if (sc) {
+        if (sc.scrollHeight <= sc.clientHeight + 4) return false;
+        return sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 4;
+    }
+    var doc = document.scrollingElement || document.documentElement;
+    if (!doc || doc.scrollHeight <= window.innerHeight + 4) return false;
+    return (window.scrollY || doc.scrollTop || 0) + window.innerHeight >= doc.scrollHeight - 4;
+}
+
+function parseZoomtoHref(href) {
+    var m = String(href || '').match(/zoomto\(\s*\{\s*['"]lat['"]\s*:\s*(-?\d+(?:\.\d+)?)\s*,\s*['"]lng['"]\s*:\s*(-?\d+(?:\.\d+)?)\s*\}\s*(?:,\s*(\d+))?\s*\)/);
+    if (!m) return null;
+    return {
+        lat: parseFloat(m[1]),
+        lng: parseFloat(m[2]),
+        zoom: m[3] || '16'
+    };
+}
+
+function fallbackBlockOf(el) {
+    return el.closest('p, h1, h2, h3, h4, h5, h6, li, blockquote');
+}
+
+// Stories without .story-step: each landmark link is a step.
+// A paragraph/heading with a single landmark uses that block as the trigger
+// (its first — and only — landmark). Several different landmarks in one block
+// each get a step, in order, so the map still advances while that paragraph
+// is on screen. The same landmark repeated back-to-back does not fly again.
+function collectFallbackSteps(sectionEl) {
+    var anchors = sectionEl.querySelectorAll('a');
+    var raw = [];
+    Array.prototype.forEach.call(anchors, function(a) {
+        var landmark = a.getAttribute('data-landmark');
+        if (a.classList.contains('map-place-link') && landmark) {
+            var zoom = a.getAttribute('data-zoom');
+            raw.push({
+                el: a,
+                block: fallbackBlockOf(a),
+                id: String(landmark),
+                view: null,
+                landmark: String(landmark),
+                zoom: zoom || '16',
+                latlng: null,
+                explicit: false
+            });
+            return;
+        }
+        var zoomto = parseZoomtoHref(a.getAttribute('href'));
+        if (!zoomto) return;
+        raw.push({
+            el: a,
+            block: fallbackBlockOf(a),
+            id: 'll:' + zoomto.lat + ',' + zoomto.lng,
+            view: null,
+            landmark: null,
+            zoom: zoomto.zoom || '16',
+            latlng: { lat: zoomto.lat, lng: zoomto.lng },
+            explicit: false
+        });
+    });
+
+    var steps = [];
+    raw.forEach(function(step) {
+        if (steps.length && steps[steps.length - 1].id === step.id) return;
+        steps.push(step);
+    });
+
+    steps.forEach(function(step) {
+        if (!step.block) return;
+        var n = 0;
+        for (var i = 0; i < steps.length; i++) {
+            if (steps[i].block === step.block) n++;
+        }
+        if (n === 1) step.el = step.block;
+    });
+    return steps;
+}
+
+function explicitScrollySteps(sectionEl) {
+    var nodes = sectionEl.querySelectorAll('.story-step[data-step-landmark], .story-step[data-step-view]');
+    return Array.prototype.map.call(nodes, function(el) {
+        return {
+            el: el,
+            id: el.getAttribute('data-step-landmark') || el.getAttribute('data-step-view'),
+            view: el.getAttribute('data-step-view'),
+            landmark: el.getAttribute('data-step-landmark'),
+            zoom: el.getAttribute('data-step-zoom'),
+            latlng: null,
+            explicit: true
+        };
+    });
+}
+
+function flyScrollyStep(step) {
+    if (!step) return;
+    if (step.view === 'all') {
+        if (currentStoryBounds && currentStoryBounds.length > 0 && typeof mymap !== 'undefined' && mymap) {
+            if (typeof mymap.flyToBounds === 'function') {
+                mymap.flyToBounds(currentStoryBounds, { padding: [40, 40], animate: true });
+            } else {
+                mymap.fitBounds(currentStoryBounds, { padding: [40, 40], animate: true });
+            }
+        }
+        return;
+    }
+    if (step.landmark) {
+        zoomToLandmarkId(step.landmark, step.zoom);
+        return;
+    }
+    if (step.latlng && typeof mymap !== 'undefined' && mymap) {
+        var z = parseInt(step.zoom, 10);
+        if (isNaN(z) || z <= 0) z = 16;
+        mymap.flyTo([step.latlng.lat, step.latlng.lng], z, { animate: true });
+    }
+}
+
 function initScrollytelling(sectionEl, story) {
     if (currentScrollyObserver) {
         currentScrollyObserver.disconnect();
@@ -631,62 +758,32 @@ function initScrollytelling(sectionEl, story) {
     currentScrollyStepId = null;
     if (!sectionEl) return;
 
-    var steps = sectionEl.querySelectorAll('.story-step[data-step-landmark], .story-step[data-step-view]');
-    if (!steps || steps.length === 0) return;
+    var explicit = explicitScrollySteps(sectionEl);
+    var steps = explicit.length ? explicit : collectFallbackSteps(sectionEl);
+    if (!steps.length) return;
 
     var checkSteps = function() {
-        var triggerY = window.innerHeight * 0.35;
-        var activeEl = null;
+        var triggerY = scrollyTriggerY();
+        var active = null;
 
         for (var i = 0; i < steps.length; i++) {
-            var rect = steps[i].getBoundingClientRect();
-            if (rect.top <= triggerY && rect.bottom >= triggerY) {
-                activeEl = steps[i];
-                break;
-            }
+            var rect = steps[i].el.getBoundingClientRect();
+            if (rect.top <= triggerY) active = steps[i];
+        }
+        if (!active) active = steps[0];
+        if (scrollyPanelAtEnd()) active = steps[steps.length - 1];
+        if (!active || !active.id) return;
+
+        if (active.explicit) {
+            sectionEl.querySelectorAll('.story-step-active').forEach(function(s) {
+                s.classList.remove('story-step-active');
+            });
+            active.el.classList.add('story-step-active');
         }
 
-        if (!activeEl && steps.length > 0) {
-            var firstRect = steps[0].getBoundingClientRect();
-            if (firstRect.top > triggerY) {
-                activeEl = steps[0];
-            } else {
-                var lastRect = steps[steps.length - 1].getBoundingClientRect();
-                if (lastRect.bottom < triggerY) {
-                    activeEl = steps[steps.length - 1];
-                }
-            }
-        }
-
-        if (!activeEl) return;
-
-        var stepId = activeEl.getAttribute('data-step-landmark') || activeEl.getAttribute('data-step-view');
-        if (!stepId || stepId === currentScrollyStepId) return;
-
-        currentScrollyStepId = stepId;
-
-        sectionEl.querySelectorAll('.story-step-active').forEach(function(s) {
-            s.classList.remove('story-step-active');
-        });
-        activeEl.classList.add('story-step-active');
-
-        var view = activeEl.getAttribute('data-step-view');
-        if (view === 'all') {
-            if (currentStoryBounds && currentStoryBounds.length > 0 && typeof mymap !== 'undefined' && mymap) {
-                if (typeof mymap.flyToBounds === 'function') {
-                    mymap.flyToBounds(currentStoryBounds, { padding: [40, 40], animate: true });
-                } else {
-                    mymap.fitBounds(currentStoryBounds, { padding: [40, 40], animate: true });
-                }
-            }
-            return;
-        }
-
-        var lid = activeEl.getAttribute('data-step-landmark');
-        if (lid) {
-            var zoom = activeEl.getAttribute('data-step-zoom');
-            zoomToLandmarkId(lid, zoom);
-        }
+        if (active.id === currentScrollyStepId) return;
+        currentScrollyStepId = active.id;
+        flyScrollyStep(active);
     };
 
     var onScroll = function() {
