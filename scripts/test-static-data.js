@@ -2016,11 +2016,11 @@ assert(page100126.indexOf('五峰旗風景特定區') !== -1, 'S100126 page keep
 assert(page100126.indexOf('礁溪老爺酒店') !== -1, 'S100126 page keeps 礁溪老爺酒店');
 assert(page100126.indexOf('礁溪火車站／轉運站') !== -1, 'S100126 page keeps 礁溪火車站／轉運站');
 assert(page100126.indexOf('溪聲') !== -1, 'S100126 page keeps 溪聲');
-assert(page100126.indexOf('三疊瀑') !== -1, 'S100126 page keeps 三疊瀑');
+assert(page100126.indexOf('三層瀑布') !== -1, 'S100126 page keeps 三層瀑布');
 assert(page100126.indexOf('03-988-0940') !== -1, 'S100126 page keeps scenic-area phone');
 assert(page100126.indexOf('現場告示') !== -1, 'S100126 page keeps 現場告示');
-assert(page100126.indexOf('不串抹茶山長程') !== -1, 'S100126 page keeps the no-matcha-ridge line');
-assert(page100126.indexOf('data-zoom="14"') !== -1, 'S100126 station link keeps package zoom 14');
+assert(page100126.indexOf('不串抹茶山長程') === -1, 'S100126 page drops the matcha-ridge aside');
+assert(/data-landmark="100300"[^>]*data-zoom="17"/.test(section100126), 'S100126 station link uses zoom 17');
 assert(fs.statSync(path.join(ROOT, 'stories', '100126.html')).size < 150000,
   'S100126 HTML must stay a slim one-section permalink');
 assert(page100126.indexOf('https://ioksengtan.github.io/Listmap_v0d3/img/og-default.png') !== -1, 'S100126 og:image keeps default fallback');
