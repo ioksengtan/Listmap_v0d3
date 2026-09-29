@@ -1142,12 +1142,14 @@ assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').name === '二條若狭屋 寺町店', 'checked-in JSON 100286 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').lat === '35.013382', 'checked-in JSON 100286 lat');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').lng === '135.767517', 'checked-in JSON 100286 lng');
-assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').content.includes('座標為約略位置：日本國土地理院地址查詢「京都市中京区榜木町67」。'), 'checked-in JSON 100286 approximate-location note');
+assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').content.includes('座標為約略位置：日本國土地理院地址查詢「京都市中京区榎木町67」。'), 'checked-in JSON 100286 approximate-location note');
+assert(!onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').content.includes('座標未知'), 'checked-in JSON 100286 must drop 座標未知');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100286').link === 'http://www.kyogashi.info/access.html', 'checked-in JSON 100286 link');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').name === '船はしや総本店', 'checked-in JSON 100287 name');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').lat === '35.01383', 'checked-in JSON 100287 lat');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').lng === '135.767069', 'checked-in JSON 100287 lng');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').content.includes('座標為約略位置：取自官網嵌入地圖中心點，與地址寺町通二条上ル要法寺前町722相符；非三条大橋「本家船はしや」。'), 'checked-in JSON 100287 approximate-location note');
+assert(!onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').content.includes('座標未知'), 'checked-in JSON 100287 must drop 座標未知');
 assert(onDisk.landmarks.find(l => l.story_id === '100122' && l.landmark_id === '100287').link === 'http://www.goshikimame.co.jp/original4.html', 'checked-in JSON 100287 link');
 assert(onDisk.landmarks.find(l => l.landmark_id === '100122').story_id === '100048',
   'existing Bled Lake landmark 100122 must stay on S100048');
@@ -1322,12 +1324,16 @@ assert(!/100282,100112,宮脇賣扇庵 京都本店,[\d]/.test(landmarksCsv),
   'landmark 100282 must not fill a numeric lat');
 assert(/100286,100122,二條若狭屋 寺町店,35\.013382,135\.767517,/.test(landmarksCsv),
   'landmark 100286 lat/lng');
-assert(/100286,100122,二條若狭屋 寺町店,35\.013382,135\.767517,.*座標為約略位置：日本國土地理院地址查詢「京都市中京区榜木町67」。/.test(landmarksCsv),
+assert(/100286,100122,二條若狭屋 寺町店,35\.013382,135\.767517,.*座標為約略位置：日本國土地理院地址查詢「京都市中京区榎木町67」。/.test(landmarksCsv),
   'landmark 100286 approximate-location note');
+assert(!/100286,100122,二條若狭屋 寺町店,.*座標未知/.test(landmarksCsv),
+  'landmark 100286 must drop 座標未知');
 assert(/100287,100122,船はしや総本店,35\.01383,135\.767069,/.test(landmarksCsv),
   'landmark 100287 lat/lng');
 assert(/100287,100122,船はしや総本店,35\.01383,135\.767069,.*非三条大橋「本家船はしや」。/.test(landmarksCsv),
   'landmark 100287 approximate-location note');
+assert(!/100287,100122,船はしや総本店,.*座標未知/.test(landmarksCsv),
+  'landmark 100287 must drop 座標未知');
 
 
 assert(blogJs.includes('injectStoryHashtags'), 'blog.js should render story hashtags');
