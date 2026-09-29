@@ -450,7 +450,7 @@ function parseLandmarkBounds(boundsStr) {
     return [[parts[0], parts[1]], [parts[2], parts[3]]];
 }
 
-function zoomToLandmarkId(landmarkId, zoom) {
+function zoomToLandmarkId(landmarkId, zoom, openPopup) {
     var lm = findStoryLandmark(landmarkId);
     if (!lm) return false;
     if (typeof mymap === 'undefined' || !mymap) return false;
@@ -468,6 +468,9 @@ function zoomToLandmarkId(landmarkId, zoom) {
     var z = parseInt(zoom, 10);
     if (isNaN(z) || z <= 0) z = 17;
     mymap.flyTo([lat, lng], z, { animate: true });
+    // Scrolling should stay on the landmark. Opening the popup lets the
+    // cluster pull the view toward a neighbour on a short map.
+    if (openPopup === false) return true;
     var item = storyMarkerItems.find(function(it) {
         return String(it.landmark_id) === String(landmarkId);
     });
@@ -746,7 +749,7 @@ function flyScrollyStep(step) {
         return;
     }
     if (step.landmark) {
-        zoomToLandmarkId(step.landmark, step.zoom);
+        zoomToLandmarkId(step.landmark, step.zoom, false);
         return;
     }
     if (step.latlng && typeof mymap !== 'undefined' && mymap) {
