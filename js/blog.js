@@ -735,7 +735,28 @@ function injectFieldNoteHeader($section, story) {
     $note.append($('<span class="story-field-note-entry">').text(entryLine));
     if (coordStr) $note.append($('<span class="story-field-note-coords">').text(coordStr));
 
-    $section.find('h2').first().before($note);
+    var $h2 = $section.find('h2').first();
+    if (!$h2.length) {
+        $section.prepend($note);
+        return;
+    }
+    var sectionEl = $section.get(0);
+    // A cover title lives inside a positioned wrapper, not as a direct child of
+    // the section. Inserting the note before that h2 would stretch the wrapper
+    // and drop bottom:0 text below the photo. Place the note before the wrapper.
+    if ($h2.parent().get(0) === sectionEl) {
+        $h2.before($note);
+        return;
+    }
+    var node = $h2.get(0);
+    while (node.parentElement && node.parentElement !== sectionEl) {
+        node = node.parentElement;
+    }
+    if (node && node.parentElement === sectionEl) {
+        $(node).before($note);
+    } else {
+        $h2.before($note);
+    }
 }
 
 function injectReminderButton($section, story) {
