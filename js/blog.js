@@ -15,6 +15,7 @@ var mapBackControl = null;
 var previousView = null;
 var currentStoryBounds = null; // 當前故事所有有效座標（全景視角用）
 var currentScrollyObserver = null; // 捲動敘事 IntersectionObserver
+var currentScrollyResize = null;
 var currentScrollyStepId = null; // 當前啟動的 step 標識
 
 // Visitor index heroes: only clearly public stories (S1024, S1025, S1027, S1028, S1029, S1030, S1031, S1032, S1033, S1034, S100026, S100030).
@@ -317,8 +318,14 @@ function clearMapLayers() {
         currentScrollyObserver.disconnect();
         currentScrollyObserver = null;
     }
+    if (currentScrollyResize) {
+        currentScrollyResize.disconnect();
+        currentScrollyResize = null;
+    }
+    var reachTail = document.getElementById('scrolly-reach-tail');
+    if (reachTail && reachTail.parentNode) reachTail.parentNode.removeChild(reachTail);
     $('#gpstory_main').off('scroll.scrolly');
-    $(window).off('scroll.scrolly');
+    $(window).off('.scrolly');
     currentScrollyStepId = null;
     currentStoryBounds = null;
     $('.story-step-active').removeClass('story-step-active');
@@ -620,6 +627,7 @@ function loadStory(story, fromCollection) {
 }
 
 var scrollyTicking = false;
+var scrollyGeneration = 0;
 
 function scrollyTriggerY() {
     var sc = document.getElementById('gpstory_main');
@@ -754,7 +762,7 @@ function initScrollytelling(sectionEl, story) {
         currentScrollyObserver = null;
     }
     $('#gpstory_main').off('scroll.scrolly');
-    $(window).off('scroll.scrolly');
+    $(window).off('.scrolly');
     currentScrollyStepId = null;
     if (!sectionEl) return;
 
@@ -765,10 +773,21 @@ function initScrollytelling(sectionEl, story) {
     var checkSteps = function() {
         var triggerY = scrollyTriggerY();
         var active = null;
+        var lineBias = 0;
+        var prevTop = null;
 
         for (var i = 0; i < steps.length; i++) {
             var rect = steps[i].el.getBoundingClientRect();
-            if (rect.top <= triggerY) active = steps[i];
+            var top = rect.top;
+            // Links that share a line (fallback paragraphs with several landmarks)
+            // advance one after another as that line moves past the trigger.
+            if (!steps[i].explicit && prevTop !== null && Math.abs(top - prevTop) < 3) {
+                lineBias += 16;
+            } else {
+                lineBias = 0;
+            }
+            prevTop = top;
+            if (top + lineBias <= triggerY) active = steps[i];
         }
         if (!active) active = steps[0];
         if (scrollyPanelAtEnd()) active = steps[steps.length - 1];
@@ -796,10 +815,52 @@ function initScrollytelling(sectionEl, story) {
         }
     };
 
-    $('#gpstory_main').on('scroll.scrolly', onScroll);
-    $(window).on('scroll.scrolly', onScroll);
+    // Short stories (and the last step of a long one) never reach a trigger
+    // that sits 35% down the panel unless there is room to scroll them up.
+    var ensureScrollyReach = function() {
+        var sc = document.getElementById('gpstory_main');
+        if (!sc || !steps.length) return;
+        var tail = document.getElementById('scrolly-reach-tail');
+        var tailH = tail ? tail.offsetHeight : 0;
+        var last = steps[steps.length - 1].el;
+        var scRect = sc.getBoundingClientRect();
+        var lastRect = last.getBoundingClientRect();
+        var lastTop = lastRect.top - scRect.top + sc.scrollTop;
+        var needed = lastTop - sc.clientHeight * 0.35 + 8;
+        var maxWithoutTail = sc.scrollHeight - tailH - sc.clientHeight;
+        var want = needed - maxWithoutTail > 8 ? Math.ceil(needed - maxWithoutTail) : 0;
+        if (!tail && want === 0) return;
+        if (tail && Math.abs(tailH - want) < 2) return;
+        if (!tail) {
+            tail = document.createElement('div');
+            tail.id = 'scrolly-reach-tail';
+            tail.setAttribute('aria-hidden', 'true');
+            sc.appendChild(tail);
+        }
+        tail.style.height = want + 'px';
+    };
 
-    setTimeout(checkSteps, 150);
+    var generation = ++scrollyGeneration;
+    var onLayout = function() {
+        if (generation !== scrollyGeneration) return;
+        ensureScrollyReach();
+        onScroll();
+    };
+
+    $('#gpstory_main').on('scroll.scrolly', onScroll);
+    $(window).on('scroll.scrolly resize.scrolly', onLayout);
+
+    sectionEl.querySelectorAll('img').forEach(function(img) {
+        if (!img.complete) img.addEventListener('load', onLayout);
+    });
+    if (window.ResizeObserver) {
+        currentScrollyResize = new ResizeObserver(onLayout);
+        var scEl = document.getElementById('gpstory_main');
+        if (scEl) currentScrollyResize.observe(scEl);
+    }
+
+    setTimeout(onLayout, 150);
+    setTimeout(onLayout, 700);
 }
 
 function injectFieldNoteHeader($section, story) {
