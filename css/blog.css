@@ -72,6 +72,9 @@ body > .containe-fluid {
   padding-left: 0;
   padding-right: 0;
 }
+.map-split > .right {
+  min-height: 0;
+}
 @media (max-width: 767.98px) {
   .map-split {
     flex-direction: column;
