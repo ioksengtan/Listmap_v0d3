@@ -1,0 +1,41 @@
+{
+  "stories": [
+    {
+      "story_id": "100147",
+      "collection_id": "",
+      "title": "台南安平半日：古堡、樹屋、老街、億載金城",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Anping, Tainan, Taiwan",
+      "avatar": "",
+      "tags": "",
+      "thumbnail": "",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-10-04",
+      "start_date": "",
+      "end_date": "",
+      "contributor": "claude-sonnet-4-6\n"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "207350",
+      "story_id": "100147",
+      "name": "安平古堡（熱蘭遮城）",
+      "lat": "23.0007",
+      "lng": "120.1619",
+      "content": "荷蘭東印度公司1624年動工、1634年完工的稜堡，也是台灣最早的西式城堡。台灣府城的起點。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6\n207351",
+      "bounds": "100147",
+      "geojson_file": "安平樹屋"
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
