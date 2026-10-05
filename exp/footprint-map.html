@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>足跡塗色地圖（實驗）</title>
+  <style>
+    :root {
+      --ink: #1d1a16;
+      --muted: #6b6258;
+      --paper: #f7f1e6;
+      --line: #e4d8c4;
+      --card: #fffdf8;
+      --visited: #e08a3c;
+      --visited-stroke: #6e2e0c;
+      --empty: #f3e2c4;
+      --empty-stroke: #6b5344;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      max-width: 100%;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Iwanami", "Source Han Serif TC", "Noto Serif TC", Georgia, serif;
+      line-height: 1.55;
+    }
+    .banner {
+      background: #8a3b12;
+      color: #fff8ee;
+      padding: 8px 16px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    main {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+    .kicker {
+      margin: 0 0 6px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.55rem; }
+    .lead, .stats, .tabs, .legend, .panel, .attribution, .nav {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+    .lead {
+      margin: 0 0 14px;
+      font-size: 14px;
+      color: #3f392f;
+    }
+    .stats {
+      display: grid;
+      gap: 6px;
+      margin: 0 0 14px;
+    }
+    .stats p {
+      margin: 0;
+      padding: 10px 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 0 0 10px;
+    }
+    .tabs button {
+      font: inherit;
+      font-weight: 700;
+      color: inherit;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 8px;
+      cursor: pointer;
+    }
+    .tabs button[aria-selected="true"] {
+      background: #8a3b12;
+      color: #fff8ee;
+      border-color: #8a3b12;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid var(--empty-stroke);
+      background: var(--empty);
+    }
+    .swatch.visited {
+      background: var(--visited);
+      border-color: var(--visited-stroke);
+    }
+    .map-card, .panel, .attribution {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .map-card {
+      margin: 0 -16px 12px;
+      padding: 0;
+      border-left: 0;
+      border-right: 0;
+      border-radius: 0;
+      background: #e7f0f4;
+    }
+    svg.map {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      background: #e7f0f4;
+      touch-action: manipulation;
+    }
+    svg.map path {
+      cursor: pointer;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    svg.map path.empty { fill: var(--empty); stroke: var(--empty-stroke); stroke-width: 1.6; }
+    svg.map path.visited { fill: var(--visited); stroke: var(--visited-stroke); stroke-width: 2.2; }
+    svg.map path.selected { stroke: #1d1a16; stroke-width: 3; }
+    .map-status {
+      margin: 0;
+      padding: 28px 8px;
+      text-align: center;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+    }
+    .panel { padding: 14px 14px 8px; margin: 0 0 16px; }
+    .panel h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .panel p { margin: 0 0 10px; font-size: 14px; color: #3f392f; }
+    .panel ul { margin: 0 0 8px; padding: 0; list-style: none; }
+    .panel li { margin: 0 0 8px; }
+    .panel a, .attribution a, .nav a {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .panel a { color: #8a3b12; }
+    .attribution {
+      padding: 14px;
+      font-size: 13px;
+      color: #3f392f;
+    }
+    .attribution h2 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-family: "Iwanami", "Source Han Serif TC", "Noto Serif TC", Georgia, serif;
+    }
+    .attribution p { margin: 0 0 10px; }
+    .attribution a { color: #8a3b12; }
+    .nav { margin-top: 16px; font-size: 13px; }
+    .nav a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="banner">實驗頁 · 非正式功能 · 不會自動發布</div>
+  <main>
+    <p class="kicker">實驗頁</p>
+    <h1>足跡塗色地圖</h1>
+    <p class="lead">讀故事標籤裡標成「去過」、而且釘點有座標的位置，判斷落在哪一個縣市或都道府縣，再把那個區域塗上顏色。「想去」不算。</p>
+    <div class="stats">
+      <p id="stat-taiwan">臺灣 22 縣市去過 … 個</p>
+      <p id="stat-japan">日本 47 都道府縣去過 … 個</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="選擇地圖">
+      <button type="button" role="tab" id="tab-taiwan" aria-selected="true" aria-controls="map-card">臺灣縣市</button>
+      <button type="button" role="tab" id="tab-japan" aria-selected="false" aria-controls="map-card">日本都道府縣</button>
+    </div>
+    <div class="legend">
+      <span><i class="swatch visited"></i>有去過的釘點</span>
+      <span><i class="swatch"></i>還沒有</span>
+    </div>
+    <div class="map-card" id="map-card">
+      <p class="map-status" id="map-status">正在載入邊界。</p>
+    </div>
+    <section class="panel" id="story-panel" aria-live="polite">
+      <h2>這個區域的故事</h2>
+      <p>點一塊塗色的區域，可以看到那裡的故事。</p>
+    </section>
+    <footer class="attribution" id="boundary-attribution">
+      <h2>邊界資料出處</h2>
+      <p>臺灣直轄市、縣市界線：內政部國土測繪中心109年「直轄市、縣市界線（TWD97經緯度）」COUNTY_MOI_1090820（檔案日期 2020-08-20，下載日期 2026-10-05）。此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license">https://data.gov.tw/license</a> 。資料頁：<a href="https://data.gov.tw/dataset/7442">https://data.gov.tw/dataset/7442</a>。實際下載：國土測繪圖資服務雲下載專區 <a href="https://maps.nlsc.gov.tw/pro/download.jsp">https://maps.nlsc.gov.tw/pro/download.jsp</a></p>
+      <p>日本都道府縣界線：「国土数値情報（行政区域データ）」（国土交通省）（<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html">https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html</a>）をもとに Listmap 作成。授權：創用 CC 姓名標示 4.0 國際授權條款（<a href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">https://creativecommons.org/licenses/by/4.0/deed.zh-hant</a> ）。</p>
+      <p>以上邊界由 Listmap 簡化點數並合併為縣市、都道府縣層級，僅供示意，不是官方發布的版本，也不適用於測量或法律上的界線認定。為了簡化圖面，兩份資料都刪除了面積小於 5 平方公里的離島；地圖上沒有畫出的島嶼，不代表其歸屬或行政區劃有所改變。各區域的範圍與名稱依內政部國土測繪中心及国土交通省原始資料，不代表 Listmap 對任何主權或領土爭議的立場。</p>
+    </footer>
+    <p class="nav"><a href="index.html">← 回實驗頁目錄</a></p>
+  </main>
+  <script>
+    (function () {
+      // 「去過」在 stories.tags，逗號分隔，要比對完整標籤。「想去」不是去過。
+      // 釘點在 landmarks 的 lat、lng。沒有座標的點不塗色。
+      var REGIONS = {
+        taiwan: {
+          file: '../data/boundaries/taiwan-counties.geojson',
+          statId: 'stat-taiwan',
+          statText: function (n) { return '臺灣 22 縣市去過 ' + n + ' 個'; },
+          empty: '這個縣市還沒有標成去過的釘點。'
+        },
+        japan: {
+          file: '../data/boundaries/japan-prefectures.geojson',
+          statId: 'stat-japan',
+          statText: function (n) { return '日本 47 都道府縣去過 ' + n + ' 個'; },
+          empty: '這個都道府縣還沒有標成去過的釘點。'
+        }
+      };
+      var points = null;
+      var cache = {};
+      var active = 'taiwan';
+      var selected = {};
+
+      function isLocalhost() {
+        var h = location.hostname;
+        return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h === '';
+      }
+
+      function isPublicStory(story) {
+        if (isLocalhost()) return true;
+        return !story.visibility || story.visibility === 'public';
+      }
+
+      function hasVisitedTag(story) {
+        return String(story.tags || '').split(',').some(function (token) {
+          return token.trim() === '去過';
+        });
+      }
+
+      function storyHref(id) {
+        return new URL('../stories/' + encodeURIComponent(id) + '.html', window.location.href).href;
+      }
+
+      function ringContains(x, y, ring) {
+        var inside = false;
+        var n = ring.length;
+        var j = n - 1;
+        for (var i = 0; i < n; i++) {
+          var xi = ring[i][0], yi = ring[i][1];
+          var xj = ring[j][0], yj = ring[j][1];
+          if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+            inside = !inside;
+          }
+          j = i;
+        }
+        return inside;
+      }
+
+      function geometryContains(geom, lng, lat) {
+        var polys = geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates;
+        for (var p = 0; p < polys.length; p++) {
+          var rings = polys[p];
+          if (!ringContains(lng, lat, rings[0])) continue;
+          var inHole = false;
+          for (var h = 1; h < rings.length; h++) {
+            if (ringContains(lng, lat, rings[h])) { inHole = true; break; }
+          }
+          if (!inHole) return true;
+        }
+        return false;
+      }
+
+      function storiesInFeature(feature) {
+        var seen = {};
+        var list = [];
+        points.forEach(function (point) {
+          if (seen[point.story.story_id]) return;
+          if (!geometryContains(feature.geometry, point.lng, point.lat)) return;
+          seen[point.story.story_id] = true;
+          list.push(point.story);
+        });
+        list.sort(function (a, b) { return Number(a.story_id) - Number(b.story_id); });
+        return list;
+      }
+
+      function mercatorY(lat) {
+        var rad = lat * Math.PI / 180;
+        return Math.log(Math.tan(Math.PI / 4 + rad / 2)) * 180 / Math.PI;
+      }
+
+      function buildSvg(prepared, key) {
+        var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        function consider(lng, lat) {
+          var x = lng;
+          var y = mercatorY(lat);
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+        prepared.forEach(function (item) {
+          var polys = item.feature.geometry.type === 'Polygon'
+            ? [item.feature.geometry.coordinates]
+            : item.feature.geometry.coordinates;
+          polys.forEach(function (rings) {
+            rings[0].forEach(function (pair) { consider(pair[0], pair[1]); });
+          });
+        });
+        var width = 1000;
+        var height = Math.max(1, Math.round(1000 * (maxY - minY) / (maxX - minX)));
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('class', 'map');
+        svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svg.style.aspectRatio = width + ' / ' + height;
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', key === 'taiwan' ? '臺灣縣市足跡地圖' : '日本都道府縣足跡地圖');
+        function project(lng, lat) {
+          var x = (lng - minX) / (maxX - minX) * width;
+          var y = (maxY - mercatorY(lat)) / (maxY - minY) * height;
+          return x.toFixed(1) + ',' + y.toFixed(1);
+        }
+        prepared.forEach(function (item, index) {
+          var polys = item.feature.geometry.type === 'Polygon'
+            ? [item.feature.geometry.coordinates]
+            : item.feature.geometry.coordinates;
+          var d = polys.map(function (rings) {
+            return rings.map(function (ring) {
+              return ring.map(function (pair, i) {
+                return (i === 0 ? 'M' : 'L') + project(pair[0], pair[1]);
+              }).join('') + 'Z';
+            }).join('');
+          }).join('');
+          var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', d);
+          path.setAttribute('fill-rule', 'evenodd');
+          path.setAttribute('class', item.stories.length ? 'visited' : 'empty');
+          path.setAttribute('data-index', String(index));
+          var title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+          title.textContent = item.feature.properties.name;
+          path.appendChild(title);
+          path.addEventListener('click', function () { selectRegion(index); });
+          svg.appendChild(path);
+        });
+        return svg;
+      }
+
+      function renderPanel(item) {
+        var panel = document.getElementById('story-panel');
+        panel.textContent = '';
+        var heading = document.createElement('h2');
+        heading.textContent = item.feature.properties.name;
+        panel.appendChild(heading);
+        if (!item.stories.length) {
+          var empty = document.createElement('p');
+          empty.textContent = REGIONS[active].empty;
+          panel.appendChild(empty);
+          return;
+        }
+        var intro = document.createElement('p');
+        intro.textContent = '這裡有標成去過的釘點，故事如下。';
+        panel.appendChild(intro);
+        var list = document.createElement('ul');
+        item.stories.forEach(function (story) {
+          var li = document.createElement('li');
+          var link = document.createElement('a');
+          link.href = storyHref(story.story_id);
+          link.textContent = story.title || story.story_id;
+          li.appendChild(link);
+          list.appendChild(li);
+        });
+        panel.appendChild(list);
+      }
+
+      function selectRegion(index) {
+        selected[active] = index;
+        var card = document.getElementById('map-card');
+        card.querySelectorAll('path').forEach(function (path) {
+          path.classList.toggle('selected', path.getAttribute('data-index') === String(index));
+        });
+        renderPanel(cache[active].prepared[index]);
+      }
+
+      function showPrepared(key) {
+        var card = document.getElementById('map-card');
+        card.textContent = '';
+        card.appendChild(cache[key].svg);
+        var index = selected[key];
+        if (index == null) {
+          var panel = document.getElementById('story-panel');
+          panel.textContent = '';
+          var heading = document.createElement('h2');
+          heading.textContent = '這個區域的故事';
+          var hint = document.createElement('p');
+          hint.textContent = '點一塊塗色的區域，可以看到那裡的故事。';
+          panel.appendChild(heading);
+          panel.appendChild(hint);
+          return;
+        }
+        selectRegion(index);
+      }
+
+      function prepare(key, collection) {
+        var prepared = collection.features.map(function (feature) {
+          return { feature: feature, stories: storiesInFeature(feature) };
+        });
+        var visitedCount = prepared.filter(function (item) { return item.stories.length; }).length;
+        document.getElementById(REGIONS[key].statId).textContent = REGIONS[key].statText(visitedCount);
+        cache[key] = { prepared: prepared, svg: buildSvg(prepared, key), visitedCount: visitedCount };
+        if (active === key) showPrepared(key);
+      }
+
+      var inflight = {};
+
+      function loadBoundary(key) {
+        if (cache[key] && cache[key].svg) {
+          if (active === key) showPrepared(key);
+          return Promise.resolve();
+        }
+        if (inflight[key]) {
+          return inflight[key].then(function () {
+            if (active === key && cache[key]) showPrepared(key);
+          });
+        }
+        if (active === key) {
+          var status = document.getElementById('map-status');
+          if (status) status.textContent = '正在載入邊界。';
+        }
+        inflight[key] = fetch(REGIONS[key].file).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        }).then(function (collection) {
+          prepare(key, collection);
+        });
+        return inflight[key];
+      }
+
+      function setTab(key) {
+        active = key;
+        document.getElementById('tab-taiwan').setAttribute('aria-selected', key === 'taiwan' ? 'true' : 'false');
+        document.getElementById('tab-japan').setAttribute('aria-selected', key === 'japan' ? 'true' : 'false');
+        if (!cache[key]) {
+          var card = document.getElementById('map-card');
+          card.textContent = '';
+          var status = document.createElement('p');
+          status.className = 'map-status';
+          status.id = 'map-status';
+          status.textContent = '正在載入邊界。';
+          card.appendChild(status);
+        }
+        loadBoundary(key).catch(function () {
+          var status = document.getElementById('map-status');
+          if (status) status.textContent = '邊界載入失敗，請重新整理頁面。';
+        });
+      }
+
+      function loadPoints() {
+        return fetch('../data/static.json').then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        }).then(function (data) {
+          var byId = {};
+          (data.stories || []).forEach(function (story) {
+            if (!isPublicStory(story) || !hasVisitedTag(story)) return;
+            byId[String(story.story_id)] = story;
+          });
+          points = [];
+          (data.landmarks || []).forEach(function (landmark) {
+            var story = byId[String(landmark.story_id)];
+            if (!story) return;
+            var lat = parseFloat(landmark.lat);
+            var lng = parseFloat(landmark.lng);
+            if (!isFinite(lat) || !isFinite(lng)) return;
+            points.push({ lat: lat, lng: lng, story: story });
+          });
+        });
+      }
+
+      document.getElementById('tab-taiwan').addEventListener('click', function () {
+        if (!points) return;
+        setTab('taiwan');
+      });
+      document.getElementById('tab-japan').addEventListener('click', function () {
+        if (!points) return;
+        setTab('japan');
+      });
+
+      window.addEventListener('load', function () {
+        requestAnimationFrame(function () {
+          loadPoints().then(function () {
+            return loadBoundary('taiwan');
+          }).then(function () {
+            return loadBoundary('japan');
+          }).catch(function () {
+            var status = document.getElementById('map-status');
+            if (status) status.textContent = '邊界載入失敗，請重新整理頁面。';
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
