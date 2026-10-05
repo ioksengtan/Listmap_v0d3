@@ -182,11 +182,11 @@
     <h1>足跡塗色地圖</h1>
     <p class="lead">讀故事標籤裡標成「去過」、而且釘點有座標的位置，判斷落在哪一個縣市或都道府縣，再把那個區域塗上顏色。「想去」不算。</p>
     <div class="stats">
-      <p id="stat-taiwan">台灣 22 縣市去過 … 個</p>
+      <p id="stat-taiwan">臺灣 22 縣市去過 … 個</p>
       <p id="stat-japan">日本 47 都道府縣去過 … 個</p>
     </div>
     <div class="tabs" role="tablist" aria-label="選擇地圖">
-      <button type="button" role="tab" id="tab-taiwan" aria-selected="true" aria-controls="map-card">台灣縣市</button>
+      <button type="button" role="tab" id="tab-taiwan" aria-selected="true" aria-controls="map-card">臺灣縣市</button>
       <button type="button" role="tab" id="tab-japan" aria-selected="false" aria-controls="map-card">日本都道府縣</button>
     </div>
     <div class="legend">
@@ -202,9 +202,9 @@
     </section>
     <footer class="attribution" id="boundary-attribution">
       <h2>邊界資料出處</h2>
-      <p>台灣直轄市、縣市界線：內政部國土測繪中心109年「直轄市、縣市界線（TWD97經緯度）」COUNTY_MOI_1090820（檔案日期 2020-08-20，下載日期 2026-10-05）。此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license">https://data.gov.tw/license</a> 。資料頁：<a href="https://data.gov.tw/dataset/7442">https://data.gov.tw/dataset/7442</a>。實際下載：國土測繪圖資服務雲下載專區 <a href="https://maps.nlsc.gov.tw/pro/download.jsp">https://maps.nlsc.gov.tw/pro/download.jsp</a></p>
+      <p>臺灣直轄市、縣市界線：內政部國土測繪中心109年「直轄市、縣市界線（TWD97經緯度）」COUNTY_MOI_1090820（檔案日期 2020-08-20，下載日期 2026-10-05）。此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license">https://data.gov.tw/license</a> 。資料頁：<a href="https://data.gov.tw/dataset/7442">https://data.gov.tw/dataset/7442</a>。實際下載：國土測繪圖資服務雲下載專區 <a href="https://maps.nlsc.gov.tw/pro/download.jsp">https://maps.nlsc.gov.tw/pro/download.jsp</a></p>
       <p>日本都道府縣界線：「国土数値情報（行政区域データ）」（国土交通省）（<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html">https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html</a>）をもとに Listmap 作成。授權：創用 CC 姓名標示 4.0 國際授權條款（<a href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">https://creativecommons.org/licenses/by/4.0/deed.zh-hant</a> ）。</p>
-      <p>以上邊界由 Listmap 簡化點數並合併為縣市、都道府縣層級，僅供示意，不是官方發布的版本，也不適用於測量或法律上的界線認定。</p>
+      <p>以上邊界由 Listmap 簡化點數並合併為縣市、都道府縣層級，僅供示意，不是官方發布的版本，也不適用於測量或法律上的界線認定。為了簡化圖面，兩份資料都刪除了面積小於 5 平方公里的離島；地圖上沒有畫出的島嶼，不代表其歸屬或行政區劃有所改變。各區域的範圍與名稱依內政部國土測繪中心及国土交通省原始資料，不代表 Listmap 對任何主權或領土爭議的立場。</p>
     </footer>
     <p class="nav"><a href="index.html">← 回實驗頁目錄</a></p>
   </main>
@@ -212,11 +212,11 @@
     (function () {
       // 「去過」在 stories.tags，逗號分隔，要比對完整標籤。「想去」不是去過。
       // 釘點在 landmarks 的 lat、lng。沒有座標的點不塗色。
-      var COUNTRIES = {
+      var REGIONS = {
         taiwan: {
           file: '../data/boundaries/taiwan-counties.geojson',
           statId: 'stat-taiwan',
-          statText: function (n) { return '台灣 22 縣市去過 ' + n + ' 個'; },
+          statText: function (n) { return '臺灣 22 縣市去過 ' + n + ' 個'; },
           empty: '這個縣市還沒有標成去過的釘點。'
         },
         japan: {
@@ -324,7 +324,7 @@
         svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         svg.style.aspectRatio = width + ' / ' + height;
         svg.setAttribute('role', 'img');
-        svg.setAttribute('aria-label', key === 'taiwan' ? '台灣縣市足跡地圖' : '日本都道府縣足跡地圖');
+        svg.setAttribute('aria-label', key === 'taiwan' ? '臺灣縣市足跡地圖' : '日本都道府縣足跡地圖');
         function project(lng, lat) {
           var x = (lng - minX) / (maxX - minX) * width;
           var y = (maxY - mercatorY(lat)) / (maxY - minY) * height;
@@ -363,7 +363,7 @@
         panel.appendChild(heading);
         if (!item.stories.length) {
           var empty = document.createElement('p');
-          empty.textContent = COUNTRIES[active].empty;
+          empty.textContent = REGIONS[active].empty;
           panel.appendChild(empty);
           return;
         }
@@ -415,7 +415,7 @@
           return { feature: feature, stories: storiesInFeature(feature) };
         });
         var visitedCount = prepared.filter(function (item) { return item.stories.length; }).length;
-        document.getElementById(COUNTRIES[key].statId).textContent = COUNTRIES[key].statText(visitedCount);
+        document.getElementById(REGIONS[key].statId).textContent = REGIONS[key].statText(visitedCount);
         cache[key] = { prepared: prepared, svg: buildSvg(prepared, key), visitedCount: visitedCount };
         if (active === key) showPrepared(key);
       }
@@ -436,7 +436,7 @@
           var status = document.getElementById('map-status');
           if (status) status.textContent = '正在載入邊界。';
         }
-        inflight[key] = fetch(COUNTRIES[key].file).then(function (res) {
+        inflight[key] = fetch(REGIONS[key].file).then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         }).then(function (collection) {

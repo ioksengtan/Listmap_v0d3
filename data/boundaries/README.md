@@ -19,5 +19,5 @@
 ## 本站做過的加工
 - 轉換座標與格式（GeoJSON）。台灣用 GDAL 3.8.4 `ogr2ogr -t_srs EPSG:4326`（來源 EPSG:3824）。日本用 mapshaper 0.6.113 `-proj wgs84`（來源 JGD2011，EPSG:6668）。
 - 降低點數簡化（工具與參數：mapshaper 0.6.113。台灣：`-filter-islands min-area=5km2 -simplify visvalingam weighted 4% keep-shapes`，輸出座標精度 0.0001 度。日本：先 `-filter-fields N03_001 -dissolve N03_001 -filter-islands min-area=5km2 -simplify visvalingam weighted 1% keep-shapes`，再以 EPSG:3857 `-simplify visvalingam interval=1000 keep-shapes` 後轉回 WGS84，輸出座標精度 0.0001 度。）
-- 合併成縣市、都道府縣層級，刪除 COUNTYID、COUNTYCODE、COUNTYENG、N03_002、N03_003、N03_004、N03_005、N03_007，只保留名稱欄位 name。另外刪除面積小於 5 平方公里的多邊形部分（極小離島），其中包含台灣資料裡宜蘭縣位於釣魚臺列嶼附近的小島，以及日本資料裡同一範圍的小島，避免同一座島在兩份資料都出現。
+- 合併成縣市、都道府縣層級，刪除 COUNTYID、COUNTYCODE、COUNTYENG、N03_002、N03_003、N03_004、N03_005、N03_007，只保留名稱欄位 name。另外以 mapshaper `-filter-islands min-area=5km2` 刪除面積小於 5 平方公里的多邊形部分（極小離島）。兩份資料套用同一門檻，沒有針對個別島嶼另外處理，因此原始資料中面積小於 5 平方公里的離島都不會顯示，也不能塗色。地圖上沒有畫出的島嶼，不代表其歸屬或行政區劃有任何改變。
 - 加工後的檔案由 Listmap 製作，不是內政部或国土交通省發布的版本，僅供網頁示意，不適用於測量或界線認定。
