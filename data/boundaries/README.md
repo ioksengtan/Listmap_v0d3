@@ -7,7 +7,7 @@
 - 資料頁：https://data.gov.tw/dataset/7442
 - 授權：此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：https://data.gov.tw/license
 - 下載日期：2026-10-05
-- 實際取得的檔案：內政部國土測繪中心圖資下載服務所列政府開放資料「最新直轄市、縣市界線（TWD97經緯度 EPSG:3824）」，網址 https://maps.nlsc.gov.tw/download/縣市界線(TWD97經緯度).zip （下載頁 https://maps.nlsc.gov.tw/pro/download.jsp ）。壓縮檔內檔名 COUNTY_MOI_1090820，詮釋資料 `TW-01-301000100G-000017.xml` 的日期為 2020-08-20，DBF 最後更新 2020-08-18。政府資料開放平臺資料集 7442 目前另列出 1140318 版，下載網址在 tgos.tw；本次對該網址（含 tgos.tw 首頁）得到 HTTP 403，所以沒有取得 1140318 版，也沒有改用測繪中心以外的來源。
+- 實際下載：國土測繪圖資服務雲下載專區 https://maps.nlsc.gov.tw/pro/download.jsp （檔案 https://maps.nlsc.gov.tw/download/縣市界線(TWD97經緯度).zip ，座標 EPSG:3824）。壓縮檔內檔名 COUNTY_MOI_1090820，詮釋資料 `TW-01-301000100G-000017.xml` 的日期為 2020-08-20，DBF 最後更新 2020-08-18。政府資料開放平臺資料集 7442 目前另列出 1140318 版，下載網址在 tgos.tw；本次對該網址（含 tgos.tw 首頁）得到 HTTP 403，所以沒有取得 1140318 版，也沒有改用測繪中心以外的來源。
 
 ## 日本都道府縣界線（檔名：japan-prefectures.geojson）
 - 原始資料：「国土数値情報（行政区域データ）」（国土交通省）2026年（令和8年）版，檔案 N03-20260101_GML.zip（資料基準日 2026年1月1日；伺服器 Last-Modified 為 2026-05-20）

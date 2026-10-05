@@ -11,10 +11,10 @@
       --paper: #f7f1e6;
       --line: #e4d8c4;
       --card: #fffdf8;
-      --visited: #e7a15a;
-      --visited-stroke: #8a3b12;
-      --empty: #f3eadc;
-      --empty-stroke: #c9b89a;
+      --visited: #e08a3c;
+      --visited-stroke: #6e2e0c;
+      --empty: #f3e2c4;
+      --empty-stroke: #6b5344;
     }
     * { box-sizing: border-box; }
     html, body {
@@ -117,12 +117,20 @@
       border: 1px solid var(--line);
       border-radius: 16px;
     }
-    .map-card { padding: 8px; margin: 0 0 12px; }
+    .map-card {
+      margin: 0 -16px 12px;
+      padding: 0;
+      border-left: 0;
+      border-right: 0;
+      border-radius: 0;
+      background: #e7f0f4;
+    }
     svg.map {
       display: block;
       width: 100%;
-      height: auto;
       max-width: 100%;
+      height: auto;
+      background: #e7f0f4;
       touch-action: manipulation;
     }
     svg.map path {
@@ -130,9 +138,9 @@
       stroke-linejoin: round;
       vector-effect: non-scaling-stroke;
     }
-    svg.map path.empty { fill: var(--empty); stroke: var(--empty-stroke); stroke-width: 1; }
-    svg.map path.visited { fill: var(--visited); stroke: var(--visited-stroke); stroke-width: 1.25; }
-    svg.map path.selected { stroke: #1d1a16; stroke-width: 2.5; }
+    svg.map path.empty { fill: var(--empty); stroke: var(--empty-stroke); stroke-width: 1.6; }
+    svg.map path.visited { fill: var(--visited); stroke: var(--visited-stroke); stroke-width: 2.2; }
+    svg.map path.selected { stroke: #1d1a16; stroke-width: 3; }
     .map-status {
       margin: 0;
       padding: 28px 8px;
@@ -194,7 +202,7 @@
     </section>
     <footer class="attribution" id="boundary-attribution">
       <h2>邊界資料出處</h2>
-      <p>台灣直轄市、縣市界線：內政部國土測繪中心109年「直轄市、縣市界線（TWD97經緯度）」COUNTY_MOI_1090820（檔案日期 2020-08-20，下載日期 2026-10-05）。此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license">https://data.gov.tw/license</a> 。資料頁：<a href="https://data.gov.tw/dataset/7442">https://data.gov.tw/dataset/7442</a></p>
+      <p>台灣直轄市、縣市界線：內政部國土測繪中心109年「直轄市、縣市界線（TWD97經緯度）」COUNTY_MOI_1090820（檔案日期 2020-08-20，下載日期 2026-10-05）。此開放資料依政府資料開放授權條款（Open Government Data License）進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license">https://data.gov.tw/license</a> 。資料頁：<a href="https://data.gov.tw/dataset/7442">https://data.gov.tw/dataset/7442</a>。實際下載：國土測繪圖資服務雲下載專區 <a href="https://maps.nlsc.gov.tw/pro/download.jsp">https://maps.nlsc.gov.tw/pro/download.jsp</a></p>
       <p>日本都道府縣界線：「国土数値情報（行政区域データ）」（国土交通省）（<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html">https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html</a>）をもとに Listmap 作成。授權：創用 CC 姓名標示 4.0 國際授權條款（<a href="https://creativecommons.org/licenses/by/4.0/deed.zh-hant">https://creativecommons.org/licenses/by/4.0/deed.zh-hant</a> ）。</p>
       <p>以上邊界由 Listmap 簡化點數並合併為縣市、都道府縣層級，僅供示意，不是官方發布的版本，也不適用於測量或法律上的界線認定。</p>
     </footer>
@@ -287,7 +295,7 @@
 
       function mercatorY(lat) {
         var rad = lat * Math.PI / 180;
-        return Math.log(Math.tan(Math.PI / 4 + rad / 2));
+        return Math.log(Math.tan(Math.PI / 4 + rad / 2)) * 180 / Math.PI;
       }
 
       function buildSvg(prepared, key) {
@@ -313,6 +321,8 @@
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('class', 'map');
         svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svg.style.aspectRatio = width + ' / ' + height;
         svg.setAttribute('role', 'img');
         svg.setAttribute('aria-label', key === 'taiwan' ? '台灣縣市足跡地圖' : '日本都道府縣足跡地圖');
         function project(lng, lat) {
