@@ -1,0 +1,97 @@
+{
+  "stories": [
+    {
+      "story_id": "100149",
+      "collection_id": "",
+      "title": "群馬霧積溫泉：從橫川站進山，走半小時山路住進金湯館",
+      "type": "blog",
+      "link": "",
+      "author": "Yu-Sheng",
+      "what": "blog",
+      "where": "Kirizumi Onsen Gunma: from JR Yokokawa Station a 30-minute mountain walk up to Kintokan inn then the Usui No. 3 Bridge",
+      "avatar": "",
+      "tags": "想去,渡假",
+      "thumbnail": "images/stories/100149/cover-207452-kirizumi-onsen-parking-commons-bruno-plus.jpg",
+      "language": "",
+      "visibility": "public",
+      "created_at": "2026-10-05",
+      "start_date": "",
+      "end_date": "",
+      "contributor": ""
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "207450",
+      "story_id": "100149",
+      "name": "JR 橫川站（横川駅）",
+      "lat": "36.3361598",
+      "lng": "138.7372506",
+      "content": "路線第一站。JR 信越本線終點站，也是金湯館住客接送車的上車地點（限住客、前一天中午十二點前電話預約、共乘、時間固定）。站前沒有往霧積的路線巴士；本篇改搭計程車到霧積溫泉停車場再步行。第二天從這裡走廢線步道（アプトの道）到眼鏡橋。座標採 OpenStreetMap node/3824450761（railway=station）。",
+      "link": "https://www.jreast.co.jp/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207451",
+      "story_id": "100149",
+      "name": "霧積水庫・霧積湖（霧積ダム）",
+      "lat": "36.3687076",
+      "lng": "138.7010228",
+      "content": "路線第二站，車窗經過。縣道北輕井澤松井田線沿途；水庫旁停車位置不明。過了水庫手機幾乎沒有訊號（金湯館官網）。縣道連續雨量 120 毫米時封路（群馬縣安中土木事務所）。座標採 OpenStreetMap way/197684857（waterway=dam）代表點。",
+      "link": "https://www.city.annaka.lg.jp/page/2115.html",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207452",
+      "story_id": "100149",
+      "name": "霧積溫泉停車場・山路入口（ホイホイ坂）",
+      "lat": "36.4003629",
+      "lng": "138.673446",
+      "content": "路線第三站，從這裡開始步行。位置為推定：OpenStreetMap way/1425339025（amenity=parking，沒有名稱）代表點，位在縣道終點、步道起點，依此判斷為金湯館的停車場。入口牌子寫到金湯館約 1 公里、步行約 30 分鐘，一路上坡；未鋪裝，沒有路燈，請在天黑前到。一般車輛只能到此；停車場有公用電話，天候不好或時間晚了可請旅館派車來接。",
+      "link": "https://www.kirizumikintokan.com/access/access.html",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207453",
+      "story_id": "100149",
+      "name": "霧積溫泉金湯館",
+      "lat": "36.4056785",
+      "lng": "138.6684307",
+      "content": "路線第四站，過夜點。霧積溫泉現存唯一的旅館，1884 年開業。只有室內浴池（男女各一），二十四小時可泡，沒有露天浴池與淋浴；本館客房沒有窗戶；只收現金。冬季（十二月到四月初）車輛停國道 18 號旁的霧積溫泉入口，由旅館接送，需雪鏈或雪胎。座標採 OpenStreetMap way/419915104（building，name=金湯館）代表點。",
+      "link": "https://www.kirizumikintokan.com/",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207454",
+      "story_id": "100149",
+      "name": "眼鏡橋・碓冰第三橋梁（めがね橋）",
+      "lat": "36.3579913",
+      "lng": "138.6982746",
+      "content": "路線第五站，第二天。從橫川站沿廢線步道（アプトの道）步行約 5.1 公里、約 95 分鐘（安中市官網），原路回程是下坡，比去程快一些。步道全年全天開放，隧道照明只在 7:00 到 18:00 點亮。座標採 OpenStreetMap way/575162225（碓氷第3橋梁）代表點。",
+      "link": "https://www.city.annaka.lg.jp/page/2000.html",
+      "address": "",
+      "tags": "",
+      "contributor": "",
+      "bounds": "",
+      "geojson_file": ""
+    }
+  ],
+  "collections": [],
+  "routes": []
+}
