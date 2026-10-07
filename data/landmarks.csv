@@ -425,3 +425,15 @@ landmark_id,story_id,name,lat,lng,content,link,contributor,bounds,geojson_file
 207404,100148,道之驛長湯溫泉（道の駅ながゆ温泉）,33.0711553,131.3841253,路線第四站（PM 裁定新增；沿用原木乃葉之湯空出的編號）。座標採 OpenStreetMap way/198561834（building=yes，name=道の駅ながゆ）的 Nominatim 代表點。長湯線在道之驛也有一站「道の駅長湯温泉」（大野竹田巴士 GTFS 站牌座標 33.0716249 131.3834221，原先暫用的推定座標）。,,,,
 207403,100148,長湯溫泉芹川畔・過夜點,33.0716916,131.3831165,路線第五站（過夜）。位置為溫泉街示意點，不是某間旅館：座標採 OpenStreetMap node/6263525185（tourism=information「長湯温泉 Tourist Information」）。正文以大丸旅館當住宿例子（官網 http://www.daimaruhello-net.co.jp/ ；OSM 無此旅館）；不寫房價。,,,,
 207405,100148,七里田溫泉下湯,33.0698637,131.329743,路線第六站（終點）。原 207404 七里田溫泉館木乃葉之湯併入本點：先在木乃葉之湯（OpenStreetMap way/198679795，33.0702451 131.3286718）買票、付押金領鑰匙，步行約128公尺、約2分到下湯（OpenStreetMap 路線推算，非官網），泡完還鑰匙退押金。2023-07-01 改建新館；官網說湯含大量二氧化碳、比空氣重，舊浴舍半地下會積在浴池附近有缺氧危險；改建時浴池抬到與地面同高，出湯口兩側裝換氣扇，天暖可開窗。官網照片有男湯、女湯分開的更衣室；是否與其他客人同池官網沒寫。七里田溫泉館與下湯每月第二個星期二休館；營業時間官網內寫法不一致。七里田無巴士站，三船站下車步行約23分。週末與假日三船回竹田站前下午只有 13:39；錯過可從木乃葉之湯步行約1.8 km（約24分，OpenStreetMap 路線推算）到都野站搭 15:17、16:17（大野竹田巴士 GTFS／令和8年4月1日改正時刻表）。座標採 OpenStreetMap way/694196241「七里田温泉;下の湯」代表點。,https://konoha.sichirida-onsen.com/sitayu.html,,,
+207750,100155,巴里中央車站（FAL）,41.1185308,16.8688842,五天行程的基地。Trenitalia 往 Polignano、Monopoli、Ostuni 的海線班次由此出發；往 Matera 的 FAL 窄軌線也從這裡的 FAL 站出發。,,claude-sonnet-5
+207751,100155,聖尼古拉聖殿,41.1302708,16.8701858,1087年巴里水手從土耳其邁拉運回聖尼古拉遺骨，聖殿於1197年祝聖，是巴里舊城的精神中心，入內免費。OpenStreetMap 地標。,,claude-sonnet-5
+207752,100155,奧雷基耶特街（Strada Arco Basso）,41.1270830,16.8672340,巴里舊城的小巷，當地婦女從上午起在家門口擺小桌子手捏 orecchiette，現做現賣。OpenStreetMap 街道中心點。,,claude-sonnet-5
+207753,100155,巴里薩諾石窟區（Sasso Barisano）,40.6682524,16.6101447,馬泰拉兩大石窟區之一，巷弄較安靜，區內有13世紀的 San Pietro Barisano 教堂。OpenStreetMap 街區中心點。,,claude-sonnet-5
+207754,100155,卡韋奧索石窟區（Sasso Caveoso）,40.6635312,16.6113012,馬泰拉另一個石窟區，房屋一層層疊著挖進凝灰岩（calcarenite）山壁。OpenStreetMap 街區中心點。,,claude-sonnet-5
+207755,100155,阿貝羅貝洛 Trullo Sovrano,40.7873892,17.2353186,阿貝羅貝洛唯一兩層樓的 trullo，位於 Aia Piccola 區，屬 UNESCO 登錄範圍的一部分。OpenStreetMap 地標。,,claude-sonnet-5
+207756,100155,洛科羅通多 Piazza Vittorio Emanuele,40.7529703,17.3285247,圓形老城的廣場，白牆、尖屋頂的 cummerse 民宅環繞。座標為老城內廣場，非整座城鎮範圍。,,claude-sonnet-5
+207757,100155,波利尼亞諾 Grotta Palazzese,40.9959228,17.2209902,懸崖海蝕洞，洞內是知名餐廳，自18世紀就用來辦宴會。OpenStreetMap 觀景點。,,claude-sonnet-5
+207758,100155,莫諾波利舊港,40.9530079,17.3041064,舊港停著漁民仍在使用的木造 gozzi 漁船。OpenStreetMap 地標。,,claude-sonnet-5
+207759,100155,莫諾波利 Castello di Carlo V,40.9542240,17.3052656,16世紀為防禦港口而建的五角形海堡，頂部瞭望塔可眺望亞得里亞海。OpenStreetMap 地標。,,claude-sonnet-5
+207760,100155,奧斯圖尼大教堂（Concattedrale Santa Maria Assunta）,40.7340829,17.5790390,15世紀晚期哥德式建築，位於老城 La Terra 最高處。OpenStreetMap 地標。,,claude-sonnet-5
+207761,100155,奧斯圖尼 Piazza della Libertà,40.7321535,17.5781728,老城下方的廣場，立著1771年建的聖奧龍佐圓柱，高約20公尺。OpenStreetMap 廣場中心點。,,claude-sonnet-5

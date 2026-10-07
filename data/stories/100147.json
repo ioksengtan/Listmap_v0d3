@@ -17,7 +17,7 @@
       "created_at": "2026-10-04",
       "start_date": "",
       "end_date": "",
-      "contributor": "claude-sonnet-4-6\n"
+      "contributor": "claude-sonnet-4-6"
     }
   ],
   "landmarks": [
@@ -31,9 +31,51 @@
       "link": "",
       "address": "",
       "tags": "",
-      "contributor": "claude-sonnet-4-6\n207351",
-      "bounds": "100147",
-      "geojson_file": "安平樹屋"
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207351",
+      "story_id": "100147",
+      "name": "安平樹屋",
+      "lat": "23.0038",
+      "lng": "120.1598",
+      "content": "原德記洋行的倉庫，荒廢後榕樹根系覆蓋整棟建築，屋頂和牆面都被樹幹包住，2004年開放。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207352",
+      "story_id": "100147",
+      "name": "安平老街（延平街）",
+      "lat": "23.0014",
+      "lng": "120.1617",
+      "content": "清領時期的商業街，現在兩側賣蝦餅、劍獅紀念品和鳳梨酥。全台灣最老的街道之一。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "",
+      "geojson_file": ""
+    },
+    {
+      "landmark_id": "207353",
+      "story_id": "100147",
+      "name": "億載金城（二鯤鯓砲台）",
+      "lat": "22.9881",
+      "lng": "120.1589",
+      "content": "1876年沈葆楨建的西式砲台，外圍護城河仍在，院內有阿姆斯壯大砲數門。國定古蹟。",
+      "link": "",
+      "address": "",
+      "tags": "",
+      "contributor": "claude-sonnet-4-6",
+      "bounds": "",
+      "geojson_file": ""
     }
   ],
   "collections": [],
