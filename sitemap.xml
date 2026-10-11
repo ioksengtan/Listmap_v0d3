@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ioksengtan.github.io/Listmap_v0d3/index.html</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-11</lastmod>
   </url>
   <url>
     <loc>https://ioksengtan.github.io/Listmap_v0d3/about.html</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-11</lastmod>
   </url>
   <url>
     <loc>https://ioksengtan.github.io/Listmap_v0d3/blog.html</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-11</lastmod>
   </url>
   <url>
     <loc>https://ioksengtan.github.io/Listmap_v0d3/stories/1024.html</loc>
@@ -395,5 +395,9 @@
   <url>
     <loc>https://ioksengtan.github.io/Listmap_v0d3/stories/100160.html</loc>
     <lastmod>2026-10-09</lastmod>
+  </url>
+  <url>
+    <loc>https://ioksengtan.github.io/Listmap_v0d3/stories/100161.html</loc>
+    <lastmod>2026-10-11</lastmod>
   </url>
 </urlset>
